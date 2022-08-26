@@ -5,3 +5,4 @@
 wps/*.*
 lits/
 !wps/wps.pdf
+!wps/wps.tex
