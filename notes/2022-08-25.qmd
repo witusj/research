@@ -1,0 +1,47 @@
+---
+title: "2022-08-25"
+format: html
+editor: visual
+bibliography: references.bib
+---
+
+## Notes
+
+From: @fu_handbook_2015
+
+- [ ] Check design of experiments (see also @chris_mack_lecture73_2016)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/s5QWxvLsgLA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+### Bijeenkomst dd 25/08/2022 - Ger en Joost
+
+#### Agenda
+
+- Welke formele stappen en tijdspaden horen bij de start van een promotietraject bij de VU?
+
+  - [ ] Vaststelling onderwerp >> Schrijf een probleemdefiniering
+
+  - [ ] Aanwijzing promotor
+
+  - [ ] Toelating promovendus
+
+- Hoe kunnen we de koppeling maken tussen het promotie-onderwerp en het Sprong-project "Kansen met Data" (zie hier en hier)? Dit is belangrijk voor de financiering.
+
+- Wat zijn voor jullie belangrijke kwaliteitscriteria mbt tot samenwerking, proces en output
+
+  - [ ] Een proefschrift bevat vier zware of vijf lichtere artikelen. Gebruikelijk: bij fulltime promotietraject >> na 1 jaar eerste paper
+
+#### Acties
+
+- [ ] Marielle vragen toegang Hora Finita
+- [ ] Inschrijven voor LNMB conferentie januari
+- [ ] Start een Working Paper (Overleaf)
+- [ ] Dennis vragen om vergoeding begeleiding Ger en Joost
+- [ ] Ophalen artikelen Ger (website) en Joost (gemaild)
+- [ ] Planning maken
+- [ ] Opleidingsplan?
+
+#### NB
+
+- Onderzoeken welke empirische voorkennis kan relevant zijn voor model? (bv. concaviteit van schedule)
+- Voor code Github repo aanmaken

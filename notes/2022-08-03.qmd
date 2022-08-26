@@ -1,0 +1,41 @@
+---
+id: 03uirdnolqsgqt1g2t40ckn
+title: '2022-08-03'
+desc: ''
+updated: 1659522168675
+created: 1659517000760
+traitIds:
+  - journalNote
+---
+
+## Literature review structure
+
+[Video: The Structure of a Literature Review \| Thesis Writing Guide](https://youtu.be/So48qIHDLVY)
+
+-   What type of research?
+
+-   [ ] descriptive
+
+-   [ ] comparitive
+
+-   [x] experimental
+
+-   [ ] historical
+
+What structure will the review have?
+
+-   [ ] Chronological
+-   [ ] School of thought
+-   [x] Boundaries of research (Venn diagram)
+
+```{mermaid}
+graph TD;
+    id1(fa:fa-ban Domain: Health care)-->id2(Stochactic processes);
+    id2-->id3(Resource planning);
+    id2-->id4(Routing);
+    id2-->id5(Scheduling);
+```
+
+## Ideas
+
+-   PhD special interest group (SIG) "OR for Healthcare"

@@ -1,0 +1,18 @@
+---
+id: wl135j1quzply5pyhqf2zfo
+title: '2022-08-24'
+desc: ''
+updated: 1661345927195
+created: 1661345175237
+traitIds:
+  - journalNote
+---
+
+## Agenda voor bijeenkomst dd 25/08/2022 - Ger en Joost
+
+Doornemen stappen begin promotietraject:
+
+-   [ ] U hebt een eerste overleg met uw beoogd promotor en komt tot overeenstemming een promotieonderwerp of onderzoeksontwerp.
+-   [ ] U dient via de pedel (ook wel protocollaire zaken of promotiezaken) een (eventueel door uw beoogd promotor ondertekend) verzoek tot aanwijzing van uw beoogde promoter is bij het College voor Promoties. Het promotiereglement voorziet vaak in een modelbrief of standaardformulier en een overzicht van bij te leveren stukken.
+-   [ ] Uw beoogde promotor (en eventueel copromotor) stuurt via de pedel de toelating als promovendus naar het College voor Promoties.
+-   [ ] Het College voor Promoties stuurt via de pedel de goedkeuring van uw aanvragen aan en uw promotor.
