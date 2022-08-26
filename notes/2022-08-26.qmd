@@ -17,7 +17,7 @@ bibliography: references.bib
 -   [ ] Ophalen artikelen Ger (website) en Joost (gemaild)
 -   [ ] Planning maken
 -   [ ] Opleidingsplan?
--   [ ] Controleren mogelijkheden voor HAN Promotiebeurs \>\> Financiering Ger en Joost
+-   [x] Controleren mogelijkheden voor HAN Promotiebeurs \>\> Financiering Ger en Joost \>\> Mail gestuurd naar Han ten Berge
 
 #### NB
 
