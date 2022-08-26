@@ -2,6 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
-wps/
+wps/*.*
 lits/
 !wps/wps.pdf
