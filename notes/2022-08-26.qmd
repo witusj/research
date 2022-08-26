@@ -1,0 +1,23 @@
+---
+title: "2022-08-26"
+format: html
+editor: visual
+bibliography: references.bib
+---
+
+## Notes
+
+#### Acties
+
+-   [x] Marielle vragen toegang Hora Finita
+-   [ ] Inschrijven voor LNMB conferentie januari \>\> Gecheckt op [lnmb](https://www.lnmb.nl/ "https://www.lnmb.nl/"): nog geen datum bekend
+-   [ ] Start een Working Paper (Overleaf)
+-   [x] Dennis vragen om vergoeding begeleiding Ger en Joost
+-   [ ] Ophalen artikelen Ger (website) en Joost (gemaild)
+-   [ ] Planning maken
+-   [ ] Opleidingsplan?
+
+#### NB
+
+-   [ ] Onderzoeken welke empirische voorkennis kan relevant zijn voor model? (bv. concaviteit van schedule)
+-   [ ] Voor code Github repo aanmaken
