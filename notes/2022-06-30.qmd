@@ -1,0 +1,24 @@
+---
+id: wl135j1quzply5pyhqf2zfo
+title: '2022-06-30'
+desc: ''
+traitIds:
+  - journalNote
+---
+
+Voorstel (Joost):
+ 
+- Er is inderdaad al best veel gedaan op het gebied van het leren van functie approximaties voor moeilijke doelstellingsfuncties die simulaties vereisen. Het onderzoeksveld wordt ook wel simulation metamodeling genoemd. Dus het is wel belangrijk om vooraf goed te positioneren zodat we niet in de knel komen om het uiteindelijke onderzoek te “verkopen”. Dit is in lijn met Ger zijn opmerking: “do a thorough literature review”. Een basis voor de literatuur review kan de artikelen over SimOpt zijn van Ger en die van mij recentelijk (die beiden onder review zijn, als ik mij niet vergis).
+
+- Een misschien goede manier voor Wittek om in het vakgebied te komen, zonder al teveel risico, is om een probleem te beschouwen die tegenwoordig relevant is en nog niet bestudeerd is, en daar de meest belovende technieken uit de literatuur op toe te passen en kijken hoe die werken op het probleem en hoe die methodes onderling vergelijking.
+Een interessant vraagstuk, denk ik, binnen de simulation modeling is of je middels machine learning ook een soort betrouwbaarheidsinterval kunt leren, als in: “over deze voorspelling ben ik vrij zeker, deze minder”. Op basis daarvan kun je dynamisch simulatie in het spel brengen om tot meer zekerheid te komen in sommige gevallen.
+
+- Ik hoor graag ook vanmiddag wat de achtergrond van Wittek is en waar zijn interesses liggen. Het lijkt mij goed om op basis daarvan ook het onderzoek te sturen.
+
+-----
+ 
+GOMEA +  Metamodeling >> Literatuur
+Onerzoeken concaviteit tussentijden
+Peter Bosman
+ 
+Iedere twee weken bespreking
