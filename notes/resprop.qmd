@@ -17,9 +17,9 @@ Supervisors: Joost Berkhout & Ger Koole
 
 - Smarter methods are needed, a very interesting candidate is fitting a machine learning model to a limited set of solutions and then try to find the a (local) optimum. This has the advantage that, once trained, it is much faster to use a ML model than simulation or Markov chain analysis. This is known in the literature as surrogate models and response surface methodology (to be checked), but the current developments in machine learning open possibilities for new versions of algorithms and new applications. A couple of things to look into:
 
-    -   applications into for example appointment scheduling and shift scheduling
-    -   does an iterative approach help, where the test set consists of points close to the optimum of the previous iteration? perhaps in combination with linear regression with squares and interactions which gives a global optimum?
-    -   can knowledge about the problem (such as monotonicity in a parameter) be included in a smart way in the prediction model.
+    - applications into for example appointment scheduling and shift scheduling
+    - does an iterative approach help, where the test set consists of points close to the optimum of the previous iteration? perhaps in combination with linear regression with squares and interactions which gives a global optimum?
+    - can knowledge about the problem (such as monotonicity in a parameter) be included in a smart way in the prediction model.
 
 Some other things to do:
 
