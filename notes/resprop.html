@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.0.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Witek ten Hove">
+
+<title>Research Proposal</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+<script src="resprop_files/libs/clipboard/clipboard.min.js"></script>
+<script src="resprop_files/libs/quarto-html/quarto.js"></script>
+<script src="resprop_files/libs/quarto-html/popper.min.js"></script>
+<script src="resprop_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="resprop_files/libs/quarto-html/anchor.min.js"></script>
+<link href="resprop_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="resprop_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="resprop_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="resprop_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="resprop_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Research Proposal</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Witek ten Hove </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="research-proposal-for-witek" class="level2">
+<h2 class="anchored" data-anchor-id="research-proposal-for-witek">Research proposal for Witek</h2>
+<p><br>
+</p>
+<p>Supervisors: Joost Berkhout &amp; Ger Koole</p>
+<ul>
+<li><p>Many decision problems have a dynamic nature, the consequences of our decisions become available step by step over time, and can only be simulated or calculated as a Markov chain. Decisions have long-term consequences, and these consequences are also often of a stochastic nature. To “remember” these consequences the “state” of the system plays a crucial role. Decision problems can roughly be divided in two types of problems: those where the decisions are taken on the fly and are accounted for through a state change, and those where decisions are taken upfront. The first category falls into the framework of stochastic dynamic programming and is currently immensely popular in AI under the name reinforcement learning. The second is equally important but receives much less attention. Examples are the scheduling of people in service centers such as health clinics and call centers. Employees have to be scheduled well in advance, but the consequences in terms of for example waiting times can only be modeled through a stochastic process, for which simulation and Markov chain analysis are the two prime solution methods.&nbsp;</p></li>
+<li><p>Other examples are the design of energy systems and appointment scheduling, but the list of possible applications is endless. Note that many service systems have both types of decision problems: for example long-term capacity and employee scheduling problems, and short-term task scheduling and re-adjustments to the schedule.</p></li>
+<li><p>The focus of the project is on the second type of problem. Simulation, and to a lesser extend Markov chain analysis, are computationally costly solution methods, and they have to be executed for multiple decisions. Because the decision space is often multi-dimensional enumeration is not possible. Local search can only find local optima and that is for a fixed computational budget not even guaranteed.</p></li>
+<li><p>Smarter methods are needed, a very interesting candidate is fitting a machine learning model to a limited set of solutions and then try to find the a (local) optimum. This has the advantage that, once trained, it is much faster to use a ML model than simulation or Markov chain analysis. This is known in the literature as surrogate models and response surface methodology (to be checked), but the current developments in machine learning open possibilities for new versions of algorithms and new applications. A couple of things to look into:</p>
+<ul>
+<li>applications into for example appointment scheduling and shift scheduling</li>
+<li>does an iterative approach help, where the test set consists of points close to the optimum of the previous iteration? perhaps in combination with linear regression with squares and interactions which gives a global optimum?</li>
+<li>can knowledge about the problem (such as monotonicity in a parameter) be included in a smart way in the prediction model.</li>
+</ul></li>
+</ul>
+<p>Some other things to do:</p>
+<ul>
+<li><p>do a thorough literature review</p></li>
+<li><p>write a python package</p></li>
+</ul>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
