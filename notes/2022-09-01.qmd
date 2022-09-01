@@ -3,14 +3,33 @@ title: "2022-09-01"
 author: "Witek ten Hove"
 format:
   html:
-    method: mathjax
-    url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    include-in-header:
+      - scripts.html
 editor: visual
 ---
 
 ## Lectures Queuing Theory
 
-Poisson distribution
+### Poisson distribution
+
+#### Definition
+
+Assumptions:
+
+-   All numbers of arrival come from the same distribution
+-   The numbers of arrival are independent from each other
+
+The arrival rate $\lambda$ is the average number of arrivals per unit of time (eg. patients per hour). The average inter-arrival time is $\frac{1}{\lambda}$.
+
+The service time $\mu$ is the average number of clients a server is able to handle per unit of time if it is always busy (e.g. the number of patients handled by a physician). The average service time equals $\frac{1}{\mu}$.
+
+In a balanced system the number of clients that can be handled in a specific time unit will match the average number of arriving clients in that time unit. The offered load, $\rho$, is defined as:
+
+$$
+\rho=\frac{\lambda}{\mu}
+$$
+
+The unit of $\rho$ is Erlang and is dimensionless.
 
 ```{python}
 import numpy as np
@@ -19,10 +38,37 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 
 l = 1
-
-u = np.arange(10)
+title = "$$P(U_i \geq u)=e^{- \lambda u} \ with \ \lambda = 2 $$"
+u = np.arange(7)
 P = np.array([math.exp(-1*l*num) for num in u])
 print(P)
-fig = px.line(x=u, y=P, title=r"$P(U_i \geq u)=e^{- \lambda u}$")
+fig = px.line(x=u, y=P, title=title)
 fig.show()
 ```
+
+#### Memoryless property
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/3kxnPEDecIA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+
+</iframe>
+
+#### Minimum of two independent variables
+
+\<iframe width="560" height="315" src="https://www.youtube.com/embed/3mPA9x9-PWI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen\>\</iframe\>
+
+Let $U \sim e^ \lambda$ and $S \sim e^ \mu$. Assume that $U$ and $S$ are independent.
+
+![](mintwovar.png){fig-alt="mintwovar" width="400"}
+
+Let:
+
+$$
+Z=min(U,S)\\, so \ that:\\
+Z=U \ if \ U \leq S \\
+Z=S \ if \ U >U 
+$$ Then:
+
+$$
+P(Z=U) = P(U \leq S)=\frac {\lambda}{\lambda + \mu} \\
+P(Z=S) = P(U > S)=\frac {\mu}{\lambda + \mu}
+$$
