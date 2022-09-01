@@ -1,0 +1,28 @@
+---
+title: "2022-09-01"
+author: "Witek ten Hove"
+format:
+  html:
+    method: mathjax
+    url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+editor: visual
+---
+
+## Lectures Queuing Theory
+
+Poisson distribution
+
+```{python}
+import numpy as np
+import math
+import plotly.express as px
+import matplotlib.pyplot as plt
+
+l = 1
+
+u = np.arange(10)
+P = np.array([math.exp(-1*l*num) for num in u])
+print(P)
+fig = px.line(x=u, y=P, title=r"$P(U_i \geq u)=e^{- \lambda u}$")
+fig.show()
+```
