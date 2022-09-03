@@ -36,24 +36,29 @@ import numpy as np
 import math
 import plotly.express as px
 import matplotlib.pyplot as plt
+from IPython.display import display, Markdown
 
 l = 1
 title = "$$P(U_i \geq u)=e^{- \lambda u} \ with \ \lambda = 2 $$"
 u = np.arange(7)
 P = np.array([math.exp(-1*l*num) for num in u])
-print(P)
-fig = px.line(x=u, y=P, title=title)
+
+display(Markdown(title))
+fig = px.line(x=u, y=P)
 fig.show()
 ```
 
 #### Memoryless property
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/3kxnPEDecIA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+
 </iframe>
 
 #### Minimum of two independent variables
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/3mPA9x9-PWI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/3mPA9x9-PWI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+
+</iframe>
 
 Let $U \sim e^ \lambda$ and $S \sim e^ \mu$. Assume that $U$ and $S$ are independent.
 
