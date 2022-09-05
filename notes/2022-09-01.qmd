@@ -73,6 +73,7 @@ Let:
 $$
 Z=min(U,S)\\, so \ that:
 $$
+
 $$
 Z=U \ if \ U \leq S
 $$
@@ -82,6 +83,7 @@ $$ Then:
 
 $$
 P(Z=U) = P(U \leq S)=\frac {\lambda}{\lambda + \mu} \\
-$$ $$
+$$
+$$
 P(Z=S) = P(U > S)=\frac {\mu}{\lambda + \mu}
 $$
