@@ -23,13 +23,17 @@ The arrival rate $\lambda$ is the average number of arrivals per unit of time (e
 
 The service time $\mu$ is the average number of clients a server is able to handle per unit of time if it is always busy (e.g. the number of patients handled by a physician). The average service time equals $\frac{1}{\mu}$.
 
-In a balanced system the number of clients that can be handled in a specific time unit will match the average number of arriving clients in that time unit. The offered load, $\rho$, is defined as:
+The offered load, $\rho$, is defined as:
 
 $$
 \rho=\frac{\lambda}{\mu}
 $$
 
-The unit of $\rho$ is Erlang and is dimensionless.
+The unit of $\rho$ is Erlang and is dimensionless. In a stable queue the rate of clients arriving is lower than the rate at whih clients are served. Otherwise the system is overloaded. So, queue will be stable when:
+
+$$
+\rho<1
+$$
 
 ```{python}
 import numpy as np
