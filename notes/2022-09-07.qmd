@@ -1,0 +1,19 @@
+---
+title: "2022-09-07"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+editor: visual
+---
+
+## Lectures Queuing Theory
+
+[Markov Model](https://en.wikipedia.org/wiki/Markov_model#:~:text=A%20Markov%20random%20field%2C%20or,in%20any%20of%20multiple%20directions.)
+
+### Stationary state M/M/1 Queue
+
+M/M/1 \>\> [Markovian / Markovian / 1 server](https://en.wikipedia.org/wiki/Kendall%27s_notation "https://en.wikipedia.org/wiki/Kendall%27s_notation")
+
+Mental note: is the system in a scheduling problem D/M/1?
