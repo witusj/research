@@ -105,7 +105,7 @@ ctx.fillText("Event A", 110, 250);
 
 -   $P(\Omega) = 1$
 
--   $If \ A \cap B = \phi$ <br>
+-   $If \ A \cap B = \emptyset$ <br>
     $\Rightarrow P(A \cup B) = P(A) + P(B)$
 :::
 ::: {.column width="50%"}
