@@ -320,3 +320,51 @@ ctx.fillText("A",30, -30);
 2.  Specify probability law
 3.  Identify event of interest
 4.  Calculate probability of event
+
+## Conditional Probability
+
+::: columns
+::: {.column width="60%"}
+
+:::
+::: {.column width="40%"}
+::: {style="padding: 35px;"}
+<canvas id="condProb" width="500" height="500" style="border:1px solid #d3d3d3;">
+
+</canvas>
+:::
+
+```{=html}
+<script>
+var c = document.getElementById("condProb");
+var ctx = c.getContext("2d");
+
+ctx.font = "80px Arial";
+ctx.fillStyle = "black";
+ctx.fillText("\u03A9", 10, 80);
+
+ctx.scale(0.4, 1);
+ctx.beginPath();
+ctx.arc(500, 250, 180, 0, 2 * Math.PI);
+ctx.closePath();
+ctx.fillStyle = 'skyblue';
+ctx.fill();
+ctx.restore();
+
+ctx.scale(0.7, 1);
+ctx.beginPath();
+ctx.arc(1400, 250, 180, 0, 2 * Math.PI);
+ctx.closePath();
+ctx.fillStyle = 'skyblue';
+ctx.fill();
+ctx.restore();
+
+ctx.scale(3.6, 1);
+ctx.globalAlpha = 0.2;
+ctx.fillStyle = 'red';
+ctx.fillRect(180, 250, 320, 250);
+
+</script>
+```
+:::
+:::
