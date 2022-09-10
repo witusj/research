@@ -339,7 +339,7 @@
 <dd>
 <p>A framework for analyzing phenomena with uncertain outcomes</p>
 <ul>
-<li><p>Rules for reasoning</p></li>
+<li><p>Rules for concistent reasoning</p></li>
 <li><p>Used for predictions and decisions</p></li>
 </ul>
 </dd>
@@ -355,18 +355,56 @@
 
 var c = document.getElementById("probTheory");
 var ctx = c.getContext("2d");
+
+// Boxes
 ctx.fillStyle = 'skyblue';
 ctx.fillRect(40, 40, 300, 150);
 ctx.fillRect(560, 40, 300, 150);
 ctx.fillRect(300, 400, 300, 150);
 
-ctx.font = "36px Arial";
+//Lines
+ctx.beginPath();
+ctx.moveTo(190,190);
+ctx.lineTo(400,400);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(500,400);
+ctx.lineTo(710,190);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(560,115);
+ctx.lineTo(340,115);
+ctx.stroke();
+
+// Arrow heads
+ctx.beginPath();
+ctx.moveTo(400,400);
+ctx.lineTo(390,400);
+ctx.lineTo(400,390);
 ctx.fillStyle = "black";
+ctx.fill();
+ctx.beginPath();
+ctx.moveTo(710,190);
+ctx.lineTo(700,190);
+ctx.lineTo(710,200);
+ctx.fill();
+ctx.beginPath();
+ctx.moveTo(340,115);
+ctx.lineTo(352,108);
+ctx.lineTo(352,122);
+ctx.fill();
+
+// Texts
+ctx.font = "36px Arial";
 ctx.fillText("Real World", 100, 125);
 ctx.fillText("Probability", 620, 105);
 ctx.fillText("Theory", 620, 145);
 ctx.fillText("Inference /", 360, 465);
 ctx.fillText("Statistics", 360, 505);
+ctx.fillText("Data", 180, 300);
+ctx.fillText("Models", 660, 300);
+ctx.fillText("predictions", 370, 100);
+ctx.fillText("decisions", 370, 150);
 </script>
 </section>
 <section id="ingredients-probability-calculation" class="slide level2">
