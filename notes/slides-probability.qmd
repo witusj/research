@@ -15,6 +15,44 @@ This content is based on the EDX course <br> [Probability - The Science of Uncer
 
 -   Prof. Dimitri Bertsekas
 
+## Probability
+
+Probability Theory
+
+:   A framework for analyzing phenomena with uncertain outcomes
+
+    -   Rules for reasoning
+
+    -   Used for predictions and decisions
+
+## Probability Theory
+
+::: {style="padding: 10px;"}
+<canvas id="probTheory" width="900" height="600" style="border:1px solid #d3d3d3;">
+
+</canvas>
+:::
+
+```{=html}
+<script>
+
+var c = document.getElementById("probTheory");
+var ctx = c.getContext("2d");
+ctx.fillStyle = 'skyblue';
+ctx.fillRect(40, 40, 300, 150);
+ctx.fillRect(560, 40, 300, 150);
+ctx.fillRect(300, 400, 300, 150);
+
+ctx.font = "36px Arial";
+ctx.fillStyle = "black";
+ctx.fillText("Real World", 100, 125);
+ctx.fillText("Probability", 620, 105);
+ctx.fillText("Theory", 620, 145);
+ctx.fillText("Inference /", 360, 465);
+ctx.fillText("Statistics", 360, 505);
+</script>
+```
+
 ## Ingredients Probability Calculation
 
 -   Sample space
@@ -106,9 +144,9 @@ ctx.fillText("Event A", 110, 250);
 
 -   $P(\Omega) = 1$
 
--   $If \ A \cap B = \emptyset$ <br>
-    $\Rightarrow P(A \cup B) = P(A) + P(B)$
+-   $If \ A \cap B = \emptyset$ <br> $\Rightarrow P(A \cup B) = P(A) + P(B)$
 :::
+
 ::: {.column width="50%"}
 ::: {style="padding: 35px;"}
 <canvas id="probAxioms" width="700" height="350" style="border:1px solid #d3d3d3;">
