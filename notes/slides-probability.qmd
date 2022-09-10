@@ -207,6 +207,20 @@ ctx.lineTo(1,-1);
 ctx.fillStyle = "skyblue";
 ctx.fill();
 
+// Arrow heads
+ctx.beginPath();
+ctx.moveTo(0,-400);
+ctx.lineTo(5,-395);
+ctx.lineTo(-5,-395);
+ctx.fillStyle = "black";
+ctx.fill();
+ctx.beginPath();
+ctx.moveTo(400,0);
+ctx.lineTo(395,-5);
+ctx.lineTo(395, 5);
+ctx.fillStyle = "black";
+ctx.fill();
+
 ctx.font = "20px Arial";
 ctx.fillStyle = "black";
 ctx.fillText("0",-20, 20);
