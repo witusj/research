@@ -624,6 +624,49 @@ ctx.fillText("A",30, -30);
 <li>Identify event of interest</li>
 <li>Calculate probability of event</li>
 </ol>
+</section>
+<section id="conditional-probability" class="slide level2">
+<h2>Conditional Probability</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+
+</div><div class="column" style="width:40%;">
+<div style="padding: 35px;">
+<canvas id="condProb" width="500" height="500" style="border:1px solid #d3d3d3;">
+</canvas>
+</div>
+<script>
+var c = document.getElementById("condProb");
+var ctx = c.getContext("2d");
+
+ctx.font = "80px Arial";
+ctx.fillStyle = "black";
+ctx.fillText("\u03A9", 10, 80);
+
+ctx.scale(0.4, 1);
+ctx.beginPath();
+ctx.arc(500, 250, 180, 0, 2 * Math.PI);
+ctx.closePath();
+ctx.fillStyle = 'skyblue';
+ctx.fill();
+ctx.restore();
+
+ctx.scale(0.7, 1);
+ctx.beginPath();
+ctx.arc(1400, 250, 180, 0, 2 * Math.PI);
+ctx.closePath();
+ctx.fillStyle = 'skyblue';
+ctx.fill();
+ctx.restore();
+
+ctx.scale(3.6, 1);
+ctx.globalAlpha = 0.2;
+ctx.fillStyle = 'red';
+ctx.fillRect(180, 250, 320, 250);
+
+</script>
+</div>
+</div>
 <div class="footer footer-default">
 
 </div>
