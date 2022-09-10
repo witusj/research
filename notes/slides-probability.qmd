@@ -101,14 +101,13 @@ ctx.fillText("Event A", 110, 250);
 
 ::: columns
 ::: {.column width="50%"}
-$$
-P(A) \geq0 \\
-P(\Omega) = 1 \\
-$$ $$
-If \ A \cap B = \phi \\ \Rightarrow P(A \cup B) = P(A) + P(B)
-$$
-:::
+-   $P(A) \geq0$
 
+-   $P(\Omega) = 1$
+
+-   $If \ A \cap B = \phi$ <br>
+    $\Rightarrow P(A \cup B) = P(A) + P(B)$
+:::
 ::: {.column width="50%"}
 ::: {style="padding: 35px;"}
 <canvas id="probAxioms" width="700" height="350" style="border:1px solid #d3d3d3;">
