@@ -332,6 +332,43 @@
 <li><p>Prof.&nbsp;Dimitri Bertsekas</p></li>
 </ul>
 </section>
+<section id="probability" class="slide level2">
+<h2>Probability</h2>
+<dl>
+<dt>Probability Theory</dt>
+<dd>
+<p>A framework for analyzing phenomena with uncertain outcomes</p>
+<ul>
+<li><p>Rules for reasoning</p></li>
+<li><p>Used for predictions and decisions</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="probability-theory" class="slide level2">
+<h2>Probability Theory</h2>
+<div style="padding: 10px;">
+<canvas id="probTheory" width="900" height="600" style="border:1px solid #d3d3d3;">
+</canvas>
+</div>
+<script>
+
+var c = document.getElementById("probTheory");
+var ctx = c.getContext("2d");
+ctx.fillStyle = 'skyblue';
+ctx.fillRect(40, 40, 300, 150);
+ctx.fillRect(560, 40, 300, 150);
+ctx.fillRect(300, 400, 300, 150);
+
+ctx.font = "36px Arial";
+ctx.fillStyle = "black";
+ctx.fillText("Real World", 100, 125);
+ctx.fillText("Probability", 620, 105);
+ctx.fillText("Theory", 620, 145);
+ctx.fillText("Inference /", 360, 465);
+ctx.fillText("Statistics", 360, 505);
+</script>
+</section>
 <section id="ingredients-probability-calculation" class="slide level2">
 <h2>Ingredients Probability Calculation</h2>
 <ul>
