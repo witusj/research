@@ -1,0 +1,17 @@
+---
+title: "2022-09-09"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+editor: visual
+---
+
+## Meeting Ger and Joost
+
+-   Structuur promotie (deel met Ger / Deel met René)
+
+-   Welke wetenschappelijke bijdrage ga ik leveren aan project René?
+
+-   Reageren op vraag Joost over mijn achtergrond \>\> korte CV?
