@@ -135,7 +135,7 @@ ctx.fillText("\u03A9", 10, 80);
 
 ## Event
 
--   A subset of of the sample space
+-   A subset of the sample space
 
 -   Probability is assigned to events
 
@@ -238,9 +238,11 @@ ctx.fillText("B", 520, 150);
 
 ::: columns
 ::: {.column width="60%"}
+Example:
+
 -   $(x,y) \ such \ that \ 0 \leq x,y \leq 1$
 -   Uniform probability law: [probability = area]{style="color:tomato"}
--   Example: $P(A) = P( \{ (x,y) \ | \ x+y \leq \frac{1}{2} \}) \\ = Area \ blue \ triangle \\ = \frac{1}{2}*l*h = \frac{1}{8}$
+-   $P(A) = P( \{ (x,y) \ | \ x+y \leq \frac{1}{2} \}) \\ = Area \ blue \ triangle \\ = \frac{1}{2}*l*h = \frac{1}{8}$
 :::
 
 ::: {.column width="40%"}
