@@ -1,0 +1,230 @@
+---
+title: "Probability"
+format: revealjs
+editor: visual
+---
+
+## Acknowlegments
+
+This information is based on the EDX course <br> [Probability - The Science of Uncertainty and Data](https://learning.edx.org/course/course-v1:MITx+6.431x+2T2022/home) <br> by:
+
+-   Prof. John Tsitsiklis
+
+-   Prof. Patrick Jaillet
+
+-   Prof. Dimitri Bertsekas
+
+## Ingredients Probability Calculation
+
+-   Sample space
+
+-   Probability law
+
+-   Event
+
+## Sample Space
+
+-   List [(set)]{style="color:tomato"} of all possible outcomes, [$\Omega$]{style="color:tomato"}
+-   The elements of the sample space are [MECE]{style="color:tomato"}
+
+::: {style="padding: 35px;"}
+<canvas id="sampleSpace" width="700" height="350" style="border:1px solid #d3d3d3;">
+
+</canvas>
+:::
+
+```{=html}
+<script>
+function randomPoints(canvas, count, color){
+  for (var i = 0; i < count; i++) {
+    var x = Math.floor(Math.random() * 780);
+    var y = Math.floor(Math.random() * 340);
+    canvas.fillStyle = color;
+    canvas.fillRect(x+10,y,10,10);
+  }
+}
+var c = document.getElementById("sampleSpace");
+var ctx = c.getContext("2d");
+randomPoints(ctx, 120, 'royalblue');
+
+ctx.font = "80px Arial";
+ctx.fillStyle = "black";
+ctx.fillText("\u03A9", 10, 80);
+</script>
+```
+## Probablity Law
+
+> Description of beliefs about likelihood of different possible outcomes
+
+## Event
+
+-   A subset of of the sample space
+
+-   Probability is assigned to events
+
+::: {style="padding: 35px;"}
+<canvas id="eventSet" width="700" height="350" style="border:1px solid #d3d3d3;">
+
+</canvas>
+:::
+
+```{=html}
+<script>
+function randomPoints(canvas, count, color){
+  for (var i = 0; i < count; i++) {
+    var x = Math.floor(Math.random() * 780);
+    var y = Math.floor(Math.random() * 340);
+    canvas.fillStyle = color;
+    canvas.fillRect(x+10,y,10,10);
+  }
+}
+var c = document.getElementById("eventSet");
+var ctx = c.getContext("2d");
+randomPoints(ctx, 120, 'royalblue');
+
+ctx.font = "80px Arial";
+ctx.fillStyle = "black";
+ctx.fillText("\u03A9", 10, 80);
+
+ctx.beginPath();
+ctx.arc(150, 240, 80, 0, 2 * Math.PI);
+ctx.lineWidth=5
+ctx.strokeStyle = "tomato";
+ctx.stroke();
+
+ctx.font = "30px Arial";
+ctx.fillStyle = "black";
+ctx.fillText("Event A", 110, 250);
+</script>
+```
+## Probability Axioms
+
+::: columns
+::: {.column width="50%"}
+$$
+P(A) \geq0 \\
+P(\Omega) = 1 \\
+$$ $$
+If \ A \cap B = \phi \\ \Rightarrow P(A \cup B) = P(A) + P(B)
+$$
+:::
+
+::: {.column width="50%"}
+::: {style="padding: 35px;"}
+<canvas id="probAxioms" width="700" height="350" style="border:1px solid #d3d3d3;">
+
+</canvas>
+:::
+
+```{=html}
+<script>
+function randomPoints(canvas, count, color){
+  for (var i = 0; i < count; i++) {
+    var x = Math.floor(Math.random() * 780);
+    var y = Math.floor(Math.random() * 340);
+    canvas.fillStyle = color;
+    canvas.fillRect(x+10,y,10,10);
+  }
+}
+var c = document.getElementById("probAxioms");
+var ctx = c.getContext("2d");
+randomPoints(ctx, 120, 'royalblue');
+
+ctx.font = "80px Arial";
+ctx.fillStyle = "black";
+ctx.fillText("\u03A9", 10, 80);
+
+ctx.beginPath();
+ctx.arc(150, 240, 80, 0, 2 * Math.PI);
+ctx.lineWidth=5
+ctx.strokeStyle = "tomato";
+ctx.stroke();
+
+ctx.font = "50px Arial";
+ctx.fillStyle = "black";
+ctx.fillText("A", 130, 250);
+
+ctx.beginPath();
+ctx.arc(550, 140, 80, 0, 2 * Math.PI);
+ctx.lineWidth=5
+ctx.strokeStyle = "tomato";
+ctx.stroke();
+
+ctx.font = "50px Arial";
+ctx.fillStyle = "black";
+ctx.fillText("B", 520, 150);
+</script>
+```
+:::
+:::
+
+## Continuous Sample Space
+
+::: columns
+::: {.column width="60%"}
+-   $(x,y) \ such \ that \ 0 \leq x,y \leq 1$
+-   Uniform probability law: [probability = area]{style="color:tomato"}
+-   Example: $P(A) = P({(x,y)|x+y \leq \frac{1}{2}}) \\ = Area \ blue \ triangle \\ = \frac{1}{2}*l*h = \frac{1}{8}$
+:::
+
+::: {.column width="40%"}
+::: {style="padding: 35px;"}
+<canvas id="contSamSp" width="500" height="500" style="border:1px solid #d3d3d3;">
+
+</canvas>
+:::
+
+```{=html}
+<script>
+var c = document.getElementById("contSamSp");
+var ctx = c.getContext("2d");
+
+// Center
+ctx.translate(40, 440);
+        
+// Add some lines
+ctx.beginPath();
+ctx.moveTo(0,0);
+ctx.lineTo(400,0);
+ctx.stroke();
+ctx.moveTo(0,0);
+ctx.lineTo(0,-400);
+ctx.stroke();
+ctx.moveTo(0,-300);
+ctx.lineTo(300,-300);
+ctx.stroke();
+ctx.moveTo(300,0);
+ctx.lineTo(300,-300);
+ctx.stroke();
+ctx.moveTo(152,0);
+ctx.lineTo(0,-152);
+ctx.stroke();
+ctx.beginPath();
+ctx.moveTo(149,-1);
+ctx.lineTo(1,-149);
+ctx.lineTo(1,-1);
+ctx.fillStyle = "skyblue";
+ctx.fill();
+
+ctx.font = "20px Arial";
+ctx.fillStyle = "black";
+ctx.fillText("0",-20, 20);
+ctx.fillText("x",380, 20);
+ctx.fillText("y",-20, -380);
+ctx.fillText("1",295, 20);
+ctx.fillText("1",-20, -295);
+ctx.fillText("x+y = 1/2",80, -80);
+ctx.font = "40px Arial";
+ctx.fillText("A",30, -30);
+
+</script>
+```
+:::
+:::
+
+## Steps Probability Calculation
+
+1.  Specify sample space
+2.  Specify probability law
+3.  Identify event of interest
+4.  Calculate probability of event
