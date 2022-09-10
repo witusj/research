@@ -104,8 +104,7 @@ ctx.fillText("Event A", 110, 250);
 $$
 P(A) \geq0 \\
 P(\Omega) = 1 \\
-$$
-$$
+$$ $$
 If \ A \cap B = \phi \\ \Rightarrow P(A \cup B) = P(A) + P(B)
 $$
 :::
@@ -165,7 +164,7 @@ ctx.fillText("B", 520, 150);
 ::: {.column width="60%"}
 -   $(x,y) \ such \ that \ 0 \leq x,y \leq 1$
 -   Uniform probability law: [probability = area]{style="color:tomato"}
--   Example: $P(A) = P({(x,y)|x+y \leq \frac{1}{2}}) \\ = Area \ blue \ triangle \\ = \frac{1}{2}*l*h = \frac{1}{8}$
+-   Example: $P(A) = P( \{ (x,y) \ | \ x+y \leq \frac{1}{2} \}) \\ = Area \ blue \ triangle \\ = \frac{1}{2}*l*h = \frac{1}{8}$
 :::
 
 ::: {.column width="40%"}
