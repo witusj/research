@@ -1,12 +1,13 @@
 ---
 title: "Probability"
+author: "Witek ten Hove"
 format: revealjs
 editor: visual
 ---
 
 ## Acknowlegments
 
-This information is based on the EDX course <br> [Probability - The Science of Uncertainty and Data](https://learning.edx.org/course/course-v1:MITx+6.431x+2T2022/home) <br> by:
+This content is based on the EDX course <br> [Probability - The Science of Uncertainty and Data](https://learning.edx.org/course/course-v1:MITx+6.431x+2T2022/home) <br> by:
 
 -   Prof. John Tsitsiklis
 
