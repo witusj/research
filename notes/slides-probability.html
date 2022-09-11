@@ -643,26 +643,35 @@ ctx.font = "80px Arial";
 ctx.fillStyle = "black";
 ctx.fillText("\u03A9", 10, 80);
 
+ctx.lineWidth=3;
 ctx.scale(0.4, 1);
 ctx.beginPath();
 ctx.arc(500, 250, 180, 0, 2 * Math.PI);
 ctx.closePath();
 ctx.fillStyle = 'skyblue';
 ctx.fill();
+ctx.stroke();
 ctx.restore();
 
+ctx.lineWidth=3;
 ctx.scale(0.7, 1);
 ctx.beginPath();
 ctx.arc(1400, 250, 180, 0, 2 * Math.PI);
 ctx.closePath();
 ctx.fillStyle = 'skyblue';
 ctx.fill();
+ctx.stroke();
 ctx.restore();
 
 ctx.scale(3.6, 1);
 ctx.globalAlpha = 0.2;
 ctx.fillStyle = 'red';
 ctx.fillRect(180, 250, 320, 250);
+ctx.restore();
+
+ctx.lineWidth=3;
+ctx.strokeStyle="black";
+ctx.strokeRect(179, 249, 321, 251);
 
 </script>
 </div>
