@@ -628,11 +628,11 @@ ctx.fillText("A",30, -30);
 <section id="conditional-probability" class="slide level2">
 <h2>Conditional Probability</h2>
 <div class="columns">
-<div class="column" style="width:60%;">
+<div class="column" style="width:50%;">
 
-</div><div class="column" style="width:40%;">
+</div><div class="column" style="width:50%;">
 <div style="padding: 35px;">
-<canvas id="condProb" width="500" height="500" style="border:1px solid #d3d3d3;">
+<canvas id="condProb" width="680" height="500" style="border:1px solid #d3d3d3;">
 </canvas>
 </div>
 <script>
@@ -646,7 +646,7 @@ ctx.fillText("\u03A9", 10, 80);
 ctx.lineWidth=3;
 ctx.scale(0.4, 1);
 ctx.beginPath();
-ctx.arc(500, 250, 180, 0, 2 * Math.PI);
+ctx.arc(1000, 250, 180, 0, 2 * Math.PI);
 ctx.closePath();
 ctx.fillStyle = 'skyblue';
 ctx.fill();
@@ -656,7 +656,7 @@ ctx.restore();
 ctx.lineWidth=3;
 ctx.scale(0.7, 1);
 ctx.beginPath();
-ctx.arc(1400, 250, 180, 0, 2 * Math.PI);
+ctx.arc(2000, 250, 180, 0, 2 * Math.PI);
 ctx.closePath();
 ctx.fillStyle = 'skyblue';
 ctx.fill();
@@ -666,12 +666,12 @@ ctx.restore();
 ctx.scale(3.6, 1);
 ctx.globalAlpha = 0.2;
 ctx.fillStyle = 'red';
-ctx.fillRect(180, 250, 320, 250);
+ctx.fillRect(380, 250, 320, 250);
 ctx.restore();
 
 ctx.lineWidth=3;
 ctx.strokeStyle="black";
-ctx.strokeRect(179, 249, 321, 251);
+ctx.strokeRect(380, 250, 320, 250);
 
 </script>
 </div>
