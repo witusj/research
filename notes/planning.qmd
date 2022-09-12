@@ -6,62 +6,66 @@ editor: visual
 
 ## Planning
 
-+---------------+--------------------------------------------------------------------+-------------------------------------------------------------------------+--------------------+
-| Month         | Activities                                                         | Results                                                                 | Time               |
-|               |                                                                    |                                                                         |                    |
-|               |                                                                    |                                                                         | allocation         |
-+===============+====================================================================+=========================================================================+====================+
-| **September** | General:                                                           | General                                                                 | Gen'l / OAS / HCP: |
-|               |                                                                    |                                                                         |                    |
-|               | -   Onboarding Research project                                    | -   Hora Finita, Training Plan                                          | 60 / 20 /20        |
-|               |                                                                    |                                                                         |                    |
-|               | -   Setup Research and Dev environments                            | -   Research and Dev environments (Overleaf, Zotero, RStudio, Etc.)     |                    |
-|               |                                                                    |                                                                         |                    |
-|               | -   Learn Markov Chains                                            | -   Notes Markov Chains                                                 |                    |
-|               |                                                                    |                                                                         |                    |
-|               | Outpatient Appointment Scheduling (OAS):                           | OAS:                                                                    |                    |
-|               |                                                                    |                                                                         |                    |
-|               | -   Literature review                                              | -   Working paper OAS with literature review                            |                    |
-|               |                                                                    |                                                                         |                    |
-|               | Home Care Planning (HCP):                                          | HCP:                                                                    |                    |
-|               |                                                                    |                                                                         |                    |
-|               | -   Writing session article with Dennis, René and Yoram            | -   Template working paper HCP                                          |                    |
-+---------------+--------------------------------------------------------------------+-------------------------------------------------------------------------+--------------------+
-| **October**   | General:                                                           | General                                                                 | Gen'l / OAS / HCP: |
-|               |                                                                    |                                                                         |                    |
-|               | -   Learn Markov Chains                                            | -   Notes Markov Chains                                                 | 20 / 40 /40        |
-|               |                                                                    |                                                                         |                    |
-|               | Outpatient Appointment Scheduling (OAS):                           | OAS:                                                                    |                    |
-|               |                                                                    |                                                                         |                    |
-|               | -   Review methods (e.g. Surrogate Models, Response Survey Models) | -   Working paper OAS with model description                            |                    |
-|               |                                                                    |                                                                         |                    |
-|               | Home Care Planning (HCP):                                          | HCP:                                                                    |                    |
-|               |                                                                    |                                                                         |                    |
-|               | -   Presentation results data analysis to Carinova                 | -   Data Analysis                                                       |                    |
-|               |                                                                    |                                                                         |                    |
-|               |                                                                    | -   Working paper OAS with introduction, literature review, methodology |                    |
-+---------------+--------------------------------------------------------------------+-------------------------------------------------------------------------+--------------------+
-| **November**  | General:                                                           | General                                                                 | Gen'l / OAS / HCP: |
-|               |                                                                    |                                                                         |                    |
-|               | -   Study activities                                               | OAS:                                                                    | 20 / 50 /30        |
-|               |                                                                    |                                                                         |                    |
-|               | Outpatient Appointment Scheduling (OAS):                           | -   Code                                                                |                    |
-|               |                                                                    |                                                                         |                    |
-|               | -   Develop and test selected algorithms                           | HCP:                                                                    |                    |
-|               |                                                                    |                                                                         |                    |
-|               | Home Care Planning (HCP):                                          | -   Draft paper HCP                                                     |                    |
-|               |                                                                    |                                                                         |                    |
-|               | -   Work on draft paper                                            |                                                                         |                    |
-+---------------+--------------------------------------------------------------------+-------------------------------------------------------------------------+--------------------+
-| **December**  | General:                                                           | General                                                                 | Gen'l / OAS / HCP: |
-|               |                                                                    |                                                                         |                    |
-|               | -   Study activities                                               | OAS:                                                                    | 20 / 50 /30        |
-|               |                                                                    |                                                                         |                    |
-|               | Outpatient Appointment Scheduling (OAS):                           | -   Code                                                                |                    |
-|               |                                                                    |                                                                         |                    |
-|               | -   Develop and test selected algorithms                           | HCP:                                                                    |                    |
-|               |                                                                    |                                                                         |                    |
-|               | Home Care Planning (HCP):                                          | -   Submitted paper                                                     |                    |
-|               |                                                                    |                                                                         |                    |
-|               | -   Submit paper                                                   |                                                                         |                    |
-+---------------+--------------------------------------------------------------------+-------------------------------------------------------------------------+--------------------+
++---------------+-----------------------------------------------------------------------+-------------------------------------------------------------------------+--------------------+
+| Month         | Activities                                                            | Results                                                                 | Time               |
+|               |                                                                       |                                                                         |                    |
+|               |                                                                       |                                                                         | allocation         |
++===============+=======================================================================+=========================================================================+====================+
+| **September** | General:                                                              | General                                                                 | Gen'l / OAS / HCP: |
+|               |                                                                       |                                                                         |                    |
+|               | -   Onboarding Research project                                       | -   Hora Finita, Training Plan                                          | 60 / 20 /20        |
+|               |                                                                       |                                                                         |                    |
+|               | -   Setup Research and Dev environments                               | -   Research and dev environments (Overleaf, Zotero, RStudio, etc.)     |                    |
+|               |                                                                       |                                                                         |                    |
+|               | -   Learn Markov Chains                                               | -   Notes Markov Chains                                                 |                    |
+|               |                                                                       |                                                                         |                    |
+|               | Outpatient Appointment Scheduling (OAS):                              | OAS:                                                                    |                    |
+|               |                                                                       |                                                                         |                    |
+|               | -   Literature review                                                 | -   Working paper OAS with literature review                            |                    |
+|               |                                                                       |                                                                         |                    |
+|               | Home Care Planning (HCP):                                             | HCP:                                                                    |                    |
+|               |                                                                       |                                                                         |                    |
+|               | -   Assess current status of data analysis and develop plan of action | -   Presentation data analysis                                          |                    |
+|               |                                                                       |                                                                         |                    |
+|               | -   Discuss results with Carinova                                     |                                                                         |                    |
++---------------+-----------------------------------------------------------------------+-------------------------------------------------------------------------+--------------------+
+| **October**   | General:                                                              | General                                                                 | Gen'l / OAS / HCP: |
+|               |                                                                       |                                                                         |                    |
+|               | -   Learn Markov Chains                                               | -   Notes Markov Chains                                                 | 20 / 40 /40        |
+|               |                                                                       |                                                                         |                    |
+|               | OAS:                                                                  | OAS:                                                                    |                    |
+|               |                                                                       |                                                                         |                    |
+|               | -   Review methods (e.g. Surrogate Models, Response Survey Models)    | -   Working paper OAS with model description                            |                    |
+|               |                                                                       |                                                                         |                    |
+|               | HCP:                                                                  | HCP:                                                                    |                    |
+|               |                                                                       |                                                                         |                    |
+|               | -   Completion data analysis                                          | -   Data analysis results                                               |                    |
+|               |                                                                       |                                                                         |                    |
+|               | -   Complete introduction section paper                               | -   Working paper OAS with introduction, literature review, methodology |                    |
++---------------+-----------------------------------------------------------------------+-------------------------------------------------------------------------+--------------------+
+| **November**  | General:                                                              | General                                                                 | Gen'l / OAS / HCP: |
+|               |                                                                       |                                                                         |                    |
+|               | -   Study activities                                                  | OAS:                                                                    | 20 / 50 /30        |
+|               |                                                                       |                                                                         |                    |
+|               | OAS:                                                                  | -   Code                                                                |                    |
+|               |                                                                       |                                                                         |                    |
+|               | -   Develop and test selected algorithms                              | HCP:                                                                    |                    |
+|               |                                                                       |                                                                         |                    |
+|               | HCP:                                                                  | -   Results analysis supply side                                        |                    |
+|               |                                                                       |                                                                         |                    |
+|               | -   Complete analysis supply side                                     |                                                                         |                    |
++---------------+-----------------------------------------------------------------------+-------------------------------------------------------------------------+--------------------+
+| **December**  | General:                                                              | General                                                                 | Gen'l / OAS / HCP: |
+|               |                                                                       |                                                                         |                    |
+|               | -   Study activities                                                  | OAS:                                                                    | 20 / 50 /30        |
+|               |                                                                       |                                                                         |                    |
+|               | OAS:                                                                  | -   Code                                                                |                    |
+|               |                                                                       |                                                                         |                    |
+|               | -   Develop and test selected algorithms                              | HCP:                                                                    |                    |
+|               |                                                                       |                                                                         |                    |
+|               | HCP:                                                                  | -   Submitted paper                                                     |                    |
+|               |                                                                       |                                                                         |                    |
+|               | -   Complete paper                                                    |                                                                         |                    |
+|               |                                                                       |                                                                         |                    |
+|               | -   Submit paper                                                      |                                                                         |                    |
++---------------+-----------------------------------------------------------------------+-------------------------------------------------------------------------+--------------------+
