@@ -1,0 +1,22 @@
+---
+title: "2022-09-12"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+editor: visual
+bibliography: bibliography.bib
+---
+
+## Call Dennis en René
+
+-   Vraag Ger voorgelegd: Wat wordt mijn wetenschappelijke bijdrage aan paper?
+
+    -   Paper wordt in eerste instantie gebaseerd op data analyse en aangevuld met wiskundige modellen (bv wachtrijmodellen \>\> suggestie René)
+
+    -   In principe is de data analyse al gedaan. Visualisatie moeten worden vertaald naar format voor paper
+
+    -   Dennis stelde voor om een introductie te schrijven en die bij Ger voor te leggen.
+
+    -   René suggereerde twee artikelen ter inspiratie: @makboul_robust_2021, @stojanova_agent-based_2017
