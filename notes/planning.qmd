@@ -39,7 +39,7 @@ editor: visual
 |               |                                                                       |                                                                         |                    |
 |               | HCP:                                                                  | HCP:                                                                    |                    |
 |               |                                                                       |                                                                         |                    |
-|               | -   Completion data analysis                                          | -   Data analysis results                                               |                    |
+|               | -   Complete data analysis                                            | -   Data analysis results                                               |                    |
 |               |                                                                       |                                                                         |                    |
 |               | -   Complete introduction section paper                               | -   Working paper OAS with introduction, literature review, methodology |                    |
 +---------------+-----------------------------------------------------------------------+-------------------------------------------------------------------------+--------------------+
