@@ -488,7 +488,7 @@ ctx.fillStyle = "black";
 ctx.fillText("Event A", 110, 250);
 </script>
 </section>
-<section id="probability-axioms" class="slide level2">
+<section id="probability-axioms" class="slide level2 smaller">
 <h2>Probability Axioms</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -583,20 +583,18 @@ ctx.fillText("A\u1D9C", 450, 150);
 </div>
 </div>
 </section>
-<section id="disjoint-sets" class="slide level2">
+<section id="disjoint-sets" class="slide level2 smaller">
 <h2>Disjoint Sets</h2>
 <div class="columns">
-<div class="column" style="width:70%;">
+<div class="column" style="width:50%;">
 <ul>
 <li><p>Sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are disjoint if <br> <span class="math inline">\(A \cap B = \emptyset\)</span></p></li>
 <li><p>If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are <strong>not</strong> disjoint:<br><span class="math display">\[P(A∪B)=P(A)+P(B) - P(A \cap B)
 \]</span></p></li>
 </ul>
-</div><div class="column" style="width:30%;">
-<div style="padding: 35px;">
-<canvas id="notDisjSets" width="500" height="300" style="border:1px solid #d3d3d3;">
+</div><div class="column" style="width:50%;">
+<canvas id="notDisjSets" width="700" height="500" style="border:1px solid #d3d3d3;">
 </canvas>
-</div>
 <script>
 var c = document.getElementById("notDisjSets");
 var ctx = c.getContext("2d");
@@ -611,7 +609,7 @@ ctx.globalAlpha = 0.5;
 ctx.lineWidth=3;
 ctx.scale(0.4, 1);
 ctx.beginPath();
-ctx.arc(950, 180, 100, 0, 2 * Math.PI);
+ctx.arc(1400, 250, 200, 0, 2 * Math.PI);
 ctx.closePath();
 ctx.fillStyle = 'skyblue';
 ctx.fill();
@@ -623,7 +621,7 @@ ctx.globalAlpha = 0.5;
 ctx.lineWidth=3;
 ctx.scale(1, 0.4);
 ctx.beginPath();
-ctx.arc(300, 250, 100, 0, 2 * Math.PI);
+ctx.arc(410, 250, 200, 0, 2 * Math.PI);
 ctx.closePath();
 ctx.fillStyle = 'tomato';
 ctx.fill();
@@ -632,12 +630,12 @@ ctx.stroke();
 ctx.restore();
 ctx.font = "40px Arial";
 ctx.fillStyle = "black";
-ctx.fillText("A", 370, 200);
+ctx.fillText("A", 550, 300);
 
 ctx.restore();
 ctx.font = "40px Arial";
 ctx.fillStyle = "black";
-ctx.fillText("B", 280, 110);
+ctx.fillText("B", 400, 110);
 
 </script>
 </div>
