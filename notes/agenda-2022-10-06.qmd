@@ -5,4 +5,6 @@ editor: visual
 bibliography: references.bib
 ---
 
+### Aanwezig: Witek / Ger / Joost
+
 -   [ ] Doornemen @ala2022 \>\> Referenties \[100\] en \[145\] kloppen volgens mij niet.
