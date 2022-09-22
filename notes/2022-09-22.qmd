@@ -42,3 +42,5 @@ bibliography: bibliography.bib
 -   Zoeken naar alle referenties in artikel betreffende simulation-based optimization (S-SBO) en genetic algorith (MH-GA) \>\> downloaden
 
 -   Idee: gebruik dezelfde databases als @ahmadi-javid_outpatient_2017
+
+-   Doorgenomen @ala_appointment_2022 >> Citations kloppen niet?
