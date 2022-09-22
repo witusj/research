@@ -270,21 +270,77 @@ pulvinar, volutpat risus.
 \linenumbers\hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-Lorem ipsum dolor sit~\citep{bib1} amet, consectetur adipiscing elit.
-Curabitur eget porta erat. Morbi consectetur est vel gravida pretium.
-Suspendisse ut dui eu ante cursus gravida non sed sem. Nullam
-Eq~\ref{eq-schemeP} sapien tellus, commodo id velit id, eleifend
-volutpat quam. Phasellus mauris velit, dapibus finibus elementum vel,
-pulvinar non tellus. Nunc pellentesque pretium diam, quis maximus dolor
-faucibus id.~\citep{bib2} Nunc convallis sodales ante, ut ullamcorper
-est egestas vitae. Nam sit amet enim ultrices, ultrices elit pulvinar,
-volutpat risus.
+\textbf{(Verbatim Ger Koole)} Many decision problems have a dynamic
+nature, the consequences of our decisions become available step by step
+over time, and can only be simulated or calculated as a Markov chain.
+Decisions have long-term consequences, and these consequences are also
+often of a stochastic nature. To ``remember'' these consequences the
+``state'' of the system plays a crucial role. Decision problems can
+roughly be divided in two types of problems: those where the decisions
+are taken on the fly and are accounted for through a state change, and
+those where decisions are taken upfront. The first category falls into
+the framework of stochastic dynamic programming and is currently
+immensely popular in AI under the name reinforcement learning. The
+second is equally important but receives much less attention. Examples
+are the scheduling of people in service centers such as health clinics
+and call centers. Employees have to be scheduled well in advance, but
+the consequences in terms of for example waiting times can only be
+modeled through a stochastic process, for which simulation and Markov
+chain analysis are the two prime solution methods.
 
-\begin{equation}\protect\hypertarget{eq-schemeP}{}{
-\begin{aligned}
-\mathrm{P_Y} = \underbrace{H(Y_n) - H(Y_n|\mathbf{V}^{Y}_{n})}_{S_Y} + \underbrace{H(Y_n|\mathbf{V}^{Y}_{n})- H(Y_n|\mathbf{V}^{X,Y}_{n})}_{T_{X\rightarrow Y}}
-\end{aligned}
-}\label{eq-schemeP}\end{equation}
+Other examples are the design of energy systems and appointment
+scheduling, but the list of possible applications is endless. Note that
+many service systems have both types of decision problems: for example
+long-term capacity and employee scheduling problems, and short-term task
+scheduling and re-adjustments to the schedule.
+
+The focus of the project is on the second type of problem. Simulation,
+and to a lesser extend Markov chain analysis, are computationally costly
+solution methods, and they have to be executed for multiple decisions.
+Because the decision space is often multi-dimensional enumeration is not
+possible. Local search can only find local optima and that is for a
+fixed computational budget not even guaranteed.
+
+Smarter methods are needed, a very interesting candidate is fitting a
+machine learning model to a limited set of solutions and then try to
+find the a (local) optimum. This has the advantage that, once trained,
+it is much faster to use a ML model than simulation or Markov chain
+analysis. This is known in the literature as surrogate models and
+response surface methodology (to be checked), but the current
+developments in machine learning open possibilities for new versions of
+algorithms and new applications. A couple of things to look into:
+
+- applications into for example appointment scheduling and shift
+scheduling
+
+- does an iterative approach help, where the test set consists of points
+close to the optimum of the previous iteration? perhaps in combination
+with linear regression with squares and interactions which gives a
+global optimum?
+
+- can knowledge about the problem (such as monotonicity in a parameter)
+be included in a smart way in the prediction model?
+
+\hypertarget{applications-for-outbound-appointment-systems}{%
+\subsection{Applications for outbound appointment
+systems}\label{applications-for-outbound-appointment-systems}}
+
+Ahmadi-javid e.a. \citep{ahmadijavid_outpatient_2017} distinguish
+between three types of decisions for designing Outpatient Appointment
+Systems (OASs):
+
+\begin{itemize}
+\tightlist
+\item
+  Strategic: long-term decisions that determine the determine the main
+  structure of AOS.
+\item
+  Tactical: medium-term decisions on how patients groups or subgroups
+  are processed.
+\item
+  Operational: short-term decisions related to efficient scheduling
+  individual patients
+\end{itemize}
 
 \hypertarget{materials-and-methods}{%
 \section{Materials and methods}\label{materials-and-methods}}
@@ -396,8 +452,7 @@ dignissim rutrum. Lorem ipsum dolor sit amet, consectetur adipiscing
 elit. Morbi at justo vitae nulla elementum commodo eu id massa. In vitae
 diam ac augue semper tincidunt eu ut eros. Fusce fringilla erat
 porttitor lectus cursus, vel sagittis arcu lobortis. Aliquam in enim
-semper, aliquam massa id, cursus neque. Praesent faucibus semper
-libero~\citep{bib3}.
+semper, aliquam massa id, cursus neque. Praesent faucibus semper libero.
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}

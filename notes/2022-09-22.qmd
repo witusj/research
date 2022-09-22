@@ -1,0 +1,44 @@
+---
+title: "2022-09-22"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+editor: visual
+bibliography: bibliography.bib
+---
+
+## Buurenzo - overleg René en Yoram
+
+-   Ik neem contact op met Carinova:
+
+    -   Theo van den Berg
+    -   m: 06 389 03 928
+    -   t:  030 68 75 992
+    -   e : [tberg\@quattri.nl](mailto:tberg@quattri.nl "mailto:tberg@quattri.nl")
+    -   i  : [www.quattri.nl](https://eur01.safelinks.protection.outlook.com/?url=http%3A%2F%2Fwww.quattri.nl%2F&data=05%7C01%7CWitek.tenHove%40han.nl%7Cf92ffdf037ae4c34346008da9baeda13%7C5d73e7b7b3e14d00b303056140b2a3b4%7C0%7C0%7C637993472528644118%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=zojKho%2BtcgP%2BHSBn6%2B8ie9M20hx0In853au2XFsweuE%3D&reserved=0 "Originele URL: http://www.quattri.nl/. Klik of tik als u deze koppeling vertrouwt.")
+
+    , bespreek onze vorderingen en vraag wat de definitie van 'moves' is. Vragen of er belangsteling is voor een presentatie van resultaten tot nu toe.
+
+-   Ik organiseer een schrijfsessie met René en Yoram
+
+-   Joost: kijk of er ook koppelingen zijn naar simulations
+
+## OAS - overleg Joost:
+
+-   Complliment over gestructureerde manier van werken ;-)
+
+-   Goed artikel @ahmadi-javid_outpatient_2017
+
+    -   Checken of er naar gerefereerd is sinds publicatie
+
+-   Slides gekregen van VU-cursus research skills
+
+    <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRrXw6oNigdw8Cy9vNq5wvtM6sfWLyM-5NRFvnAepIPAvpPO1rVcAUReiuAc8Z6HgvQuaxd1tUXqxsJ/embed?start=false&loop=false&delayms=3000" frameborder="0" width="480" height="389" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
+-   In working paper belangrijkste leerpunten artikel opnemen, o.a. suggesties voor aanvullend onderzoek met wellicht een koppeling naar eigen onderzoeksthema
+
+-   Zoeken naar alle referenties in artikel betreffende simulation-based optimization (S-SBO) en genetic algorith (MH-GA) \>\> downloaden
+
+-   Idee: gebruik dezelfde databases als @ahmadi-javid_outpatient_2017
