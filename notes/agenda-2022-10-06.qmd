@@ -1,0 +1,8 @@
+---
+title: "Agenda 2022-10-06"
+format: html
+editor: visual
+bibliography: references.bib
+---
+
+-   [ ] Doornemen @ala2022 \>\> Referenties \[100\] en \[145\] kloppen volgens mij niet.
