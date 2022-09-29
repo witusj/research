@@ -7,5 +7,10 @@ bibliography: references.bib
 
 ### Aanwezig: Witek / Ger / Joost
 
--   [ ] Doornemen @ala2022 \>\> Referenties \[100\] en \[145\] kloppen volgens mij niet.
--   [ ] Vraag Tobias Scheepers / [WeFabricate](https://www.wefabricate.com/)
+-   [x] Doornemen @ala2022 \>\> Referenties \[100\] en \[145\] kloppen volgens mij niet
+
+    -   [x] Checken op meer fouten / bij referentie noteren dat er fouten in staan
+
+-   [x] Vraag Tobias Scheepers / [WeFabricate](https://www.wefabricate.com/)
+
+    -   [x] Vragen of Tobias 1 A4 kan opstellen \>\> Ger / Joost kunnen het doorsturen binnen de afdeling

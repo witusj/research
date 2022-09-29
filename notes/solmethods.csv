@@ -1,0 +1,14 @@
+Reference,Tactical and operational decisions,Access policy,"Type of scheduling: online (On), offline (Off)","Number of servers/resources: single (S), multiple (M)","Policy on acceptance of walk-ins: allowed (Yes), not allowed (No)","Objective: minimize (Min.), maximize (Max.)",Modeling approach,Solution method
+"(Azadeh et al., 2015)",O1/O6/OO (sequence of tests required by patients) (OBA) (Integrated),-,On,M,No,Min. makespan,MILP,MH-GA
+"(Anderson, Zheng, Yoon, & Khasawneh, 2015)",T2,Traditional,-,S,No,"Min. costs of waiting time, idle time, and overtime",1-SSP,S-SBO
+"(Cayirli & Gunes, 2013)",T1/T4 (integrated),Hybrid,On,S,Yes (regular),"Min. costs of waiting time, idle time, and overtime",1-SSP,S-SBO
+"(Huang & Zuniga, 2012)",T4/O3 (based on no-show threshold for each slot) (OBA)(integrated),-,On,S,No,"Min. costs of waiting time, idle time, and overtime",1-SSP,S-SBO
+"(Huang, Hancock, & Herrin, 2012)",T2,-,-,S,No,Min. waiting time and idle time,1-SSP,S-SBO
+"(Klassen & Yoogalingam, 2009)",T2/O3 (OBA) (integrated),Traditional,-,S,No,"Min. costs of waiting time, idle time, and overtime",1-SSP,S-SBO
+"(Klassen & Yoogalingam, 2013)",T2/O3 (OBA) (integrated),Traditional,-,S,No,Min. costs of waiting time and idle time,1-SSP,S-SBO
+"(Klassen & Yoogalingam, 2014)",T2/O3 (OBA) (integrated),Traditional,On,S,No,Min. costs of waiting time and idle time,1-SSP,S-SBO
+"(Peng, Qu, & Shi, 2014)",T1/T4/O3 (OBA) (integrated),Hybrid,On,S,Yes (regular),"Min. costs of waiting time, idle time, and overtime",1-SSP,S-SBO/MH-GA
+"(Peng, Qu, & Shi, 2014)","T4/O3 (OBA)
+(T4/O3: integrated, T1/(T4/O3): sequential)",,,,,"Min. costs of waiting time, idle time, and overtime",2-SSP,S-SBO/MH-GA
+"(Granja, Almada-Lobo, Janela, Seabra, & Mendes, 2014)",O6 (OBA),Traditional,Off,M,No,Min. costs of makespan and waiting time,-,S-SBO/MH-SA
+"(Saremi et al., 2013)",O3 (OBA),Traditional,Off,M,No,Min. waiting time cost and makespan,MILP,S-SBO/MH-TS
