@@ -1,5 +1,5 @@
 ---
-title: "Agenda 2022-10-06"
+title: "Agenda 2022-09-29"
 format: html
 editor: visual
 bibliography: references.bib
@@ -8,3 +8,4 @@ bibliography: references.bib
 ### Aanwezig: Witek / Ger / Joost
 
 -   [ ] Doornemen @ala2022 \>\> Referenties \[100\] en \[145\] kloppen volgens mij niet.
+-   [ ] Vraag Tobias Scheepers / [WeFabricate](https://www.wefabricate.com/)

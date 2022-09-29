@@ -1,0 +1,18 @@
+---
+title: "2022-09-29"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+editor: visual
+bibliography: bibliography.bib
+---
+
+## OAS:
+
+```{python}
+import tabula
+
+url = "~/Documents/Projects/vu/research/lits/Ahmadi-Javid et al. - 2017 - Outpatient appointment systems in healthcare A re.pdf"
+```
