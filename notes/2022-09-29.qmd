@@ -11,8 +11,6 @@ bibliography: bibliography.bib
 
 ## OAS:
 
-```{python}
-import tabula
+From: @ahmadi-javid_outpatient_2017
 
-url = "~/Documents/Projects/vu/research/lits/Ahmadi-Javid et al. - 2017 - Outpatient appointment systems in healthcare A re.pdf"
-```
+<iframe width="758" height="468" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSOOBXb-av-h3waIWdnDbw8BAUQgB2Ogq4eXKnhsvU5i-5DoxZuM2fREjwq99I0tsYfnXghw45b4iTO/pubchart?oid=1802038342&amp;format=interactive"></iframe>
