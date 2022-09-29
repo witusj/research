@@ -1,9 +1,14 @@
 ---
-title: "Probability"
-author: "Witek ten Hove"
-format: revealjs
+format:
+   revealjs:
+      chalkboard: true
 editor: visual
 ---
+
+## {background-image="title.png"}
+
+<h1 class="r-fit-text" style="color: white">PROBABILITY</h1>
+<h3 style="color: white">Witek ten Hove</h3>
 
 ## Acknowlegments
 
@@ -295,11 +300,9 @@ ctx.fillText("A\u1D9C", 450, 150);
 :::
 
 ::: {.column width="50%"}
-
 <canvas id="notDisjSets" width="700" height="500" style="border:1px solid #d3d3d3;">
 
 </canvas>
-
 
 ```{=html}
 <script>
