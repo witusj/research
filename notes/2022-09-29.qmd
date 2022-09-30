@@ -13,8 +13,9 @@ bibliography: bibliography.bib
 
 From: @ahmadi-javid_outpatient_2017 (S-SBO = Simulation Based Optimization, MH-GA = Genetic Algorithm)
 
-<iframe width="963" height="754" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSOOBXb-av-h3waIWdnDbw8BAUQgB2Ogq4eXKnhsvU5i-5DoxZuM2fREjwq99I0tsYfnXghw45b4iTO/pubchart?oid=1356580898&amp;format=interactive"></iframe>
+<iframe width="963" height="754" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSOOBXb-av-h3waIWdnDbw8BAUQgB2Ogq4eXKnhsvU5i-5DoxZuM2fREjwq99I0tsYfnXghw45b4iTO/pubchart?oid=1356580898&amp;format=interactive">
 
+</iframe>
 
 ```{r}
 library(tidyverse)
@@ -26,7 +27,8 @@ solmethDF = read.csv(url)
 datatable(solmethDF, options = list(pageLength = 15))
 ```
 
-See also meeting agenda
+-   See also meeting agenda
+-   Read: http://www.stat.columbia.edu/\~liam/teaching/compstat-spr14/lauren-notes.pdf
 
 ## Buurenzo:
 
