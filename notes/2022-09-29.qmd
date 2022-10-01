@@ -28,7 +28,7 @@ datatable(solmethDF, options = list(pageLength = 15))
 ```
 
 -   See also meeting agenda
--   Read: http://www.stat.columbia.edu/\~liam/teaching/compstat-spr14/lauren-notes.pdf
+-   Read: http://www.stat.columbia.edu/\~liam/teaching/compstat-spr14/lauren-notes.pdf \>\> Idee: make a mind map
 
 ## Buurenzo:
 
