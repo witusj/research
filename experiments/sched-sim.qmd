@@ -63,7 +63,7 @@ logs = False
 
 ```{python}
 
-iats = np.array([0, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]) # arrival times
+iats = np.array([0, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]) # inter-arrival times
 
 nSims = nSims # number of simulations
 simRes = [] # array for saving simulation results
@@ -89,7 +89,7 @@ fig.set(title=f"Mean = {mwt}")
 
 ```{python}
 
-iats = np.array([0, 0, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]) # arrival times
+iats = np.array([0, 0, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]) # inter-arrival times
 
 nSims = nSims # number of simulations
 simRes = [] # array for saving simulation results
@@ -117,7 +117,7 @@ fig.set(title=f"Mean = {mwt}")
 
 ```{python}
 
-iats = np.array([0, 0, 0, 0, 60, 0, 0, 0, 60, 0, 0, 0]) # arrival times
+iats = np.array([0, 0, 0, 0, 60, 0, 0, 0, 60, 0, 0, 0]) # inter-arrival times
 
 nSims = nSims # number of simulations
 simRes = [] # array for saving simulation results
