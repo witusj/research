@@ -149,24 +149,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(logs): <span class="bu">print</span>(iats[i], wt, st, tis, ct)</span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span>(np.array(wts))</span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">### Lognormal mean and sd</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">### Lognormal mean and sd / see: https://en.wikipedia.org/wiki/Log-normal_distribution</span></span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> logn_mean_sd(m, s):</span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  sigma <span class="op">=</span> np.sqrt(np.log(<span class="dv">1</span> <span class="op">+</span> (s<span class="op">/</span>m)<span class="op">**</span><span class="dv">2</span>))</span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  mu <span class="op">=</span> np.log(m<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> np.sqrt(m<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> s<span class="op">**</span><span class="dv">2</span>))</span>
 <span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span>([mu, sigma])</span>
 <span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">## Variables</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>cts <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>]) <span class="co"># client types</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>pct <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>]) <span class="co"># distribution of client types - normal / emergency</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co"># sts = np.array([14, 14, 14, 15, 16]) # service times</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co"># sts = np.random.poisson(lam=14, size=1000)</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>sts <span class="op">=</span> np.random.lognormal(mean <span class="op">=</span> logn_mean_sd(<span class="dv">14</span>, <span class="dv">5</span>)[<span class="dv">0</span>], sigma<span class="op">=</span>logn_mean_sd(<span class="dv">14</span>, <span class="dv">5</span>)[<span class="dv">1</span>], size<span class="op">=</span><span class="dv">1000</span>)</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> <span class="fl">0.0</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>nSims <span class="op">=</span> <span class="dv">1000</span> <span class="co"># number of simulations</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>logs <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">## Variables</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>cts <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>]) <span class="co"># client types</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>pct <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>]) <span class="co"># distribution of client types - normal / emergency</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co"># sts = np.array([14, 14, 14, 15, 16]) # service times</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co"># sts = np.random.poisson(lam=14, size=1000)</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>sts <span class="op">=</span> np.random.lognormal(mean <span class="op">=</span> logn_mean_sd(<span class="dv">14</span>, <span class="dv">5</span>)[<span class="dv">0</span>], sigma<span class="op">=</span>logn_mean_sd(<span class="dv">14</span>, <span class="dv">5</span>)[<span class="dv">1</span>], size<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>nSims <span class="op">=</span> <span class="dv">1000</span> <span class="co"># number of simulations</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>logs <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="run-simulation-1" class="level2">
@@ -192,7 +191,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sns.histplot(simRes)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fig.<span class="bu">set</span>(title<span class="op">=</span><span class="ss">f"Mean = </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>[Text(0.5, 1.0, 'Mean = 3.6752572324178647')]</code></pre>
+<pre><code>[Text(0.5, 1.0, 'Mean = 5.260081093035237')]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="sched-sim_files/figure-html/cell-4-output-2.png" class="img-fluid"></p>
@@ -222,7 +221,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sns.histplot(simRes)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fig.<span class="bu">set</span>(title<span class="op">=</span><span class="ss">f"Mean = </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>[Text(0.5, 1.0, 'Mean = 9.711100019452996')]</code></pre>
+<pre><code>[Text(0.5, 1.0, 'Mean = 11.46664231641217')]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="sched-sim_files/figure-html/cell-6-output-2.png" class="img-fluid"></p>
@@ -252,7 +251,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sns.histplot(simRes)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>fig.<span class="bu">set</span>(title<span class="op">=</span><span class="ss">f"Mean = </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>[Text(0.5, 1.0, 'Mean = 22.2386215426208')]</code></pre>
+<pre><code>[Text(0.5, 1.0, 'Mean = 24.261288734803717')]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="sched-sim_files/figure-html/cell-8-output-2.png" class="img-fluid"></p>
