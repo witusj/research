@@ -37,13 +37,12 @@ def simulate(iats, cts, sts, pct, ns, logs=False):
     if(logs): print(iats[i], wt, st, tis, ct)
   return(np.array(wts))
 
-### Lognormal mean and sd
+### Lognormal mean and sd / see: https://en.wikipedia.org/wiki/Log-normal_distribution
 
 def logn_mean_sd(m, s):
   sigma = np.sqrt(np.log(1 + (s/m)**2))
   mu = np.log(m**2 / np.sqrt(m**2 + s**2))
   return([mu, sigma])
-
 
 ## Variables
 
