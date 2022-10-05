@@ -1,0 +1,15 @@
+---
+title: "2022-10-03"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+editor: visual
+bibliography: bibliography.bib
+---
+
+## OAS:
+
+-   [ ] Wat betekent de laagste wachttijd bij een stochastisch proces? Is het de laagste verwachte waarde van de wachttijd? Hoe zit het met de variantie? Vergelijking met alleen optimaliseren op hoogste rendement van een belegging.
+-   [ ] Wat is de reden dat in het laatste artikel de Poissonverdeling (discrete) wordt gebruikt en niet de lognormale verdeling (continuous)?
