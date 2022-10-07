@@ -9,7 +9,7 @@ bibliography: bibliography.bib
 
 ## Overall goal
 
-Today annual Healthcare expenses in the Netherlands amount to 13% of GNP and exceed the budgets for Education, Defense and Justice [@ministerie_van_volksgezondheid_verregaande_2022] taken together. According to current estimates one in seven persons employed works in the Healthcare sector and projections are that without any measures in the next 40 years this proportion could reach one in three. [@visser_kiezen_2021].
+Today annual Healthcare expenses in the Netherlands amount to 13% of GNP and exceed the budgets for Education, Defense and Justice [@ministerie_van_volksgezondheid_verregaande_2022] taken together. According to current estimates one in seven persons employed works in the Healthcare sector and projections are that without any measures this proportion could reach one in three in the next 40 years. [@visser_kiezen_2021].
 
 ## Targets
 
