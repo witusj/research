@@ -1,20 +1,19 @@
 ---
 title: "Project plan"
+author: Witek ten Hove
+date: 10-07-2022
 format: html
 editor: visual
+bibliography: bibliography.bib
 ---
 
 ## Overall goal
 
-## Start and end date
-
-01-09-2022 -\> 01-09-2027 (5 years)
-
-## 
+Today annual Healthcare expenses in the Netherlands amount to 13% of GNP and exceed the budgets for Education, Defense and Justice [@ministerie_van_volksgezondheid_verregaande_2022] taken together. According to current estimates one in seven persons employed works in the Healthcare sector and projections are that without any measures in the next 40 years this proportion could reach one in three. [@visser_kiezen_2021].
 
 ## Targets
 
--   At least 4 published scientific papers:
+-   6 scientific papers (least 4 published):
 
     -   Outpatient appointment scheduling algorithm
 
@@ -43,6 +42,35 @@ editor: visual
 ## Work packages
 
 ## Planning
+
+```{mermaid}
+
+gantt
+    dateFormat  YYYY-MM
+    title       Timeline
+    axisFormat  %b %y
+
+    section Papers
+    Outpatient Appointment Scheduling (OAS):active, pap1, 2022-09, 2023-06
+    Home Care Planning (HCP)               :active, pap2, 2022-09, 2022-12
+    Paper 3                                :        pap3, 2023-06, 2024-06
+    Paper 4                                :        pap4, 2024-06, 2025-06
+    Paper 5                                :        pap5, 2025-06, 2026-06
+    Paper 6                                :        pap6, 2026-06, 2027-06
+    
+    section Learning and<br>development
+    Probability /Markov Chains             :active, lnd1, 2022-09, 2022-12
+    Simulation techniques                  :        lnd2, after lnd1, 90d
+    Conference "Conf 1"                    :        lnd3, 2023-01
+    Conference "Conf 2"                    :        lnd4, 2024-01, 4d
+    Conference "Conf 3"                    :        lnd5, 2025-01, 4d
+    Conference "Conf 4"                    :        lnd6, 2026-01, 4d
+    Conference "Conf 5"                    :        lnd7, 2027-01, 4d
+    
+    section Other<br>activities
+    Review Tuncalp e.a.             :active, lnd1, 2022-09, 2022-12
+
+```
 
 +---------------+-----------------------------------------------------------------------+-------------------------------------------------------------------------+--------------------+
 | Month         | Activities                                                            | Results                                                                 | Time               |
