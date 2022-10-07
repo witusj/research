@@ -6,6 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Witek ten Hove">
+<meta name="dcterms.date" content="2022-10-07">
 
 <title>Project plan</title>
 <style>
@@ -15,6 +17,25 @@ span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -28,6 +49,9 @@ ul.task-list{list-style: none;}
 <script src="projectplan_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="projectplan_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="projectplan_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="projectplan_files/libs/quarto-diagram/mermaid.min.js"></script>
+<script src="projectplan_files/libs/quarto-diagram/mermaid-init.js"></script>
+<link href="projectplan_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -47,7 +71,19 @@ ul.task-list{list-style: none;}
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Witek ten Hove </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 7, 2022</p>
+    </div>
+  </div>
     
   </div>
   
@@ -56,18 +92,12 @@ ul.task-list{list-style: none;}
 
 <section id="overall-goal" class="level2">
 <h2 class="anchored" data-anchor-id="overall-goal">Overall goal</h2>
-</section>
-<section id="start-and-end-date" class="level2">
-<h2 class="anchored" data-anchor-id="start-and-end-date">Start and end date</h2>
-<p>01-09-2022 -&gt; 01-09-2027 (5 years)</p>
-</section>
-<section id="section" class="level2">
-<h2 class="anchored" data-anchor-id="section"></h2>
+<p>Today annual Healthcare expenses in the Netherlands amount to 13% of GNP and exceed the budgets for Education, Defense and Justice <span class="citation" data-cites="ministerie_van_volksgezondheid_verregaande_2022">(<a href="#ref-ministerie_van_volksgezondheid_verregaande_2022" role="doc-biblioref">Ministerie van Volksgezondheid 2022</a>)</span> taken together. According to current estimates one in seven persons employed works in the Healthcare sector and projections are that without any measures in the next 40 years this proportion could reach one in three. <span class="citation" data-cites="visser_kiezen_2021">(<a href="#ref-visser_kiezen_2021" role="doc-biblioref">Visser et al. 2021</a>)</span>.</p>
 </section>
 <section id="targets" class="level2">
 <h2 class="anchored" data-anchor-id="targets">Targets</h2>
 <ul>
-<li><p>At least 4 published scientific papers:</p>
+<li><p>6 scientific papers (least 4 published):</p>
 <ul>
 <li><p>Outpatient appointment scheduling algorithm</p></li>
 <li><p>Capacity planning modeling for home care services</p></li>
@@ -95,6 +125,43 @@ ul.task-list{list-style: none;}
 </section>
 <section id="planning" class="level2">
 <h2 class="anchored" data-anchor-id="planning">Planning</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<p>
+</p><pre class="mermaid" data-tooltip-selector="#mermaid-tooltip-1">gantt
+    dateFormat  YYYY-MM
+    title       Timeline
+    axisFormat  %b %y
+
+    section Papers
+    Outpatient Appointment Scheduling (OAS):active, pap1, 2022-09, 2023-06
+    Home Care Planning (HCP)               :active, pap2, 2022-09, 2022-12
+    Paper 3                                :        pap3, 2023-06, 2024-06
+    Paper 4                                :        pap4, 2024-06, 2025-06
+    Paper 5                                :        pap5, 2025-06, 2026-06
+    Paper 6                                :        pap6, 2026-06, 2027-06
+    
+    section Learning and<br>development
+    Probability /Markov Chains             :active, lnd1, 2022-09, 2022-12
+    Simulation techniques                  :        lnd2, after lnd1, 90d
+    Conference "Conf 1"                    :        lnd3, 2023-01
+    Conference "Conf 2"                    :        lnd4, 2024-01, 4d
+    Conference "Conf 3"                    :        lnd5, 2025-01, 4d
+    Conference "Conf 4"                    :        lnd6, 2026-01, 4d
+    Conference "Conf 5"                    :        lnd7, 2027-01, 4d
+    
+    section Other<br>activities
+    Review Tuncalp e.a.             :active, lnd1, 2022-09, 2022-12
+
+</pre>
+<div id="mermaid-tooltip-1" class="mermaidTooltip">
+
+</div>
+<p></p>
+</div>
+</div>
+</div>
 <table class="table">
 <colgroup>
 <col style="width: 8%">
@@ -232,9 +299,17 @@ allocation</th>
 </tr>
 </tbody>
 </table>
+
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-ministerie_van_volksgezondheid_verregaande_2022" class="csl-entry" role="doc-biblioentry">
+Ministerie van Volksgezondheid, Welzijn en Sport. 2022. <span>“Verregaande Samenwerking in Historisch Integraal Zorgakkoord - <span>Nieuwsbericht</span> - <span>Rijksoverheid</span>.nl.”</span> Nieuwsbericht. <a href="https://www.rijksoverheid.nl/actueel/nieuws/2022/09/16/verregaande-samenwerking-in-historisch-integraal-zorgakkoord">https://www.rijksoverheid.nl/actueel/nieuws/2022/09/16/verregaande-samenwerking-in-historisch-integraal-zorgakkoord</a>.
+</div>
+<div id="ref-visser_kiezen_2021" class="csl-entry" role="doc-biblioentry">
+Visser, M. de, Arnoud W. A. Boot, G. D. A. Werner, Arthur van Riel, and Mérove Isabelle Léontine Gijsberts. 2021. <em>Kiezen Voor Houdbare Zorg: Mensen, Middelen En Maatschappelijk Draagvlak</em>. Den Haag: Wetenschappelijke Raad voor het Regeringsbeleid.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
