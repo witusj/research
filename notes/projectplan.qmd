@@ -1,8 +1,46 @@
 ---
-title: "Planning"
+title: "Project plan"
 format: html
 editor: visual
 ---
+
+## Overall goal
+
+## Start and end date
+
+01-09-2022 -\> 01-09-2027 (5 years)
+
+## 
+
+## Targets
+
+-   At least 4 published scientific papers:
+
+    -   Outpatient appointment scheduling algorithm
+
+    -   Capacity planning modeling for home care services
+
+    -   Topic 3
+
+    -   Topic 4
+
+-   Visit at least 4 conferences
+
+-   Study
+
+## Budget and financing
+
+-   Total budgeted time: 0.6 FTE
+
+-   Financing:
+
+    -   0.2 FTE -\> HAN Bedrijfskunde
+
+    -   0.2 FTE -\> HAN Lectoraat Logistiek en Allianties
+
+    -   0.2 FTE -\> Personal investment
+
+## Work packages
 
 ## Planning
 
