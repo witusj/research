@@ -39,6 +39,10 @@ The overall goal of this research project is to add to the development of techno
 
 -   Total budgeted time: 0.6 FTE
 
+-   Project time frame: 09-2022 till 01-2026
+
+-   The time frame will be reviewed at 09-24 and adjusted on the basis of gained experience
+
 -   Financing:
 
     -   0.2 FTE -\> HAN Bedrijfskunde
@@ -80,6 +84,7 @@ gantt
     Review 4                                        :        oth6, after oth5, 360d
     Review 5                                        :        oth7, after oth6, 360d
     Develop teaching material                       :active, oth8, 2022-09, 2026-12
+    Review budget                                   :milestone, oth9, 2024-09
 
 ```
 
