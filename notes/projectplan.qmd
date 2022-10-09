@@ -84,7 +84,7 @@ gantt
     Review 4                                        :        oth6, after oth5, 360d
     Review 5                                        :        oth7, after oth6, 360d
     Develop teaching material                       :active, oth8, 2022-09, 2026-12
-    Review budget                                   :milestone, oth9, 2024-09
+    Review budget                                   :crit, oth9, 2024-09, 30d
 
 ```
 
