@@ -19,7 +19,7 @@ The overall goal of this research project is to add to the development of techno
 
 ## Targets
 
--   6 scientific papers (at least 4 published):
+-   4 scientific papers:
 
     -   Outpatient appointment scheduling algorithm
 
@@ -29,13 +29,9 @@ The overall goal of this research project is to add to the development of techno
 
     -   Paper 4
 
-    -   Paper 5
+-   Attend at least 4 conferences
 
-    -   Paper 6
-
--   Attend at least 5 conferences
-
--   Review at least 5 papers
+-   Review at least 4 papers
 
 -   Develop teaching material
 
@@ -62,11 +58,10 @@ gantt
 
     section Papers
     Outpatient Appointment Scheduling (OAS):active, pap1, 2022-09, 2023-06
-    Home Care Planning (HCP)               :active, pap2, 2022-09, 2022-12
-    Paper 3                                :        pap3, 2023-06, 2024-06
-    Paper 4                                :        pap4, 2024-06, 2025-06
-    Paper 5                                :        pap5, 2025-06, 2026-06
-    Paper 6                                :        pap6, 2026-06, 2027-06
+    Home Care Planning (HCP)               :active, pap2, 2022-09, 2023-02
+    Paper 3                                :        pap3, 2023-06, 2025-01
+    Paper 4                                :        pap4, 2025-01, 2026-06
+
     
     section Learning and<br>development
     Probability/Markov Chains              :active, lnd1, 2022-09, 2022-12
@@ -75,7 +70,6 @@ gantt
     Conference 2                    :        lnd4, 2024-01, 4d
     Conference 3                    :        lnd5, 2025-01, 4d
     Conference 4                    :        lnd6, 2026-01, 4d
-    Conference 5                    :        lnd7, 2027-01, 4d
     
     section Other<br>activities
     Onboarding research project                     :active, oth1, 2022-09, 2022-10
@@ -84,8 +78,7 @@ gantt
     Review 2                                        :        oth4, after oth3, 360d
     Review 3                                        :        oth5, after oth4, 360d
     Review 4                                        :        oth6, after oth5, 360d
-    Review 5                                        :        oth7, after oth6, 360d
-    Develop teaching material                       :active, oth8, 2022-09, 2027-06
+    Develop teaching material                       :active, oth8, 2022-09, 2026-06
 
 ```
 
