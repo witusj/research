@@ -9,7 +9,7 @@ bibliography: bibliography.bib
 
 ## Overall goal
 
-Today annual Healthcare expenses in the Netherlands amount to 13% of GNP and are exceeding the budgets for Education, Defense and Justice [@ministerie_van_volksgezondheid_verregaande_2022] added together. According to current figures one in seven persons employed works in the Healthcare sector. Projections are that without any change in policies this proportion could reach one in three over the next 40 years.
+Today annual Healthcare expenses in the Netherlands amount to 13% of GNP and are exceeding the budgets for Education, Defense and Justice added together [@ministerie_van_volksgezondheid_verregaande_2022]. According to current figures one in seven persons employed works in the Healthcare sector. Projections are that without any change in policies this proportion could reach one in three over the next 40 years.
 
 One of the factors causing the expanding costs of Healthcare is the comparatively low productivity of the sector. Healthcare is typically labor intensive and human interaction is an essential element of service quality. Until now the complexity of tasks limited possibilities for automation. However, with the recent wave of technological innovation new opportunities are arising, especially in the category of facilitating technologies [@visser_kiezen_2021].
 
