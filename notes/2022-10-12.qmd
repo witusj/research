@@ -1,0 +1,16 @@
+---
+title: "2022-10-12"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+editor: visual
+bibliography: bibliography.bib
+---
+
+## HCP:
+
+-   [ ] Read @grieco_operational_2021
+-   [ ] Copied data to [spreadsheet](https://docs.google.com/spreadsheets/d/1jkEmaZ1zVqja_3Iwn5l6EU23XLIXCD7swQHlARu1uKg/edit?usp=sharing)
+-   [ ] Added notes and tables to [working paper](https://www.overleaf.com/5553192236cqqyqfhntwkj)
