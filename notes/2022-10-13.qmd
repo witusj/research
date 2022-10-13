@@ -1,0 +1,18 @@
+---
+title: "2022-10-12"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+editor: visual
+bibliography: bibliography.bib
+---
+
+## HCP:
+
+-   [ ] Writing session
+
+![](images/20221013schrijfsessie.jpeg)
+
+Main topic: "Determining the optimal team size and composition in Home Care Service organizations"
