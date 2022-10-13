@@ -11,8 +11,40 @@ bibliography: bibliography.bib
 
 ## HCP:
 
--   [ ] Writing session
+-   [x] Writing session
 
 ![](images/20221013schrijfsessie.jpeg)
 
-Main topic: "Determining the optimal team size and composition in Home Care Service organizations"
+**Main topic:** *"Determining the optimal team size and composition in Home Care Service organizations using Operations Research methodologies."*
+
++------------------------------------------+----------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+| Chapter                                  | Sub                                                                                                      | Notes                                                |
++==========================================+==========================================================================================================+======================================================+
+| 1.  Insights in demand for care services | A.  Type of care service and associates qualification level                                              |                                                      |
+|                                          |                                                                                                          |                                                      |
+|                                          | B.  Totals and variability                                                                               |                                                      |
+|                                          |                                                                                                          |                                                      |
+|                                          | C.  Patterns weekly / daily                                                                              |                                                      |
++------------------------------------------+----------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+| 2.  Demand vs supply                     | A.  Variance                                                                                             |                                                      |
+|                                          |                                                                                                          |                                                      |
+|                                          | B.  Seasonality                                                                                          |                                                      |
+|                                          |                                                                                                          |                                                      |
+|                                          |     -   E.g. do summer dips coincide?                                                                    |                                                      |
++------------------------------------------+----------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+| 3.  Continuity of service                | A.  Frequency of demand                                                                                  | -   Model: ILP                                       |
+|                                          |                                                                                                          |                                                      |
+|                                          |     -   E.g. \# of times per week (per type of care)                                                     |     -   E.g. Minimize \# different nurses per client |
+|                                          |                                                                                                          |                                                      |
+|                                          | B.  Scopes of employment                                                                                 |                                                      |
+|                                          |                                                                                                          |                                                      |
+|                                          |     -   E.g. \# of hours per week                                                                        |                                                      |
++------------------------------------------+----------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+| 4.  Scale / size teams                   | A.  What is the optimal team size?                                                                       | -   Model: Erlang C                                  |
+|                                          |                                                                                                          |                                                      |
+|                                          |     1.  E.g. Taking into account absenteeism / holidays                                                  |     -   E.g. With group arrivals                     |
+|                                          |                                                                                                          |                                                      |
+|                                          | B.  How sensitive is team size to changes in certain variables and what are effects on quality of care)? |                                                      |
+|                                          |                                                                                                          |                                                      |
+|                                          | C.  What are possible scenario's for the future?                                                         |                                                      |
++------------------------------------------+----------------------------------------------------------------------------------------------------------+------------------------------------------------------+
