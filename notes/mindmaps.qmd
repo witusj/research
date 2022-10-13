@@ -1,0 +1,23 @@
+---
+title: "Mind maps"
+format: html
+editor: visual
+---
+
+## Quarto
+
+::: panel-tabset
+## Outpatient Appointment Scheduling
+
+```{dot}
+digraph OAS {
+	node [shape = circle];
+	"stochastic\ndynamic\nprogramming" -> "markov\nchains" [label = "method for\n finding numerically\noptimal policies in"];
+	"stochastic\ndynamic\nprogramming" -> "value\nfunction" [label = "has\na"];
+	"convexity" -> "value\nfunction" [label = "property\nof"];
+	
+}
+```
+
+## Home Care Planning
+:::
