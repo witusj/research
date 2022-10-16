@@ -1,0 +1,18 @@
+---
+title: "2022-10-16"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+editor: visual
+bibliography: bibliography.bib
+---
+
+## OAS:
+
+-   [ ] Read @koeleman_appointment_2012:
+
+    "We chose local random search over global random search because from a practical viewpoint finding a good schedule in a reasonable running time, even if not optimal, is much more valuable than having guaranteed convergence to the optimal schedule. The algorithm we use works as follows: we start with a schedule chosen randomly from all possible schedules. This schedule is simulated a few times, and a next schedule is chosen randomly from a neighbourhood of that first schedule in which all schedules in the neighborhood have equal probability of being drawn. This is also simulated a few times, and then with a certain (high) probability we choose the best of the two solutions as the next one, and with small probability we choose the other one. This ensures that the algorithm improves steadily, but the small probability of choosing the less good solution gives a way out of a local optimum. In our situation 0 worked well because of the high variability of the simulation outcomes."\
+    \
+    NB: This looks to me similar to a genetic algorithm, without crossover an mutation
