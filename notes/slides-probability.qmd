@@ -5,10 +5,19 @@ format:
 editor: visual
 ---
 
-## {background-image="title.png"}
+##  {background-image="title.png"}
 
-<h1 class="r-fit-text" style="color: white">PROBABILITY</h1>
-<h3 style="color: white">Witek ten Hove</h3>
+<h1 class="r-fit-text" style="color: white">
+
+PROBABILITY
+
+</h1>
+
+<h3 style="color: white">
+
+Witek ten Hove
+
+</h3>
 
 ## Acknowlegments
 
@@ -439,6 +448,151 @@ ctx.fillText("A",30, -30);
 3.  Identify event of interest
 4.  Calculate probability of event
 
+## Conditional Probabilities
+
+::: columns
+::: {.column width="50%"}
+::: {style="padding: 10px;"}
+Assume 12 equally likely outcomes
+<br>
+$P(A) = \frac{5}{12}, P(B) = \frac{6}{12}$
+
+<canvas id="condProbsA" width="500" height="500" style="border:1px solid #d3d3d3;">
+
+</canvas>
+:::
+
+```{=html}
+<script>
+var c = document.getElementById("condProbsA");
+var ctx = c.getContext("2d");
+
+ctx.font = "80px Arial";
+ctx.fillStyle = "black";
+ctx.fillText("\u03A9", 10, 80);
+
+ctx.lineWidth=3;
+ctx.scale(0.7, 1);
+ctx.beginPath();
+ctx.arc(300, 280, 200, 0, 2 * Math.PI);
+ctx.closePath();
+ctx.fillStyle = 'skyblue';
+ctx.fill();
+ctx.stroke();
+ctx.restore();
+
+ctx.scale(1, 1);
+ctx.globalAlpha = 0.2;
+ctx.fillStyle = 'red';
+ctx.fillRect(300, 250, 400, 250);
+ctx.restore();
+
+ctx.lineWidth=3;
+ctx.strokeStyle="black";
+ctx.strokeRect(300, 250, 400, 250);
+
+ctx.fillStyle = "black";
+ctx.globalAlpha = 1;
+ctx.fillText("A", 300, 200);
+ctx.fillText("B", 600, 340);
+
+function specificPoints(canvas, count, color, coord) {
+  for (var i = 0; i < count; i++) {
+    var x = coord[0];
+    var y = coord[1];
+    canvas.fillStyle = color;
+    canvas.fillRect(x+10,y,20,14);
+  }
+}
+
+const coordsA = [[520, 100], [550, 180], [600, 60], [180, 200], [220, 300], [200, 400], [320, 300], [350, 400]];
+
+for (const coord of coordsA) {
+  specificPoints(ctx, coordsA.length, 'red', coord)
+}
+
+const coordsB = [[540, 300], [520, 400], [530, 450], [580, 400]];
+
+for (const coord of coordsB) {
+  specificPoints(ctx, coordsB.length, 'red', coord)
+}
+
+</script>
+```
+:::
+
+::: {.column width="50%"}
+::: {style="padding: 10px;"}
+If told [B]{style="color: red"} occured <br><br>
+
+$P(A|B) = \frac{2}{6} = \frac{1}{3}, P(B|B) = 1$
+
+
+<canvas id="condProbsB" width="500" height="500" style="border:1px solid #d3d3d3;">
+
+</canvas>
+:::
+
+```{=html}
+<script>
+var c2 = document.getElementById("condProbsB");
+var ctx2 = c2.getContext("2d");
+
+ctx2.font = "80px Arial";
+ctx2.fillStyle = "black";
+ctx2.fillText("\u03A9", 10, 80);
+
+ctx2.lineWidth=3;
+ctx2.scale(0.7, 1);
+ctx2.beginPath();
+ctx2.arc(300, 280, 200, 0, 2 * Math.PI);
+ctx2.closePath();
+ctx2.fillStyle = 'skyblue';
+ctx2.fill();
+ctx2.stroke();
+ctx2.restore();
+
+ctx2.scale(1, 1);
+ctx2.globalAlpha = 0.2;
+ctx2.fillStyle = 'red';
+ctx2.fillRect(300, 250, 400, 250);
+ctx2.restore();
+
+ctx2.lineWidth=3;
+ctx2.strokeStyle="black";
+ctx2.strokeRect(300, 250, 400, 250);
+
+ctx2.fillStyle = "black";
+ctx2.globalAlpha = 1;
+ctx2.fillText("A", 300, 200);
+ctx2.fillText("B", 600, 340);
+
+function specificPoints(canvas, count, color, coord) {
+  for (var i = 0; i < count; i++) {
+    var x = coord[0];
+    var y = coord[1];
+    canvas.fillStyle = color;
+    canvas.fillRect(x+10,y,20,14);
+  }
+}
+
+const coordsC = [[320, 300], [350, 400]];
+
+for (const coord of coordsC) {
+  specificPoints(ctx2, coordsC.length, 'red', coord)
+}
+
+const coordsD = [[540, 300], [520, 400], [530, 450], [580, 400]];
+
+for (const coord of coordsD) {
+  specificPoints(ctx2, coordsD.length, 'red', coord)
+}
+
+</script>
+```
+:::
+:::
+
 ## Conditional Probability
 
 ::: columns
@@ -490,6 +644,7 @@ ctx.restore();
 ctx.lineWidth=3;
 ctx.strokeStyle="black";
 ctx.strokeRect(380, 250, 320, 250);
+
 
 </script>
 ```
