@@ -448,7 +448,7 @@ ctx.fillText("A",30, -30);
 3.  Identify event of interest
 4.  Calculate probability of event
 
-## Conditional Probabilities
+## Conditional Probabilities {.smaller}
 
 ::: columns
 ::: {.column width="50%"}
@@ -523,8 +523,7 @@ for (const coord of coordsB) {
 
 ::: {.column width="50%"}
 ::: {style="padding: 10px;"}
-If told [B]{style="color: red"} occured <br><br>
-
+If told [B]{style="color: red"} occured <br>
 $P(A|B) = \frac{2}{6} = \frac{1}{3}, P(B|B) = 1$
 
 
