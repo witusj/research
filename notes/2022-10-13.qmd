@@ -15,6 +15,10 @@ bibliography: bibliography.bib
 
 ![](images/20221013schrijfsessie.jpeg)
 
+![](images/hhcdecisions.jpeg)
+
+Taken from @grieco_operational_2021
+
 **Main topic:** *"Determining the optimal team size and composition in Home Care Service organizations using Operations Research methodologies."*
 
 +------------------------------------------+----------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------+
