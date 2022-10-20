@@ -13,9 +13,9 @@ bibliography: bibliography.bib
 
     -   [ ] Vraag Ger garantie HAN
 
--   [ ] Zijn dit de papers die jullie bedoelden: @koeleman_appointment_2012, @heidergott_neural_2022 ?
+-   [ ] Zijn dit de papers die jullie bedoelden: @koeleman_optimal_2012, @heidergott_neural_2022 ?
 
-    -   [ ] Vraag over @koeleman_appointment_2012: zie [notitie](https://witusj.github.io/research/notes/2022-10-16.html)
+    -   [ ] Vraag over @koeleman_optimal_2012: zie [notitie](https://witusj.github.io/research/notes/2022-10-16.html)
 
 -   [x] Simulatie [test](https://witusj.github.io/research/experiments/sched-sim.html)
 

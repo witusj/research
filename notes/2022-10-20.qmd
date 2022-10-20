@@ -1,5 +1,5 @@
 ---
-title: "2022-10-16"
+title: "2022-10-20"
 author: "Witek ten Hove"
 format:
   html:
@@ -10,6 +10,10 @@ bibliography: bibliography.bib
 ---
 
 ## OAS:
+
+-   Joost: Common random numbers, Ordinal optimisation
+
+-   Ger: Met simulatietechnieken benchmark genereren. Dan met ML techniek beter algoritme bouwen en testen op benchmark
 
 ## HCP:
 
