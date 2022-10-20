@@ -19,7 +19,7 @@ bibliography: bibliography.bib
 
 Taken from @grieco_operational_2021
 
-**Main topic:** *"Determining the optimal team size and composition in Home Care Service organizations using Operations Research methodologies."*
+**Main topic:** *"Determining the optimal team size and composition in Home Care Service organizations using data driven insights and Operations Research methodologies."*
 
 -   To what extend is continuity of care feasible?
 
@@ -27,7 +27,7 @@ Taken from @grieco_operational_2021
 
 -   Which rules of thumb can be suggested for managing team size and composition?
 
-    -   Given demand, how much employees should be scheduled $s = a + \beta * \sqrt{a}$
+    -   Given demand, how much employees should be scheduled, e.g. $s = a + \beta * \sqrt{a}$
 
 +------------------------------------------+----------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------+
 | Chapter                                  | Sub                                                                                                      | Notes                                                                                             |
@@ -57,7 +57,7 @@ Taken from @grieco_operational_2021
 |                                          |     1.  E.g. Taking into account absenteeism / holidays                                                  |     -   E.g. With group arrivals                                                                  |
 |                                          |                                                                                                          |     -   Team size is regulated by merging or splitting teams                                      |
 |                                          | B.  How sensitive is team size to changes in certain variables and what are effects on quality of care)? |     -   @de2010dimensioning                                                                       |
-|                                          |                                                                                                          |                                                                                                   |
+|                                          |                                                                                                          |     -                                                                                             |
 |                                          | C.  What are possible scenario's for the future?                                                         |                                                                                                   |
 +------------------------------------------+----------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------+
 

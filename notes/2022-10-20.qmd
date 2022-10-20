@@ -1,0 +1,17 @@
+---
+title: "2022-10-16"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+editor: visual
+bibliography: bibliography.bib
+---
+
+## OAS:
+
+## HCP:
+
+-   See note [2022-10-13](https://witusj.github.io/research/notes/2022-10-13.html)
+-   For example of data driven research see @armony_patient_2015
