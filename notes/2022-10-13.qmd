@@ -21,6 +21,14 @@ Taken from @grieco_operational_2021
 
 **Main topic:** *"Determining the optimal team size and composition in Home Care Service organizations using Operations Research methodologies."*
 
+-   To what extend is continuity of care feasible?
+
+-   What are the challenges for HCS-providers in balancing demand and supply?
+
+-   Which rules of thumb can be suggested for managing team size and composition?
+
+    -   Given demand, how much employees should be scheduled $s = a + \beta * \sqrt{a}$
+
 +------------------------------------------+----------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------+
 | Chapter                                  | Sub                                                                                                      | Notes                                                                                             |
 +==========================================+==========================================================================================================+===================================================================================================+
@@ -47,8 +55,8 @@ Taken from @grieco_operational_2021
 | 4.  Scale / size teams                   | A.  What is the optimal team size?                                                                       | -   Model: Erlang C                                                                               |
 |                                          |                                                                                                          |                                                                                                   |
 |                                          |     1.  E.g. Taking into account absenteeism / holidays                                                  |     -   E.g. With group arrivals                                                                  |
-|                                          |                                                                                                          |                                                                                                   |
-|                                          | B.  How sensitive is team size to changes in certain variables and what are effects on quality of care)? |                                                                                                   |
+|                                          |                                                                                                          |     -   Team size is regulated by merging or splitting teams                                      |
+|                                          | B.  How sensitive is team size to changes in certain variables and what are effects on quality of care)? |     -   @de2010dimensioning                                                                       |
 |                                          |                                                                                                          |                                                                                                   |
 |                                          | C.  What are possible scenario's for the future?                                                         |                                                                                                   |
 +------------------------------------------+----------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------+
