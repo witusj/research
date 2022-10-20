@@ -51,6 +51,7 @@ div.csl-indent {
 <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -92,6 +93,14 @@ Writing session</li>
 <p><img src="images/hhcdecisions.jpeg" class="img-fluid"></p>
 <p>Taken from <span class="citation" data-cites="grieco_operational_2021">Grieco, Utley, and Crowe (<a href="#ref-grieco_operational_2021" role="doc-biblioref">2021</a>)</span></p>
 <p><strong>Main topic:</strong> <em>“Determining the optimal team size and composition in Home Care Service organizations using Operations Research methodologies.”</em></p>
+<ul>
+<li><p>To what extend is continuity of care feasible?</p></li>
+<li><p>What are the challenges for HCS-providers in balancing demand and supply?</p></li>
+<li><p>Which rules of thumb can be suggested for managing team size and composition?</p>
+<ul>
+<li>Given demand, how much employees should be scheduled <span class="math inline">\(s = a + \beta * \sqrt{a}\)</span></li>
+</ul></li>
+</ul>
 <table class="table">
 <colgroup>
 <col style="width: 17%">
@@ -170,6 +179,8 @@ Writing session</li>
 <li><p>Model: Erlang C</p>
 <ul>
 <li>E.g. With group arrivals</li>
+<li>Team size is regulated by merging or splitting teams</li>
+<li><span class="citation" data-cites="de2010dimensioning">De Bruin et al. (<a href="#ref-de2010dimensioning" role="doc-biblioref">2010</a>)</span></li>
 </ul></li>
 </ul></td>
 </tr>
@@ -181,6 +192,9 @@ Writing session</li>
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-de2010dimensioning" class="csl-entry" role="doc-biblioentry">
+De Bruin, Arnoud M, René Bekker, Lillian Van Zanten, and GM Koole. 2010. <span>“Dimensioning Hospital Wards Using the Erlang Loss Model.”</span> <em>Annals of Operations Research</em> 178 (1): 23–43.
+</div>
 <div id="ref-grieco_operational_2021" class="csl-entry" role="doc-biblioentry">
 Grieco, Luca, Martin Utley, and Sonya Crowe. 2021. <span>“Operational Research Applied to Decisions in Home Health Care: <span>A</span> Systematic Literature Review.”</span> <em>Journal of the Operational Research Society</em> 72 (9): 1960–91. <a href="https://doi.org/10.1080/01605682.2020.1750311">https://doi.org/10.1080/01605682.2020.1750311</a>.
 </div>
