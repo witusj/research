@@ -27,7 +27,7 @@ Taken from @grieco_operational_2021
 
 -   Which rules of thumb can be suggested for managing team size and composition?
 
-    -   Given demand, how much employees should be scheduled, e.g. $s = a + \beta * \sqrt{a}$
+    -   Given demand, how many employees should be scheduled, e.g. $s = a + \beta * \sqrt{a}$
 
 +------------------------------------------+----------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------+
 | Chapter                                  | Sub                                                                                                      | Notes                                                                                             |
