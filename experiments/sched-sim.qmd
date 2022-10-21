@@ -6,6 +6,8 @@ editor: visual
 
 ## Setup
 
+-   [ ] Implement common random number option in client generator
+
 ```{python}
 
 # Setup
@@ -16,6 +18,24 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 
 ## Functions
+
+### Lognormal mean and sd / see: https://en.wikipedia.org/wiki/Log-normal_distribution
+
+def logn_mean_sd(m, s):
+  sigma = np.sqrt(np.log(1 + (s/m)**2))
+  mu = np.log(m**2 / np.sqrt(m**2 + s**2))
+  return([mu, sigma])
+
+### Random lognormal service times generator
+def generate_logn_sts(s, n, mu, sd):
+  sts = np.random.lognormal(mean = logn_mean_sd(mu, sd)[0], sigma=logn_mean_sd(mu, sd)[1], size=s * n)
+  return np.reshape(sts, (s, n))
+
+##############
+#### TEST ####
+generate_logn_sts(5, 5, 14, 10)
+generate_logn_sts(1, 8, 14, 10)
+##############
 
 ### Client generator
 def generate_client(cts, sts, pct, ns=0):
@@ -37,22 +57,15 @@ def simulate(iats, cts, sts, pct, ns, logs=False):
     if(logs): print(iats[i], wt, st, tis, ct)
   return(np.array(wts))
 
-### Lognormal mean and sd / see: https://en.wikipedia.org/wiki/Log-normal_distribution
-
-def logn_mean_sd(m, s):
-  sigma = np.sqrt(np.log(1 + (s/m)**2))
-  mu = np.log(m**2 / np.sqrt(m**2 + s**2))
-  return([mu, sigma])
-
 ## Variables
 
 cts = np.array([0, 1]) # client types
 pct = np.array([1, 0]) # distribution of client types - normal / emergency
 # sts = np.array([14, 14, 14, 15, 16]) # service times
 # sts = np.random.poisson(lam=14, size=1000)
-sts = np.random.lognormal(mean = logn_mean_sd(14, 5)[0], sigma=logn_mean_sd(14, 5)[1], size=1000)
-ns = 0.0
-nSims = 1000 # number of simulations
+
+ns = 0.1
+nSims = 10000 # number of simulations
 logs = False
 ```
 
@@ -61,7 +74,7 @@ logs = False
 ![](images/slideger1.png)
 
 ```{python}
-
+sts = generate_logn_sts(1, 1000, 14, 5)[0]
 iats = np.array([0, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]) # inter-arrival times
 
 nSims = nSims # number of simulations
@@ -80,14 +93,16 @@ mwt = np.array(simRes).mean()
 ```{python}
 
 fig = sns.histplot(simRes)
-fig.set(title=f"Mean = {mwt}")
+fig.set(title=f"Mean waiting time= {mwt}")
 ```
+
 ## Run simulation 2
 
 ![](images/slideger2.png)
 
 ```{python}
 
+sts = generate_logn_sts(1, 1000, 14, 10)[0]
 iats = np.array([0, 0, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]) # inter-arrival times
 
 nSims = nSims # number of simulations
@@ -107,7 +122,7 @@ mwt = np.array(simRes).mean()
 ```{python}
 
 fig = sns.histplot(simRes)
-fig.set(title=f"Mean = {mwt}")
+fig.set(title=f"Mean waiting time = {mwt}")
 ```
 
 ## Run simulation 3
@@ -116,6 +131,7 @@ fig.set(title=f"Mean = {mwt}")
 
 ```{python}
 
+sts = generate_logn_sts(1, 1000, 14, 10)[0]
 iats = np.array([0, 0, 0, 0, 60, 0, 0, 0, 60, 0, 0, 0]) # inter-arrival times
 
 nSims = nSims # number of simulations
@@ -134,5 +150,5 @@ mwt = np.array(simRes).mean()
 ```{python}
 
 fig = sns.histplot(simRes)
-fig.set(title=f"Mean = {mwt}")
+fig.set(title=f"Mean waiting time = {mwt}")
 ```
