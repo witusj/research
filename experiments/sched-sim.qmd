@@ -6,7 +6,7 @@ editor: visual
 
 ## Setup
 
--   [ ] Implement common random number option in client generator
+-   [x] Implement common random number option in client generator
 
 ```{python}
 
