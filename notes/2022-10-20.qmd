@@ -11,7 +11,11 @@ bibliography: bibliography.bib
 
 ## OAS:
 
--   Joost: Common random numbers, Ordinal optimisation
+-   Joost:
+
+    -   [ ] Common random numbers
+
+    -   [ ] Ordinal optimization
 
 -   Ger: Met simulatietechnieken benchmark genereren. Dan met ML techniek beter algoritme bouwen en testen op benchmark
 
