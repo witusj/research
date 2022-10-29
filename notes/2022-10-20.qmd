@@ -13,7 +13,7 @@ bibliography: bibliography.bib
 
 -   Joost:
 
-    -   [ ] Common random numbers
+    -   [x] Common random numbers \>\> https://witusj.github.io/research/experiments/sched-sim.html
 
     -   [ ] Ordinal optimization
 
