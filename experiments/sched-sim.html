@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p><strong>lnm</strong> = lognormal mean</p></li>
 <li><p><strong>lns</strong> = lognormal standard deviation</p></li>
 </ul>
-<p>Returns an s x n matrix with random service times.</p></li>
+<p>Returns an <strong>s</strong> x <strong>n</strong> matrix with random service times.</p></li>
 <li><p><code>generate_client(cts, sts, pct, ns=0)</code> generates one client. A client is represented by a client type and a service time:</p>
 <ul>
 <li><p><strong>cts</strong> is an array with randomly generated client types. Used for sampling.</p></li>
@@ -235,7 +235,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># sts = np.random.poisson(lam=14, size=1000) - using poisson distribution</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> <span class="fl">0.1</span> <span class="co"># Percentage of no-shows</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>nsims <span class="op">=</span> <span class="dv">10000</span> <span class="co"># number of simulations</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>nsims <span class="op">=</span> <span class="dv">100000</span> <span class="co"># number of simulations</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>logs <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -271,11 +271,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram of waiting times</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sns.histplot(simres)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>fig.<span class="bu">set</span>(title<span class="op">=</span><span class="ss">f"Mean waiting time= </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="18">
-<pre><code>[Text(0.5, 1.0, 'Mean waiting time= 3.1168135535828734')]</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>[Text(0.5, 1.0, 'Mean waiting time= 3.1105538612852706')]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="sched-sim_files/figure-html/cell-7-output-2.png" width="593" height="424"></p>
+<p><img src="sched-sim_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -312,11 +312,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram of waiting times</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sns.histplot(simres)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>fig.<span class="bu">set</span>(title<span class="op">=</span><span class="ss">f"Mean waiting time = </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
-<pre><code>[Text(0.5, 1.0, 'Mean waiting time = 11.153507610082109')]</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>[Text(0.5, 1.0, 'Mean waiting time = 11.120220566496982')]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="sched-sim_files/figure-html/cell-10-output-2.png" width="602" height="424"></p>
+<p><img src="sched-sim_files/figure-html/cell-10-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -349,11 +349,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram of waiting times</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sns.histplot(simres)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>fig.<span class="bu">set</span>(title<span class="op">=</span><span class="ss">f"Mean waiting time = </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="24">
-<pre><code>[Text(0.5, 1.0, 'Mean waiting time = 22.753736301933102')]</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>[Text(0.5, 1.0, 'Mean waiting time = 22.748747665487876')]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="sched-sim_files/figure-html/cell-13-output-2.png" width="593" height="424"></p>
+<p><img src="sched-sim_files/figure-html/cell-13-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 </section>

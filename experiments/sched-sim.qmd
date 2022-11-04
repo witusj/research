@@ -35,7 +35,7 @@ Define functions:
 
     -   **lns** = lognormal standard deviation
 
-    Returns an s x n matrix with random service times.
+    Returns an **s** x **n** matrix with random service times.
 
 -   `generate_client(cts, sts, pct, ns=0)` generates one client. A client is represented by a client type and a service time:
 
