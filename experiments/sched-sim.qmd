@@ -6,29 +6,91 @@ editor: visual
 
 ## Setup
 
--   [x] Implement common random number option in client generator
+Load libraries.
 
 ```{python}
-
-# Setup
 ## Libraries
-import math
 import numpy as np
 from matplotlib import pyplot as plt
 import seaborn as sns
+```
+
+Define functions:
+
+-   `logn_mean_lns(m, s)` transforms a mean and standard deviation from a lognormal distribution to parameters for a normal distribution. This is necessary when using the random lognormal sampling function. It uses a normal mean and standard deviation as inputs. However, for our simulation we define a mean and standard deviations from a lognormal distribution:
+
+    -   **lnm** = lognormal mean
+
+    -   **lns** = lognormal standard deviation
+
+    returns an array with normal mean and standard deviation
+
+-   `generate_logn_sts(s, n, mu, lns)` generates a matrix with service times randomly selected from a lognormal distribution:
+
+    -   **s** = number of rows
+
+    -   **n** = number of columns
+
+    -   **lnm** = lognormal mean
+
+    -   **lns** = lognormal standard deviation
+
+    Returns an s x n matrix with random service times.
+
+-   `generate_client(cts, sts, pct, ns=0)` generates one client. A client is represented by a client type and a service time:
+
+    -   **cts** is an array with randomly generated client types. Used for sampling.
+
+    -   **sts** is an array with randomly generated service times. Used for sampling.
+
+    -   **pct** is an array with distributions for samplling client types.
+
+    -   **ns** is a fraction of no-shows. When a client is a no-show the service time will be set to zero.
+
+    Returns an array with client type and service time (zero when no-show).
+
+-   `simulate(iats, cts, sts, pct, ns, logs=False)` simulates one schedule:
+
+    -   **iats** is an array with interarrival times for each client
+
+    -   **cts** is an array with randomly generated client types. Used for sampling.
+
+    -   **sts** is an array with randomly generated service times. Used for sampling.
+
+    -   **pct** is an array with distributions for samplling client types.
+
+    -   **ns** is a fraction of no-shows. When a client is a no-show the service time will be set to zero.
+
+    -   **logs** a boolean flag: should results be printed (`True`) or not (`False`)?
+
+    Returns an array of waiting times.
+
+<!-- -->
+
+-   `simulate_crn(iats, cts, sts, logs=False)` simulates one schedule using common random numbers.:
+
+    -   **iats** is an array with interarrival times for each client
+
+    -   **cts** is an array with randomly generated client types. Must have same length as **iats**.
+
+    -   **sts** is an array with randomly generated service times (with zeros for no-shows). Must have same length as **iats**.
+
+    -   **logs** a boolean flag: should results be printed (`True`) or not (`False`)?
+
+```{python}
 
 ## Functions
 
-### Lognormal mean and sd / see: https://en.wikipedia.org/wiki/Log-normal_distribution
+### Lognormal mean and lns / see: https://en.wikipedia.org/wiki/Log-normal_distribution
 
-def logn_mean_sd(m, s):
-  sigma = np.sqrt(np.log(1 + (s/m)**2))
-  mu = np.log(m**2 / np.sqrt(m**2 + s**2))
-  return([mu, sigma])
+def logn_mean_lns(lnm, lns):
+  sigma = np.sqrt(np.log(1 + (lns/lnm)**2))
+  mu = np.log(lnm**2 / np.sqrt(lnm**2 + lns**2))
+  return np.array([mu, sigma])
 
 ### Random lognormal service times generator
-def generate_logn_sts(s, n, mu, sd):
-  sts = np.random.lognormal(mean = logn_mean_sd(mu, sd)[0], sigma=logn_mean_sd(mu, sd)[1], size=s * n)
+def generate_logn_sts(s, n, lnm, lns):
+  sts = np.random.lognormal(mean = logn_mean_lns(lnm, lns)[0], sigma=logn_mean_lns(lnm, lns)[1], size=s * n)
   return np.reshape(sts, (s, n))
 
 ##############
@@ -40,32 +102,51 @@ generate_logn_sts(1, 8, 14, 10)
 ### Client generator
 def generate_client(cts, sts, pct, ns=0):
   ct = np.random.choice(cts, size = 1, p=pct)[0] # generate random client type
-  st = np.random.binomial(n=1, p=1-ns)*np.random.choice(sts, size = 1)[0] # generate random service time
+  st = np.random.binomial(n=1, p=1-ns)*np.random.choice(sts, size = 1)[0] # generate random service time / if no-show -> st = 0
   return np.array([ct, st])
 
 ### Simulation
 
 def simulate(iats, cts, sts, pct, ns, logs=False):
-  wt = 0
-  wts = []
+  wt = 0 # initial value waiting time
+  wts = [] # array for saving waiting times
   for i in range(len(iats)):
     if(i != 0): # don't calculate waiting time for first client in schedule
       wt = max(0, tis - iats[i]) # calculate waiting time
-    ct, st = generate_client(cts, sts, pct, ns)
+    ct, st = generate_client(cts, sts, pct, ns) # client type and service time
     tis = wt + st # calculate time in system
     wts.append(wt)
     if(logs): print(iats[i], wt, st, tis, ct)
-  return(np.array(wts))
+  return np.array(wts)
 
+def simulate_crn(iats, cts, sts, logs=False):
+  wt = 0 # initial value waiting time
+  wts = [] # array for saving waiting times
+  for i in range(len(iats)):
+    if(i != 0): # don't calculate waiting time for first client in schedule
+      wt = max(0, tis - iats[i]) # calculate waiting time
+    ct =  cts[i]# client type
+    st =  sts[i]# service time
+    tis = wt + st # calculate time in system
+    wts.append(wt)
+    if(logs): print(iats[i], wt, st, tis, ct)
+  return np.array(wts)
+
+
+```
+
+Configure global simulation parameters.
+
+```{python}
 ## Variables
 
 cts = np.array([0, 1]) # client types
-pct = np.array([1, 0]) # distribution of client types - normal / emergency
-# sts = np.array([14, 14, 14, 15, 16]) # service times
-# sts = np.random.poisson(lam=14, size=1000)
+pct = np.array([1, 0]) # distribution of client types -> normal or emergency
+# sts = np.array([14, 14, 14, 15, 16]) # service times - for simple numerical testing
+# sts = np.random.poisson(lam=14, size=1000) - using poisson distribution
 
-ns = 0.1
-nSims = 10000 # number of simulations
+ns = 0.1 # Percentage of no-shows
+nsims = 10000 # number of simulations
 logs = False
 ```
 
@@ -73,26 +154,42 @@ logs = False
 
 ![](images/slideger1.png)
 
+
+Configure parameters.
+
 ```{python}
-sts = generate_logn_sts(1, 1000, 14, 5)[0]
+
+# configure parameters
+lnm = 14 
+lns = 5
+sts = generate_logn_sts(1, 1000, lnm, lns)[0] # sampling population for array service times
 iats = np.array([0, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]) # inter-arrival times
-
-nSims = nSims # number of simulations
-simRes = [] # array for saving simulation results
-
-# run simulations
-for s in range(nSims):
-  experiment = simulate(iats, cts, sts, pct, ns, logs=logs)
-  simRes.append(experiment.mean())
-  
-mwt = np.array(simRes).mean()
+nsims = nsims # number of simulations
+ctsm = np.random.choice(cts, size = (nsims * len(iats)), p=pct).reshape((nsims, len(iats))) # client types matrix
+stsm = np.random.lognormal(mean = logn_mean_lns(lnm, lns)[0], sigma=logn_mean_lns(lnm, lns)[1], size=(nsims * len(iats))).reshape((nsims, len(iats))) # service times matrix
+nsm = np.random.binomial(n=1, p=1-ns, size = nsims * len(iats)).reshape((nsims, len(iats))) # no-shows matrix
+stsm = stsm * nsm # service times matrix with no-shows
+simres = [] # array for saving simulation results
 ```
 
-## Plot results
+Run simulations.
+
+```{python}
+# run simulations
+for s in range(nsims):
+  # experiment = simulate(iats, cts, sts, pct, ns, logs=logs)
+  experiment = simulate_crn(iats, ctsm[s], stsm[s], logs=logs)
+  simres.append(experiment.mean())
+  
+mwt = np.array(simres).mean()
+```
+
+Plot histogram of waiting times
 
 ```{python}
 
-fig = sns.histplot(simRes)
+# plot histogram of waiting times
+fig = sns.histplot(simres)
 fig.set(title=f"Mean waiting time= {mwt}")
 ```
 
@@ -100,28 +197,42 @@ fig.set(title=f"Mean waiting time= {mwt}")
 
 ![](images/slideger2.png)
 
+Configure parameters.
+
 ```{python}
 
-sts = generate_logn_sts(1, 1000, 14, 10)[0]
+# Configure parameters
+lnm = 14
+lns = 10
+sts = generate_logn_sts(1, 1000, lnm, lns)[0] # sampling population for array service times
 iats = np.array([0, 0, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]) # inter-arrival times
 
-nSims = nSims # number of simulations
-simRes = [] # array for saving simulation results
-
-# run simulations
-for s in range(nSims):
-  experiment = simulate(iats, cts, sts, pct, ns, logs=logs)
-  simRes.append(experiment.mean())
-
-mwt = np.array(simRes).mean()
-
+nSƒims = nsims # number of silnmlations
+ctsm = np.random.choice(cts, size = (nsims * len(iats)), p=pct).reshape((nsims, len(iats))) # client types matrix
+stsm = np.random.lognormal(mean = logn_mean_lns(lnm, lns)[0], sigma=logn_mean_lns(lnm, lns)[1], size=(nsims * len(iats))).reshape((nsims, len(iats))) # service times matrix
+nsm = np.random.binomial(n=1, p=1-ns, size = nsims * len(iats)).reshape((nsims, len(iats))) # no-shows matrix
+stsm = stsm * nsm # service times matrix with no-shows
+simres = [] # array for saving silnmlation results
 ```
 
-## Plot results
+Run simulations.
+
+```{python}
+# run simulations
+for s in range(nsims):
+  # experiment = simulate(iats, cts, sts, pct, ns, logs=logs)
+  experiment = simulate_crn(iats, ctsm[s], stsm[s], logs=logs)
+  simres.append(experiment.mean())
+
+mwt = np.array(simres).mean()
+```
+
+Plot histogram of waiting times.
 
 ```{python}
 
-fig = sns.histplot(simRes)
+# plot histogram of waiting times
+fig = sns.histplot(simres)
 fig.set(title=f"Mean waiting time = {mwt}")
 ```
 
@@ -129,26 +240,38 @@ fig.set(title=f"Mean waiting time = {mwt}")
 
 ![](images/slideger3.png)
 
+Configure parameters.
+
 ```{python}
 
-sts = generate_logn_sts(1, 1000, 14, 10)[0]
+# configure parameters
+lnm = 14
+lns = 10
+sts = generate_logn_sts(1, 1000, lnm, lns)[0] # sampling population for array service times
 iats = np.array([0, 0, 0, 0, 60, 0, 0, 0, 60, 0, 0, 0]) # inter-arrival times
 
-nSims = nSims # number of simulations
-simRes = [] # array for saving simulation results
-
-# run simulations
-for s in range(nSims):
-  experiment = simulate(iats, cts, sts, pct, ns, logs=logs)
-  simRes.append(experiment.mean())
-  
-mwt = np.array(simRes).mean()
+nsims = nsims # number of simulations
+simres = [] # array for saving simulation results
 ```
 
-## Plot results
+Run simulations.
 
 ```{python}
 
-fig = sns.histplot(simRes)
+# run simulations
+for s in range(nsims):
+  # experiment = simulate(iats, cts, sts, pct, ns, logs=logs)
+  experiment = simulate_crn(iats, ctsm[s], stsm[s], logs=logs)
+  simres.append(experiment.mean())
+  
+mwt = np.array(simres).mean()
+```
+
+Plot histogram of waiting times
+
+```{python}
+
+# plot histogram of waiting times
+fig = sns.histplot(simres)
 fig.set(title=f"Mean waiting time = {mwt}")
 ```

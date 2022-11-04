@@ -1,6 +1,8 @@
 ---
 title: "Mind maps"
-format: html
+format: 
+  html:
+    page-layout: full
 editor: visual
 ---
 
@@ -12,9 +14,17 @@ editor: visual
 ```{dot}
 digraph OAS {
 	node [shape = circle];
+	layout=circo
+	
 	"stochastic\ndynamic\nprogramming" -> "markov\nchains" [label = "method for\n finding numerically\noptimal policies in"];
-	"stochastic\ndynamic\nprogramming" -> "value\nfunction" [label = "has\na"];
-	"convexity" -> "value\nfunction" [label = "property\nof"];
+	"convexity" -> "value\nfunctions" [label = "property\nof"];
+	"stochastic\ndynamic\nprogramming" -> "decision\nmaking under\nuncertainty" [label = "technique\nfor solving\nproblems\nof"];
+	"stochastic\ndynamic\nprogramming" -> "Bellman\nequation" [label = "represents the\nproblem via a"];
+	"Bellman\nequation" -> "value\nfunctions" [label = "describes the\nrelationship\nbetween consecutive"]
+	"value\nfunctions" -> "objective\nfunction" [label = "returns the\nvalue of"]
+	"optimization\nproblem" -> "objective\nfunction" [label = "optimizes"]
+	
+	
 	
 }
 ```
