@@ -7,16 +7,18 @@ bibliography: bibliography.bib
 
 ### Aanwezig: Witek / Ger / Joost
 
--   [ ] [Project plan](https://witusj.github.io/research/notes/projectplan.html)
+-   [ ] OAS:
 
-    -   [ ] Suggestie Dennis: Begin 2024 paper 3 en eind 2024 paper 4. Daarna werken aan proefschrift.
+    -   [ ] Implementatie common random numbers in simulatie [test](https://witusj.github.io/research/experiments/sched-sim.html).
 
-    -   [ ] Vraag Ger garantie HAN
+    -   [ ] Uit @koeleman2012appointment:\
+        \
+        "As neighbourhood of a schedule we choose all possible schedules made up of a shift of a patient from one interval to the one just before it compared to the current schedule, or if the patient is now scheduled at the first interval, to the last interval. Note that this is not the same neighbourhood as used in Kaandorp and Koole (2007) and Koeleman and Koole (2012), but smaller."
 
--   [ ] Zijn dit de papers die jullie bedoelden: @koeleman_optimal_2012, @heidergott_neural_2022 ?
+        -   [ ] Hoe kan ik een patient één slot laten opschuiven in een array met inter-arrival times?\
+            \
+            \[0, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15\] ---\> \[0, 0, 30, 15, 15, 15, 15, 15, 15, 15, 15, 15\]
 
-    -   [ ] Vraag over @koeleman_optimal_2012: zie [notitie](https://witusj.github.io/research/notes/2022-10-16.html)
+-   [ ] HCP: Demo resultaten Carinova (met Carinova, René, Yoram en Dennis).
 
--   [x] Simulatie [test](https://witusj.github.io/research/experiments/sched-sim.html)
-
--   [ ] Voortgang [paper HCP](https://witusj.github.io/research/notes/2022-10-13.html) (met René, Yoram en Dennis)
+-   [ ] [Peer review guide](https://www.sae.org/site/participate/volunteer/reviewer-resources/writing-guide).
