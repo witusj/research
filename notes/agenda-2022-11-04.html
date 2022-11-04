@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Witek ten Hove">
 
-<title>2022-10-20</title>
+<title>Agenda 2022-10-20</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -16,21 +15,38 @@ span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
-<script src="2022-11-03_files/libs/clipboard/clipboard.min.js"></script>
-<script src="2022-11-03_files/libs/quarto-html/quarto.js"></script>
-<script src="2022-11-03_files/libs/quarto-html/popper.min.js"></script>
-<script src="2022-11-03_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="2022-11-03_files/libs/quarto-html/anchor.min.js"></script>
-<link href="2022-11-03_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="2022-11-03_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="2022-11-03_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="2022-11-03_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="2022-11-03_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
+<script src="agenda-2022-11-04_files/libs/clipboard/clipboard.min.js"></script>
+<script src="agenda-2022-11-04_files/libs/quarto-html/quarto.js"></script>
+<script src="agenda-2022-11-04_files/libs/quarto-html/popper.min.js"></script>
+<script src="agenda-2022-11-04_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="agenda-2022-11-04_files/libs/quarto-html/anchor.min.js"></script>
+<link href="agenda-2022-11-04_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="agenda-2022-11-04_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="agenda-2022-11-04_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="agenda-2022-11-04_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="agenda-2022-11-04_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -43,19 +59,13 @@ ul.task-list{list-style: none;}
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">2022-10-20</h1>
+<h1 class="title">Agenda 2022-10-20</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Witek ten Hove </p>
-          </div>
-  </div>
     
     
   </div>
@@ -63,27 +73,36 @@ ul.task-list{list-style: none;}
 
 </header>
 
-<section id="oas" class="level2">
-<h2 class="anchored" data-anchor-id="oas">OAS:</h2>
-<ul>
-<li>Implemented common random numbers in <a href="https://witusj.github.io/research/experiments/sched-sim.html">simple scheduling simulation</a>. Refactored notebook.</li>
+<section id="aanwezig-witek-ger-joost" class="level3">
+<h3 class="anchored" data-anchor-id="aanwezig-witek-ger-joost">Aanwezig: Witek / Ger / Joost</h3>
+<ul class="task-list">
+<li><p><input type="checkbox" disabled="">
+OAS:</p><ul class="task-list">
+<li><p><input type="checkbox" disabled="">
+Implementatie common random numbers in simulatie <a href="https://witusj.github.io/research/experiments/sched-sim.html">test</a>.</p></li>
+<li><p><input type="checkbox" disabled="">
+Uit <span class="citation" data-cites="koeleman2012appointment">Koeleman and Koole (<a href="#ref-koeleman2012appointment" role="doc-biblioref">2012</a>)</span>:<br>
+<br>
+“As neighbourhood of a schedule we choose all possible schedules made up of a shift of a patient from one interval to the one just before it compared to the current schedule, or if the patient is now scheduled at the first interval, to the last interval. Note that this is not the same neighbourhood as used in Kaandorp and Koole (2007) and Koeleman and Koole (2012), but smaller.”</p><ul class="task-list">
+<li><input type="checkbox" disabled="">
+Hoe kan ik een patient één slot laten opschuiven in een array met inter-arrival times?<br>
+<br>
+[0, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15] —&gt; [0, 0, 30, 15, 15, 15, 15, 15, 15, 15, 15, 15]</li>
+</ul></li>
+</ul></li>
+<li><p><input type="checkbox" disabled="">
+HCP: Demo resultaten Carinova (met Carinova, René, Yoram en Dennis).</p></li>
+<li><p><input type="checkbox" disabled="">
+<a href="https://www.sae.org/site/participate/volunteer/reviewer-resources/writing-guide">Peer review guide</a>.</p></li>
 </ul>
-</section>
-<section id="hcp" class="level2">
-<h2 class="anchored" data-anchor-id="hcp">HCP:</h2>
-<ul>
-<li>Gesprek met Carinova &gt;&gt; review data analyses.</li>
-</ul>
-<p><img src="images/notesrene20221103.jpeg" class="img-fluid"></p>
-</section>
-<section id="other" class="level2">
-<h2 class="anchored" data-anchor-id="other">Other</h2>
-<ul>
-<li>Androniki (Anni) Sapountzi: <a href="https://www.davidsilver.uk/teaching/" class="uri">https://www.davidsilver.uk/teaching/</a></li>
-</ul>
+
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-koeleman2012appointment" class="csl-entry" role="doc-biblioentry">
+Koeleman, Paulien, and Ger Koole. 2012. <span>“Appointment Scheduling Using Optimisation via Simulation.”</span> In <em>Proceedings of the 2012 Winter Simulation Conference (WSC)</em>, 1–5. IEEE.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

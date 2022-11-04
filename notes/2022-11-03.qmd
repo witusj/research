@@ -15,6 +15,8 @@ bibliography: bibliography.bib
 
 ## HCP:
 
+-   Gesprek met Carinova \>\> review data analyses.
+
 ![](images/notesrene20221103.jpeg)
 
 ## Other
