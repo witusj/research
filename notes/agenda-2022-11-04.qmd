@@ -1,0 +1,22 @@
+---
+title: "Agenda 2022-10-20"
+format: html
+editor: visual
+bibliography: bibliography.bib
+---
+
+### Aanwezig: Witek / Ger / Joost
+
+-   [ ] [Project plan](https://witusj.github.io/research/notes/projectplan.html)
+
+    -   [ ] Suggestie Dennis: Begin 2024 paper 3 en eind 2024 paper 4. Daarna werken aan proefschrift.
+
+    -   [ ] Vraag Ger garantie HAN
+
+-   [ ] Zijn dit de papers die jullie bedoelden: @koeleman_optimal_2012, @heidergott_neural_2022 ?
+
+    -   [ ] Vraag over @koeleman_optimal_2012: zie [notitie](https://witusj.github.io/research/notes/2022-10-16.html)
+
+-   [x] Simulatie [test](https://witusj.github.io/research/experiments/sched-sim.html)
+
+-   [ ] Voortgang [paper HCP](https://witusj.github.io/research/notes/2022-10-13.html) (met René, Yoram en Dennis)
