@@ -1,0 +1,24 @@
+---
+title: "2022-10-20"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+editor: visual
+bibliography: bibliography.bib
+---
+
+## OAS:
+
+-   \--:
+
+    -   \[ \]
+
+## HCP:
+
+![](images/notesrene20221103.jpeg)
+
+## Other
+
+-   Androniki (Anni) Sapountzi: <https://www.davidsilver.uk/teaching/>

@@ -453,9 +453,7 @@ ctx.fillText("A",30, -30);
 ::: columns
 ::: {.column width="50%"}
 ::: {style="padding: 10px;"}
-Assume 12 equally likely outcomes
-<br>
-$P(A) = \frac{5}{12}, P(B) = \frac{6}{12}$
+Assume 12 equally likely outcomes <br> $P(A) = \frac{5}{12}, P(B) = \frac{6}{12}$
 
 <canvas id="condProbsA" width="500" height="500" style="border:1px solid #d3d3d3;">
 
@@ -523,9 +521,7 @@ for (const coord of coordsB) {
 
 ::: {.column width="50%"}
 ::: {style="padding: 10px;"}
-If told [B]{style="color: red"} occured <br>
-$P(A|B) = \frac{2}{6} = \frac{1}{3}, P(B|B) = 1$
-
+If told [B]{style="color: red"} occured <br> $P(A|B) = \frac{2}{6} = \frac{1}{3}, P(B|B) = 1$
 
 <canvas id="condProbsB" width="500" height="500" style="border:1px solid #d3d3d3;">
 
@@ -592,22 +588,26 @@ for (const coord of coordsD) {
 :::
 :::
 
-## Conditional Probability
+## Definition of Conditional Probability
 
 ::: columns
 ::: {.column width="50%"}
+$P(A|B) = \frac{P(A \cap B)}{P(B)}\\Defined\ only\ if\  P(B) > 0$
 :::
 
 ::: {.column width="50%"}
+$P(A \cap B) = \frac{2}{12}, P(B) = \frac{6}{12}$
+
 ::: {style="padding: 35px;"}
-<canvas id="condProb" width="680" height="500" style="border:1px solid #d3d3d3;">
+
+<canvas id="condProbC" width="680" height="500" style="border:1px solid #d3d3d3;">
 
 </canvas>
 :::
 
 ```{=html}
 <script>
-var c = document.getElementById("condProb");
+var c = document.getElementById("condProbC");
 var ctx = c.getContext("2d");
 
 ctx.font = "80px Arial";
@@ -615,35 +615,29 @@ ctx.fillStyle = "black";
 ctx.fillText("\u03A9", 10, 80);
 
 ctx.lineWidth=3;
-ctx.scale(0.4, 1);
-ctx.beginPath();
-ctx.arc(1000, 250, 180, 0, 2 * Math.PI);
-ctx.closePath();
-ctx.fillStyle = 'skyblue';
-ctx.fill();
-ctx.stroke();
-ctx.restore();
-
-ctx.lineWidth=3;
 ctx.scale(0.7, 1);
 ctx.beginPath();
-ctx.arc(2000, 250, 180, 0, 2 * Math.PI);
+ctx.arc(300, 280, 200, 0, 2 * Math.PI);
 ctx.closePath();
 ctx.fillStyle = 'skyblue';
 ctx.fill();
 ctx.stroke();
 ctx.restore();
 
-ctx.scale(3.6, 1);
+ctx.scale(1, 1);
 ctx.globalAlpha = 0.2;
 ctx.fillStyle = 'red';
-ctx.fillRect(380, 250, 320, 250);
+ctx.fillRect(300, 250, 400, 250);
 ctx.restore();
 
 ctx.lineWidth=3;
 ctx.strokeStyle="black";
-ctx.strokeRect(380, 250, 320, 250);
+ctx.strokeRect(300, 250, 400, 250);
 
+ctx.fillStyle = "black";
+ctx.globalAlpha = 1;
+ctx.fillText("A", 300, 200);
+ctx.fillText("B", 600, 340);
 
 </script>
 ```
