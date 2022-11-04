@@ -146,14 +146,13 @@ pct = np.array([1, 0]) # distribution of client types -> normal or emergency
 # sts = np.random.poisson(lam=14, size=1000) - using poisson distribution
 
 ns = 0.1 # Percentage of no-shows
-nsims = 10000 # number of simulations
+nsims = 100000 # number of simulations
 logs = False
 ```
 
 ## Run simulation 1
 
 ![](images/slideger1.png)
-
 
 Configure parameters.
 

@@ -12,6 +12,7 @@ bibliography: bibliography.bib
 ## OAS:
 
 -   Implemented common random numbers in [simple scheduling simulation](https://witusj.github.io/research/experiments/sched-sim.html). Refactored notebook.
+-   **Kendall's notation** (or sometimes **Kendall notation**) is the standard system used to describe and classify a queueing node. [D. G. Kendall](https://en.wikipedia.org/wiki/David_George_Kendall "David George Kendall") proposed describing queueing models using three factors written A/S/*c* in 1953^[\[1\]](https://en.wikipedia.org/wiki/Kendall%27s_notation#cite_note-1)^ where A denotes the time between arrivals to the queue, S the service time distribution and *c* the number of service channels open at the node. It has since been extended to A/S/*c*/*K*/*N*/D where *K* is the capacity of the queue, *N* is the size of the population of jobs to be served, and D is the [queueing discipline](https://en.wikipedia.org/wiki/Queueing_discipline "Queueing discipline").^[\[2\]](https://en.wikipedia.org/wiki/Kendall%27s_notation#cite_note-2)[\[3\]](https://en.wikipedia.org/wiki/Kendall%27s_notation#cite_note-3)[\[4\]](https://en.wikipedia.org/wiki/Kendall%27s_notation#cite_note-4)^
 
 ## HCP:
 

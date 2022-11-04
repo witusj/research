@@ -13,7 +13,7 @@ bibliography: bibliography.bib
 
     -   [ ] Uit @koeleman2012appointment:\
         \
-        "As neighbourhood of a schedule we choose all possible schedules made up of a shift of a patient from one interval to the one just before it compared to the current schedule, or if the patient is now scheduled at the first interval, to the last interval. Note that this is not the same neighbourhood as used in Kaandorp and Koole (2007) and Koeleman and Koole (2012), but smaller."
+        "As neighbourhood of a schedule we choose all possible schedules made up of a shift of a patient from one interval to the one just before it compared to the current schedule, or if the patient is now scheduled at the first interval, to the last interval. Note that this is not the same neighbourhood as used in Kaandorp and Koole (2007) and Koeleman and Koole (2012), but smaller." -\> Hoe kies je de patient die je laat opschuiven?
 
         -   [ ] Discussiepunt: Hoe kan ik een patient één slot laten opschuiven in een array met inter-arrival times?\
             \
