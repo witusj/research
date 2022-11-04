@@ -11,9 +11,7 @@ bibliography: bibliography.bib
 
 ## OAS:
 
--   \--:
-
-    -   \[ \]
+-   Implemented common random numbers in [simple scheduling simulation](https://witusj.github.io/research/experiments/sched-sim.html). Refactored notebook.
 
 ## HCP:
 
