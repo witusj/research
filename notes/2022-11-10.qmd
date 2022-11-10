@@ -1,0 +1,18 @@
+---
+title: "2022-11-10"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+editor: visual
+bibliography: bibliography.bib
+---
+
+## OAS:
+
+-   [ ] Uit @koeleman_optimal_2012:
+
+    "Then the amount of work arriving is the Y -fold convolution of the vector representing the service time for emergency patients, s(Y ) e ." See [List of convolutions of probability distributions](https://en.wikipedia.org/wiki/List_of_convolutions_of_probability_distributions#Discrete_distributions)
+
+$${\displaystyle \sum _{i=1}^{n}\mathrm {Poisson} (\lambda _{i})\sim \mathrm {Poisson} \left(\sum _{i=1}^{n}\lambda _{i}\right)\qquad \lambda _{i}>0}$$

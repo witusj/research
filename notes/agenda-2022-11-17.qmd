@@ -1,0 +1,20 @@
+---
+title: "Agenda 2022-10-20"
+format: html
+editor: visual
+bibliography: bibliography.bib
+---
+
+### Aanwezig: Witek / Ger / Joost
+
+-   [ ] OAS:
+
+    -   [ ] Uit @kong_appointment_2016
+
+        "The expected total idle time is given by $T + E[w_{n+1}] − E[\sum_{i=1}^{n}u_i]$. Therefore, we only need to adjust the value of the overtime cost co to incorporate the cost of physician idle time."
+
+        Uit @koeleman2012appointment:
+
+$$ \begin{aligned} C(x) &= \alpha W(x) + \gamma L(x) + \beta I(x)  \\ &= \alpha W(x) + \gamma L(x) + \beta (Td + L(x) - N\beta_s - \lambda T \beta_e) \end{aligned}$$
+
+-   [ ] HCP:

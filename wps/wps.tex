@@ -321,13 +321,12 @@ global optimum?
 - can knowledge about the problem (such as monotonicity in a parameter)
 be included in a smart way in the prediction model?
 
-\hypertarget{applications-for-outbound-appointment-systems}{%
-\subsection{Applications for outbound appointment
-systems}\label{applications-for-outbound-appointment-systems}}
+\hypertarget{applications-for-and-purpose-of-outbound-appointment-systems}{%
+\subsection{Applications for and purpose of outbound appointment
+systems}\label{applications-for-and-purpose-of-outbound-appointment-systems}}
 
-Ahmadi-javid e.a. \citep{ahmadijavid_outpatient_2017} distinguish
-between three types of decisions for designing Outpatient Appointment
-Systems (OASs):
+\citep{ahmadijavid_outpatient_2017} distinguish between three types of
+decisions for designing Outpatient Appointment Systems (OASs):
 
 \begin{itemize}
 \tightlist
@@ -342,26 +341,91 @@ Systems (OASs):
   individual patients
 \end{itemize}
 
-\hypertarget{materials-and-methods}{%
-\section{Materials and methods}\label{materials-and-methods}}
+\citep{ala_appointment_2022} mention four categories of OASs purposes:
 
-\hypertarget{etiam-eget-sapien-nibh}{%
-\subsection{Etiam eget sapien nibh}\label{etiam-eget-sapien-nibh}}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Reducing costs
+\item
+  Increasing patient satisfaction
+\item
+  Lowering waiting time
+\item
+  Improving fairness
+\end{enumerate}
 
-Nulla mi mi, Fig~\ref{fig1} venenatis sed ipsum varius, volutpat euismod
-diam. Proin rutrum vel massa non gravida. Quisque tempor sem et
-dignissim rutrum. Lorem ipsum dolor sit amet, consectetur adipiscing
-elit. Morbi at justo vitae nulla elementum commodo eu id massa. In vitae
-diam ac augue semper tincidunt eu ut eros. Fusce fringilla erat
-porttitor lectus cursus, vel sagittis arcu lobortis. Aliquam in enim
-semper, aliquam massa id, cursus neque. Praesent faucibus semper libero.
+\hypertarget{problem-description-and-solution-methods}{%
+\section{Problem description and solution
+methods}\label{problem-description-and-solution-methods}}
 
-% Place figure captions after the first paragraph in which they are cited.
-\begin{figure}[!h]
-\caption{{\bf Bold the figure title.}
-Figure caption text here, please use this space for the figure panel descriptions instead of using subfigure commands. A: Lorem ipsum dolor sit amet. B: Consectetur adipiscing elit.}
-\label{fig1}
+A schedule is a vector \(X\) consisting of \(T\) elements in which each
+element represents the number of patients scheduled at interval \(t\):
+
+\[
+X = [x_0, x_1, ....x_{T-1}]
+\]
+
+with
+
+\[
+\displaystyle\sum_{t=0} ^{T-1} x_t = N,\ x_t \in \mathbb{N}_0
+\]
+
+Patients are scheduled at fixed intervals with length \(d\).
+
+\begin{figure}
+
+{\centering \includegraphics{schedule.png}
+
+}
+
+\caption{A schedule
+\(X = [2, 0, 1, 1, 1, 1, 0, 1], T = 8, N = 7, d = 15\)}
+
 \end{figure}
+
+Each patient has two endogenous features: type and service time, which
+are both indepent and identically distributed variables. In our model we
+assume there are two patient types: standard and emergency. There is a
+probability \(q\) that a patient has an emergency. Service times have
+known distributions with mean \(\beta_s\) and \(\beta_e\) for standard
+and emergency patients respectively.
+
+All standard patients are assumed to be punctual. The arrival rate of
+emergency patients has a Poisson distribution with mean \(\lambda\).
+Emergency patients get priority over standard patients that are waiting.
+If several emergency patients are waiting they are served in order of
+arrival.
+
+The cost function consists of three elements:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The waiting time for patients: \(W(x)\)
+\item
+  The waiting or idle time for physicians: \(I(x)\)
+\item
+  The lateness or over-time of physicians: \(L(x)\)
+\end{enumerate}
+
+and becomes:
+
+\[
+C(x) = \alpha W(x) + \beta I(x) + \gamma L(x)
+\]
+
+The weights \(\alpha, \beta,\gamma \geq0\) can be set to reflect the
+relative importance of each cost element.
+
+The problem is to find a schedule \(X\) that minimizes the cost function
+\(C(x)\):
+
+\[
+min\{C(x)|\displaystyle\sum_{t=0} ^{T-1} x_t = N, x_t \in \mathbb{N}_0\}
+\]
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
