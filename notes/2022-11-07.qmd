@@ -1,0 +1,45 @@
+---
+title: "2022-10-20"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+editor: visual
+bibliography: bibliography.bib
+---
+
+## OAS:
+
+-   [ ] Peer review - tips Ger (is editor):
+
+    -   [ ] Klopt het?
+
+    -   [ ] Innovatie
+
+-   [ ] Inter-arrival rates kunnen worden beschouwd als tweede afgeleiden van arrival times. Kan dit worden gekoppeld aan effectiviteit algoritme?
+
+-   [ ] Idee: bekijk probleemdefiniering in andere artikelen
+
+-   [ ] Interessant: @klassen_improving_2009 \>\> SimOpt
+
+## HCP:
+
+![](images/notesrene20221103.jpeg)
+
+-   Schrijfsessie:
+    -   TODO: Teams opschonen
+
+    -   TODO: Categorieen maken rural / suburban / urban
+
+    -   TODO: Grafiek aantal nieuwe patienten in een week
+
+    -   TODO: Gemiddeld \# nwe clienten + sd
+
+    -   TODO: Histogram \# weken in zorg \>\> [VB](https://www.sciencedirect.com/science/article/pii/S0377221721011000)
+
+    -   TODO: Histogram \# uren zorg per client per week
+
+    -   TODO: Capaciteit contractueel per team per week vergelijken met vraag / Rekening houden met uitval / Percentages opvragen bij Carinova /
+
+    -   CSV op Surfdrive

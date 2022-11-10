@@ -8,7 +8,7 @@
 
 <meta name="author" content="Witek ten Hove">
 
-<title>2022-11-03</title>
+<title>2022-10-20</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -16,19 +16,38 @@ span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
-<script src="2022-11-03_files/libs/clipboard/clipboard.min.js"></script>
-<script src="2022-11-03_files/libs/quarto-html/quarto.js"></script>
-<script src="2022-11-03_files/libs/quarto-html/popper.min.js"></script>
-<script src="2022-11-03_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="2022-11-03_files/libs/quarto-html/anchor.min.js"></script>
-<link href="2022-11-03_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="2022-11-03_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="2022-11-03_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="2022-11-03_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="2022-11-03_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="2022-11-07_files/libs/clipboard/clipboard.min.js"></script>
+<script src="2022-11-07_files/libs/quarto-html/quarto.js"></script>
+<script src="2022-11-07_files/libs/quarto-html/popper.min.js"></script>
+<script src="2022-11-07_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="2022-11-07_files/libs/quarto-html/anchor.min.js"></script>
+<link href="2022-11-07_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="2022-11-07_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="2022-11-07_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="2022-11-07_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="2022-11-07_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 
@@ -43,7 +62,7 @@ ul.task-list{list-style: none;}
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">2022-11-03</h1>
+<h1 class="title">2022-10-20</h1>
 </div>
 
 
@@ -65,26 +84,46 @@ ul.task-list{list-style: none;}
 
 <section id="oas" class="level2">
 <h2 class="anchored" data-anchor-id="oas">OAS:</h2>
-<ul>
-<li>Implemented common random numbers in <a href="https://witusj.github.io/research/experiments/sched-sim.html">simple scheduling simulation</a>. Refactored notebook.</li>
-<li><strong>Kendall’s notation</strong> (or sometimes <strong>Kendall notation</strong>) is the standard system used to describe and classify a queueing node. <a href="https://en.wikipedia.org/wiki/David_George_Kendall" title="David George Kendall">D. G. Kendall</a> proposed describing queueing models using three factors written A/S/<em>c</em> in 1953<sup><a href="https://en.wikipedia.org/wiki/Kendall%27s_notation#cite_note-1">[1]</a></sup> where A denotes the time between arrivals to the queue, S the service time distribution and <em>c</em> the number of service channels open at the node. It has since been extended to A/S/<em>c</em>/<em>K</em>/<em>N</em>/D where <em>K</em> is the capacity of the queue, <em>N</em> is the size of the population of jobs to be served, and D is the <a href="https://en.wikipedia.org/wiki/Queueing_discipline" title="Queueing discipline">queueing discipline</a>.<sup><a href="https://en.wikipedia.org/wiki/Kendall%27s_notation#cite_note-2">[2]</a><a href="https://en.wikipedia.org/wiki/Kendall%27s_notation#cite_note-3">[3]</a><a href="https://en.wikipedia.org/wiki/Kendall%27s_notation#cite_note-4">[4]</a></sup></li>
+<ul class="task-list">
+<li><p><input type="checkbox" disabled="">
+Peer review - tips Ger (is editor):</p><ul class="task-list">
+<li><p><input type="checkbox" disabled="">
+Klopt het?</p></li>
+<li><p><input type="checkbox" disabled="">
+Innovatie</p></li>
+</ul></li>
+<li><p><input type="checkbox" disabled="">
+Inter-arrival rates kunnen worden beschouwd als tweede afgeleiden van arrival times. Kan dit worden gekoppeld aan effectiviteit algoritme?</p></li>
+<li><p><input type="checkbox" disabled="">
+Idee: bekijk probleemdefiniering in andere artikelen</p></li>
+<li><p><input type="checkbox" disabled="">
+Interessant: <span class="citation" data-cites="klassen_improving_2009">Klassen and Yoogalingam (<a href="#ref-klassen_improving_2009" role="doc-biblioref">2009</a>)</span> &gt;&gt; SimOpt</p></li>
 </ul>
 </section>
 <section id="hcp" class="level2">
 <h2 class="anchored" data-anchor-id="hcp">HCP:</h2>
-<ul>
-<li>Gesprek met Carinova &gt;&gt; review data analyses.</li>
-</ul>
 <p><img src="images/notesrene20221103.jpeg" class="img-fluid"></p>
-</section>
-<section id="other" class="level2">
-<h2 class="anchored" data-anchor-id="other">Other</h2>
 <ul>
-<li>Androniki (Anni) Sapountzi: <a href="https://www.davidsilver.uk/teaching/" class="uri">https://www.davidsilver.uk/teaching/</a></li>
+<li>Schrijfsessie:
+<ul>
+<li><p>TODO: Teams opschonen</p></li>
+<li><p>TODO: Categorieen maken rural / suburban / urban</p></li>
+<li><p>TODO: Grafiek aantal nieuwe patienten in een week</p></li>
+<li><p>TODO: Gemiddeld # nwe clienten + sd</p></li>
+<li><p>TODO: Histogram # weken in zorg &gt;&gt; <a href="https://www.sciencedirect.com/science/article/pii/S0377221721011000">VB</a></p></li>
+<li><p>TODO: Histogram # uren zorg per client per week</p></li>
+<li><p>TODO: Capaciteit contractueel per team per week vergelijken met vraag / Rekening houden met uitval / Percentages opvragen bij Carinova /</p></li>
+<li><p>CSV op Surfdrive</p></li>
+</ul></li>
 </ul>
+
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-klassen_improving_2009" class="csl-entry" role="doc-biblioentry">
+Klassen, Kenneth J., and Reena Yoogalingam. 2009. <span>“Improving <span>Performance</span> in <span>Outpatient</span> <span>Appointment</span> <span>Services</span> with a <span>Simulation</span> <span>Optimization</span> <span>Approach</span>.”</span> <em>Production and Operations Management</em> 18 (4): 447–58. <a href="https://doi.org/10.1111/j.1937-5956.2009.01021.x">https://doi.org/10.1111/j.1937-5956.2009.01021.x</a>.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
