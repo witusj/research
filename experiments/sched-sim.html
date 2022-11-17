@@ -160,15 +160,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p><strong>logs</strong> a boolean flag: should results be printed (<code>True</code>) or not (<code>False</code>)?</p></li>
 </ul>
 <p>Returns an array of waiting times.</p></li>
-</ul>
-<!-- -->
-<ul>
 <li><p><code>simulate_crn(iats, cts, sts, logs=False)</code> simulates one schedule using common random numbers.:</p>
 <ul>
 <li><p><strong>iats</strong> is an array with interarrival times for each client</p></li>
 <li><p><strong>cts</strong> is an array with randomly generated client types. Must have same length as <strong>iats</strong>.</p></li>
 <li><p><strong>sts</strong> is an array with randomly generated service times (with zeros for no-shows). Must have same length as <strong>iats</strong>.</p></li>
 <li><p><strong>logs</strong> a boolean flag: should results be printed (<code>True</code>) or not (<code>False</code>)?</p></li>
+</ul>
+<p>Returns an array of waiting times.</p></li>
+<li><p><code>transform_iats_schedule(iats: list[int], d: int, T: int)</code> transforms a list with inter-arrival times per client to a schedule with clients per time slot.:</p>
+<ul>
+<li><strong>iats</strong> is a list with interarrival times per client as integers</li>
+<li><strong>d</strong> is the length of a time slot</li>
+<li><strong>T</strong> is the number of intervals in the schedule Returns an array of number of clients.</li>
+</ul></li>
+<li><p><code>transform_schedule_iats(schedule: list[int], d: int)</code> transforms a schedule with clients per time slot to a list with inter-arrival times per client :</p>
+<ul>
+<li><strong>schedule</strong>is a list with muber of clients per time slot as integers</li>
+<li><strong>d</strong> is the length of a time slot Returns an array of inter-arrival times.</li>
 </ul></li>
 </ul>
 <div class="cell" data-execution_count="2">
@@ -223,20 +232,50 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    tis <span class="op">=</span> wt <span class="op">+</span> st <span class="co"># calculate time in system</span></span>
 <span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    wts.append(wt)</span>
 <span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(logs): <span class="bu">print</span>(iats[i], wt, st, tis, ct)</span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> np.array(wts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> np.array(wts)</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> transform_iats_schedule(iats: <span class="bu">list</span>, d: <span class="bu">int</span>, T: <span class="bu">int</span>):</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>  iats <span class="op">=</span> np.array(iats)</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  ats <span class="op">=</span> np.cumsum(iats)</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>  sats <span class="op">=</span> np.arange(d<span class="op">*</span>T,step <span class="op">=</span> d)</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  schedule <span class="op">=</span> np.histogram(ats, bins<span class="op">=</span>sats)</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> schedule</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="co">##############</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a><span class="co">#### </span><span class="al">TEST</span><span class="co"> ####</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>transform_iats_schedule([<span class="dv">0</span>, <span class="dv">0</span> ,<span class="dv">30</span>, <span class="dv">0</span>, <span class="dv">60</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">60</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>], d <span class="op">=</span> <span class="dv">15</span>, T <span class="op">=</span> <span class="dv">12</span>)</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a><span class="co">##############</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> transform_schedule_iats(schedule: <span class="bu">list</span>, d: <span class="bu">int</span>):</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>  schedule <span class="op">=</span> np.array(schedule)</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>  T <span class="op">=</span> schedule.size</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>  sats <span class="op">=</span> np.arange(d<span class="op">*</span>T,step <span class="op">=</span> d)</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>  ats <span class="op">=</span> np.repeat(sats, schedule)</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>  iats <span class="op">=</span> np.diff(ats)</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>  iats <span class="op">=</span> np.insert(iats, <span class="dv">0</span>, ats[<span class="dv">0</span>])</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> iats</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a><span class="co">##############</span></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a><span class="co">#### </span><span class="al">TEST</span><span class="co"> ####</span></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>schedule <span class="op">=</span> transform_iats_schedule([<span class="dv">0</span>, <span class="dv">0</span> ,<span class="dv">30</span>, <span class="dv">0</span>, <span class="dv">60</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">60</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>], d <span class="op">=</span> <span class="dv">15</span>, T <span class="op">=</span> <span class="dv">12</span>)[<span class="dv">0</span>]</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>transform_schedule_iats(schedule, d <span class="op">=</span> <span class="dv">15</span>)</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="co">##############</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>array([ 0,  0, 30,  0, 60,  0,  0,  0, 60,  0,  0,  0])</code></pre>
+</div>
 </div>
 <p>Configure global simulation parameters.</p>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Variables</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>cts <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>]) <span class="co"># client types</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>pct <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>]) <span class="co"># distribution of client types -&gt; normal or emergency</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># sts = np.array([14, 14, 14, 15, 16]) # service times - for simple numerical testing</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># sts = np.random.poisson(lam=14, size=1000) - using poisson distribution</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> <span class="fl">0.1</span> <span class="co"># Percentage of no-shows</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>nsims <span class="op">=</span> <span class="dv">100000</span> <span class="co"># number of simulations</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>logs <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Variables</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>cts <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>]) <span class="co"># client types</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>pct <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">0</span>]) <span class="co"># distribution of client types -&gt; normal or emergency</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># sts = np.array([14, 14, 14, 15, 16]) # service times - for simple numerical testing</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># sts = np.random.poisson(lam=14, size=1000) - using poisson distribution</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> <span class="fl">0.1</span> <span class="co"># Percentage of no-shows</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>nsims <span class="op">=</span> <span class="dv">100000</span> <span class="co"># number of simulations</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>logs <span class="op">=</span> <span class="va">False</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="run-simulation-1" class="level2">
@@ -244,38 +283,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="images/slideger1.png" class="img-fluid"></p>
 <p>Configure parameters.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># configure parameters</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>lnm <span class="op">=</span> <span class="dv">14</span> </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>lns <span class="op">=</span> <span class="dv">5</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>sts <span class="op">=</span> generate_logn_sts(<span class="dv">1</span>, <span class="dv">1000</span>, lnm, lns)[<span class="dv">0</span>] <span class="co"># sampling population for array service times</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>iats <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>]) <span class="co"># inter-arrival times</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>nsims <span class="op">=</span> nsims <span class="co"># number of simulations</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>ctsm <span class="op">=</span> np.random.choice(cts, size <span class="op">=</span> (nsims <span class="op">*</span> <span class="bu">len</span>(iats)), p<span class="op">=</span>pct).reshape((nsims, <span class="bu">len</span>(iats))) <span class="co"># client types matrix</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> np.random.lognormal(mean <span class="op">=</span> logn_mean_lns(lnm, lns)[<span class="dv">0</span>], sigma<span class="op">=</span>logn_mean_lns(lnm, lns)[<span class="dv">1</span>], size<span class="op">=</span>(nsims <span class="op">*</span> <span class="bu">len</span>(iats))).reshape((nsims, <span class="bu">len</span>(iats))) <span class="co"># service times matrix</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>nsm <span class="op">=</span> np.random.binomial(n<span class="op">=</span><span class="dv">1</span>, p<span class="op">=</span><span class="dv">1</span><span class="op">-</span>ns, size <span class="op">=</span> nsims <span class="op">*</span> <span class="bu">len</span>(iats)).reshape((nsims, <span class="bu">len</span>(iats))) <span class="co"># no-shows matrix</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> stsm <span class="op">*</span> nsm <span class="co"># service times matrix with no-shows</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>simres <span class="op">=</span> [] <span class="co"># array for saving simulation results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># configure parameters</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>lnm <span class="op">=</span> <span class="dv">14</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>lns <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>sts <span class="op">=</span> generate_logn_sts(<span class="dv">1</span>, <span class="dv">1000</span>, lnm, lns)[<span class="dv">0</span>] <span class="co"># sampling population for array service times</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>iats <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>]) <span class="co"># inter-arrival times</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>nsims <span class="op">=</span> nsims <span class="co"># number of simulations</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>ctsm <span class="op">=</span> np.random.choice(cts, size <span class="op">=</span> (nsims <span class="op">*</span> <span class="bu">len</span>(iats)), p<span class="op">=</span>pct).reshape((nsims, <span class="bu">len</span>(iats))) <span class="co"># client types matrix</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> np.random.lognormal(mean <span class="op">=</span> logn_mean_lns(lnm, lns)[<span class="dv">0</span>], sigma<span class="op">=</span>logn_mean_lns(lnm, lns)[<span class="dv">1</span>], size<span class="op">=</span>(nsims <span class="op">*</span> <span class="bu">len</span>(iats))).reshape((nsims, <span class="bu">len</span>(iats))) <span class="co"># service times matrix</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>nsm <span class="op">=</span> np.random.binomial(n<span class="op">=</span><span class="dv">1</span>, p<span class="op">=</span><span class="dv">1</span><span class="op">-</span>ns, size <span class="op">=</span> nsims <span class="op">*</span> <span class="bu">len</span>(iats)).reshape((nsims, <span class="bu">len</span>(iats))) <span class="co"># no-shows matrix</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> stsm <span class="op">*</span> nsm <span class="co"># service times matrix with no-shows</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>simres <span class="op">=</span> [] <span class="co"># array for saving simulation results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Run simulations.</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run simulations</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># experiment = simulate(iats, cts, sts, pct, ns, logs=logs)</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  experiment <span class="op">=</span> simulate_crn(iats, ctsm[s], stsm[s], logs<span class="op">=</span>logs)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  simres.append(experiment.mean())</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>mwt <span class="op">=</span> np.array(simres).mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run simulations</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># experiment = simulate(iats, cts, sts, pct, ns, logs=logs)</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  experiment <span class="op">=</span> simulate_crn(iats, ctsm[s], stsm[s], logs<span class="op">=</span>logs)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  simres.append(experiment.mean())</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>mwt <span class="op">=</span> np.array(simres).mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Plot histogram of waiting times</p>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram of waiting times</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sns.histplot(simres)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>fig.<span class="bu">set</span>(title<span class="op">=</span><span class="ss">f"Mean waiting time= </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>[Text(0.5, 1.0, 'Mean waiting time= 3.1105538612852706')]</code></pre>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram of waiting times</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sns.histplot(simres)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>fig.<span class="bu">set</span>(title<span class="op">=</span><span class="ss">f"Mean waiting time= </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<pre><code>[Text(0.5, 1.0, 'Mean waiting time= 3.118081362218501')]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="sched-sim_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
+<p><img src="sched-sim_files/figure-html/cell-7-output-2.png" width="602" height="424"></p>
 </div>
 </div>
 </section>
@@ -284,39 +323,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="images/slideger2.png" class="img-fluid"></p>
 <p>Configure parameters.</p>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure parameters</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>lnm <span class="op">=</span> <span class="dv">14</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>lns <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>sts <span class="op">=</span> generate_logn_sts(<span class="dv">1</span>, <span class="dv">1000</span>, lnm, lns)[<span class="dv">0</span>] <span class="co"># sampling population for array service times</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>iats <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>]) <span class="co"># inter-arrival times</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>nSƒims <span class="op">=</span> nsims <span class="co"># number of silnmlations</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>ctsm <span class="op">=</span> np.random.choice(cts, size <span class="op">=</span> (nsims <span class="op">*</span> <span class="bu">len</span>(iats)), p<span class="op">=</span>pct).reshape((nsims, <span class="bu">len</span>(iats))) <span class="co"># client types matrix</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> np.random.lognormal(mean <span class="op">=</span> logn_mean_lns(lnm, lns)[<span class="dv">0</span>], sigma<span class="op">=</span>logn_mean_lns(lnm, lns)[<span class="dv">1</span>], size<span class="op">=</span>(nsims <span class="op">*</span> <span class="bu">len</span>(iats))).reshape((nsims, <span class="bu">len</span>(iats))) <span class="co"># service times matrix</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>nsm <span class="op">=</span> np.random.binomial(n<span class="op">=</span><span class="dv">1</span>, p<span class="op">=</span><span class="dv">1</span><span class="op">-</span>ns, size <span class="op">=</span> nsims <span class="op">*</span> <span class="bu">len</span>(iats)).reshape((nsims, <span class="bu">len</span>(iats))) <span class="co"># no-shows matrix</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> stsm <span class="op">*</span> nsm <span class="co"># service times matrix with no-shows</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>simres <span class="op">=</span> [] <span class="co"># array for saving silnmlation results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure parameters</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>lnm <span class="op">=</span> <span class="dv">14</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>lns <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>sts <span class="op">=</span> generate_logn_sts(<span class="dv">1</span>, <span class="dv">1000</span>, lnm, lns)[<span class="dv">0</span>] <span class="co"># sampling population for array service times</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>iats <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>, <span class="dv">15</span>]) <span class="co"># inter-arrival times</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>nSƒims <span class="op">=</span> nsims <span class="co"># number of silnmlations</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>ctsm <span class="op">=</span> np.random.choice(cts, size <span class="op">=</span> (nsims <span class="op">*</span> <span class="bu">len</span>(iats)), p<span class="op">=</span>pct).reshape((nsims, <span class="bu">len</span>(iats))) <span class="co"># client types matrix</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> np.random.lognormal(mean <span class="op">=</span> logn_mean_lns(lnm, lns)[<span class="dv">0</span>], sigma<span class="op">=</span>logn_mean_lns(lnm, lns)[<span class="dv">1</span>], size<span class="op">=</span>(nsims <span class="op">*</span> <span class="bu">len</span>(iats))).reshape((nsims, <span class="bu">len</span>(iats))) <span class="co"># service times matrix</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>nsm <span class="op">=</span> np.random.binomial(n<span class="op">=</span><span class="dv">1</span>, p<span class="op">=</span><span class="dv">1</span><span class="op">-</span>ns, size <span class="op">=</span> nsims <span class="op">*</span> <span class="bu">len</span>(iats)).reshape((nsims, <span class="bu">len</span>(iats))) <span class="co"># no-shows matrix</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> stsm <span class="op">*</span> nsm <span class="co"># service times matrix with no-shows</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>simres <span class="op">=</span> [] <span class="co"># array for saving silnmlation results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Run simulations.</p>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run simulations</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># experiment = simulate(iats, cts, sts, pct, ns, logs=logs)</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  experiment <span class="op">=</span> simulate_crn(iats, ctsm[s], stsm[s], logs<span class="op">=</span>logs)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  simres.append(experiment.mean())</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>mwt <span class="op">=</span> np.array(simres).mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run simulations</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># experiment = simulate(iats, cts, sts, pct, ns, logs=logs)</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  experiment <span class="op">=</span> simulate_crn(iats, ctsm[s], stsm[s], logs<span class="op">=</span>logs)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  simres.append(experiment.mean())</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>mwt <span class="op">=</span> np.array(simres).mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Plot histogram of waiting times.</p>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram of waiting times</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sns.histplot(simres)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>fig.<span class="bu">set</span>(title<span class="op">=</span><span class="ss">f"Mean waiting time = </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>[Text(0.5, 1.0, 'Mean waiting time = 11.120220566496982')]</code></pre>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram of waiting times</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sns.histplot(simres)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>fig.<span class="bu">set</span>(title<span class="op">=</span><span class="ss">f"Mean waiting time = </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="39">
+<pre><code>[Text(0.5, 1.0, 'Mean waiting time = 11.199598568170536')]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="sched-sim_files/figure-html/cell-10-output-2.png" class="img-fluid"></p>
+<p><img src="sched-sim_files/figure-html/cell-10-output-2.png" width="602" height="424"></p>
 </div>
 </div>
 </section>
@@ -325,35 +364,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="images/slideger3.png" class="img-fluid"></p>
 <p>Configure parameters.</p>
 <div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># configure parameters</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>lnm <span class="op">=</span> <span class="dv">14</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>lns <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>sts <span class="op">=</span> generate_logn_sts(<span class="dv">1</span>, <span class="dv">1000</span>, lnm, lns)[<span class="dv">0</span>] <span class="co"># sampling population for array service times</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>iats <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">60</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">60</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]) <span class="co"># inter-arrival times</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>nsims <span class="op">=</span> nsims <span class="co"># number of simulations</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>simres <span class="op">=</span> [] <span class="co"># array for saving simulation results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># configure parameters</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>lnm <span class="op">=</span> <span class="dv">14</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>lns <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>sts <span class="op">=</span> generate_logn_sts(<span class="dv">1</span>, <span class="dv">1000</span>, lnm, lns)[<span class="dv">0</span>] <span class="co"># sampling population for array service times</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>iats <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">60</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">60</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]) <span class="co"># inter-arrival times</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>nsims <span class="op">=</span> nsims <span class="co"># number of simulations</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>simres <span class="op">=</span> [] <span class="co"># array for saving simulation results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Run simulations.</p>
 <div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run simulations</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># experiment = simulate(iats, cts, sts, pct, ns, logs=logs)</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  experiment <span class="op">=</span> simulate_crn(iats, ctsm[s], stsm[s], logs<span class="op">=</span>logs)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  simres.append(experiment.mean())</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>mwt <span class="op">=</span> np.array(simres).mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run simulations</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> s <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># experiment = simulate(iats, cts, sts, pct, ns, logs=logs)</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  experiment <span class="op">=</span> simulate_crn(iats, ctsm[s], stsm[s], logs<span class="op">=</span>logs)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  simres.append(experiment.mean())</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>mwt <span class="op">=</span> np.array(simres).mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Plot histogram of waiting times</p>
 <div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram of waiting times</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sns.histplot(simres)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>fig.<span class="bu">set</span>(title<span class="op">=</span><span class="ss">f"Mean waiting time = </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
-<pre><code>[Text(0.5, 1.0, 'Mean waiting time = 22.748747665487876')]</code></pre>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram of waiting times</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> sns.histplot(simres)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>fig.<span class="bu">set</span>(title<span class="op">=</span><span class="ss">f"Mean waiting time = </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="42">
+<pre><code>[Text(0.5, 1.0, 'Mean waiting time = 22.81022074893691')]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="sched-sim_files/figure-html/cell-13-output-2.png" class="img-fluid"></p>
+<p><img src="sched-sim_files/figure-html/cell-13-output-2.png" width="602" height="424"></p>
 </div>
 </div>
 </section>
