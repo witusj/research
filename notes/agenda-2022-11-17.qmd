@@ -1,5 +1,5 @@
 ---
-title: "Agenda 2022-10-20"
+title: "Agenda 2022-11-17"
 format: html
 editor: visual
 bibliography: bibliography.bib
@@ -9,7 +9,9 @@ bibliography: bibliography.bib
 
 -   [ ] OAS:
 
-    -   [ ] 
+    -   [ ] [simulatie](https://witusj.github.io/research/experiments/sched-sim.html)
+
+    -   [ ] Vraag over ![](images/convolution.png)
 
     -   [ ] Uit @kong_appointment_2016
 
