@@ -65,8 +65,6 @@ Define functions:
 
     Returns an array of waiting times.
 
-<!-- -->
-
 -   `simulate_crn(iats, cts, sts, logs=False)` simulates one schedule using common random numbers.:
 
     -   **iats** is an array with interarrival times for each client
@@ -76,6 +74,19 @@ Define functions:
     -   **sts** is an array with randomly generated service times (with zeros for no-shows). Must have same length as **iats**.
 
     -   **logs** a boolean flag: should results be printed (`True`) or not (`False`)?
+
+    Returns an array of waiting times.
+
+-   `transform_iats_schedule(iats: list[int], d: int, T: int)` transforms a list with inter-arrival times per client to a schedule with clients per time slot.:
+
+    -   **iats** is a list with interarrival times per client as integers
+    -   **d** is the length of a time slot
+    -   **T** is the number of intervals in the schedule Returns an array of number of clients.
+
+-   `transform_schedule_iats(schedule: list[int], d: int)` transforms a schedule with clients per time slot to a list with inter-arrival times per client :
+
+    -   **schedule**is a list with muber of clients per time slot as integers
+    -   **d** is the length of a time slot Returns an array of inter-arrival times.
 
 ```{python}
 
@@ -131,6 +142,33 @@ def simulate_crn(iats, cts, sts, logs=False):
     wts.append(wt)
     if(logs): print(iats[i], wt, st, tis, ct)
   return np.array(wts)
+
+def transform_iats_schedule(iats: list, d: int, T: int):
+  iats = np.array(iats)
+  ats = np.cumsum(iats)
+  sats = np.arange(d*T,step = d)
+  schedule = np.histogram(ats, bins=sats)
+  return schedule
+
+##############
+#### TEST ####
+transform_iats_schedule([0, 0 ,30, 0, 60, 0, 0, 0, 60, 0, 0, 0], d = 15, T = 12)
+##############
+
+def transform_schedule_iats(schedule: list, d: int):
+  schedule = np.array(schedule)
+  T = schedule.size
+  sats = np.arange(d*T,step = d)
+  ats = np.repeat(sats, schedule)
+  iats = np.diff(ats)
+  iats = np.insert(iats, 0, ats[0])
+  return iats
+
+##############
+#### TEST ####
+schedule = transform_iats_schedule([0, 0 ,30, 0, 60, 0, 0, 0, 60, 0, 0, 0], d = 15, T = 12)[0]
+transform_schedule_iats(schedule, d = 15)
+##############
 
 
 ```
