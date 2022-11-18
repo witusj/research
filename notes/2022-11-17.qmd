@@ -1,0 +1,14 @@
+---
+title: "2022-11-17"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+editor: visual
+bibliography: bibliography.bib
+---
+
+## OAS:
+
+-   [ ] Lateness equals the waiting time of one patient added after the schedule.
