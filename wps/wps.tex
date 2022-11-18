@@ -341,6 +341,241 @@ decisions for designing Outpatient Appointment Systems (OASs):
   individual patients
 \end{itemize}
 
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2252}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1892}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1261}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4414}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Decision level}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Code}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Name (in alphabetical order)}
+\end{minipage} \\
+\midrule()
+\endhead
+\textbf{Design decisions} & Strategic & S1 & Access policy \\
+& & S2 & Number of servers/resources \\
+& & S3 & Policy on acceptance of walk-ins \\
+& & S4 & \begin{minipage}[t]{\linewidth}\raggedright
+Type of scheduling\\
+\strut
+\end{minipage} \\
+\textbf{Planning decisions} & Tactical & T1 & Allocation of capacity to
+patient groups \\
+& & T2 & Appointment interval (slot) \\
+& & T3 & Appointment scheduling window \\
+& & T4 & Block size \\
+& & T5 & Number of appointments in consultation session \\
+& & T6 & Panel size \\
+& & T7 & \begin{minipage}[t]{\linewidth}\raggedright
+Priority of patient groups\\
+\strut
+\end{minipage} \\
+& Operational & O1 & Allocation of patients to servers/resources \\
+& & O2 & Appointment day \\
+& & O3 & Appointment time \\
+& & O4 & Patient acceptance/rejection \\
+& & O5 & Patient selection from waiting list \\
+& & O6 & Patient sequence \\
+\bottomrule()
+\end{longtable}
+
+They labeled articles on OASs by decision type, solution method and
+modeling approach.
+
+\includegraphics{images/ahmadi2.jpeg}
+
+In this article we will be using a single-stage stochastic programming
+(1-SSP) modeling approach.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.2449}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1182}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.0445}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.0908}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1027}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1233}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1849}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.0411}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.0377}}@{}}
+\caption{Selection of articles taken from
+\citep{ahmadijavid_outpatient_2017} with single-stage stochastic
+programming (1-SSP) as the modeling approach.}\tabularnewline
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Reference}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tactical and operational decisions}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Access policy}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Type of scheduling: online (On), offline (Off)}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Number of servers/resources: single (S), multiple (M)}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Policy on acceptance of walk-ins: allowed (Yes), not allowed
+(No)}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Objective: minimize (Min.), maximize (Max.)}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Modeling approach}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Solution method}
+\end{minipage} \\
+\midrule()
+\endfirsthead
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Reference}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Tactical and operational decisions}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Access policy}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Type of scheduling: online (On), offline (Off)}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Number of servers/resources: single (S), multiple (M)}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Policy on acceptance of walk-ins: allowed (Yes), not allowed
+(No)}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Objective: minimize (Min.), maximize (Max.)}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Modeling approach}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Solution method}
+\end{minipage} \\
+\midrule()
+\endhead
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0008}{\textbf{(}Begen
+\& Queyranne, 2011}\textbf{)} & O3 (OBA) & Traditional & Off & S & Yes
+(urgent) & Min. costs of waiting time, idle time, and overtime & 1-SSP &
+AM \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0018}{\textbf{(}Chakraborty
+et al., 2010}\textbf{)} & O3/O4 (OBA) (integrated) & Open-access & On &
+S & No & Max. profit (revenue of patients seen -- costs of patients
+overflowing between each two successive slots) & 1-SSP & AM/H \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0019}{\textbf{(}Chakraborty
+et al., 2013}\textbf{)} & O3/O4 (OBA) (integrated) & Hybrid & On & S &
+No & Max. profit (revenue of patients seen -- costs of waiting time and
+overtime) & 1-SSP & AM/H \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0074}{\textbf{(}LaGanga
+\& Lawrence, 2012}\textbf{)} & T4/T5 (integrated) & Traditional & - & S
+& No & Max. profit (revenue of patients seen -- costs of waiting time
+and overtime) & 1-SSP & AM/H \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0093}{\textbf{(}Muthuraman
+\& Lawley, 2008}\textbf{)} & O3 (OBA) & Open-access & On & S & No & Max.
+profit (revenue of patients seen -- costs of waiting time and overtime)
+& 1-SSP & AM/H \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0121}{\textbf{(}Samorani
+\& Ganguly, 2016}\textbf{)} & O6 (for unpunctual patient) (OBA) & - & -
+& S & No & Min. costs of waiting time and idle time & 1-SSP & AM/H \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0148}{\textbf{(}Zacharias
+\& Pinedo, 2014}\textbf{)} & \begin{minipage}[t]{\linewidth}\raggedright
+T4/O3/O6 (heterogeneous patients) (RBA)\\
+(integrated)T4/O3 (homogeneous patients) (OBA)(integrated)\strut
+\end{minipage} & Traditional &
+\begin{minipage}[t]{\linewidth}\raggedright
+Off\\
+\strut \\
+\strut \\
+On\strut
+\end{minipage} & S & No & Min. costs of waiting time, idle time, and
+overtime & 1-SSP & AM/H \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0149}{\textbf{(}Zeng
+et al., 2010}\textbf{)} & \begin{minipage}[t]{\linewidth}\raggedright
+T1/T4/O3 (OBA) (integrated)\\
+O3/O4 (OBA) (integrated)\strut
+\end{minipage} & Traditional Open-access & Off On & S & No & Max. profit
+(revenue of patients seen -- costs of waiting time and overtime) & 1-SSP
+- & AM/H H \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0059}{\textbf{(}Kaandorp
+\& Koole, 2007}\textbf{)} & T4/O3 (OBA) (integrated) & Traditional & - &
+S & No & Min. costs of waiting time, idle time, and overtime & 1-SSP &
+AM/O \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0067}{\textbf{(}Koeleman
+\& Koole, 2012}\textbf{)} & T4/O3 (OBA) (integrated) & - & - & S & Yes
+(Urgent) & Min. costs of waiting time, idle time, and overtime & 1-SSP &
+AM/O \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0151}{\textbf{(}Kong
+et al., 2016}\textbf{)} & O6 & - & Off & S & No & Min. costs of waiting
+time and overtime & 1-SSP & AM/O \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0113}{\textbf{(}Qu
+et al., 2007}\textbf{)} & T1 & Hybrid & - & S & No & Max. \# of patients
+seen & 1-SSP & AM/O \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0146}{\textbf{(}Yan
+et al., 2015}\textbf{)} & O3/O4 (OBA) (integrated) & Traditional & On &
+S & No & Max. profit (revenue of patients seen -- costs of waiting time,
+overtime, and idle time) & 1-SSP & AM/O \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0007}{\textbf{(}Begen
+et al., 2012}\textbf{)} & O3 (OBA) & Traditional & Off & S & No & Min.
+costs of waiting time, idle time, and overtime & 1-SSP & AM/S-SAA \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0082}{\textbf{(}Luo
+et al., 2012}\textbf{)} & T2/T5/O3 (OBA) (integrated) & Traditional & -
+& S & Yes (urgent) & Max. profit (revenue of patients seen -- costs of
+waiting time and overtime) & 1-SSP & AM/SO \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0021}{\textbf{(}Chen
+\& Robinson, 2014}\textbf{)} &
+\begin{minipage}[t]{\linewidth}\raggedright
+T2/O3/O6 (T2/O3: OBA, O6: RBA)\\
+(T2/O3: integrated, (T2/O3)/O6: sequential)\strut
+\end{minipage} & Hybrid & On & S & No & Min. costs of waiting time, idle
+time, and overtime & 1-SSP & BD/H (for O6) \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0137}{\textbf{(}Vink
+et al., 2015}\textbf{)} & T2/O3 (OBA) (integrated) & Traditional & Off &
+S & No & Min. costs of waiting time, idle time, and overtime & 1-SSP &
+H \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0053}{\textbf{(}Hassin
+\& Mendel, 2008}\textbf{)} & T2/O3 (OBA) (integrated) & Traditional &
+Off & S & No & Min. costs of waiting time and server availability &
+1-SSP & O \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0061}{\textbf{(}Kim
+\& Giachetti, 2006}\textbf{)} & T5 & Traditional & - & S & Yes (regular)
+& Max. profit (revenue of patients seen -- costs of overtime and patient
+rejection) & 1-SSP & O \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0002}{\textbf{(}Anderson,
+Zheng, Yoon, \& Khasawneh, 2015}\textbf{)} & T2 & Traditional & - & S &
+No & Min. costs of waiting time, idle time, and overtime & 1-SSP &
+S-SBO \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0015}{\textbf{(}Cayirli
+\& Gunes, 2013}\textbf{)} & T1/T4 (integrated) & Hybrid & On & S & Yes
+(regular) & Min. costs of waiting time, idle time, and overtime & 1-SSP
+& S-SBO \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0055}{\textbf{(}Huang
+\& Zuniga, 2012}\textbf{)} & T4/O3 (based on no-show threshold for each
+slot) (OBA)(integrated) & - & On & S & No & Min. costs of waiting time,
+idle time, and overtime & 1-SSP & S-SBO \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0054}{\textbf{(}Huang,
+Hancock, \& Herrin, 2012}\textbf{)} & T2 & - & - & S & No & Min. waiting
+time and idle time & 1-SSP & S-SBO \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0063}{\textbf{(}Klassen
+\& Yoogalingam, 2009}\textbf{)} & T2/O3 (OBA) (integrated) & Traditional
+& - & S & No & Min. costs of waiting time, idle time, and overtime &
+1-SSP & S-SBO \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0064}{\textbf{(}Klassen
+\& Yoogalingam, 2013}\textbf{)} & T2/O3 (OBA) (integrated) & Traditional
+& - & S & No & Min. costs of waiting time and idle time & 1-SSP &
+S-SBO \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0065}{\textbf{(}Klassen
+\& Yoogalingam, 2014}\textbf{)} & T2/O3 (OBA) (integrated) & Traditional
+& On & S & No & Min. costs of waiting time and idle time & 1-SSP &
+S-SBO \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0103}{\textbf{(}Peng,
+Qu, \& Shi, 2014}\textbf{)} & T1/T4/O3 (OBA) (integrated) & Hybrid & On
+& S & Yes (regular) & Min. costs of waiting time, idle time, and
+overtime & 1-SSP & S-SBO/MH-GA \\
+\bottomrule()
+\end{longtable}
+
+\includegraphics{images/ahmadi1-01.png}
+
+Most solution methods for 1-SSP modeling approaches are analytical or
+simulation based (15 and 8 articles, resp.)
+
 \citep{ala_appointment_2022} mention four categories of OASs purposes:
 
 \begin{enumerate}
@@ -355,15 +590,21 @@ decisions for designing Outpatient Appointment Systems (OASs):
   Improving fairness
 \end{enumerate}
 
+This will be reflected in the cost function where we will be attempting
+to minimize patient waiting times and physician over-time. Fairness is a
+rather subjective matter. The cost function will contain weights that
+can be adjusted to fit particular cases and/or preferences.
+
 \hypertarget{problem-description-and-solution-methods}{%
 \section{Problem description and solution
 methods}\label{problem-description-and-solution-methods}}
 
-A schedule is a vector \(X\) consisting of \(T\) elements in which each
-element represents the number of patients scheduled at interval \(t\):
+A schedule is a vector \(x\) consisting of \(T\) elements in which each
+element represents the number of patients scheduled at the interval
+starting at \(t\):
 
 \[
-X = [x_0, x_1, ....x_{T-1}]
+x = [x_0, x_1, ....x_{T-1}]
 \]
 
 with
@@ -376,27 +617,27 @@ Patients are scheduled at fixed intervals with length \(d\).
 
 \begin{figure}
 
-{\centering \includegraphics{schedule.png}
+{\centering \includegraphics{images/schedule.png}
 
 }
 
 \caption{A schedule
-\(X = [2, 0, 1, 1, 1, 1, 0, 1], T = 8, N = 7, d = 15\)}
+\(x = [2, 0, 1, 1, 1, 1, 0, 1],\ T = 8,\ N = 7,\ d = 15\)}
 
 \end{figure}
 
 Each patient has two endogenous features: type and service time, which
-are both indepent and identically distributed variables. In our model we
-assume there are two patient types: standard and emergency. There is a
-probability \(q\) that a patient has an emergency. Service times have
+are both independent and identically distributed variables. In our model
+we assume there are two patient types: standard and emergency. There is
+a probability \(q\) that a patient has an emergency. Service times have
 known distributions with mean \(\beta_s\) and \(\beta_e\) for standard
 and emergency patients respectively.
 
 All standard patients are assumed to be punctual. The arrival rate of
-emergency patients has a Poisson distribution with mean \(\lambda\).
-Emergency patients get priority over standard patients that are waiting.
-If several emergency patients are waiting they are served in order of
-arrival.
+emergency patients has a Poisson distribution with rate \(\lambda\) per
+interval. Emergency patients get priority over standard patients that
+are waiting. If several emergency patients are waiting they are served
+in order of arrival.
 
 The cost function consists of three elements:
 
@@ -406,189 +647,48 @@ The cost function consists of three elements:
 \item
   The waiting time for patients: \(W(x)\)
 \item
-  The waiting or idle time for physicians: \(I(x)\)
-\item
   The lateness or over-time of physicians: \(L(x)\)
+\item
+  The waiting or idle time for physicians: \(I(x)\)
 \end{enumerate}
 
 and becomes:
 
 \[
-C(x) = \alpha W(x) + \beta I(x) + \gamma L(x)
+C(x) = \alpha W(x) + \beta L(x) + \gamma I(x)
 \]
 
 The weights \(\alpha, \beta,\gamma \geq0\) can be set to reflect the
 relative importance of each cost element.
 
-The problem is to find a schedule \(X\) that minimizes the cost function
+The goal is to find a schedule \(x\) that minimizes the cost function
 \(C(x)\):
 
 \[
 min\{C(x)|\displaystyle\sum_{t=0} ^{T-1} x_t = N, x_t \in \mathbb{N}_0\}
 \]
 
+\textless\textless Description solution method
+here\textgreater\textgreater{}
+
 \hypertarget{results}{%
 \section{Results}\label{results}}
-
-Results and Discussion can be combined.
-
-Nulla mi mi, venenatis sed ipsum varius, Table~\ref{table1} volutpat
-euismod diam. Proin rutrum vel massa non gravida. Quisque tempor sem et
-dignissim rutrum. Lorem ipsum dolor sit amet, consectetur adipiscing
-elit. Morbi at justo vitae nulla elementum commodo eu id massa. In vitae
-diam ac augue semper tincidunt eu ut eros. Fusce fringilla erat
-porttitor lectus cursus, \nameref{s1-video} vel sagittis arcu lobortis.
-Aliquam in enim semper, aliquam massa id, cursus neque. Praesent
-faucibus semper libero.
-
-% Place tables after the first paragraph in which they are cited.
-\begin{table}[!ht]
-\begin{adjustwidth}{-2.25in}{0in} % Comment out/remove adjustwidth environment if table fits in text column.
-\centering
-\caption{
-{\bf Table caption Nulla mi mi, venenatis sed ipsum varius, volutpat euismod diam.}}
-\begin{tabular}{|l+l|l|l|l|l|l|l|}
-\hline
-\multicolumn{4}{|l|}{\bf Heading1} & \multicolumn{4}{|l|}{\bf Heading2}\\ \thickhline
-$cell1 row1$ & cell2 row 1 & cell3 row 1 & cell4 row 1 & cell5 row 1 & cell6 row 1 & cell7 row 1 & cell8 row 1\\ \hline
-$cell1 row2$ & cell2 row 2 & cell3 row 2 & cell4 row 2 & cell5 row 2 & cell6 row 2 & cell7 row 2 & cell8 row 2\\ \hline
-$cell1 row3$ & cell2 row 3 & cell3 row 3 & cell4 row 3 & cell5 row 3 & cell6 row 3 & cell7 row 3 & cell8 row 3\\ \hline
-\end{tabular}
-\begin{flushleft} Table notes Phasellus venenatis, tortor nec vestibulum mattis, massa tortor interdum felis, nec pellentesque metus tortor nec nisl. Ut ornare mauris tellus, vel dapibus arcu suscipit sed.
-\end{flushleft}
-\label{table1}
-\end{adjustwidth}
-\end{table}
-
-\hypertarget{lorem-and-ipsum-nunc-blandit-a-tortor}{%
-\subsection{\texorpdfstring{\textbf{LOREM}~and \textbf{IPSUM}~nunc
-blandit a
-tortor}{LOREM~and IPSUM~nunc blandit a tortor}}\label{lorem-and-ipsum-nunc-blandit-a-tortor}}
-
-\hypertarget{rd-level-heading}{%
-\subsubsection{3rd level heading}\label{rd-level-heading}}
-
-Maecenas convallis mauris sit amet sem ultrices gravida. Etiam eget
-sapien nibh. Sed ac ipsum eget enim egestas ullamcorper nec euismod
-ligula. Curabitur fringilla pulvinar lectus consectetur pellentesque.
-Quisque augue sem, tincidunt sit amet feugiat eget, ullamcorper sed
-velit. Sed non aliquet felis. Lorem ipsum dolor sit amet, consectetur
-adipiscing elit. Mauris commodo justo ac dui pretium imperdiet. Sed
-suscipit iaculis mi at feugiat.
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  react
-\item
-  diffuse free particles
-\item
-  increment time by dt and go to 1
-\end{enumerate}
-
-\hypertarget{sed-ac-quam-id-nisi-malesuada-congue}{%
-\subsection{Sed ac quam id nisi malesuada
-congue}\label{sed-ac-quam-id-nisi-malesuada-congue}}
-
-Nulla mi mi, venenatis sed ipsum varius, volutpat euismod diam. Proin
-rutrum vel massa non gravida. Quisque tempor sem et dignissim rutrum.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi at justo
-vitae nulla elementum commodo eu id massa. In vitae diam ac augue semper
-tincidunt eu ut eros. Fusce fringilla erat porttitor lectus cursus, vel
-sagittis arcu lobortis. Aliquam in enim semper, aliquam massa id, cursus
-neque. Praesent faucibus semper libero.
-
-\begin{itemize}
-\item
-  First bulleted item.
-\item
-  Second bulleted item.
-\item
-  Third bulleted item.
-\end{itemize}
 
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}
 
-Nulla mi mi, venenatis sed ipsum varius,see Table~\ref{table1} volutpat
-euismod diam. Proin rutrum vel massa non gravida. Quisque tempor sem et
-dignissim rutrum. Lorem ipsum dolor sit amet, consectetur adipiscing
-elit. Morbi at justo vitae nulla elementum commodo eu id massa. In vitae
-diam ac augue semper tincidunt eu ut eros. Fusce fringilla erat
-porttitor lectus cursus, vel sagittis arcu lobortis. Aliquam in enim
-semper, aliquam massa id, cursus neque. Praesent faucibus semper libero.
-
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
-
-CO\textsubscript{2} Maecenas convallis mauris sit amet sem ultrices
-gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas
-ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus
-consectetur pellentesque. Quisque augue sem, tincidunt sit amet feugiat
-eget, ullamcorper sed velit.
-
-Sed non aliquet felis. Lorem ipsum dolor sit amet, consectetur
-adipiscing elit. Mauris commodo justo ac dui pretium imperdiet. Sed
-suscipit iaculis mi at feugiat. Ut neque ipsum, luctus id lacus ut,
-laoreet scelerisque urna. Phasellus venenatis, tortor nec vestibulum
-mattis, massa tortor interdum felis, nec pellentesque metus tortor nec
-nisl. Ut ornare mauris tellus, vel dapibus arcu suscipit sed. Nam
-condimentum sem eget mollis euismod. Nullam dui urna, gravida venenatis
-dui et, tincidunt sodales ex. Nunc est dui, sodales sed mauris nec,
-auctor sagittis leo. Aliquam tincidunt, ex in facilisis elementum,
-libero lectus luctus est, non vulputate nisl augue at dolor. For more
-information, see \nameref{s1-appendix}.
 
 \hypertarget{supporting-information}{%
 \section{Supporting information}\label{supporting-information}}
 
-\paragraph*{S1 Fig.}
-\label{s1-fig}
-{\textbf{Bold the title sentence.}} Add descriptive text after the title
-of the item (optional).
-
-\paragraph*{S2 Fig.}
-\label{s2-fig}
-{\textbf{Lorem ipsum.}} Maecenas convallis mauris sit amet sem ultrices
-gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas
-ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus
-consectetur pellentesque.
-
-\paragraph*{S1 File.}
-\label{s1-file}
-{\textbf{Lorem ipsum.}}
-
-\paragraph*{S1 Video.}
-\label{s1-video}
-{\textbf{Lorem ipsum.}} Maecenas convallis mauris sit amet sem ultrices
-gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas
-ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus
-consectetur pellentesque.
-
-\paragraph*{S1 Appendix.}
-\label{s1-appendix}
-{\textbf{Lorem ipsum.}} Maecenas convallis mauris sit amet sem ultrices
-gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas
-ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus
-consectetur pellentesque.
-
-\paragraph*{S1 Table.}
-\label{s1-table}
-{\textbf{Lorem ipsum.}} Maecenas convallis mauris sit amet sem ultrices
-gravida. Etiam eget sapien nibh. Sed ac ipsum eget enim egestas
-ullamcorper nec euismod ligula. Curabitur fringilla pulvinar lectus
-consectetur pellentesque.
-
 \hypertarget{acknowledgments}{%
 \section{Acknowledgments}\label{acknowledgments}}
 
-Cras egestas velit mauris, eu mollis turpis pellentesque sit amet.
-Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam id
-pretium nisi. Sed ac quam id nisi malesuada congue. Sed interdum aliquet
-augue, at pellentesque quam rhoncus vitae.
-
 
 \nolinenumbers
+\renewcommand\refname{References}
   \bibliography{bibliography.bib}
 
 \end{document}

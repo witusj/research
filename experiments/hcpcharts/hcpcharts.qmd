@@ -1,9 +1,0 @@
----
-title: "Optimal team size and composition in Home Care Services"
-format: revealjs
-editor: visual
----
-
-## Type of care service and qualification levels
-
-
