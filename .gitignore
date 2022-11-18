@@ -4,5 +4,6 @@
 .Ruserdata
 wps/*.*
 lits/
+docs/
 !wps/wps.pdf
 !wps/wps.tex
