@@ -244,7 +244,7 @@ lns = 10
 sts = generate_logn_sts(1, 1000, lnm, lns)[0] # sampling population for array service times
 iats = np.array([0, 0, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]) # inter-arrival times
 
-nSƒims = nsims # number of silnmlations
+nsims = nsims # number of silnmlations
 ctsm = np.random.choice(cts, size = (nsims * len(iats)), p=pct).reshape((nsims, len(iats))) # client types matrix
 stsm = np.random.lognormal(mean = logn_mean_lns(lnm, lns)[0], sigma=logn_mean_lns(lnm, lns)[1], size=(nsims * len(iats))).reshape((nsims, len(iats))) # service times matrix
 nsm = np.random.binomial(n=1, p=1-ns, size = nsims * len(iats)).reshape((nsims, len(iats))) # no-shows matrix
