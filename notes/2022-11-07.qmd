@@ -28,7 +28,7 @@ bibliography: bibliography.bib
 ![](images/notesrene20221103.jpeg)
 
 -   Schrijfsessie:
-    -   [ ] TODO: Teams opschonen
+    -   [x] TODO: Teams opschonen
 
     -   [ ] TODO: Categorieen maken rural / suburban / urban
 
