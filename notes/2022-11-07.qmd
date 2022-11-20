@@ -28,18 +28,18 @@ bibliography: bibliography.bib
 ![](images/notesrene20221103.jpeg)
 
 -   Schrijfsessie:
-    -   TODO: Teams opschonen
+    -   [ ] TODO: Teams opschonen
 
-    -   TODO: Categorieen maken rural / suburban / urban
+    -   [ ] TODO: Categorieen maken rural / suburban / urban
 
-    -   TODO: Grafiek aantal nieuwe patienten in een week
+    -   [ ] TODO: Grafiek aantal nieuwe patienten in een week
 
-    -   TODO: Gemiddeld \# nwe clienten + sd
+    -   [ ] TODO: Gemiddeld \# nwe clienten + sd
 
-    -   TODO: Histogram \# weken in zorg \>\> [VB](https://www.sciencedirect.com/science/article/pii/S0377221721011000)
+    -   [ ] TODO: Histogram \# weken in zorg \>\> [VB](https://www.sciencedirect.com/science/article/pii/S0377221721011000)
 
-    -   TODO: Histogram \# uren zorg per client per week
+    -   [ ] TODO: Histogram \# uren zorg per client per week
 
-    -   TODO: Capaciteit contractueel per team per week vergelijken met vraag / Rekening houden met uitval / Percentages opvragen bij Carinova /
+    -   [ ] TODO: Capaciteit contractueel per team per week vergelijken met vraag / Rekening houden met uitval / Percentages opvragen bij Carinova /
 
-    -   CSV op Surfdrive
+    -   [x] CSV op Surfdrive
