@@ -13,8 +13,8 @@ bibliography: bibliography.bib
 
 -   [ ] Lateness equals the waiting time of one patient added after the schedule.
 
--   [ ] Convolutions - see Python implementation:
+-   [ ] Convolutions
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/KuXjwB4LzSA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+    - Python implementation: <br><br>  <iframe width="560" height="315" src="https://www.youtube.com/embed/KuXjwB4LzSA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-</iframe>
+    - Convolutions are associative: <br><br> <iframe width="560" height="315" src="https://www.youtube.com/embed/AgKQQtEc9dk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
