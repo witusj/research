@@ -1,0 +1,68 @@
+---
+title: "Simulation Based Optimization"
+---
+
+## Setup
+
+See "Scheduling Simulation" for all function descriptions.
+
+```{python}
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
+import seaborn as sns
+import functions as fn
+```
+
+Configure global simulation parameters.
+
+```{python}
+## Global variables
+
+cts = np.array([0, 1]) # client types -> normal or emergency
+pct = np.array([1, 0]) # distribution of client types -> normal or emergency
+# sts = np.array([14, 14, 14, 15, 16]) # service times - for simple numerical testing
+# sts = np.random.poisson(lam=14, size=1000) - using poisson distribution
+
+ns = 0.1 # percentage of no-shows
+nsims = 100000 # number of simulations
+logs = False # do not print simulation logs
+lnm = 14 # lognormal mean
+lns = 5 # lognormal standard deviation
+nm = fn.logn_mean_lns(lnm, lns)[0] # normal mean
+ns = fn.logn_mean_lns(lnm, lns)[1] # normal standard deviation
+d = 15 # interval time
+sts = fn.generate_logn_sts(1, 1000, lnm, lns)[0] # sampling population for array service
+
+```
+
+## run simulations
+
+```{python}
+# Simulation 1
+
+s1 = np.array([2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]) # initial schedule
+iats = fn.transform_schedule_iats(s1, d) # initial inter-arrival times
+iats_d = np.diff(iats)
+N = len(iats) # number of patients
+T = len(s1) # number of intervals
+ctsm = np.random.choice(cts, size = (nsims * N), p=pct).reshape((nsims, N)) # client types matrix
+stsm = np.random.lognormal(mean = nm, sigma=ns, size=(nsims * N)).reshape(nsims, N) # service times matrix
+nsm = np.random.binomial(n=1, p=1-ns, size = (nsims * N)).reshape(nsims, N) # no-shows matrix
+stsm = stsm * nsm # service times matrix with no-shows
+simres1 = []
+
+for i in range(nsims):
+  experiment = fn.simulate_crn(iats, ctsm[i], stsm[i], logs=logs)
+  simres1.append(experiment.mean())
+
+mwt = np.array(simres1).mean()
+
+# plot histogram of waiting times
+
+plt.plot(iats, label="iats")
+plt.plot(iats_d,label="iats_d")
+plt.legend()
+plt.show()
+sns.histplot(simres1).set(title=f"iats = {iats}, Mean waiting time = {mwt}")
+```

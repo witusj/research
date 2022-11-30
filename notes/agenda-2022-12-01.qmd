@@ -1,0 +1,33 @@
+---
+title: "Agenda 2022-12-01"
+format: html
+editor: visual
+bibliography: bibliography.bib
+---
+
+### Aanwezig: Witek / Ger / Joost
+
+-   [ ] OAS:
+
+    -   [ ] Uit gesprek met Joost dd 25-11-2022:
+
+```{python}
+import numpy as np
+from matplotlib import pyplot as plt
+ats = np.array([0, 0, 10, 25, 35, 35])
+iats = np.diff(ats)
+iats_d = np.diff(iats)
+
+f"ats = {ats}, iats = {iats}, iats_d={iats_d}"
+```
+
+```{python}
+plt.plot(iats, label="iats")
+plt.plot(iats_d,label="iats_d")
+plt.legend()
+plt.show()
+```
+
+```{python}
+
+```

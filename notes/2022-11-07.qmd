@@ -32,6 +32,8 @@ bibliography: bibliography.bib
 
     -   [ ] TODO: Categorieen maken rural / suburban / urban
 
+        -   [ ] Berekenen per team ratio oppervlakte per client
+
     -   [ ] TODO: Grafiek aantal nieuwe patienten in een week
 
     -   [ ] TODO: Gemiddeld \# nwe clienten + sd

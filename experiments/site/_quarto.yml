@@ -1,0 +1,21 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "site"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - sched-sim.qmd
+      - sim-based-opt.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+editor: visual
+
