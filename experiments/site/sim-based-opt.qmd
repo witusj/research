@@ -32,7 +32,7 @@ lns = 5 # lognormal standard deviation
 nm = fn.logn_mean_lns(lnm, lns)[0] # normal mean
 ns = fn.logn_mean_lns(lnm, lns)[1] # normal standard deviation
 d = 15 # interval time
-sts = fn.generate_logn_sts(1, 1000, lnm, lns)[0] # sampling population for array service
+sts = fn.generate_logn_sts(1, 10000, lnm, lns)[0] # sampling population for array service
 
 ```
 
@@ -41,11 +41,11 @@ sts = fn.generate_logn_sts(1, 1000, lnm, lns)[0] # sampling population for array
 ```{python}
 # Simulation 1
 
-s1 = np.array([2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]) # initial schedule
-iats = fn.transform_schedule_iats(s1, d) # initial inter-arrival times
+sim = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]) # initial schedule
+iats = fn.transform_schedule_iats(sim, d) # initial inter-arrival times
 iats_d = np.diff(iats)
 N = len(iats) # number of patients
-T = len(s1) # number of intervals
+T = len(sim) # number of intervals
 ctsm = np.random.choice(cts, size = (nsims * N), p=pct).reshape((nsims, N)) # client types matrix
 stsm = np.random.lognormal(mean = nm, sigma=ns, size=(nsims * N)).reshape(nsims, N) # service times matrix
 nsm = np.random.binomial(n=1, p=1-ns, size = (nsims * N)).reshape(nsims, N) # no-shows matrix
@@ -60,9 +60,68 @@ mwt = np.array(simres1).mean()
 
 # plot histogram of waiting times
 
-plt.plot(iats, label="iats")
-plt.plot(iats_d,label="iats_d")
-plt.legend()
-plt.show()
-sns.histplot(simres1).set(title=f"iats = {iats}, Mean waiting time = {mwt}")
+fig1, axs1 = plt.subplots(1, 2, sharey=True, tight_layout=True)
+axs1[0].plot(iats, label="iats")
+axs1[0].set_title(f'iats: {iats}')
+axs1[1].plot(iats_d,label="iats_d")
+axs1[1].set_title(f'iats_d: {iats_d}')
+fig2, axs2 = plt.subplots(1, 2, sharey=True, tight_layout=True)
+axs2[0].hist(simres1, bins = 300)
+axs2[0].set_title(f'schedule: {sim}, mwt: {mwt}')
+```
+
+```{python}
+# Simulation 2
+
+sim = np.array([2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]) # initial schedule
+iats = fn.transform_schedule_iats(sim, d) # initial inter-arrival times
+iats_d = np.diff(iats)
+N = len(iats) # number of patients
+T = len(sim) # number of intervals
+simres2 = []
+
+for i in range(nsims):
+  experiment = fn.simulate_crn(iats, ctsm[i], stsm[i], logs=logs)
+  simres1.append(experiment.mean())
+
+mwt = np.array(simres1).mean()
+
+# plot histogram of waiting times
+
+fig1, axs1 = plt.subplots(1, 2, sharey=True, tight_layout=True)
+axs1[0].plot(iats, label="iats")
+axs1[0].set_title(f'iats: {iats}')
+axs1[1].plot(iats_d,label="iats_d")
+axs1[1].set_title(f'iats_d: {iats_d}')
+fig2, axs2 = plt.subplots(1, 2, sharey=True, tight_layout=True)
+axs2[0].hist(simres1, bins = 300)
+axs2[0].set_title(f'schedule: {sim}, mwt: {mwt}')
+```
+
+```{python}
+# Simulation 3
+
+sim = np.array([2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0]) # initial schedule
+iats = fn.transform_schedule_iats(sim, d) # initial inter-arrival times
+iats_d = np.diff(iats)
+N = len(iats) # number of patients
+T = len(sim) # number of intervals
+simres3 = []
+
+for i in range(nsims):
+  experiment = fn.simulate_crn(iats, ctsm[i], stsm[i], logs=logs)
+  simres1.append(experiment.mean())
+
+mwt = np.array(simres1).mean()
+
+# plot histogram of waiting times
+
+fig1, axs1 = plt.subplots(1, 2, sharey=True, tight_layout=True)
+axs1[0].plot(iats, label="iats")
+axs1[0].set_title(f'iats: {iats}')
+axs1[1].plot(iats_d,label="iats_d")
+axs1[1].set_title(f'iats_d: {iats_d}')
+fig2, axs2 = plt.subplots(1, 2, sharey=True, tight_layout=True)
+axs2[0].hist(simres1, bins = 300)
+axs2[0].set_title(f'schedule: {sim}, mwt: {mwt}')
 ```

@@ -30,9 +30,9 @@ bibliography: bibliography.bib
 -   Schrijfsessie:
     -   [x] TODO: Teams opschonen
 
-    -   [ ] TODO: Categorieen maken rural / suburban / urban
+    -   [x] TODO: Categorieen maken rural / suburban / urban
 
-        -   [ ] Berekenen per team ratio oppervlakte per client
+        -   [x] Berekenen per team ratio oppervlakte per client
 
     -   [ ] TODO: Grafiek aantal nieuwe patienten in een week
 
