@@ -10,3 +10,4 @@ bibliography: bibliography.bib
 -   [ ] OAS:
 
     -   [ ] Vervolg op gesprek met Joost dd 25-11-2022: Kijken naar concaviteit van inter-arrival tijden en effect op loss function: [experiment](https://witusj.github.io/research/experiments/site/source/sim-based-opt.html)
+    -   [ ] Peer review
