@@ -5,20 +5,24 @@ format:
   html:
     include-in-header:
       - scripts.html
-editor: visual
 bibliography: bibliography.bib
 ---
 
 ## OAS:
 
--   [ ] Lateness equals the waiting time of one patient added after the schedule.
+-   Tip van Joost:
+    -   <https://github.com/simopt-admin/simopt>
+    -   [SimOpt-software-paper.pdf](https://eckman.engr.tamu.edu/wp-content/uploads/sites/233/2022/01/SimOpt-software-paper.pdf)
 
--   [ ] Convolutions
+## HCP:
 
-    -   Python implementation: <br><br> <iframe width="560" height="315" src="https://www.youtube.com/embed/KuXjwB4LzSA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+Taken uit schrijfsessie:
 
-    -   Convolutions are associative: <br><br> <iframe width="560" height="315" src="https://www.youtube.com/embed/AgKQQtEc9dk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
--   [ ] @Amaran_2016
-
--   [ ] Lagrange multipliers: <br><br> <iframe width="560" height="315" src="https://www.youtube.com/embed/5A39Ht9Wcu0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+-   Kijken naar ILS voor vakantiedagen
+-   Voor René (t.b.v. variabelen voor model):
+    -   Hoeveel nieuwe clienten per week
+    -   hoelang gemiddeld in zorg (in weken)
+    -   aantal uur per week
+    -   alle variabelen spreiding
+-   Voor Dennis:
+    -   tabel: per type regio uitrekenen, gemiddelde en spreiding
