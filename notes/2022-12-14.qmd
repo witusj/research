@@ -26,6 +26,7 @@ Taken uit schrijfsessie:
     -   alle variabelen spreiding
 -   Voor Dennis:
     -   tabel: per type regio uitrekenen, gemiddelde en spreiding
+    -   Let op resolutie van grafieken
 -   Tips Yoram:
     -   <https://www.python-mip.com/>
 
