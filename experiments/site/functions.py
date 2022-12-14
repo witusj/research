@@ -98,6 +98,7 @@ def patient_shift_matrix(schedule):
 schedule = np.zeros(12)
 i = np.arange(12, step=2)
 schedule[i] = 1
+schedule[-1] = 1
 schedule[0] = 2
 patient_shift_matrix(schedule)
 ##############
