@@ -11,8 +11,8 @@ bibliography: bibliography.bib
 ## OAS:
 
 -   Tip van Joost:
-    -   <https://github.com/simopt-admin/simopt>
-    -   [SimOpt-software-paper.pdf](https://eckman.engr.tamu.edu/wp-content/uploads/sites/233/2022/01/SimOpt-software-paper.pdf)
+    -   @simoptgithub
+    -    [SimOpt-software-paper.pdf](https://eckman.engr.tamu.edu/wp-content/uploads/sites/233/2022/01/SimOpt-software-paper.pdf)
 
 ## HCP:
 
