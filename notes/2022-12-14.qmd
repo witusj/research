@@ -1,0 +1,24 @@
+---
+title: "2022-11-17"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+editor: visual
+bibliography: bibliography.bib
+---
+
+## OAS:
+
+-   [ ] Lateness equals the waiting time of one patient added after the schedule.
+
+-   [ ] Convolutions
+
+    -   Python implementation: <br><br> <iframe width="560" height="315" src="https://www.youtube.com/embed/KuXjwB4LzSA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+    -   Convolutions are associative: <br><br> <iframe width="560" height="315" src="https://www.youtube.com/embed/AgKQQtEc9dk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+-   [ ] @Amaran_2016
+
+-   [ ] Lagrange multipliers: <br><br> <iframe width="560" height="315" src="https://www.youtube.com/embed/5A39Ht9Wcu0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

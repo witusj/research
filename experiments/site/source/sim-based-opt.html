@@ -170,7 +170,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
-  <li><a href="#run-simulations" id="toc-run-simulations" class="nav-link" data-scroll-target="#run-simulations">run simulations</a></li>
+  <li><a href="#run-simulations" id="toc-run-simulations" class="nav-link" data-scroll-target="#run-simulations">Run simulations</a></li>
   </ul>
 </nav>
     </div>
@@ -202,7 +202,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> functions <span class="im">as</span> fn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> functions <span class="im">as</span> fn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Configure global simulation parameters.</p>
 <div class="cell" data-execution_count="2">
@@ -225,75 +226,96 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section>
 <section id="run-simulations" class="level2">
-<h2 class="anchored" data-anchor-id="run-simulations">run simulations</h2>
+<h2 class="anchored" data-anchor-id="run-simulations">Run simulations</h2>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulation 1</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]) <span class="co"># initial schedule</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>iats <span class="op">=</span> fn.transform_schedule_iats(sim, d) <span class="co"># initial inter-arrival times</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>iats_d <span class="op">=</span> np.diff(iats)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="bu">len</span>(iats) <span class="co"># number of patients</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="bu">len</span>(sim) <span class="co"># number of intervals</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>ctsm <span class="op">=</span> np.random.choice(cts, size <span class="op">=</span> (nsims <span class="op">*</span> N), p<span class="op">=</span>pct).reshape((nsims, N)) <span class="co"># client types matrix</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> np.random.lognormal(mean <span class="op">=</span> nm, sigma<span class="op">=</span>ns, size<span class="op">=</span>(nsims <span class="op">*</span> N)).reshape(nsims, N) <span class="co"># service times matrix</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>nsm <span class="op">=</span> np.random.binomial(n<span class="op">=</span><span class="dv">1</span>, p<span class="op">=</span><span class="dv">1</span><span class="op">-</span>ns, size <span class="op">=</span> (nsims <span class="op">*</span> N)).reshape(nsims, N) <span class="co"># no-shows matrix</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> stsm <span class="op">*</span> nsm <span class="co"># service times matrix with no-shows</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>simres1 <span class="op">=</span> []</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  experiment <span class="op">=</span> fn.simulate_crn(iats, ctsm[i], stsm[i], logs<span class="op">=</span>logs)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  simres1.append(experiment.mean())</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>mwt <span class="op">=</span> np.array(simres1).mean()</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram of waiting times</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>fig1, axs1 <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, tight_layout<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">0</span>].plot(iats, label<span class="op">=</span><span class="st">"iats"</span>)</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">0</span>].set_title(<span class="ss">f'iats: </span><span class="sc">{</span>iats<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">1</span>].plot(iats_d,label<span class="op">=</span><span class="st">"iats_d"</span>)</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">1</span>].set_title(<span class="ss">f'iats_d: </span><span class="sc">{</span>iats_d<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>fig2, axs2 <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, tight_layout<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>axs2[<span class="dv">0</span>].hist(simres1, bins <span class="op">=</span> <span class="dv">300</span>)</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>axs2[<span class="dv">0</span>].set_title(<span class="ss">f'schedule: </span><span class="sc">{</span>sim<span class="sc">}</span><span class="ss">, mwt: </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>Text(0.5, 1.0, 'schedule: [1 1 1 1 1 1 1 1 1 1 1 1], mwt: 1.6173778422963543')</code></pre>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>tic <span class="op">=</span> time.time()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]) <span class="co"># initial schedule</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>iats <span class="op">=</span> fn.transform_schedule_iats(sim, d) <span class="co"># initial inter-arrival times</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>iats_d <span class="op">=</span> np.diff(iats)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="bu">len</span>(iats) <span class="co"># number of patients</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="bu">len</span>(sim) <span class="co"># number of intervals</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ctsm <span class="op">=</span> np.random.choice(cts, size <span class="op">=</span> (nsims <span class="op">*</span> N), p<span class="op">=</span>pct).reshape((nsims, N)) <span class="co"># client types matrix</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> np.random.lognormal(mean <span class="op">=</span> nm, sigma<span class="op">=</span>ns, size<span class="op">=</span>(nsims <span class="op">*</span> N)).reshape(nsims, N) <span class="co"># service times matrix</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>nsm <span class="op">=</span> np.random.binomial(n<span class="op">=</span><span class="dv">1</span>, p<span class="op">=</span><span class="dv">1</span><span class="op">-</span>ns, size <span class="op">=</span> (nsims <span class="op">*</span> N)).reshape(nsims, N) <span class="co"># no-shows matrix</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> stsm <span class="op">*</span> nsm <span class="co"># service times matrix with no-shows</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>simreswt <span class="op">=</span> []</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>simresln <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  experiment <span class="op">=</span> fn.simulate_crn(iats, ctsm[i], stsm[i], logs<span class="op">=</span>logs)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  simreswt.append(experiment[<span class="dv">0</span>].mean())</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  ln <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, (experiment[<span class="dv">1</span>] <span class="op">-</span> d))</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  simresln <span class="op">+=</span> ln</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>mwt <span class="op">=</span> np.array(simreswt).mean()</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>mln <span class="op">=</span> simresln <span class="op">/</span> nsims</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> loss <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> mwt <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> mln</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>toc <span class="op">=</span> time.time()</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(toc <span class="op">-</span> tic)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co"># plots</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>fig1, axs1 <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, tight_layout<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">0</span>].plot(iats, label<span class="op">=</span><span class="st">"iats"</span>)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">0</span>].set_title(<span class="ss">f'iats: </span><span class="sc">{</span>iats<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">1</span>].plot(iats_d,label<span class="op">=</span><span class="st">"iats_d"</span>)</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">1</span>].set_title(<span class="ss">f'iats_d: </span><span class="sc">{</span>iats_d<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>fig2, axs2 <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, tight_layout<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>axs2[<span class="dv">0</span>].hist(simreswt, bins <span class="op">=</span> <span class="dv">300</span>)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>axs2[<span class="dv">0</span>].set_title(<span class="ss">f'schedule: </span><span class="sc">{</span>sim<span class="sc">}</span><span class="ss">, mwt: </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">, mln: </span><span class="sc">{</span>mln<span class="sc">}</span><span class="ss">, loss: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2.0407118797302246</code></pre>
 </div>
-<div class="cell-output cell-output-display">
-<p><img src="sim-based-opt_files/figure-html/cell-4-output-2.png" class="img-fluid"></p>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>Text(0.5, 1.0, 'schedule: [1 1 1 1 1 1 1 1 1 1 1 1], mwt: 1.6125768998391798, mln: 1.9887276262425495, loss: 1.8006522630408646')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="sim-based-opt_files/figure-html/cell-4-output-3.png" class="img-fluid"></p>
 </div>
+<div class="cell-output cell-output-display">
+<p><img src="sim-based-opt_files/figure-html/cell-4-output-4.png" class="img-fluid"></p>
+</div>
 </div>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulation 2</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> np.array([<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]) <span class="co"># initial schedule</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>iats <span class="op">=</span> fn.transform_schedule_iats(sim, d) <span class="co"># initial inter-arrival times</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>iats_d <span class="op">=</span> np.diff(iats)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="bu">len</span>(iats) <span class="co"># number of patients</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="bu">len</span>(sim) <span class="co"># number of intervals</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>simres2 <span class="op">=</span> []</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  experiment <span class="op">=</span> fn.simulate_crn(iats, ctsm[i], stsm[i], logs<span class="op">=</span>logs)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  simres1.append(experiment.mean())</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>mwt <span class="op">=</span> np.array(simres1).mean()</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram of waiting times</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>fig1, axs1 <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, tight_layout<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">0</span>].plot(iats, label<span class="op">=</span><span class="st">"iats"</span>)</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">0</span>].set_title(<span class="ss">f'iats: </span><span class="sc">{</span>iats<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">1</span>].plot(iats_d,label<span class="op">=</span><span class="st">"iats_d"</span>)</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">1</span>].set_title(<span class="ss">f'iats_d: </span><span class="sc">{</span>iats_d<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>fig2, axs2 <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, tight_layout<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>axs2[<span class="dv">0</span>].hist(simres1, bins <span class="op">=</span> <span class="dv">300</span>)</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>axs2[<span class="dv">0</span>].set_title(<span class="ss">f'schedule: </span><span class="sc">{</span>sim<span class="sc">}</span><span class="ss">, mwt: </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulation 2</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> np.array([<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]) <span class="co"># initial schedule</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>iats <span class="op">=</span> fn.transform_schedule_iats(sim, d) <span class="co"># initial inter-arrival times</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>iats_d <span class="op">=</span> np.diff(iats)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="bu">len</span>(iats) <span class="co"># number of patients</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="bu">len</span>(sim) <span class="co"># number of intervals</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>ctsm <span class="op">=</span> np.random.choice(cts, size <span class="op">=</span> (nsims <span class="op">*</span> N), p<span class="op">=</span>pct).reshape((nsims, N)) <span class="co"># client types matrix</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> np.random.lognormal(mean <span class="op">=</span> nm, sigma<span class="op">=</span>ns, size<span class="op">=</span>(nsims <span class="op">*</span> N)).reshape(nsims, N) <span class="co"># service times matrix</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>nsm <span class="op">=</span> np.random.binomial(n<span class="op">=</span><span class="dv">1</span>, p<span class="op">=</span><span class="dv">1</span><span class="op">-</span>ns, size <span class="op">=</span> (nsims <span class="op">*</span> N)).reshape(nsims, N) <span class="co"># no-shows matrix</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> stsm <span class="op">*</span> nsm <span class="co"># service times matrix with no-shows</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>simreswt <span class="op">=</span> []</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>simresln <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  experiment <span class="op">=</span> fn.simulate_crn(iats, ctsm[i], stsm[i], logs<span class="op">=</span>logs)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  simreswt.append(experiment[<span class="dv">0</span>].mean())</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  ln <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, (experiment[<span class="dv">1</span>] <span class="op">-</span> d))</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  simresln <span class="op">+=</span> ln</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>mwt <span class="op">=</span> np.array(simreswt).mean()</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>mln <span class="op">=</span> simresln <span class="op">/</span> nsims</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> mwt <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> mln</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram of waiting times</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>fig1, axs1 <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, tight_layout<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">0</span>].plot(iats, label<span class="op">=</span><span class="st">"iats"</span>)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">0</span>].set_title(<span class="ss">f'iats: </span><span class="sc">{</span>iats<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">1</span>].plot(iats_d,label<span class="op">=</span><span class="st">"iats_d"</span>)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">1</span>].set_title(<span class="ss">f'iats_d: </span><span class="sc">{</span>iats_d<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>fig2, axs2 <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, tight_layout<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>axs2[<span class="dv">0</span>].hist(simreswt, bins <span class="op">=</span> <span class="dv">300</span>)</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>axs2[<span class="dv">0</span>].set_title(<span class="ss">f'schedule: </span><span class="sc">{</span>sim<span class="sc">}</span><span class="ss">, mwt: </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">, mln: </span><span class="sc">{</span>mln<span class="sc">}</span><span class="ss">, loss: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>Text(0.5, 1.0, 'schedule: [2 0 1 1 1 1 1 1 1 1 1 1], mwt: 1.911316208984287')</code></pre>
+<pre><code>Text(0.5, 1.0, 'schedule: [2 0 1 1 1 1 1 1 1 1 1 1], mwt: 2.2029443995411087, mln: 2.008488460116273, loss: 2.105716429828691')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="sim-based-opt_files/figure-html/cell-5-output-2.png" class="img-fluid"></p>
@@ -303,39 +325,97 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulation 3</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> np.array([<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>]) <span class="co"># initial schedule</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>iats <span class="op">=</span> fn.transform_schedule_iats(sim, d) <span class="co"># initial inter-arrival times</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>iats_d <span class="op">=</span> np.diff(iats)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="bu">len</span>(iats) <span class="co"># number of patients</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="bu">len</span>(sim) <span class="co"># number of intervals</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>simres3 <span class="op">=</span> []</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  experiment <span class="op">=</span> fn.simulate_crn(iats, ctsm[i], stsm[i], logs<span class="op">=</span>logs)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  simres1.append(experiment.mean())</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>mwt <span class="op">=</span> np.array(simres1).mean()</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram of waiting times</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>fig1, axs1 <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, tight_layout<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">0</span>].plot(iats, label<span class="op">=</span><span class="st">"iats"</span>)</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">0</span>].set_title(<span class="ss">f'iats: </span><span class="sc">{</span>iats<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">1</span>].plot(iats_d,label<span class="op">=</span><span class="st">"iats_d"</span>)</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">1</span>].set_title(<span class="ss">f'iats_d: </span><span class="sc">{</span>iats_d<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>fig2, axs2 <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, tight_layout<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>axs2[<span class="dv">0</span>].hist(simres1, bins <span class="op">=</span> <span class="dv">300</span>)</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>axs2[<span class="dv">0</span>].set_title(<span class="ss">f'schedule: </span><span class="sc">{</span>sim<span class="sc">}</span><span class="ss">, mwt: </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulation 3</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]) <span class="co"># initial schedule</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>iats <span class="op">=</span> fn.transform_schedule_iats(sim, d) <span class="co"># initial inter-arrival times</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>iats_d <span class="op">=</span> np.diff(iats)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="bu">len</span>(iats) <span class="co"># number of patients</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="bu">len</span>(sim) <span class="co"># number of intervals</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>ctsm <span class="op">=</span> np.random.choice(cts, size <span class="op">=</span> (nsims <span class="op">*</span> N), p<span class="op">=</span>pct).reshape((nsims, N)) <span class="co"># client types matrix</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> np.random.lognormal(mean <span class="op">=</span> nm, sigma<span class="op">=</span>ns, size<span class="op">=</span>(nsims <span class="op">*</span> N)).reshape(nsims, N) <span class="co"># service times matrix</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>nsm <span class="op">=</span> np.random.binomial(n<span class="op">=</span><span class="dv">1</span>, p<span class="op">=</span><span class="dv">1</span><span class="op">-</span>ns, size <span class="op">=</span> (nsims <span class="op">*</span> N)).reshape(nsims, N) <span class="co"># no-shows matrix</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> stsm <span class="op">*</span> nsm <span class="co"># service times matrix with no-shows</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>simreswt <span class="op">=</span> []</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>simresln <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  experiment <span class="op">=</span> fn.simulate_crn(iats, ctsm[i], stsm[i], logs<span class="op">=</span>logs)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  simreswt.append(experiment[<span class="dv">0</span>].mean())</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  ln <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, (experiment[<span class="dv">1</span>] <span class="op">-</span> d))</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  simresln <span class="op">+=</span> ln</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>mwt <span class="op">=</span> np.array(simreswt).mean()</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>mln <span class="op">=</span> simresln <span class="op">/</span> nsims</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> mwt <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> mln</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co"># plot histogram of waiting times</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>fig1, axs1 <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, tight_layout<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">0</span>].plot(iats, label<span class="op">=</span><span class="st">"iats"</span>)</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">0</span>].set_title(<span class="ss">f'iats: </span><span class="sc">{</span>iats<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">1</span>].plot(iats_d,label<span class="op">=</span><span class="st">"iats_d"</span>)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">1</span>].set_title(<span class="ss">f'iats_d: </span><span class="sc">{</span>iats_d<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>fig2, axs2 <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, tight_layout<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>axs2[<span class="dv">0</span>].hist(simreswt, bins <span class="op">=</span> <span class="dv">300</span>)</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>axs2[<span class="dv">0</span>].set_title(<span class="ss">f'schedule: </span><span class="sc">{</span>sim<span class="sc">}</span><span class="ss">, mwt: </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">, mln: </span><span class="sc">{</span>mln<span class="sc">}</span><span class="ss">, loss: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>Text(0.5, 1.0, 'schedule: [2 0 1 1 1 1 1 1 1 1 2 0], mwt: 2.2633946474759883')</code></pre>
+<pre><code>Text(0.5, 1.0, 'schedule: [1 1 1 2 0 1 1 1 1 1 1 1], mwt: 2.2910220135346155, mln: 1.997709947087837, loss: 2.1443659803112265')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="sim-based-opt_files/figure-html/cell-6-output-2.png" class="img-fluid"></p>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="sim-based-opt_files/figure-html/cell-6-output-3.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulation 3</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>]) <span class="co"># initial schedule</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>iats <span class="op">=</span> fn.transform_schedule_iats(sim, d) <span class="co"># initial inter-arrival times</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>iats_d <span class="op">=</span> np.diff(iats)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="bu">len</span>(iats) <span class="co"># number of patients</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="bu">len</span>(sim) <span class="co"># number of intervals</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>ctsm <span class="op">=</span> np.random.choice(cts, size <span class="op">=</span> (nsims <span class="op">*</span> N), p<span class="op">=</span>pct).reshape((nsims, N)) <span class="co"># client types matrix</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> np.random.lognormal(mean <span class="op">=</span> nm, sigma<span class="op">=</span>ns, size<span class="op">=</span>(nsims <span class="op">*</span> N)).reshape(nsims, N) <span class="co"># service times matrix</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>nsm <span class="op">=</span> np.random.binomial(n<span class="op">=</span><span class="dv">1</span>, p<span class="op">=</span><span class="dv">1</span><span class="op">-</span>ns, size <span class="op">=</span> (nsims <span class="op">*</span> N)).reshape(nsims, N) <span class="co"># no-shows matrix</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> stsm <span class="op">*</span> nsm <span class="co"># service times matrix with no-shows</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>simreswt <span class="op">=</span> []</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>simresln <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  experiment <span class="op">=</span> fn.simulate_crn(iats, ctsm[i], stsm[i], logs<span class="op">=</span>logs)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  simreswt.append(experiment[<span class="dv">0</span>].mean())</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  ln <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, (experiment[<span class="dv">1</span>] <span class="op">-</span> d))</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  simresln <span class="op">+=</span> ln</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>mwt <span class="op">=</span> np.array(simreswt).mean()</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>mln <span class="op">=</span> simresln <span class="op">/</span> nsims</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> mwt <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> mln</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="co"># plots</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>fig1, axs1 <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, tight_layout<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">0</span>].plot(iats, label<span class="op">=</span><span class="st">"iats"</span>)</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">0</span>].set_title(<span class="ss">f'iats: </span><span class="sc">{</span>iats<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">1</span>].plot(iats_d,label<span class="op">=</span><span class="st">"iats_d"</span>)</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>axs1[<span class="dv">1</span>].set_title(<span class="ss">f'iats_d: </span><span class="sc">{</span>iats_d<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>fig2, axs2 <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, sharey<span class="op">=</span><span class="va">True</span>, tight_layout<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>axs2[<span class="dv">0</span>].hist(simreswt, bins <span class="op">=</span> <span class="dv">300</span>)</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>axs2[<span class="dv">0</span>].set_title(<span class="ss">f'schedule: </span><span class="sc">{</span>sim<span class="sc">}</span><span class="ss">, mwt: </span><span class="sc">{</span>mwt<span class="sc">}</span><span class="ss">, mln: </span><span class="sc">{</span>mln<span class="sc">}</span><span class="ss">, loss: </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>Text(0.5, 1.0, 'schedule: [1 1 1 1 1 2 0 1 1 1 1 1], mwt: 2.2967404938911673, mln: 1.956192827445479, loss: 2.1264666606683233')</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="sim-based-opt_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="sim-based-opt_files/figure-html/cell-7-output-3.png" class="img-fluid"></p>
 </div>
 </div>
 

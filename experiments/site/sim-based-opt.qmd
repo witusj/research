@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 import seaborn as sns
+import time
 import functions as fn
 ```
 
@@ -36,11 +37,13 @@ sts = fn.generate_logn_sts(1, 10000, lnm, lns)[0] # sampling population for arra
 
 ```
 
-## run simulations
+## Run simulations
 
 ```{python}
+
 # Simulation 1
 
+tic = time.time()
 sim = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]) # initial schedule
 iats = fn.transform_schedule_iats(sim, d) # initial inter-arrival times
 iats_d = np.diff(iats)
@@ -50,15 +53,21 @@ ctsm = np.random.choice(cts, size = (nsims * N), p=pct).reshape((nsims, N)) # cl
 stsm = np.random.lognormal(mean = nm, sigma=ns, size=(nsims * N)).reshape(nsims, N) # service times matrix
 nsm = np.random.binomial(n=1, p=1-ns, size = (nsims * N)).reshape(nsims, N) # no-shows matrix
 stsm = stsm * nsm # service times matrix with no-shows
-simres1 = []
+simreswt = []
+simresln = 0
 
 for i in range(nsims):
   experiment = fn.simulate_crn(iats, ctsm[i], stsm[i], logs=logs)
-  simres1.append(experiment.mean())
-
-mwt = np.array(simres1).mean()
-
-# plot histogram of waiting times
+  simreswt.append(experiment[0].mean())
+  ln = max(0, (experiment[1] - d))
+  simresln += ln
+  
+mwt = np.array(simreswt).mean()
+mln = simresln / nsims
+loss = loss = 0.5 * mwt + 0.5 * mln
+toc = time.time()
+print(toc - tic)
+# plots
 
 fig1, axs1 = plt.subplots(1, 2, sharey=True, tight_layout=True)
 axs1[0].plot(iats, label="iats")
@@ -66,8 +75,8 @@ axs1[0].set_title(f'iats: {iats}')
 axs1[1].plot(iats_d,label="iats_d")
 axs1[1].set_title(f'iats_d: {iats_d}')
 fig2, axs2 = plt.subplots(1, 2, sharey=True, tight_layout=True)
-axs2[0].hist(simres1, bins = 300)
-axs2[0].set_title(f'schedule: {sim}, mwt: {mwt}')
+axs2[0].hist(simreswt, bins = 300)
+axs2[0].set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')
 ```
 
 ```{python}
@@ -78,13 +87,24 @@ iats = fn.transform_schedule_iats(sim, d) # initial inter-arrival times
 iats_d = np.diff(iats)
 N = len(iats) # number of patients
 T = len(sim) # number of intervals
-simres2 = []
+ctsm = np.random.choice(cts, size = (nsims * N), p=pct).reshape((nsims, N)) # client types matrix
+stsm = np.random.lognormal(mean = nm, sigma=ns, size=(nsims * N)).reshape(nsims, N) # service times matrix
+nsm = np.random.binomial(n=1, p=1-ns, size = (nsims * N)).reshape(nsims, N) # no-shows matrix
+stsm = stsm * nsm # service times matrix with no-shows
+simreswt = []
+simresln = 0
+
 
 for i in range(nsims):
   experiment = fn.simulate_crn(iats, ctsm[i], stsm[i], logs=logs)
-  simres1.append(experiment.mean())
+  simreswt.append(experiment[0].mean())
+  ln = max(0, (experiment[1] - d))
+  simresln += ln
+  
 
-mwt = np.array(simres1).mean()
+mwt = np.array(simreswt).mean()
+mln = simresln / nsims
+loss = 0.5 * mwt + 0.5 * mln
 
 # plot histogram of waiting times
 
@@ -94,25 +114,37 @@ axs1[0].set_title(f'iats: {iats}')
 axs1[1].plot(iats_d,label="iats_d")
 axs1[1].set_title(f'iats_d: {iats_d}')
 fig2, axs2 = plt.subplots(1, 2, sharey=True, tight_layout=True)
-axs2[0].hist(simres1, bins = 300)
-axs2[0].set_title(f'schedule: {sim}, mwt: {mwt}')
+axs2[0].hist(simreswt, bins = 300)
+axs2[0].set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')
+
 ```
 
 ```{python}
 # Simulation 3
 
-sim = np.array([2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0]) # initial schedule
+sim = np.array([1, 1, 1, 2, 0, 1, 1, 1, 1, 1, 1, 1]) # initial schedule
 iats = fn.transform_schedule_iats(sim, d) # initial inter-arrival times
 iats_d = np.diff(iats)
 N = len(iats) # number of patients
 T = len(sim) # number of intervals
-simres3 = []
+ctsm = np.random.choice(cts, size = (nsims * N), p=pct).reshape((nsims, N)) # client types matrix
+stsm = np.random.lognormal(mean = nm, sigma=ns, size=(nsims * N)).reshape(nsims, N) # service times matrix
+nsm = np.random.binomial(n=1, p=1-ns, size = (nsims * N)).reshape(nsims, N) # no-shows matrix
+stsm = stsm * nsm # service times matrix with no-shows
+simreswt = []
+simresln = 0
+
 
 for i in range(nsims):
   experiment = fn.simulate_crn(iats, ctsm[i], stsm[i], logs=logs)
-  simres1.append(experiment.mean())
+  simreswt.append(experiment[0].mean())
+  ln = max(0, (experiment[1] - d))
+  simresln += ln
+  
 
-mwt = np.array(simres1).mean()
+mwt = np.array(simreswt).mean()
+mln = simresln / nsims
+loss = 0.5 * mwt + 0.5 * mln
 
 # plot histogram of waiting times
 
@@ -122,6 +154,45 @@ axs1[0].set_title(f'iats: {iats}')
 axs1[1].plot(iats_d,label="iats_d")
 axs1[1].set_title(f'iats_d: {iats_d}')
 fig2, axs2 = plt.subplots(1, 2, sharey=True, tight_layout=True)
-axs2[0].hist(simres1, bins = 300)
-axs2[0].set_title(f'schedule: {sim}, mwt: {mwt}')
+axs2[0].hist(simreswt, bins = 300)
+axs2[0].set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')
+```
+
+```{python}
+# Simulation 3
+
+sim = np.array([1, 1, 1, 1, 1, 2, 0, 1, 1, 1, 1, 1]) # initial schedule
+iats = fn.transform_schedule_iats(sim, d) # initial inter-arrival times
+iats_d = np.diff(iats)
+N = len(iats) # number of patients
+T = len(sim) # number of intervals
+ctsm = np.random.choice(cts, size = (nsims * N), p=pct).reshape((nsims, N)) # client types matrix
+stsm = np.random.lognormal(mean = nm, sigma=ns, size=(nsims * N)).reshape(nsims, N) # service times matrix
+nsm = np.random.binomial(n=1, p=1-ns, size = (nsims * N)).reshape(nsims, N) # no-shows matrix
+stsm = stsm * nsm # service times matrix with no-shows
+simreswt = []
+simresln = 0
+
+
+for i in range(nsims):
+  experiment = fn.simulate_crn(iats, ctsm[i], stsm[i], logs=logs)
+  simreswt.append(experiment[0].mean())
+  ln = max(0, (experiment[1] - d))
+  simresln += ln
+  
+
+mwt = np.array(simreswt).mean()
+mln = simresln / nsims
+loss = 0.5 * mwt + 0.5 * mln
+
+# plots
+
+fig1, axs1 = plt.subplots(1, 2, sharey=True, tight_layout=True)
+axs1[0].plot(iats, label="iats")
+axs1[0].set_title(f'iats: {iats}')
+axs1[1].plot(iats_d,label="iats_d")
+axs1[1].set_title(f'iats_d: {iats_d}')
+fig2, axs2 = plt.subplots(1, 2, sharey=True, tight_layout=True)
+axs2[0].hist(simreswt, bins = 300)
+axs2[0].set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')
 ```

@@ -1,0 +1,24 @@
+---
+title: "2022-11-17"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+editor: visual
+bibliography: bibliography.bib
+---
+
+## OAS:
+
+-   [ ] Onderzoeken analyses rondom Lindley equations
+
+-   [ ] Simultaneous perturbation stochastic approximation ([SPSA](https://en.wikipedia.org/wiki/Simultaneous_perturbation_stochastic_approximation))
+
+-   [ ] Onderzoeken parallelen tussen probleem en queuing in productieprocessen, bewijzen concaviteit service rates, tandem queues, bufferallocatieprobleem
+
+-   [ ] Eenvoudige analyse 4 klanten
+
+![](images/20221201a.jpeg)
+
+![](images/20221201b.jpeg)

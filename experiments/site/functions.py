@@ -53,7 +53,7 @@ def simulate_crn(iats, cts, sts, logs=False):
     tis = wt + st # calculate time in system
     wts.append(wt)
     if(logs): print(iats[i], wt, st, tis, ct)
-  return np.array(wts)
+  return np.array(wts), tis
 
 def transform_iats_schedule(iats: list, d: int, T: int):
   iats = np.array(iats)
@@ -80,4 +80,24 @@ def transform_schedule_iats(schedule: list, d: int):
 #### TEST ####
 schedule = transform_iats_schedule([0, 0 ,30, 0, 60, 0, 0, 0, 60, 0, 0, 0], d = 15, T = 11)[0]
 transform_schedule_iats(schedule, d = 15)
+##############
+
+def patient_shift_matrix(schedule):
+  T = len(schedule) # number of intervals
+  neg = -np.eye(T) # create matrix with diagonal negative ones
+  pos = np.eye(T, k=-1) # create matrix with diagonal ones shifted to left
+  psm = neg + pos # combine two matrices
+  psm[0, T-1] = 1 # add a one to the end of the first row
+  sschedules = psm + schedule # create matrix of schedules with one patient shifting from k to k-1
+  sschedules = np.insert(sschedules, 0, schedule, axis=0) # add original schedule
+
+  return sschedules[sschedules.min(axis=1)>=0, :] # only return schedules that have non-negative arrivals
+
+##############
+#### TEST ####
+schedule = np.zeros(12)
+i = np.arange(12, step=2)
+schedule[i] = 1
+schedule[0] = 2
+patient_shift_matrix(schedule)
 ##############
