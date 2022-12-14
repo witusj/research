@@ -48,7 +48,7 @@ sim = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]) # initial schedule
 iats = fn.transform_schedule_iats(sim, d) # initial inter-arrival times
 iats_d = np.diff(iats)
 N = len(iats) # number of patients
-T = len(sim) # number of intervals
+# T = len(sim) # number of intervals
 ctsm = np.random.choice(cts, size = (nsims * N), p=pct).reshape((nsims, N)) # client types matrix
 stsm = np.random.lognormal(mean = nm, sigma=ns, size=(nsims * N)).reshape(nsims, N) # service times matrix
 nsm = np.random.binomial(n=1, p=1-ns, size = (nsims * N)).reshape(nsims, N) # no-shows matrix
@@ -69,14 +69,14 @@ toc = time.time()
 print(toc - tic)
 # plots
 
-fig1, axs1 = plt.subplots(1, 2, sharey=True, tight_layout=True)
-axs1[0].plot(iats, label="iats")
-axs1[0].set_title(f'iats: {iats}')
-axs1[1].plot(iats_d,label="iats_d")
-axs1[1].set_title(f'iats_d: {iats_d}')
-fig2, axs2 = plt.subplots(1, 2, sharey=True, tight_layout=True)
-axs2[0].hist(simreswt, bins = 300)
-axs2[0].set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')
+fig1, (axs1, axs2) = plt.subplots(2, sharey=True, tight_layout=True)
+axs1.plot(iats, label="iats")
+axs1.set_title(f'iats: {iats}')
+axs2.plot(iats_d, label="iats_d")
+axs2.set_title(f'iats_d: {iats_d}')
+fig2, axs3 = plt.subplots(1, sharey=True, tight_layout=True)
+axs3.hist(simreswt, bins = 300)
+axs3.set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')
 ```
 
 ```{python}
@@ -85,12 +85,6 @@ axs2[0].set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')
 sim = np.array([2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]) # initial schedule
 iats = fn.transform_schedule_iats(sim, d) # initial inter-arrival times
 iats_d = np.diff(iats)
-N = len(iats) # number of patients
-T = len(sim) # number of intervals
-ctsm = np.random.choice(cts, size = (nsims * N), p=pct).reshape((nsims, N)) # client types matrix
-stsm = np.random.lognormal(mean = nm, sigma=ns, size=(nsims * N)).reshape(nsims, N) # service times matrix
-nsm = np.random.binomial(n=1, p=1-ns, size = (nsims * N)).reshape(nsims, N) # no-shows matrix
-stsm = stsm * nsm # service times matrix with no-shows
 simreswt = []
 simresln = 0
 
@@ -108,14 +102,14 @@ loss = 0.5 * mwt + 0.5 * mln
 
 # plot histogram of waiting times
 
-fig1, axs1 = plt.subplots(1, 2, sharey=True, tight_layout=True)
-axs1[0].plot(iats, label="iats")
-axs1[0].set_title(f'iats: {iats}')
-axs1[1].plot(iats_d,label="iats_d")
-axs1[1].set_title(f'iats_d: {iats_d}')
-fig2, axs2 = plt.subplots(1, 2, sharey=True, tight_layout=True)
-axs2[0].hist(simreswt, bins = 300)
-axs2[0].set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')
+fig1, (axs1, axs2) = plt.subplots(2, sharey=True, tight_layout=True)
+axs1.plot(iats, label="iats")
+axs1.set_title(f'iats: {iats}')
+axs2.plot(iats_d, label="iats_d")
+axs2.set_title(f'iats_d: {iats_d}')
+fig2, axs3 = plt.subplots(1, sharey=True, tight_layout=True)
+axs3.hist(simreswt, bins = 300)
+axs3.set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')
 
 ```
 
@@ -125,12 +119,6 @@ axs2[0].set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')
 sim = np.array([1, 1, 1, 2, 0, 1, 1, 1, 1, 1, 1, 1]) # initial schedule
 iats = fn.transform_schedule_iats(sim, d) # initial inter-arrival times
 iats_d = np.diff(iats)
-N = len(iats) # number of patients
-T = len(sim) # number of intervals
-ctsm = np.random.choice(cts, size = (nsims * N), p=pct).reshape((nsims, N)) # client types matrix
-stsm = np.random.lognormal(mean = nm, sigma=ns, size=(nsims * N)).reshape(nsims, N) # service times matrix
-nsm = np.random.binomial(n=1, p=1-ns, size = (nsims * N)).reshape(nsims, N) # no-shows matrix
-stsm = stsm * nsm # service times matrix with no-shows
 simreswt = []
 simresln = 0
 
@@ -148,28 +136,22 @@ loss = 0.5 * mwt + 0.5 * mln
 
 # plot histogram of waiting times
 
-fig1, axs1 = plt.subplots(1, 2, sharey=True, tight_layout=True)
-axs1[0].plot(iats, label="iats")
-axs1[0].set_title(f'iats: {iats}')
-axs1[1].plot(iats_d,label="iats_d")
-axs1[1].set_title(f'iats_d: {iats_d}')
-fig2, axs2 = plt.subplots(1, 2, sharey=True, tight_layout=True)
-axs2[0].hist(simreswt, bins = 300)
-axs2[0].set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')
+fig1, (axs1, axs2) = plt.subplots(2, sharey=True, tight_layout=True)
+axs1.plot(iats, label="iats")
+axs1.set_title(f'iats: {iats}')
+axs2.plot(iats_d, label="iats_d")
+axs2.set_title(f'iats_d: {iats_d}')
+fig2, axs3 = plt.subplots(1, sharey=True, tight_layout=True)
+axs3.hist(simreswt, bins = 300)
+axs3.set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')
 ```
 
 ```{python}
-# Simulation 3
+# Simulation 4
 
 sim = np.array([1, 1, 1, 1, 1, 2, 0, 1, 1, 1, 1, 1]) # initial schedule
 iats = fn.transform_schedule_iats(sim, d) # initial inter-arrival times
 iats_d = np.diff(iats)
-N = len(iats) # number of patients
-T = len(sim) # number of intervals
-ctsm = np.random.choice(cts, size = (nsims * N), p=pct).reshape((nsims, N)) # client types matrix
-stsm = np.random.lognormal(mean = nm, sigma=ns, size=(nsims * N)).reshape(nsims, N) # service times matrix
-nsm = np.random.binomial(n=1, p=1-ns, size = (nsims * N)).reshape(nsims, N) # no-shows matrix
-stsm = stsm * nsm # service times matrix with no-shows
 simreswt = []
 simresln = 0
 
@@ -187,12 +169,12 @@ loss = 0.5 * mwt + 0.5 * mln
 
 # plots
 
-fig1, axs1 = plt.subplots(1, 2, sharey=True, tight_layout=True)
-axs1[0].plot(iats, label="iats")
-axs1[0].set_title(f'iats: {iats}')
-axs1[1].plot(iats_d,label="iats_d")
-axs1[1].set_title(f'iats_d: {iats_d}')
-fig2, axs2 = plt.subplots(1, 2, sharey=True, tight_layout=True)
-axs2[0].hist(simreswt, bins = 300)
-axs2[0].set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')
+fig1, (axs1, axs2) = plt.subplots(2, sharey=True, tight_layout=True)
+axs1.plot(iats, label="iats")
+axs1.set_title(f'iats: {iats}')
+axs2.plot(iats_d, label="iats_d")
+axs2.set_title(f'iats_d: {iats_d}')
+fig2, axs3 = plt.subplots(1, sharey=True, tight_layout=True)
+axs3.hist(simreswt, bins = 300)
+axs3.set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')
 ```
