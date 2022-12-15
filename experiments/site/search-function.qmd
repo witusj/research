@@ -17,8 +17,6 @@ import functions as fn
 
 Configure global simulation parameters.
 
-psm.info()
-
 ```{python}
 ## Global variables
 
