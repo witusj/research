@@ -48,7 +48,7 @@ transf_to_iats = lambda x: fn.transform_schedule_iats(x, d)
 iats_sm = np.apply_along_axis(transf_to_iats, 1, psm) # iats shifting matrix
 iats_d_sm = np.diff(iats_sm) # first derivative iats shifting matrix
 N = iats_sm.shape[1] # number of patients
-T = psm.shape[1]
+T = psm.shape[1] # number of time slots
 ctsm = np.random.choice(cts, size = (nsims * N), p=pct).reshape((nsims, N)) # client types matrix
 stsm = np.random.lognormal(mean = nm, sigma=ns, size=(nsims * N)).reshape(nsims, N) # service times matrix
 nsm = np.random.binomial(n=1, p=1-ns, size = (nsims * N)).reshape(nsims, N) # no-shows matrix
@@ -64,8 +64,8 @@ print(f'Running {nsims} simulations with {N} patients and {T} timeslots.')
 
 for iats in iats_sm:
   tic = time.time()
-  simreswt = []
-  simresln = 0
+  simreswt = [] # array for saving waiting times
+  simresln = 0 # array for saving lateness
   
   for i in range(nsims):
     experiment = fn.simulate_crn(iats, ctsm[i], stsm[i], logs=logs)
