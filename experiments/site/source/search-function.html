@@ -256,59 +256,57 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulations</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>tic <span class="op">=</span> time.time()</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> iats <span class="kw">in</span> iats_sm:</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  simreswt <span class="op">=</span> []</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  simresln <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    experiment <span class="op">=</span> fn.simulate_crn(iats, ctsm[i], stsm[i], logs<span class="op">=</span>logs)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    simreswt.append(experiment[<span class="dv">0</span>].mean())</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    ln <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, (experiment[<span class="dv">1</span>] <span class="op">-</span> d))</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    simresln <span class="op">+=</span> ln</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  mwt <span class="op">=</span> np.array(simreswt).mean()</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  mln <span class="op">=</span> simresln <span class="op">/</span> nsims</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  loss <span class="op">=</span> loss <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> mwt <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> mln</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  toc <span class="op">=</span> time.time()</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f'schedule: </span><span class="sc">{</span>fn<span class="sc">.</span>transform_iats_schedule(iats, d, T)[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">, loss = </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">, calculation time: </span><span class="sc">{</span>toc <span class="op">-</span> tic<span class="sc">}</span><span class="ss"> secs'</span>)</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># # plots</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># </span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># fig1, (axs1, axs2) = plt.subplots(2, sharey=True, tight_layout=True)</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># axs1.plot(iats, label="iats")</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># axs1.set_title(f'iats: {iats}')</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># axs2.plot(iats_d, label="iats_d")</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># axs2.set_title(f'iats_d: {iats_d}')</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># fig2, axs3 = plt.subplots(1, sharey=True, tight_layout=True)</span></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># axs3.hist(simreswt, bins = 300)</span></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># axs3.set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> iats <span class="kw">in</span> iats_sm:</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  tic <span class="op">=</span> time.time()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  simreswt <span class="op">=</span> []</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  simresln <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    experiment <span class="op">=</span> fn.simulate_crn(iats, ctsm[i], stsm[i], logs<span class="op">=</span>logs)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    simreswt.append(experiment[<span class="dv">0</span>].mean())</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    ln <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, (experiment[<span class="dv">1</span>] <span class="op">-</span> d))</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    simresln <span class="op">+=</span> ln</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  mwt <span class="op">=</span> np.array(simreswt).mean()</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  mln <span class="op">=</span> simresln <span class="op">/</span> nsims</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  loss <span class="op">=</span> loss <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> mwt <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> mln</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  toc <span class="op">=</span> time.time()</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f'schedule: </span><span class="sc">{</span>fn<span class="sc">.</span>transform_iats_schedule(iats, d, T)[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">, iats: </span><span class="sc">{</span>np<span class="sc">.</span>diff(iats)<span class="sc">}</span><span class="ss">, loss = </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">, calc time: </span><span class="sc">{</span>toc <span class="op">-</span> tic<span class="sc">}</span><span class="ss"> secs'</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="co"># # plots</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># </span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># fig1, (axs1, axs2) = plt.subplots(2, sharey=True, tight_layout=True)</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># axs1.plot(iats, label="iats")</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># axs1.set_title(f'iats: {iats}')</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># axs2.plot(iats_d, label="iats_d")</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># axs2.set_title(f'iats_d: {iats_d}')</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># fig2, axs3 = plt.subplots(1, sharey=True, tight_layout=True)</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># axs3.hist(simreswt, bins = 300)</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># axs3.set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 1 1], loss = 1.4254631170968612, calculation time: 1.6436870098114014 secs</code></pre>
+<pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 1 1], iats: [  0  30   0   0   0   0 -15], loss = 1.414252868644621, calc time: 1.4679129123687744 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [1 0 1 0 1 0 1 0 1 0 1 2], loss = 4.202919606437231, calculation time: 3.353123188018799 secs</code></pre>
+<pre><code>schedule: [1 0 1 0 1 0 1 0 1 0 1 2], iats: [ 30   0   0   0   0 -15 -15], loss = 4.197580036111649, calc time: 1.4698476791381836 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 1 0 0 1 0 1 0 1 0 1 1], loss = 1.7606586537841769, calculation time: 5.03522801399231 secs</code></pre>
+<pre><code>schedule: [2 1 0 0 1 0 1 0 1 0 1 1], iats: [  0  15  30 -15   0   0 -15], loss = 1.7493143367112616, calc time: 1.4444890022277832 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 1 0 0 1 0 1 0 1 1], loss = 1.5085608700464097, calculation time: 6.649179935455322 secs</code></pre>
+<pre><code>schedule: [2 0 1 1 0 0 1 0 1 0 1 1], iats: [  0  30 -15  30 -15   0 -15], loss = 1.4964179694078943, calc time: 1.4527888298034668 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 1 0 0 1 0 1 1], loss = 1.4870769092180707, calculation time: 8.175395011901855 secs</code></pre>
+<pre><code>schedule: [2 0 1 0 1 1 0 0 1 0 1 1], iats: [  0  30   0 -15  30 -15 -15], loss = 1.4757342463616698, calc time: 1.4433329105377197 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 1 0 0 1 1], loss = 1.483923663137352, calculation time: 9.741128921508789 secs</code></pre>
+<pre><code>schedule: [2 0 1 0 1 0 1 1 0 0 1 1], iats: [  0  30   0   0 -15  30 -30], loss = 1.4715142815576971, calc time: 1.4952657222747803 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 0 1 1 0 1], loss = 1.21751935646216, calculation time: 11.348264932632446 secs</code></pre>
+<pre><code>schedule: [2 0 1 0 1 0 1 0 1 1 0 1], iats: [  0  30   0   0   0 -15  15], loss = 1.2124024121657964, calc time: 1.55781888961792 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 2 0], loss = 4.349802579427763, calculation time: 12.894002914428711 secs</code></pre>
+<pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 2 0], iats: [  0  30   0   0   0   0 -30], loss = 4.340580549692897, calc time: 1.6053128242492676 secs</code></pre>
 </div>
 </div>
 
