@@ -36,12 +36,12 @@ nm = fn.logn_mean_lns(lnm, lns)[0] # normal mean
 ns = fn.logn_mean_lns(lnm, lns)[1] # normal standard deviation
 d = 15 # interval time
 sts = fn.generate_logn_sts(1, 10000, lnm, lns)[0] # sampling population for service times
-sim = np.zeros(12) # initial schedule
+sim = np.zeros(12) 
 i = np.arange(12, step=2)
 sim[i] = 1
 sim[-1] = 1
 sim[0] = 2 
-sim = sim.astype(int)
+sim = sim.astype(int) # initial schedule
 psm = fn.patient_shift_matrix(sim) 
 psm = psm.astype(int) # patient shifting matrix
 transf_to_iats = lambda x: fn.transform_schedule_iats(x, d) 
