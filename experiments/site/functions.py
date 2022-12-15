@@ -44,12 +44,12 @@ def simulate(iats, cts, sts, pct, ns, logs=False):
 
 def simulate_crn(iats, cts, sts, logs=False):
   wt = 0 # initial value waiting time
-  wts = [] # array for saving waiting times
+  wts = [] # array for saving waiting times <<< make zero array! 
   for i in range(len(iats)):
     if(i != 0): # don't calculate waiting time for first client in schedule
       wt = max(0, tis - iats[i]) # calculate waiting time
-    ct =  cts[i]# client type
-    st =  sts[i]# service time
+    ct =  cts[i] # client type
+    st =  sts[i] # service time
     tis = wt + st # calculate time in system
     wts.append(wt)
     if(logs): print(iats[i], wt, st, tis, ct)
