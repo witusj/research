@@ -74,6 +74,7 @@ def transform_schedule_iats(schedule: list, d: int):
   ats = np.repeat(sats, schedule)
   iats = np.diff(ats)
   iats = np.insert(iats, 0, ats[0])
+  iats = iats.astype(int)
   return iats
 
 ##############

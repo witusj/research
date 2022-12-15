@@ -1,0 +1,95 @@
+---
+title: "Search Function"
+---
+
+## Setup
+
+See "Scheduling Simulation" for all function descriptions.
+
+```{python}
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
+import seaborn as sns
+import time
+import functions as fn
+```
+
+Configure global simulation parameters.
+
+psm.info()
+
+```{python}
+## Global variables
+
+cts = np.array([0, 1]) # client types -> normal or emergency
+pct = np.array([1, 0]) # distribution of client types -> normal or emergency
+# sts = np.array([14, 14, 14, 15, 16]) # service times - for simple numerical testing
+# sts = np.random.poisson(lam=14, size=1000) - using poisson distribution
+
+ns = 0.1 # percentage of no-shows
+nsims = 100000 # number of simulations
+logs = False # do not print simulation logs
+lnm = 14 # lognormal mean
+lns = 5 # lognormal standard deviation
+nm = fn.logn_mean_lns(lnm, lns)[0] # normal mean
+ns = fn.logn_mean_lns(lnm, lns)[1] # normal standard deviation
+d = 15 # interval time
+sts = fn.generate_logn_sts(1, 10000, lnm, lns)[0] # sampling population for service times
+sim = np.zeros(12) # initial schedule
+i = np.arange(12, step=2)
+sim[i] = 1
+sim[-1] = 1
+sim[0] = 2 
+sim = sim.astype(int)
+psm = fn.patient_shift_matrix(sim) 
+psm = psm.astype(int) # patient shifting matrix
+transf_to_iats = lambda x: fn.transform_schedule_iats(x, d) 
+iats_sm = np.apply_along_axis(transf_to_iats, 1, psm) # iats shifting matrix
+iats_d_sm = np.diff(iats_sm) # first derivative iats shifting matrix
+N = iats_sm.shape[1] # number of patients
+T = psm.shape[1]
+ctsm = np.random.choice(cts, size = (nsims * N), p=pct).reshape((nsims, N)) # client types matrix
+stsm = np.random.lognormal(mean = nm, sigma=ns, size=(nsims * N)).reshape(nsims, N) # service times matrix
+nsm = np.random.binomial(n=1, p=1-ns, size = (nsims * N)).reshape(nsims, N) # no-shows matrix
+stsm = stsm * nsm # service times matrix with no-shows
+print(f'Running {nsims} simulations with {N} patients and {T} timeslots.')
+```
+
+## Run simulations
+
+```{python}
+
+# Simulations
+
+tic = time.time()
+
+for iats in iats_sm:
+  
+  simreswt = []
+  simresln = 0
+  
+  for i in range(nsims):
+    experiment = fn.simulate_crn(iats, ctsm[i], stsm[i], logs=logs)
+    simreswt.append(experiment[0].mean())
+    ln = max(0, (experiment[1] - d))
+    simresln += ln
+    
+  mwt = np.array(simreswt).mean()
+  mln = simresln / nsims
+  loss = loss = 0.5 * mwt + 0.5 * mln
+  toc = time.time()
+  print(f'schedule: {fn.transform_iats_schedule(iats, d, T)[0]}, loss = {loss}, calculation time: {toc - tic} secs')
+  
+
+  # # plots
+  # 
+  # fig1, (axs1, axs2) = plt.subplots(2, sharey=True, tight_layout=True)
+  # axs1.plot(iats, label="iats")
+  # axs1.set_title(f'iats: {iats}')
+  # axs2.plot(iats_d, label="iats_d")
+  # axs2.set_title(f'iats_d: {iats_d}')
+  # fig2, axs3 = plt.subplots(1, sharey=True, tight_layout=True)
+  # axs3.hist(simreswt, bins = 300)
+  # axs3.set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')
+```

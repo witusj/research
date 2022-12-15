@@ -12,7 +12,9 @@ bibliography: bibliography.bib
 
 -   Tip van Joost:
     -   @simoptgithub
-    -    [SimOpt-software-paper.pdf](https://eckman.engr.tamu.edu/wp-content/uploads/sites/233/2022/01/SimOpt-software-paper.pdf)
+    -   [SimOpt-software-paper.pdf](https://eckman.engr.tamu.edu/wp-content/uploads/sites/233/2022/01/SimOpt-software-paper.pdf)
+
+![](images/simulation.png)
 
 ## HCP:
 
