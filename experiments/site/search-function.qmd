@@ -78,3 +78,5 @@ for iats in iats_sm:
   print(f'schedule: {fn.transform_iats_schedule(iats, d, T)[0]},\niats: {iats},\niats_diff: {np.diff(iats)},\nloss = {loss}, calc time: {toc - tic} secs')
 
 ```
+
+Test instanties opstellen >> grote probemen
