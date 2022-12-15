@@ -10,6 +10,7 @@ website:
         text: Home
       - sched-sim.qmd
       - sim-based-opt.qmd
+      - search-function.qmd
 
 format:
   html:
