@@ -77,17 +77,6 @@ for iats in iats_sm:
   mln = simresln / nsims
   loss = loss = 0.5 * mwt + 0.5 * mln
   toc = time.time()
-  print(f'schedule: {fn.transform_iats_schedule(iats, d, T)[0]}, iats: {np.diff(iats)}, loss = {loss}, calc time: {toc - tic} secs')
-  
+  print(f'schedule: {fn.transform_iats_schedule(iats, d, T)[0]},\niats_diff: {np.diff(iats)},\nloss = {loss}, calc time: {toc - tic} secs')
 
-  # # plots
-  # 
-  # fig1, (axs1, axs2) = plt.subplots(2, sharey=True, tight_layout=True)
-  # axs1.plot(iats, label="iats")
-  # axs1.set_title(f'iats: {iats}')
-  # axs2.plot(iats_d, label="iats_d")
-  # axs2.set_title(f'iats_d: {iats_d}')
-  # fig2, axs3 = plt.subplots(1, sharey=True, tight_layout=True)
-  # axs3.hist(simreswt, bins = 300)
-  # axs3.set_title(f'schedule: {sim}, mwt: {mwt}, mln: {mln}, loss: {loss}')
 ```
