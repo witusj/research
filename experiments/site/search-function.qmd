@@ -77,6 +77,6 @@ for iats in iats_sm:
   mln = simresln / nsims
   loss = loss = 0.5 * mwt + 0.5 * mln
   toc = time.time()
-  print(f'schedule: {fn.transform_iats_schedule(iats, d, T)[0]},\niats_diff: {np.diff(iats)},\nloss = {loss}, calc time: {toc - tic} secs')
+  print(f'schedule: {fn.transform_iats_schedule(iats, d, T)[0]}, iats_diff: {np.diff(iats)},\nloss = {loss}, calc time: {toc - tic} secs')
 
 ```
