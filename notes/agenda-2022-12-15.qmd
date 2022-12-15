@@ -9,6 +9,8 @@ bibliography: bibliography.bib
 
 -   [ ] OAS:
 
+    -   [ ] [Simulatie](https://witusj.github.io/research/experiments/site/source/search-function.html)
+
     -   [ ] Discussie: $$ \begin{aligned} C(x) &= \alpha W(x) + \gamma L(x) + \beta I(x)  \\ &= \alpha W(x) + \gamma {\color{red}L(x)} + \beta (Td + {\color{red}L(x)} - N\beta_s - \lambda T \beta_e) \end{aligned}$$
 
         Als we bij een gegeven schedule $x$ één extra patient toevoegen op $T+1$ dan is de wachttijd van die extra patient gelijk aan de lateness van de arts aan het einde van de schedule. Zo gezien ben je dus alleen patientwachtijden aan het optimaliseren. Zou je dan niet standaard één interval en één patient aan iedere schedule kunnen toevoegen en proberen hiermee te optimaliseren? $$ C(x) = W(x^{T+1})$$
