@@ -62,10 +62,8 @@ print(f'Running {nsims} simulations with {N} patients and {T} timeslots.')
 
 # Simulations
 
-tic = time.time()
-
 for iats in iats_sm:
-  
+  tic = time.time()
   simreswt = []
   simresln = 0
   
@@ -79,7 +77,7 @@ for iats in iats_sm:
   mln = simresln / nsims
   loss = loss = 0.5 * mwt + 0.5 * mln
   toc = time.time()
-  print(f'schedule: {fn.transform_iats_schedule(iats, d, T)[0]}, loss = {loss}, calculation time: {toc - tic} secs')
+  print(f'schedule: {fn.transform_iats_schedule(iats, d, T)[0]}, iats: {np.diff(iats)}, loss = {loss}, calc time: {toc - tic} secs')
   
 
   # # plots
