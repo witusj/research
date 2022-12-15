@@ -271,46 +271,38 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  mln <span class="op">=</span> simresln <span class="op">/</span> nsims</span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  loss <span class="op">=</span> loss <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> mwt <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> mln</span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  toc <span class="op">=</span> time.time()</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f'schedule: </span><span class="sc">{</span>fn<span class="sc">.</span>transform_iats_schedule(iats, d, T)[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">,</span><span class="ch">\n</span><span class="ss">iats_diff: </span><span class="sc">{</span>np<span class="sc">.</span>diff(iats)<span class="sc">}</span><span class="ss">,</span><span class="ch">\n</span><span class="ss">loss = </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">, calc time: </span><span class="sc">{</span>toc <span class="op">-</span> tic<span class="sc">}</span><span class="ss"> secs'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f'schedule: </span><span class="sc">{</span>fn<span class="sc">.</span>transform_iats_schedule(iats, d, T)[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">, iats_diff: </span><span class="sc">{</span>np<span class="sc">.</span>diff(iats)<span class="sc">}</span><span class="ss">,</span><span class="ch">\n</span><span class="ss">loss = </span><span class="sc">{</span>loss<span class="sc">}</span><span class="ss">, calc time: </span><span class="sc">{</span>toc <span class="op">-</span> tic<span class="sc">}</span><span class="ss"> secs'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 1 1],
-iats_diff: [  0  30   0   0   0   0 -15],
-loss = 1.4108682337088396, calc time: 1.7080976963043213 secs</code></pre>
+<pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 1 1], iats_diff: [  0  30   0   0   0   0 -15],
+loss = 1.410148726334829, calc time: 1.746539831161499 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [1 0 1 0 1 0 1 0 1 0 1 2],
-iats_diff: [ 30   0   0   0   0 -15 -15],
-loss = 4.190815201570396, calc time: 1.6282851696014404 secs</code></pre>
+<pre><code>schedule: [1 0 1 0 1 0 1 0 1 0 1 2], iats_diff: [ 30   0   0   0   0 -15 -15],
+loss = 4.192235017652058, calc time: 1.6323120594024658 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 1 0 0 1 0 1 0 1 0 1 1],
-iats_diff: [  0  15  30 -15   0   0 -15],
-loss = 1.746235236722789, calc time: 1.5085818767547607 secs</code></pre>
+<pre><code>schedule: [2 1 0 0 1 0 1 0 1 0 1 1], iats_diff: [  0  15  30 -15   0   0 -15],
+loss = 1.7475431808861328, calc time: 1.6468479633331299 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 1 0 0 1 0 1 0 1 1],
-iats_diff: [  0  30 -15  30 -15   0 -15],
-loss = 1.493165259634941, calc time: 1.4982731342315674 secs</code></pre>
+<pre><code>schedule: [2 0 1 1 0 0 1 0 1 0 1 1], iats_diff: [  0  30 -15  30 -15   0 -15],
+loss = 1.4931583918042741, calc time: 1.597632884979248 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 1 0 0 1 0 1 1],
-iats_diff: [  0  30   0 -15  30 -15 -15],
-loss = 1.4714582167462886, calc time: 1.5804147720336914 secs</code></pre>
+<pre><code>schedule: [2 0 1 0 1 1 0 0 1 0 1 1], iats_diff: [  0  30   0 -15  30 -15 -15],
+loss = 1.4719618787166382, calc time: 1.6657090187072754 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 1 0 0 1 1],
-iats_diff: [  0  30   0   0 -15  30 -30],
-loss = 1.4680982250238825, calc time: 1.5401430130004883 secs</code></pre>
+<pre><code>schedule: [2 0 1 0 1 0 1 1 0 0 1 1], iats_diff: [  0  30   0   0 -15  30 -30],
+loss = 1.467321304276473, calc time: 1.6237318515777588 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 0 1 1 0 1],
-iats_diff: [  0  30   0   0   0 -15  15],
-loss = 1.209205267014903, calc time: 1.621288776397705 secs</code></pre>
+<pre><code>schedule: [2 0 1 0 1 0 1 0 1 1 0 1], iats_diff: [  0  30   0   0   0 -15  15],
+loss = 1.2172148306764852, calc time: 1.6381239891052246 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 2 0],
-iats_diff: [  0  30   0   0   0   0 -30],
-loss = 4.337718440340433, calc time: 1.5478780269622803 secs</code></pre>
+<pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 2 0], iats_diff: [  0  30   0   0   0   0 -30],
+loss = 4.334701863758176, calc time: 1.771456003189087 secs</code></pre>
 </div>
 </div>
 
