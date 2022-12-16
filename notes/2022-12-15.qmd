@@ -1,0 +1,14 @@
+---
+title: "2022-12-15"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+---
+
+## OAS:
+
+-   Analyseren literatuur \>\> Ala en Chen artikelen vanaf 2017 [doornemen](https://docs.google.com/spreadsheets/d/1uWxtoPXAo-oYLaKPxPA3Vxh_TWxZiG_5DDsMEfwcs5M/edit?usp=sharing)
+-   Test instanties ontwerpen \>\> werken grote problemen ook goed?
