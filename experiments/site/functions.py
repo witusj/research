@@ -44,7 +44,7 @@ def simulate(iats, cts, sts, pct, ns, logs=False):
 
 def simulate_crn(iats, cts, sts, logs=False):
   wt = 0 # initial value waiting time
-  wts = [None] * len(iats) # array for saving waiting times <<< make zero array! 
+  wts = [None] * len(iats) # array for saving waiting times 
   for i in range(len(iats)):
     if(i != 0): # don't calculate waiting time for first client in schedule
       wt = max(0, tis - iats[i]) # calculate waiting time
