@@ -62,12 +62,12 @@ print(f'Running {nsims} simulations with {N} patients and {T} timeslots.')
 
 for iats in iats_sm:
   tic = time.time()
-  simreswt = [] # array for saving waiting times
+  simreswt = [None] * nsims # array for saving waiting times
   simresln = 0 # array for saving lateness
   
   for i in range(nsims):
     experiment = fn.simulate_crn(iats, ctsm[i], stsm[i], logs=logs)
-    simreswt.append(experiment[0].mean())
+    simreswt[i] = experiment[0].mean()
     ln = max(0, (experiment[1] - d))
     simresln += ln
     
@@ -76,7 +76,7 @@ for iats in iats_sm:
   loss = loss = 0.5 * mwt + 0.5 * mln
   toc = time.time()
   print(f'schedule: {fn.transform_iats_schedule(iats, d, T)[0]},\niats: {iats},\niats_diff: {np.diff(iats)},\nloss = {loss}, calc time: {toc - tic} secs')
-
+  
 ```
 
 Test instanties opstellen >> grote probemen

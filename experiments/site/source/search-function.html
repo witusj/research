@@ -257,12 +257,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> iats <span class="kw">in</span> iats_sm:</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  tic <span class="op">=</span> time.time()</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  simreswt <span class="op">=</span> [] <span class="co"># array for saving waiting times</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  simreswt <span class="op">=</span> [<span class="va">None</span>] <span class="op">*</span> nsims <span class="co"># array for saving waiting times</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  simresln <span class="op">=</span> <span class="dv">0</span> <span class="co"># array for saving lateness</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    experiment <span class="op">=</span> fn.simulate_crn(iats, ctsm[i], stsm[i], logs<span class="op">=</span>logs)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    simreswt.append(experiment[<span class="dv">0</span>].mean())</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    simreswt[i] <span class="op">=</span> experiment[<span class="dv">0</span>].mean()</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    ln <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, (experiment[<span class="dv">1</span>] <span class="op">-</span> d))</span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    simresln <span class="op">+=</span> ln</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -275,49 +275,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 1 1],
 iats: [ 0  0 30 30 30 30 30 15],
 iats_diff: [  0  30   0   0   0   0 -15],
-loss = 1.4177796795770798, calc time: 1.4627890586853027 secs</code></pre>
+loss = 1.4233539261118344, calc time: 1.5667762756347656 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [1 0 1 0 1 0 1 0 1 0 1 2],
 iats: [ 0 30 30 30 30 30 15  0],
 iats_diff: [ 30   0   0   0   0 -15 -15],
-loss = 4.19242300843307, calc time: 1.433629035949707 secs</code></pre>
+loss = 4.19237503755992, calc time: 1.5934197902679443 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 1 0 0 1 0 1 0 1 0 1 1],
 iats: [ 0  0 15 45 30 30 30 15],
 iats_diff: [  0  15  30 -15   0   0 -15],
-loss = 1.7538922670761226, calc time: 1.4820191860198975 secs</code></pre>
+loss = 1.7607131711684807, calc time: 1.4304380416870117 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 1 0 0 1 0 1 0 1 1],
 iats: [ 0  0 30 15 45 30 30 15],
 iats_diff: [  0  30 -15  30 -15   0 -15],
-loss = 1.5009656610497584, calc time: 1.4734280109405518 secs</code></pre>
+loss = 1.505330241063095, calc time: 1.4350340366363525 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 0 1 1 0 0 1 0 1 1],
 iats: [ 0  0 30 30 15 45 30 15],
 iats_diff: [  0  30   0 -15  30 -15 -15],
-loss = 1.4793281434188195, calc time: 1.4735491275787354 secs</code></pre>
+loss = 1.4847295039084665, calc time: 1.4761748313903809 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 0 1 0 1 1 0 0 1 1],
 iats: [ 0  0 30 30 30 15 45 15],
 iats_diff: [  0  30   0   0 -15  30 -30],
-loss = 1.475068192295222, calc time: 1.4732789993286133 secs</code></pre>
+loss = 1.480196547453506, calc time: 1.457854986190796 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 0 1 0 1 0 1 1 0 1],
 iats: [ 0  0 30 30 30 30 15 30],
 iats_diff: [  0  30   0   0   0 -15  15],
-loss = 1.216117075410335, calc time: 1.4727492332458496 secs</code></pre>
+loss = 1.2173126467521715, calc time: 1.5633628368377686 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 2 0],
 iats: [ 0  0 30 30 30 30 30  0],
 iats_diff: [  0  30   0   0   0   0 -30],
-loss = 4.340389684893522, calc time: 1.4522969722747803 secs</code></pre>
+loss = 4.341932584125762, calc time: 1.5192840099334717 secs</code></pre>
 </div>
 </div>
 <p>Test instanties opstellen &gt;&gt; grote probemen</p>
