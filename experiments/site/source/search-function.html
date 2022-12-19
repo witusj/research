@@ -203,11 +203,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>See “Scheduling Simulation” for all function descriptions.</p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> functions <span class="im">as</span> fn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> functions <span class="im">as</span> fn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Configure global simulation parameters.</p>
 <div class="cell" data-execution_count="2">
@@ -275,49 +273,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 1 1],
 iats: [ 0  0 30 30 30 30 30 15],
 iats_diff: [  0  30   0   0   0   0 -15],
-loss = 1.4170756588423572, calc time: 1.5960512161254883 secs</code></pre>
+loss = 1.4173992024178608, calc time: 1.4906268119812012 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [1 0 1 0 1 0 1 0 1 0 1 2],
 iats: [ 0 30 30 30 30 30 15  0],
 iats_diff: [ 30   0   0   0   0 -15 -15],
-loss = 4.196171765667631, calc time: 1.465183973312378 secs</code></pre>
+loss = 4.175165094635358, calc time: 1.4388678073883057 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 1 0 0 1 0 1 0 1 0 1 1],
 iats: [ 0  0 15 45 30 30 30 15],
 iats_diff: [  0  15  30 -15   0   0 -15],
-loss = 1.754719101921663, calc time: 1.4622609615325928 secs</code></pre>
+loss = 1.7525971421617184, calc time: 1.4404311180114746 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 1 0 0 1 0 1 0 1 1],
 iats: [ 0  0 30 15 45 30 30 15],
 iats_diff: [  0  30 -15  30 -15   0 -15],
-loss = 1.5000807363412116, calc time: 1.455157995223999 secs</code></pre>
+loss = 1.4993658383616537, calc time: 1.4292500019073486 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 0 1 1 0 0 1 0 1 1],
 iats: [ 0  0 30 30 15 45 30 15],
 iats_diff: [  0  30   0 -15  30 -15 -15],
-loss = 1.4779291807951656, calc time: 1.4451379776000977 secs</code></pre>
+loss = 1.4787818778616137, calc time: 1.4324159622192383 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 0 1 0 1 1 0 0 1 1],
 iats: [ 0  0 30 30 30 15 45 15],
 iats_diff: [  0  30   0   0 -15  30 -30],
-loss = 1.474940525027948, calc time: 1.4734349250793457 secs</code></pre>
+loss = 1.4743937540094116, calc time: 1.4411180019378662 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 0 1 0 1 0 1 1 0 1],
 iats: [ 0  0 30 30 30 30 15 30],
 iats_diff: [  0  30   0   0   0 -15  15],
-loss = 1.2153014335360801, calc time: 1.4762470722198486 secs</code></pre>
+loss = 1.2146875171020726, calc time: 1.4558649063110352 secs</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 2 0],
 iats: [ 0  0 30 30 30 30 30  0],
 iats_diff: [  0  30   0   0   0   0 -30],
-loss = 4.339663741021431, calc time: 1.4217360019683838 secs</code></pre>
+loss = 4.323935525893469, calc time: 1.4473369121551514 secs</code></pre>
 </div>
 </div>
 

@@ -8,9 +8,7 @@ See "Scheduling Simulation" for all function descriptions.
 
 ```{python}
 import numpy as np
-import pandas as pd
 from matplotlib import pyplot as plt
-import seaborn as sns
 import time
 import functions as fn
 ```
@@ -59,7 +57,7 @@ print(f'Running {nsims} simulations with {N} patients and {T} timeslots.')
 ```{python}
 
 # Simulations
-
+results = []
 for iats in iats_sm:
   tic = time.time()
   simreswt = [None] * nsims # array for saving waiting times
@@ -75,7 +73,15 @@ for iats in iats_sm:
   mln = simresln / nsims
   loss = loss = 0.5 * mwt + 0.5 * mln
   toc = time.time()
-  print(f'schedule: {fn.transform_iats_schedule(iats, d, T)[0]},\niats: {iats},\niats_diff: {np.diff(iats)},\nloss = {loss}, calc time: {toc - tic} secs')
+  result = {
+      "schedule": fn.transform_iats_schedule(iats, d, T)[0],
+      "iats": iats,
+      "iats_diff": np.diff(iats),
+      "loss": loss,
+      "calc_time": toc - tic
+    }
+  results.append(result)
+  print(f'schedule: {result["schedule"]},\niats: {iats},\niats_diff: {result["iats_diff"]},\nloss = {result["loss"]}, calc time: {result["calc_time"]} secs')
   
 ```
 
