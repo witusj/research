@@ -325,6 +325,11 @@ be included in a smart way in the prediction model?
 \subsection{Applications for and purpose of outbound appointment
 systems}\label{applications-for-and-purpose-of-outbound-appointment-systems}}
 
+The literature body on appointment scheduling is extensive. A literature
+review on this topic by \citet{ahmadijavid_outpatient_2017} identified
+more than 100 articles and in a recent article
+\citet{ala_appointment_2022} reviewed more than 150 articles.
+
 \citep{ahmadijavid_outpatient_2017} distinguish between three types of
 decisions for designing Outpatient Appointment Systems (OASs):
 
@@ -342,10 +347,10 @@ decisions for designing Outpatient Appointment Systems (OASs):
 \end{itemize}
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2252}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1892}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1261}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4414}}@{}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2315}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1944}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1019}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4537}}@{}}
 \toprule()
 \begin{minipage}[b]{\linewidth}\raggedright
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -387,38 +392,35 @@ Priority of patient groups\\
 They labeled articles on OASs by decision type, solution method and
 modeling approach.
 
-\includegraphics{images/ahmadi2.jpeg}
+\begin{figure}
+
+{\centering \includegraphics{images/ahmadi2.jpeg}
+
+}
+
+\caption{Descriptive dimensions from a computational perspective:
+modeling approach and solution method
+\citep{ahmadijavid_outpatient_2017}}
+
+\end{figure}
 
 In this article we will be using a single-stage stochastic programming
-(1-SSP) modeling approach.
+(1-SSP) modeling approach. A simple count of articles in
+\citet{ahmadijavid_outpatient_2017} suggests that most solution methods
+for 1-SSP modeling approaches are either analytical or simulation based
+(15 and 8 articles, resp.)
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.2449}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1182}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.0445}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.0908}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1027}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1233}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.1849}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.0411}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 16\tabcolsep) * \real{0.0377}}@{}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4846}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3652}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0785}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0717}}@{}}
 \caption{Selection of articles taken from
 \citep{ahmadijavid_outpatient_2017} with single-stage stochastic
 programming (1-SSP) as the modeling approach.}\tabularnewline
 \toprule()
 \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Reference}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Tactical and operational decisions}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Access policy}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Type of scheduling: online (On), offline (Off)}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Number of servers/resources: single (S), multiple (M)}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Policy on acceptance of walk-ins: allowed (Yes), not allowed
-(No)}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Objective: minimize (Min.), maximize (Max.)}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -432,17 +434,6 @@ programming (1-SSP) as the modeling approach.}\tabularnewline
 \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Reference}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Tactical and operational decisions}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Access policy}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Type of scheduling: online (On), offline (Off)}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Number of servers/resources: single (S), multiple (M)}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Policy on acceptance of walk-ins: allowed (Yes), not allowed
-(No)}
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Objective: minimize (Min.), maximize (Max.)}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Modeling approach}
@@ -452,129 +443,114 @@ programming (1-SSP) as the modeling approach.}\tabularnewline
 \midrule()
 \endhead
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0008}{\textbf{(}Begen
-\& Queyranne, 2011}\textbf{)} & O3 (OBA) & Traditional & Off & S & Yes
-(urgent) & Min. costs of waiting time, idle time, and overtime & 1-SSP &
-AM \\
+\& Queyranne, 2011}\textbf{)} & Min. costs of waiting time, idle time,
+and overtime & 1-SSP & AM \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0018}{\textbf{(}Chakraborty
-et al., 2010}\textbf{)} & O3/O4 (OBA) (integrated) & Open-access & On &
-S & No & Max. profit (revenue of patients seen -- costs of patients
-overflowing between each two successive slots) & 1-SSP & AM/H \\
+et al., 2010}\textbf{)} & Max. profit (revenue of patients seen -- costs
+of patients overflowing between each two successive slots) & 1-SSP &
+AM/H \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0019}{\textbf{(}Chakraborty
-et al., 2013}\textbf{)} & O3/O4 (OBA) (integrated) & Hybrid & On & S &
-No & Max. profit (revenue of patients seen -- costs of waiting time and
-overtime) & 1-SSP & AM/H \\
+et al., 2013}\textbf{)} & Max. profit (revenue of patients seen -- costs
+of waiting time and overtime) & 1-SSP & AM/H \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0074}{\textbf{(}LaGanga
-\& Lawrence, 2012}\textbf{)} & T4/T5 (integrated) & Traditional & - & S
-& No & Max. profit (revenue of patients seen -- costs of waiting time
-and overtime) & 1-SSP & AM/H \\
+\& Lawrence, 2012}\textbf{)} & Max. profit (revenue of patients seen --
+costs of waiting time and overtime) & 1-SSP & AM/H \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0093}{\textbf{(}Muthuraman
-\& Lawley, 2008}\textbf{)} & O3 (OBA) & Open-access & On & S & No & Max.
-profit (revenue of patients seen -- costs of waiting time and overtime)
-& 1-SSP & AM/H \\
+\& Lawley, 2008}\textbf{)} & Max. profit (revenue of patients seen --
+costs of waiting time and overtime) & 1-SSP & AM/H \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0121}{\textbf{(}Samorani
-\& Ganguly, 2016}\textbf{)} & O6 (for unpunctual patient) (OBA) & - & -
-& S & No & Min. costs of waiting time and idle time & 1-SSP & AM/H \\
+\& Ganguly, 2016}\textbf{)} & Min. costs of waiting time and idle time &
+1-SSP & AM/H \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0148}{\textbf{(}Zacharias
-\& Pinedo, 2014}\textbf{)} & \begin{minipage}[t]{\linewidth}\raggedright
-T4/O3/O6 (heterogeneous patients) (RBA)\\
-(integrated)T4/O3 (homogeneous patients) (OBA)(integrated)\strut
-\end{minipage} & Traditional &
-\begin{minipage}[t]{\linewidth}\raggedright
-Off\\
-\strut \\
-\strut \\
-On\strut
-\end{minipage} & S & No & Min. costs of waiting time, idle time, and
+\& Pinedo, 2014}\textbf{)} & Min. costs of waiting time, idle time, and
 overtime & 1-SSP & AM/H \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0149}{\textbf{(}Zeng
-et al., 2010}\textbf{)} & \begin{minipage}[t]{\linewidth}\raggedright
-T1/T4/O3 (OBA) (integrated)\\
-O3/O4 (OBA) (integrated)\strut
-\end{minipage} & Traditional Open-access & Off On & S & No & Max. profit
-(revenue of patients seen -- costs of waiting time and overtime) & 1-SSP
-- & AM/H H \\
+et al., 2010}\textbf{)} & Max. profit (revenue of patients seen -- costs
+of waiting time and overtime) & 1-SSP - & AM/H H \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0059}{\textbf{(}Kaandorp
-\& Koole, 2007}\textbf{)} & T4/O3 (OBA) (integrated) & Traditional & - &
-S & No & Min. costs of waiting time, idle time, and overtime & 1-SSP &
-AM/O \\
+\& Koole, 2007}\textbf{)} & Min. costs of waiting time, idle time, and
+overtime & 1-SSP & AM/O \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0067}{\textbf{(}Koeleman
-\& Koole, 2012}\textbf{)} & T4/O3 (OBA) (integrated) & - & - & S & Yes
-(Urgent) & Min. costs of waiting time, idle time, and overtime & 1-SSP &
-AM/O \\
+\& Koole, 2012}\textbf{)} & Min. costs of waiting time, idle time, and
+overtime & 1-SSP & AM/O \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0151}{\textbf{(}Kong
-et al., 2016}\textbf{)} & O6 & - & Off & S & No & Min. costs of waiting
-time and overtime & 1-SSP & AM/O \\
+et al., 2016}\textbf{)} & Min. costs of waiting time and overtime &
+1-SSP & AM/O \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0113}{\textbf{(}Qu
-et al., 2007}\textbf{)} & T1 & Hybrid & - & S & No & Max. \# of patients
-seen & 1-SSP & AM/O \\
+et al., 2007}\textbf{)} & Max. \# of patients seen & 1-SSP & AM/O \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0146}{\textbf{(}Yan
-et al., 2015}\textbf{)} & O3/O4 (OBA) (integrated) & Traditional & On &
-S & No & Max. profit (revenue of patients seen -- costs of waiting time,
-overtime, and idle time) & 1-SSP & AM/O \\
+et al., 2015}\textbf{)} & Max. profit (revenue of patients seen -- costs
+of waiting time, overtime, and idle time) & 1-SSP & AM/O \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0007}{\textbf{(}Begen
-et al., 2012}\textbf{)} & O3 (OBA) & Traditional & Off & S & No & Min.
-costs of waiting time, idle time, and overtime & 1-SSP & AM/S-SAA \\
+et al., 2012}\textbf{)} & Min. costs of waiting time, idle time, and
+overtime & 1-SSP & AM/S-SAA \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0082}{\textbf{(}Luo
-et al., 2012}\textbf{)} & T2/T5/O3 (OBA) (integrated) & Traditional & -
-& S & Yes (urgent) & Max. profit (revenue of patients seen -- costs of
-waiting time and overtime) & 1-SSP & AM/SO \\
+et al., 2012}\textbf{)} & Max. profit (revenue of patients seen -- costs
+of waiting time and overtime) & 1-SSP & AM/SO \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0021}{\textbf{(}Chen
-\& Robinson, 2014}\textbf{)} &
-\begin{minipage}[t]{\linewidth}\raggedright
-T2/O3/O6 (T2/O3: OBA, O6: RBA)\\
-(T2/O3: integrated, (T2/O3)/O6: sequential)\strut
-\end{minipage} & Hybrid & On & S & No & Min. costs of waiting time, idle
-time, and overtime & 1-SSP & BD/H (for O6) \\
+\& Robinson, 2014}\textbf{)} & Min. costs of waiting time, idle time,
+and overtime & 1-SSP & BD/H (for O6) \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0137}{\textbf{(}Vink
-et al., 2015}\textbf{)} & T2/O3 (OBA) (integrated) & Traditional & Off &
-S & No & Min. costs of waiting time, idle time, and overtime & 1-SSP &
-H \\
+et al., 2015}\textbf{)} & Min. costs of waiting time, idle time, and
+overtime & 1-SSP & H \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0053}{\textbf{(}Hassin
-\& Mendel, 2008}\textbf{)} & T2/O3 (OBA) (integrated) & Traditional &
-Off & S & No & Min. costs of waiting time and server availability &
-1-SSP & O \\
+\& Mendel, 2008}\textbf{)} & Min. costs of waiting time and server
+availability & 1-SSP & O \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0061}{\textbf{(}Kim
-\& Giachetti, 2006}\textbf{)} & T5 & Traditional & - & S & Yes (regular)
-& Max. profit (revenue of patients seen -- costs of overtime and patient
-rejection) & 1-SSP & O \\
+\& Giachetti, 2006}\textbf{)} & Max. profit (revenue of patients seen --
+costs of overtime and patient rejection) & 1-SSP & O \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0002}{\textbf{(}Anderson,
-Zheng, Yoon, \& Khasawneh, 2015}\textbf{)} & T2 & Traditional & - & S &
-No & Min. costs of waiting time, idle time, and overtime & 1-SSP &
-S-SBO \\
-\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0015}{\textbf{(}Cayirli
-\& Gunes, 2013}\textbf{)} & T1/T4 (integrated) & Hybrid & On & S & Yes
-(regular) & Min. costs of waiting time, idle time, and overtime & 1-SSP
-& S-SBO \\
-\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0055}{\textbf{(}Huang
-\& Zuniga, 2012}\textbf{)} & T4/O3 (based on no-show threshold for each
-slot) (OBA)(integrated) & - & On & S & No & Min. costs of waiting time,
+Zheng, Yoon, \& Khasawneh, 2015}\textbf{)} & Min. costs of waiting time,
 idle time, and overtime & 1-SSP & S-SBO \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0015}{\textbf{(}Cayirli
+\& Gunes, 2013}\textbf{)} & Min. costs of waiting time, idle time, and
+overtime & 1-SSP & S-SBO \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0055}{\textbf{(}Huang
+\& Zuniga, 2012}\textbf{)} & Min. costs of waiting time, idle time, and
+overtime & 1-SSP & S-SBO \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0054}{\textbf{(}Huang,
-Hancock, \& Herrin, 2012}\textbf{)} & T2 & - & - & S & No & Min. waiting
-time and idle time & 1-SSP & S-SBO \\
-\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0063}{\textbf{(}Klassen
-\& Yoogalingam, 2009}\textbf{)} & T2/O3 (OBA) (integrated) & Traditional
-& - & S & No & Min. costs of waiting time, idle time, and overtime &
+Hancock, \& Herrin, 2012}\textbf{)} & Min. waiting time and idle time &
 1-SSP & S-SBO \\
+\href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0063}{\textbf{(}Klassen
+\& Yoogalingam, 2009}\textbf{)} & Min. costs of waiting time, idle time,
+and overtime & 1-SSP & S-SBO \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0064}{\textbf{(}Klassen
-\& Yoogalingam, 2013}\textbf{)} & T2/O3 (OBA) (integrated) & Traditional
-& - & S & No & Min. costs of waiting time and idle time & 1-SSP &
-S-SBO \\
+\& Yoogalingam, 2013}\textbf{)} & Min. costs of waiting time and idle
+time & 1-SSP & S-SBO \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0065}{\textbf{(}Klassen
-\& Yoogalingam, 2014}\textbf{)} & T2/O3 (OBA) (integrated) & Traditional
-& On & S & No & Min. costs of waiting time and idle time & 1-SSP &
-S-SBO \\
+\& Yoogalingam, 2014}\textbf{)} & Min. costs of waiting time and idle
+time & 1-SSP & S-SBO \\
 \href{https://www.sciencedirect.com/science/article/pii/S0377221716305239?via\%3Dihub\#bib0103}{\textbf{(}Peng,
-Qu, \& Shi, 2014}\textbf{)} & T1/T4/O3 (OBA) (integrated) & Hybrid & On
-& S & Yes (regular) & Min. costs of waiting time, idle time, and
+Qu, \& Shi, 2014}\textbf{)} & Min. costs of waiting time, idle time, and
 overtime & 1-SSP & S-SBO/MH-GA \\
 \bottomrule()
 \end{longtable}
 
 \includegraphics{images/ahmadi1-01.png}
 
-Most solution methods for 1-SSP modeling approaches are analytical or
-simulation based (15 and 8 articles, resp.)
+For a more profound understanding of the current state of knowledge on a
+literature review was conducted specifically aimed at 1-SSP problems and
+corresponding solution methods. For this we selected a subset of 19
+titles from the references found in \citet{ala_appointment_2022}. These
+titles were entered into Research Rabbit \citep{research_rabbit} which
+generated a list of related work with over 800 articles.
+
+Using an AI assisted systematic literature reviewing tool, the set of
+articles was reduced to a short-list of XX articles.
+
+\begin{figure}
+
+{\centering \includegraphics{images/timeline articles.png}
+
+}
+
+\caption{Timeline of related work on appointment scheduling}
+
+\end{figure}
+
+\hypertarget{problem-description-and-solution-methods}{%
+\section{Problem description and solution
+methods}\label{problem-description-and-solution-methods}}
 
 \citep{ala_appointment_2022} mention four categories of OASs purposes:
 
@@ -593,11 +569,7 @@ simulation based (15 and 8 articles, resp.)
 This will be reflected in the cost function where we will be attempting
 to minimize patient waiting times and physician over-time. Fairness is a
 rather subjective matter. The cost function will contain weights that
-can be adjusted to fit particular cases and/or preferences.
-
-\hypertarget{problem-description-and-solution-methods}{%
-\section{Problem description and solution
-methods}\label{problem-description-and-solution-methods}}
+can be adjusted to reflect particular fairness perceptions.
 
 A schedule is a vector \(x\) consisting of \(T\) elements in which each
 element represents the number of patients scheduled at the interval

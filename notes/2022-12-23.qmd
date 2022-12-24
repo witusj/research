@@ -1,0 +1,14 @@
+---
+title: "2022-12-23"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+---
+
+## HCP:
+
+-   Kijken naar cijfers [Vektis](https://www.vektis.nl/intelligence/publicaties/factsheet-wijkverpleging-2022)
+-   Counts diensttoewijzingen met minimaal aantal keren ingezet maken. Idee: alleen medewerkers meetellen die minstens 6 maanden lang en minimaal 1 maal per week zijn ingezet?
