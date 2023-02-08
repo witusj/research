@@ -31,84 +31,62 @@ lns = 5 # lognormal standard deviation
 nm = fn.logn_mean_lns(lnm, lns)[0] # normal mean
 ns = fn.logn_mean_lns(lnm, lns)[1] # normal standard deviation
 d = 15 # interval time
+T = 12
 sts = fn.generate_logn_sts(1, 10000, lnm, lns)[0] # sampling population for service times
-sim = np.zeros(12) 
-i = np.arange(12, step=2)
+sim = np.zeros(T) 
+i = np.arange(T, step=2)
 sim[i] = 1
 sim[-1] = 1
 sim[0] = 2 
 sim = sim.astype(int) # initial schedule
-psm = fn.patient_shift_matrix(sim) 
-psm = psm.astype(int) # patient shifting matrix
-transf_to_iats = lambda x: fn.transform_schedule_iats(x, d) 
-iats_sm = np.apply_along_axis(transf_to_iats, 1, psm) # iats shifting matrix
-iats_d_sm = np.diff(iats_sm) # first derivative iats shifting matrix
-N = iats_sm.shape[1] # number of patients
-T = psm.shape[1] # number of time slots
+N = np.sum(sim)
+
 ctsm = np.random.choice(cts, size = (nsims * N), p=pct).reshape((nsims, N)) # client types matrix
 stsm = np.random.lognormal(mean = nm, sigma=ns, size=(nsims * N)).reshape(nsims, N) # service times matrix
 nsm = np.random.binomial(n=1, p=1-ns, size = (nsims * N)).reshape(nsims, N) # no-shows matrix
 stsm = stsm * nsm # service times matrix with no-shows
+```
+
+## Run simulations and search
+
+```{python}
 print(f'Running {nsims} simulations with {N} patients and {T} timeslots.')
-```
 
-## Run simulations
-
-```{python}
-
-# Simulations
-results = []
-for iats in iats_sm:
-  tic = time.time()
-  simreswt = [None] * nsims # array for saving waiting times
-  simresln = 0 # array for saving lateness
-  
-  for i in range(nsims):
-    experiment = fn.simulate_crn(iats, ctsm[i], stsm[i], logs=logs)
-    simreswt[i] = experiment[0].mean()
-    ln = max(0, (experiment[1] - d))
-    simresln += ln
-    
-  mwt = np.array(simreswt).mean()
-  mln = simresln / nsims
-  loss = 0.5 * mwt + 0.5 * mln
-  toc = time.time()
-  result = {
-      "schedule": fn.transform_iats_schedule(iats, d, T)[0],
-      "iats": iats,
-      "iats_diff": np.diff(iats),
-      "loss": loss,
-      "calc_time": toc - tic
-    }
-  results.append(result)
-  print(f'schedule: {result["schedule"]},\niats: {iats},\niats_diff: {result["iats_diff"]},\nloss = {result["loss"]}, \
-  calc time: {result["calc_time"]} secs')
-  
-```
-
-```{python}
 # Get start time and set timer seconds
 start_time = time.time()
-seconds = 20
+seconds = 30
+bestresult = {
+          "schedule": None,
+          "iats": None,
+          "iats_diff": None,
+          "loss": None,
+          "calc_time": None
+          } # Dictionary for saving best result
 
 # Start timer while loop
 while True:
     current_time = time.time()
     elapsed_time = current_time - start_time
-    bestresult = None
-
+    
     if elapsed_time > seconds:
         print("Finished iterating in: " + str(int(elapsed_time))  + " seconds")
+        print(f"Best result:\n{bestresult}")
         break
       
     ## Start iterator for inter arrival times in shift matrix
+    ## data preparation
+    psm = fn.patient_shift_matrix(sim).astype(int)
+    print("Generated new psm")
+    transf_to_iats = lambda x: fn.transform_schedule_iats(x, d) 
+    iats_sm = np.apply_along_axis(transf_to_iats, 1, psm) # iats shifting matrix
+    iats_d_sm = np.diff(iats_sm) # first derivative iats shifting matrix
     results = []
     for iats in iats_sm:
       tic = time.time()
       simreswt = [None] * nsims # array for saving waiting times
       simresln = 0 # array for saving lateness
       
-      for i in range(nsims):
+      for i in range(nsims): # simulate nsims number of times
         experiment = fn.simulate_crn(iats, ctsm[i], stsm[i], logs=logs)
         simreswt[i] = experiment[0].mean()
         ln = max(0, (experiment[1] - d))
@@ -125,17 +103,16 @@ while True:
           "loss": loss,
           "calc_time": toc - tic
         }
+      if bestresult["loss"] == None: # save first result as bestresult
+            bestresult = result
+      if result["loss"] < bestresult["loss"]: # break loop on first improvement of loss value
+            sim = result["schedule"]
+            bestresult = result
+            print(f"Found better schedule:\n{result}")
+            break
       
-      if result["loss"] < bestresult["loss"]: bestresult = result
       results.append(result)
-      print(f'schedule: {result["schedule"]},\niats: {iats},\niats_diff: {result["iats_diff"]},\nloss = {result["loss"]}, \
-      calc time: {result["calc_time"]} secs')
-    print(f'Best result: {bestresult["schedule"]} with loss = {bestresult["loss"]} )
-### Simulate item of the shift matrix
-
-#### If loss is lower than previous save iats vector and loss
-
-## Calculate new shift matrix based upon best iats vector
+      print(f'schedule: {result["schedule"]},\niats: {iats},\niats_diff: {result["iats_diff"]},\nloss = {result["loss"]}, calc time: {result["calc_time"]} secs')
 
 ```
 
