@@ -1,0 +1,23 @@
+---
+title: "2022-12-23"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+---
+
+## HCP:
+
+Gesprek Dennis:
+
+-   Nieuwe rol binnen KmD:
+
+    -   Learning communities opzetten met reeksen masterclasses voor studenten en werkenden
+
+-   Position paper lectoren over Kansen met Data
+
+-   Nu even focussen op afronding paper HCP \>\> daarna paper Ger en zoeken nieuw thema
+
+-   Bespreken met Gisela over Kansen met Data voor onderwijs (position paper) en navragen plannen minor 3DM voor AOO.

@@ -71,7 +71,7 @@ for iats in iats_sm:
     
   mwt = np.array(simreswt).mean()
   mln = simresln / nsims
-  loss = loss = 0.5 * mwt + 0.5 * mln
+  loss = 0.5 * mwt + 0.5 * mln
   toc = time.time()
   result = {
       "schedule": fn.transform_iats_schedule(iats, d, T)[0],
@@ -81,7 +81,61 @@ for iats in iats_sm:
       "calc_time": toc - tic
     }
   results.append(result)
-  print(f'schedule: {result["schedule"]},\niats: {iats},\niats_diff: {result["iats_diff"]},\nloss = {result["loss"]}, calc time: {result["calc_time"]} secs')
+  print(f'schedule: {result["schedule"]},\niats: {iats},\niats_diff: {result["iats_diff"]},\nloss = {result["loss"]}, \
+  calc time: {result["calc_time"]} secs')
   
+```
+
+```{python}
+# Get start time and set timer seconds
+start_time = time.time()
+seconds = 20
+
+# Start timer while loop
+while True:
+    current_time = time.time()
+    elapsed_time = current_time - start_time
+    bestresult = None
+
+    if elapsed_time > seconds:
+        print("Finished iterating in: " + str(int(elapsed_time))  + " seconds")
+        break
+      
+    ## Start iterator for inter arrival times in shift matrix
+    results = []
+    for iats in iats_sm:
+      tic = time.time()
+      simreswt = [None] * nsims # array for saving waiting times
+      simresln = 0 # array for saving lateness
+      
+      for i in range(nsims):
+        experiment = fn.simulate_crn(iats, ctsm[i], stsm[i], logs=logs)
+        simreswt[i] = experiment[0].mean()
+        ln = max(0, (experiment[1] - d))
+        simresln += ln
+        
+      mwt = np.array(simreswt).mean()
+      mln = simresln / nsims
+      loss = 0.5 * mwt + 0.5 * mln
+      toc = time.time()
+      result = {
+          "schedule": fn.transform_iats_schedule(iats, d, T)[0],
+          "iats": iats,
+          "iats_diff": np.diff(iats),
+          "loss": loss,
+          "calc_time": toc - tic
+        }
+      
+      if result["loss"] < bestresult["loss"]: bestresult = result
+      results.append(result)
+      print(f'schedule: {result["schedule"]},\niats: {iats},\niats_diff: {result["iats_diff"]},\nloss = {result["loss"]}, \
+      calc time: {result["calc_time"]} secs')
+    print(f'Best result: {bestresult["schedule"]} with loss = {bestresult["loss"]} )
+### Simulate item of the shift matrix
+
+#### If loss is lower than previous save iats vector and loss
+
+## Calculate new shift matrix based upon best iats vector
+
 ```
 
