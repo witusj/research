@@ -199,11 +199,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>nm <span class="op">=</span> fn.logn_mean_lns(lnm, lns)[<span class="dv">0</span>] <span class="co"># normal mean</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> fn.logn_mean_lns(lnm, lns)[<span class="dv">1</span>] <span class="co"># normal standard deviation</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>em <span class="op">=</span> np.random.poisson(<span class="fl">0.1</span>, <span class="dv">12</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>em <span class="op">=</span> np.random.poisson(<span class="fl">0.5</span>, <span class="dv">12</span>).astype(<span class="bu">int</span>)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>em_stsm <span class="op">=</span> [np.random.lognormal(mean <span class="op">=</span> nm, sigma<span class="op">=</span>ns, size<span class="op">=</span>i).<span class="bu">sum</span>() <span class="cf">for</span> i <span class="kw">in</span> em]</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'em: </span><span class="sc">{</span>em<span class="sc">}</span><span class="ss">, em_stsm: </span><span class="sc">{</span>em_stsm<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>em: [0 0 0 0 0 0 0 0 0 0 0 0], em_stsm: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]</code></pre>
+<pre><code>em: [0 2 1 3 0 0 1 3 0 0 1 0], em_stsm: [0.0, 23.488629614841592, 10.372765197716179, 51.8581428881152, 0.0, 0.0, 10.443123508396317, 37.18816526366919, 0.0, 0.0, 11.984049773180192, 0.0]</code></pre>
 </div>
 </div>
 
