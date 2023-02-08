@@ -73,14 +73,16 @@ while True:
         print(f"Best result:\n{bestresult}")
         break
       
-    ## Start iterator for inter arrival times in shift matrix
+    
     ## data preparation
     psm = fn.patient_shift_matrix(sim).astype(int)
     print("Generated new psm")
     transf_to_iats = lambda x: fn.transform_schedule_iats(x, d) 
     iats_sm = np.apply_along_axis(transf_to_iats, 1, psm) # iats shifting matrix
     iats_d_sm = np.diff(iats_sm) # first derivative iats shifting matrix
-    results = []
+    
+    ## Start iterator for inter arrival times in shift matrix
+    results = [] # start list for saving results
     for iats in iats_sm:
       tic = time.time()
       simreswt = [None] * nsims # array for saving waiting times
