@@ -174,7 +174,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
-  <li><a href="#run-simulations" id="toc-run-simulations" class="nav-link" data-scroll-target="#run-simulations">Run simulations</a></li>
+  <li><a href="#run-simulations-and-search" id="toc-run-simulations-and-search" class="nav-link" data-scroll-target="#run-simulations-and-search">Run simulations and search</a></li>
   </ul>
 </nav>
     </div>
@@ -224,254 +224,251 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>nm <span class="op">=</span> fn.logn_mean_lns(lnm, lns)[<span class="dv">0</span>] <span class="co"># normal mean</span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> fn.logn_mean_lns(lnm, lns)[<span class="dv">1</span>] <span class="co"># normal standard deviation</span></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="dv">15</span> <span class="co"># interval time</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>sts <span class="op">=</span> fn.generate_logn_sts(<span class="dv">1</span>, <span class="dv">10000</span>, lnm, lns)[<span class="dv">0</span>] <span class="co"># sampling population for service times</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> np.zeros(<span class="dv">12</span>) </span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> np.arange(<span class="dv">12</span>, step<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>sim[i] <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>sim[<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>sim[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">2</span> </span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> sim.astype(<span class="bu">int</span>) <span class="co"># initial schedule</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>psm <span class="op">=</span> fn.patient_shift_matrix(sim) </span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>psm <span class="op">=</span> psm.astype(<span class="bu">int</span>) <span class="co"># patient shifting matrix</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>transf_to_iats <span class="op">=</span> <span class="kw">lambda</span> x: fn.transform_schedule_iats(x, d) </span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>iats_sm <span class="op">=</span> np.apply_along_axis(transf_to_iats, <span class="dv">1</span>, psm) <span class="co"># iats shifting matrix</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>iats_d_sm <span class="op">=</span> np.diff(iats_sm) <span class="co"># first derivative iats shifting matrix</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> iats_sm.shape[<span class="dv">1</span>] <span class="co"># number of patients</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> psm.shape[<span class="dv">1</span>] <span class="co"># number of time slots</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>ctsm <span class="op">=</span> np.random.choice(cts, size <span class="op">=</span> (nsims <span class="op">*</span> N), p<span class="op">=</span>pct).reshape((nsims, N)) <span class="co"># client types matrix</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> np.random.lognormal(mean <span class="op">=</span> nm, sigma<span class="op">=</span>ns, size<span class="op">=</span>(nsims <span class="op">*</span> N)).reshape(nsims, N) <span class="co"># service times matrix</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>nsm <span class="op">=</span> np.random.binomial(n<span class="op">=</span><span class="dv">1</span>, p<span class="op">=</span><span class="dv">1</span><span class="op">-</span>ns, size <span class="op">=</span> (nsims <span class="op">*</span> N)).reshape(nsims, N) <span class="co"># no-shows matrix</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> stsm <span class="op">*</span> nsm <span class="co"># service times matrix with no-shows</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Running </span><span class="sc">{</span>nsims<span class="sc">}</span><span class="ss"> simulations with </span><span class="sc">{</span>N<span class="sc">}</span><span class="ss"> patients and </span><span class="sc">{</span>T<span class="sc">}</span><span class="ss"> timeslots.'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Running 100000 simulations with 8 patients and 12 timeslots.</code></pre>
-</div>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>sts <span class="op">=</span> fn.generate_logn_sts(<span class="dv">1</span>, <span class="dv">10000</span>, lnm, lns)[<span class="dv">0</span>] <span class="co"># sampling population for service times</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> np.zeros(T) </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> np.arange(T, step<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>sim[i] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>sim[<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>sim[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">2</span> </span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> sim.astype(<span class="bu">int</span>) <span class="co"># initial schedule</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> np.<span class="bu">sum</span>(sim)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>ctsm <span class="op">=</span> np.random.choice(cts, size <span class="op">=</span> (nsims <span class="op">*</span> N), p<span class="op">=</span>pct).reshape((nsims, N)) <span class="co"># client types matrix</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> np.random.lognormal(mean <span class="op">=</span> nm, sigma<span class="op">=</span>ns, size<span class="op">=</span>(nsims <span class="op">*</span> N)).reshape(nsims, N) <span class="co"># service times matrix</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>nsm <span class="op">=</span> np.random.binomial(n<span class="op">=</span><span class="dv">1</span>, p<span class="op">=</span><span class="dv">1</span><span class="op">-</span>ns, size <span class="op">=</span> (nsims <span class="op">*</span> N)).reshape(nsims, N) <span class="co"># no-shows matrix</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>stsm <span class="op">=</span> stsm <span class="op">*</span> nsm <span class="co"># service times matrix with no-shows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="run-simulations" class="level2">
-<h2 class="anchored" data-anchor-id="run-simulations">Run simulations</h2>
+<section id="run-simulations-and-search" class="level2">
+<h2 class="anchored" data-anchor-id="run-simulations-and-search">Run simulations and search</h2>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulations</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> []</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> iats <span class="kw">in</span> iats_sm:</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  tic <span class="op">=</span> time.time()</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  simreswt <span class="op">=</span> [<span class="va">None</span>] <span class="op">*</span> nsims <span class="co"># array for saving waiting times</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  simresln <span class="op">=</span> <span class="dv">0</span> <span class="co"># array for saving lateness</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    experiment <span class="op">=</span> fn.simulate_crn(iats, ctsm[i], stsm[i], logs<span class="op">=</span>logs)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    simreswt[i] <span class="op">=</span> experiment[<span class="dv">0</span>].mean()</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    ln <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, (experiment[<span class="dv">1</span>] <span class="op">-</span> d))</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    simresln <span class="op">+=</span> ln</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  mwt <span class="op">=</span> np.array(simreswt).mean()</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  mln <span class="op">=</span> simresln <span class="op">/</span> nsims</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  loss <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> mwt <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> mln</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  toc <span class="op">=</span> time.time()</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  result <span class="op">=</span> {</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>      <span class="st">"schedule"</span>: fn.transform_iats_schedule(iats, d, T)[<span class="dv">0</span>],</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>      <span class="st">"iats"</span>: iats,</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>      <span class="st">"iats_diff"</span>: np.diff(iats),</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>      <span class="st">"loss"</span>: loss,</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">"calc_time"</span>: toc <span class="op">-</span> tic</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  results.append(result)</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f'schedule: </span><span class="sc">{</span>result[<span class="st">"schedule"</span>]<span class="sc">}</span><span class="ss">,</span><span class="ch">\n</span><span class="ss">iats: </span><span class="sc">{</span>iats<span class="sc">}</span><span class="ss">,</span><span class="ch">\n</span><span class="ss">iats_diff: </span><span class="sc">{</span>result[<span class="st">"iats_diff"</span>]<span class="sc">}</span><span class="ss">,</span><span class="ch">\n</span><span class="ss">loss = </span><span class="sc">{</span>result[<span class="st">"loss"</span>]<span class="sc">}</span><span class="ss">, </span><span class="ch">\</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="ss">  calc time: </span><span class="sc">{</span>result[<span class="st">"calc_time"</span>]<span class="sc">}</span><span class="ss"> secs'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Running </span><span class="sc">{</span>nsims<span class="sc">}</span><span class="ss"> simulations with </span><span class="sc">{</span>N<span class="sc">}</span><span class="ss"> patients and </span><span class="sc">{</span>T<span class="sc">}</span><span class="ss"> timeslots.'</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Get start time and set timer seconds</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>seconds <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>bestresult <span class="op">=</span> {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>          <span class="st">'schedule'</span>: <span class="va">None</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>          <span class="st">'iats'</span>: <span class="va">None</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>          <span class="st">'iats_diff'</span>: <span class="va">None</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>          <span class="st">'loss'</span>: <span class="va">None</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>          <span class="st">'calc_time'</span>: <span class="va">None</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>          } <span class="co"># Dictionary for saving best result</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Start timer while loop</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    current_time <span class="op">=</span> time.time()</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    elapsed_time <span class="op">=</span> current_time <span class="op">-</span> start_time</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> elapsed_time <span class="op">&gt;</span> seconds:</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Finished iterating in: </span><span class="sc">{</span><span class="bu">str</span>(<span class="bu">int</span>(elapsed_time))<span class="sc">}</span><span class="ss"> seconds</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Best result:</span><span class="ch">\n</span><span class="ss">schedule: </span><span class="sc">{</span>bestresult[<span class="st">'schedule'</span>]<span class="sc">}</span><span class="ss">,</span><span class="ch">\n</span><span class="ss">iats: </span><span class="sc">{</span>bestresult[<span class="st">'iats'</span>]<span class="sc">}</span><span class="ss">,</span><span class="ch">\n</span><span class="ss">iats_diff: </span><span class="sc">{</span>bestresult[<span class="st">'iats_diff'</span>]<span class="sc">}</span><span class="ss">,</span><span class="ch">\n</span><span class="ss">loss = </span><span class="sc">{</span>bestresult[<span class="st">'loss'</span>]<span class="sc">}</span><span class="ss">, calc time: </span><span class="sc">{</span>bestresult[<span class="st">'calc_time'</span>]<span class="sc">}</span><span class="ss"> secs</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="co">## data preparation</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    psm <span class="op">=</span> fn.patient_shift_matrix(sim).astype(<span class="bu">int</span>)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Generated new psm</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    transf_to_iats <span class="op">=</span> <span class="kw">lambda</span> x: fn.transform_schedule_iats(x, d) </span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    iats_sm <span class="op">=</span> np.apply_along_axis(transf_to_iats, <span class="dv">1</span>, psm) <span class="co"># iats shifting matrix</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    iats_d_sm <span class="op">=</span> np.diff(iats_sm) <span class="co"># first derivative iats shifting matrix</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="co">## Start iterator for inter arrival times in shift matrix</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> [] <span class="co"># start list for saving results</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> iats <span class="kw">in</span> iats_sm:</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>      tic <span class="op">=</span> time.time()</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>      simreswt <span class="op">=</span> [<span class="va">None</span>] <span class="op">*</span> nsims <span class="co"># array for saving waiting times</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>      simresln <span class="op">=</span> <span class="dv">0</span> <span class="co"># array for saving lateness</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nsims): <span class="co"># simulate nsims number of times</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>        experiment <span class="op">=</span> fn.simulate_crn(iats, ctsm[i], stsm[i], logs<span class="op">=</span>logs)</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>        simreswt[i] <span class="op">=</span> experiment[<span class="dv">0</span>].mean()</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>        ln <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, (experiment[<span class="dv">1</span>] <span class="op">-</span> d))</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>        simresln <span class="op">+=</span> ln</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>      mwt <span class="op">=</span> np.array(simreswt).mean()</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>      mln <span class="op">=</span> simresln <span class="op">/</span> nsims</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>      loss <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> mwt <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> mln</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>      toc <span class="op">=</span> time.time()</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>      result <span class="op">=</span> {</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>          <span class="st">'schedule'</span>: fn.transform_iats_schedule(iats, d, T)[<span class="dv">0</span>],</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>          <span class="st">'iats'</span>: iats,</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>          <span class="st">'iats_diff'</span>: np.diff(iats),</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>          <span class="st">'loss'</span>: loss,</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>          <span class="st">'calc_time'</span>: toc <span class="op">-</span> tic</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> bestresult[<span class="st">'loss'</span>] <span class="op">==</span> <span class="va">None</span>: <span class="co"># save first result as bestresult</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>            bestresult <span class="op">=</span> result</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> result[<span class="st">'loss'</span>] <span class="op">&lt;</span> bestresult[<span class="st">'loss'</span>]: <span class="co"># break loop on first improvement of loss value</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>            sim <span class="op">=</span> result[<span class="st">'schedule'</span>]</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>            bestresult <span class="op">=</span> result</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">#### Found better schedule:</span><span class="ch">\n</span><span class="sc">{</span>result[<span class="st">'schedule'</span>]<span class="sc">}</span><span class="ss"> with loss: </span><span class="sc">{</span>result[<span class="st">'loss'</span>]<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>      results.append(result)</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>      <span class="bu">print</span>(<span class="ss">f"schedule: </span><span class="sc">{</span>result[<span class="st">'schedule'</span>]<span class="sc">}</span><span class="ss">,</span><span class="ch">\n</span><span class="ss">iats: </span><span class="sc">{</span>result[<span class="st">'iats'</span>]<span class="sc">}</span><span class="ss">,</span><span class="ch">\n</span><span class="ss">iats_diff: </span><span class="sc">{</span>result[<span class="st">'iats_diff'</span>]<span class="sc">}</span><span class="ss">,</span><span class="ch">\n</span><span class="ss">loss = </span><span class="sc">{</span>result[<span class="st">'loss'</span>]<span class="sc">}</span><span class="ss">, calc time: </span><span class="sc">{</span>result[<span class="st">'calc_time'</span>]<span class="sc">}</span><span class="ss"> secs</span><span class="ch">\n</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 1 1],
-iats: [ 0  0 30 30 30 30 30 15],
-iats_diff: [  0  30   0   0   0   0 -15],
-loss = 1.4263666172805927,   calc time: 1.4521541595458984 secs</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [1 0 1 0 1 0 1 0 1 0 1 2],
-iats: [ 0 30 30 30 30 30 15  0],
-iats_diff: [ 30   0   0   0   0 -15 -15],
-loss = 4.210848905204175,   calc time: 1.5045511722564697 secs</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 1 0 0 1 0 1 0 1 0 1 1],
-iats: [ 0  0 15 45 30 30 30 15],
-iats_diff: [  0  15  30 -15   0   0 -15],
-loss = 1.762480804275828,   calc time: 1.4852979183197021 secs</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 1 0 0 1 0 1 0 1 1],
-iats: [ 0  0 30 15 45 30 30 15],
-iats_diff: [  0  30 -15  30 -15   0 -15],
-loss = 1.5094766751224018,   calc time: 1.428389072418213 secs</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 1 0 0 1 0 1 1],
-iats: [ 0  0 30 30 15 45 30 15],
-iats_diff: [  0  30   0 -15  30 -15 -15],
-loss = 1.4880901501989365,   calc time: 1.4166440963745117 secs</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 1 0 0 1 1],
-iats: [ 0  0 30 30 30 15 45 15],
-iats_diff: [  0  30   0   0 -15  30 -30],
-loss = 1.4838762193887753,   calc time: 1.4979219436645508 secs</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 0 1 1 0 1],
-iats: [ 0  0 30 30 30 30 15 30],
-iats_diff: [  0  30   0   0   0 -15  15],
-loss = 1.2176828824460646,   calc time: 1.5055110454559326 secs</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 2 0],
-iats: [ 0  0 30 30 30 30 30  0],
-iats_diff: [  0  30   0   0   0   0 -30],
-loss = 4.358537839217919,   calc time: 1.4922161102294922 secs</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get start time and set timer seconds</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>start_time <span class="op">=</span> time.time()</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>seconds <span class="op">=</span> <span class="dv">20</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Start timer while loop</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="va">True</span>:</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    current_time <span class="op">=</span> time.time()</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    elapsed_time <span class="op">=</span> current_time <span class="op">-</span> start_time</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    bestresult <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> elapsed_time <span class="op">&gt;</span> seconds:</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Finished iterating in: "</span> <span class="op">+</span> <span class="bu">str</span>(<span class="bu">int</span>(elapsed_time))  <span class="op">+</span> <span class="st">" seconds"</span>)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">## Start iterator for inter arrival times in shift matrix</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> []</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> iats <span class="kw">in</span> iats_sm:</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>      tic <span class="op">=</span> time.time()</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>      simreswt <span class="op">=</span> [<span class="va">None</span>] <span class="op">*</span> nsims <span class="co"># array for saving waiting times</span></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>      simresln <span class="op">=</span> <span class="dv">0</span> <span class="co"># array for saving lateness</span></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nsims):</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        experiment <span class="op">=</span> fn.simulate_crn(iats, ctsm[i], stsm[i], logs<span class="op">=</span>logs)</span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        simreswt[i] <span class="op">=</span> experiment[<span class="dv">0</span>].mean()</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>        ln <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, (experiment[<span class="dv">1</span>] <span class="op">-</span> d))</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>        simresln <span class="op">+=</span> ln</span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>      mwt <span class="op">=</span> np.array(simreswt).mean()</span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>      mln <span class="op">=</span> simresln <span class="op">/</span> nsims</span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>      loss <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> mwt <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> mln</span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>      toc <span class="op">=</span> time.time()</span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>      result <span class="op">=</span> {</span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>          <span class="st">"schedule"</span>: fn.transform_iats_schedule(iats, d, T)[<span class="dv">0</span>],</span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>          <span class="st">"iats"</span>: iats,</span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>          <span class="st">"iats_diff"</span>: np.diff(iats),</span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>          <span class="st">"loss"</span>: loss,</span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>          <span class="st">"calc_time"</span>: toc <span class="op">-</span> tic</span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>      bestresult <span class="op">=</span> result</span>
-<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (result[<span class="st">"loss"</span>] <span class="op">&lt;</span> bestresult[<span class="st">"loss"</span>]): bestresult <span class="op">=</span> result</span>
-<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>      results.append(result)</span>
-<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>      <span class="bu">print</span>(<span class="ss">f'schedule: </span><span class="sc">{</span>result[<span class="st">"schedule"</span>]<span class="sc">}</span><span class="ss">,</span><span class="ch">\n</span><span class="ss">iats: </span><span class="sc">{</span>iats<span class="sc">}</span><span class="ss">,</span><span class="ch">\n</span><span class="ss">iats_diff: </span><span class="sc">{</span>result[<span class="st">"iats_diff"</span>]<span class="sc">}</span><span class="ss">,</span><span class="ch">\n</span><span class="ss">loss = </span><span class="sc">{</span>result[<span class="st">"loss"</span>]<span class="sc">}</span><span class="ss">, </span><span class="ch">\</span></span>
-<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a><span class="ss">  calc time: </span><span class="sc">{</span>result[<span class="st">"calc_time"</span>]<span class="sc">}</span><span class="ss"> secs'</span>)</span>
-<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a><span class="co">### Simulate item of the shift matrix</span></span>
-<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a><span class="co">#### If loss is lower than previous save iats vector and loss</span></span>
-<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="co">## Calculate new shift matrix based upon best iats vector</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 1 1],
-iats: [ 0  0 30 30 30 30 30 15],
-iats_diff: [  0  30   0   0   0   0 -15],
-loss = 1.4263666172805927,   calc time: 1.6719810962677002 secs</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [1 0 1 0 1 0 1 0 1 0 1 2],
-iats: [ 0 30 30 30 30 30 15  0],
-iats_diff: [ 30   0   0   0   0 -15 -15],
-loss = 4.210848905204175,   calc time: 1.50339674949646 secs</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 1 0 0 1 0 1 0 1 0 1 1],
-iats: [ 0  0 15 45 30 30 30 15],
-iats_diff: [  0  15  30 -15   0   0 -15],
-loss = 1.762480804275828,   calc time: 1.5018928050994873 secs</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 1 0 0 1 0 1 0 1 1],
-iats: [ 0  0 30 15 45 30 30 15],
-iats_diff: [  0  30 -15  30 -15   0 -15],
-loss = 1.5094766751224018,   calc time: 1.5592739582061768 secs</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 1 0 0 1 0 1 1],
-iats: [ 0  0 30 30 15 45 30 15],
-iats_diff: [  0  30   0 -15  30 -15 -15],
-loss = 1.4880901501989365,   calc time: 1.5862889289855957 secs</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 1 0 0 1 1],
-iats: [ 0  0 30 30 30 15 45 15],
-iats_diff: [  0  30   0   0 -15  30 -30],
-loss = 1.4838762193887753,   calc time: 1.475468635559082 secs</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 0 1 1 0 1],
-iats: [ 0  0 30 30 30 30 15 30],
-iats_diff: [  0  30   0   0   0 -15  15],
-loss = 1.2176828824460646,   calc time: 1.5483200550079346 secs</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 2 0],
-iats: [ 0  0 30 30 30 30 30  0],
-iats_diff: [  0  30   0   0   0   0 -30],
-loss = 4.358537839217919,   calc time: 1.5328521728515625 secs</code></pre>
+<pre><code>Running 100000 simulations with 8 patients and 12 timeslots.
+Generated new psm
+</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 1 1],
 iats: [ 0  0 30 30 30 30 30 15],
 iats_diff: [  0  30   0   0   0   0 -15],
-loss = 1.4263666172805927,   calc time: 1.5011329650878906 secs</code></pre>
+loss = 1.4214348236442416, calc time: 1.5120127201080322 secs
+</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [1 0 1 0 1 0 1 0 1 0 1 2],
 iats: [ 0 30 30 30 30 30 15  0],
 iats_diff: [ 30   0   0   0   0 -15 -15],
-loss = 4.210848905204175,   calc time: 1.5827031135559082 secs</code></pre>
+loss = 4.206051395746298, calc time: 1.4881868362426758 secs
+</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 1 0 0 1 0 1 0 1 0 1 1],
 iats: [ 0  0 15 45 30 30 30 15],
 iats_diff: [  0  15  30 -15   0   0 -15],
-loss = 1.762480804275828,   calc time: 1.5032858848571777 secs</code></pre>
+loss = 1.7572862139475927, calc time: 1.4624977111816406 secs
+</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 1 0 0 1 0 1 0 1 1],
 iats: [ 0  0 30 15 45 30 30 15],
 iats_diff: [  0  30 -15  30 -15   0 -15],
-loss = 1.5094766751224018,   calc time: 1.5510308742523193 secs</code></pre>
+loss = 1.5041450166554715, calc time: 1.4831609725952148 secs
+</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 0 1 1 0 0 1 0 1 1],
 iats: [ 0  0 30 30 15 45 30 15],
 iats_diff: [  0  30   0 -15  30 -15 -15],
-loss = 1.4880901501989365,   calc time: 1.5094740390777588 secs</code></pre>
+loss = 1.483335100105338, calc time: 1.5097911357879639 secs
+</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 0 1 0 1 1 0 0 1 1],
 iats: [ 0  0 30 30 30 15 45 15],
 iats_diff: [  0  30   0   0 -15  30 -30],
-loss = 1.4838762193887753,   calc time: 1.4989562034606934 secs</code></pre>
+loss = 1.4793524775292153, calc time: 1.5389370918273926 secs
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+#### Found better schedule:
+[2 0 1 0 1 0 1 0 1 1 0 1] with loss: 1.215803170960945
+
+Generated new psm
+</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 0 1 0 1 0 1 1 0 1],
 iats: [ 0  0 30 30 30 30 15 30],
 iats_diff: [  0  30   0   0   0 -15  15],
-loss = 1.2176828824460646,   calc time: 1.5308480262756348 secs</code></pre>
+loss = 1.215803170960945, calc time: 1.6174030303955078 secs
+</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 2 0],
-iats: [ 0  0 30 30 30 30 30  0],
-iats_diff: [  0  30   0   0   0   0 -30],
-loss = 4.358537839217919,   calc time: 1.48704195022583 secs
-Finished iterating in: 24 seconds</code></pre>
+<pre><code>schedule: [1 0 1 0 1 0 1 0 1 1 0 2],
+iats: [ 0 30 30 30 30 15 30  0],
+iats_diff: [ 30   0   0   0 -15  15 -30],
+loss = 3.803311101354065, calc time: 1.6684300899505615 secs
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>schedule: [2 1 0 0 1 0 1 0 1 1 0 1],
+iats: [ 0  0 15 45 30 30 15 30],
+iats_diff: [  0  15  30 -15   0 -15  15],
+loss = 1.5516545612642958, calc time: 1.6149561405181885 secs
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>schedule: [2 0 1 1 0 0 1 0 1 1 0 1],
+iats: [ 0  0 30 15 45 30 15 30],
+iats_diff: [  0  30 -15  30 -15 -15  15],
+loss = 1.2984201789339669, calc time: 1.4852221012115479 secs
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>schedule: [2 0 1 0 1 1 0 0 1 1 0 1],
+iats: [ 0  0 30 30 15 45 15 30],
+iats_diff: [  0  30   0 -15  30 -30  15],
+loss = 1.277102707364244, calc time: 1.4974079132080078 secs
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+#### Found better schedule:
+[2 0 1 0 1 0 1 1 0 1 0 1] with loss: 1.2087636268666802
+
+Generated new psm
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>schedule: [2 0 1 0 1 0 1 1 0 1 0 1],
+iats: [ 0  0 30 30 30 15 30 30],
+iats_diff: [  0  30   0   0 -15  15   0],
+loss = 1.2087636268666802, calc time: 1.4558310508728027 secs
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>schedule: [1 0 1 0 1 0 1 1 0 1 0 2],
+iats: [ 0 30 30 30 15 30 30  0],
+iats_diff: [ 30   0   0 -15  15   0 -30],
+loss = 3.7893217659494556, calc time: 1.4820210933685303 secs
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>schedule: [2 1 0 0 1 0 1 1 0 1 0 1],
+iats: [ 0  0 15 45 30 15 30 30],
+iats_diff: [  0  15  30 -15 -15  15   0],
+loss = 1.5446135204824771, calc time: 1.457082748413086 secs
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>schedule: [2 0 1 1 0 0 1 1 0 1 0 1],
+iats: [ 0  0 30 15 45 15 30 30],
+iats_diff: [  0  30 -15  30 -30  15   0],
+loss = 1.2909248664893909, calc time: 1.4623019695281982 secs
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>schedule: [2 0 1 0 1 1 0 1 0 1 0 1],
+iats: [ 0  0 30 30 15 30 30 30],
+iats_diff: [  0  30   0 -15  15   0   0],
+loss = 1.2097774432350816, calc time: 1.4552760124206543 secs
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>schedule: [2 0 1 0 1 0 2 0 0 1 0 1],
+iats: [ 0  0 30 30 30  0 45 30],
+iats_diff: [  0  30   0   0 -30  45 -15],
+loss = 1.7177370631169624, calc time: 1.486445665359497 secs
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>schedule: [2 0 1 0 1 0 1 1 1 0 0 1],
+iats: [ 0  0 30 30 30 15 15 45],
+iats_diff: [  0  30   0   0 -15   0  30],
+loss = 1.2895800015931251, calc time: 1.4614851474761963 secs
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>schedule: [2 0 1 0 1 0 1 1 0 1 1 0],
+iats: [ 0  0 30 30 30 15 30 15],
+iats_diff: [  0  30   0   0 -15  15 -15],
+loss = 1.49130556424746, calc time: 1.4727208614349365 secs
+
+Finished iterating in: 31 seconds
+
+Best result:
+schedule: [2 0 1 0 1 0 1 1 0 1 0 1],
+iats: [ 0  0 30 30 30 15 30 30],
+iats_diff: [  0  30   0   0 -15  15   0],
+loss = 1.2087636268666802, calc time: 1.4536032676696777 secs
+</code></pre>
 </div>
 </div>
 

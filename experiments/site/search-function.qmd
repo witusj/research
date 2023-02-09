@@ -56,11 +56,11 @@ print(f'Running {nsims} simulations with {N} patients and {T} timeslots.')
 start_time = time.time()
 seconds = 30
 bestresult = {
-          "schedule": None,
-          "iats": None,
-          "iats_diff": None,
-          "loss": None,
-          "calc_time": None
+          'schedule': None,
+          'iats': None,
+          'iats_diff': None,
+          'loss': None,
+          'calc_time': None
           } # Dictionary for saving best result
 
 # Start timer while loop
@@ -69,14 +69,14 @@ while True:
     elapsed_time = current_time - start_time
     
     if elapsed_time > seconds:
-        print("Finished iterating in: " + str(int(elapsed_time))  + " seconds")
-        print(f"Best result:\n{bestresult}")
+        print(f"Finished iterating in: {str(int(elapsed_time))} seconds\n")
+        print(f"Best result:\nschedule: {bestresult['schedule']},\niats: {bestresult['iats']},\niats_diff: {bestresult['iats_diff']},\nloss = {bestresult['loss']}, calc time: {bestresult['calc_time']} secs\n")
         break
       
     
     ## data preparation
     psm = fn.patient_shift_matrix(sim).astype(int)
-    print("Generated new psm")
+    print("Generated new psm\n")
     transf_to_iats = lambda x: fn.transform_schedule_iats(x, d) 
     iats_sm = np.apply_along_axis(transf_to_iats, 1, psm) # iats shifting matrix
     iats_d_sm = np.diff(iats_sm) # first derivative iats shifting matrix
@@ -99,22 +99,22 @@ while True:
       loss = 0.5 * mwt + 0.5 * mln
       toc = time.time()
       result = {
-          "schedule": fn.transform_iats_schedule(iats, d, T)[0],
-          "iats": iats,
-          "iats_diff": np.diff(iats),
-          "loss": loss,
-          "calc_time": toc - tic
+          'schedule': fn.transform_iats_schedule(iats, d, T)[0],
+          'iats': iats,
+          'iats_diff': np.diff(iats),
+          'loss': loss,
+          'calc_time': toc - tic
         }
-      if bestresult["loss"] == None: # save first result as bestresult
+      if bestresult['loss'] == None: # save first result as bestresult
             bestresult = result
-      if result["loss"] < bestresult["loss"]: # break loop on first improvement of loss value
-            sim = result["schedule"]
+      if result['loss'] < bestresult['loss']: # break loop on first improvement of loss value
+            sim = result['schedule']
             bestresult = result
-            print(f"Found better schedule:\n{result}")
+            print(f"\n#### Found better schedule: {result['schedule']} with loss: {result['loss']}\n")
             break
       
       results.append(result)
-      print(f'schedule: {result["schedule"]},\niats: {iats},\niats_diff: {result["iats_diff"]},\nloss = {result["loss"]}, calc time: {result["calc_time"]} secs')
+      print(f"schedule: {result['schedule']},\niats: {result['iats']},\niats_diff: {result['iats_diff']},\nloss = {result['loss']}, calc time: {result['calc_time']} secs\n")
 
 ```
 
