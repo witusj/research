@@ -83,6 +83,18 @@ schedule = transform_iats_schedule([0, 0 ,30, 0, 60, 0, 0, 0, 60, 0, 0, 0], d = 
 transform_schedule_iats(schedule, d = 15)
 #############
 
+def patient_shift_matrix(schedule):
+  T = len(schedule) # number of intervals
+  neg = -np.eye(T) # create matrix with diagonal negative ones
+  pos = np.eye(T, k=-1) # create matrix with diagonal ones shifted to left
+  psm = neg + pos # combine two matrices
+  psm[0, T-1] = 1 # add a one to the end of the first row
+  sschedules = psm + schedule # create matrix of schedules with one patient shifting from k to k-1
+  sschedules = np.insert(sschedules, 0, schedule, axis=0) # add original schedule
+
+  return sschedules[sschedules.min(axis=1)>=0, :] # only return schedules that have non-negative arrivals
+
+
 ##############
 #### TEST ####
 schedule = np.zeros(12)
