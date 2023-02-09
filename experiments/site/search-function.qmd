@@ -108,7 +108,7 @@ while True:
       if bestresult['loss'] == None: # save first result as bestresult
             bestresult = result
       if result['loss'] < bestresult['loss']: # break loop on first improvement of loss value
-            sim = result['schedule']
+            sim = result['schedule'] # assign current best schedule as new starting point for search
             bestresult = result
             print(f"\n#### Found better schedule: {result['schedule']} with loss: {result['loss']}\n")
             break
