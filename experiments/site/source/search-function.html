@@ -301,7 +301,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> bestresult[<span class="st">'loss'</span>] <span class="op">==</span> <span class="va">None</span>: <span class="co"># save first result as bestresult</span></span>
 <span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>            bestresult <span class="op">=</span> result</span>
 <span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> result[<span class="st">'loss'</span>] <span class="op">&lt;</span> bestresult[<span class="st">'loss'</span>]: <span class="co"># break loop on first improvement of loss value</span></span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>            sim <span class="op">=</span> result[<span class="st">'schedule'</span>]</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>            sim <span class="op">=</span> result[<span class="st">'schedule'</span>] <span class="co"># assign current best schedule as new starting point for search</span></span>
 <span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>            bestresult <span class="op">=</span> result</span>
 <span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">#### Found better schedule: </span><span class="sc">{</span>result[<span class="st">'schedule'</span>]<span class="sc">}</span><span class="ss"> with loss: </span><span class="sc">{</span>result[<span class="st">'loss'</span>]<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
 <span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
@@ -317,47 +317,47 @@ Generated new psm
 <pre><code>schedule: [2 0 1 0 1 0 1 0 1 0 1 1],
 iats: [ 0  0 30 30 30 30 30 15],
 iats_diff: [  0  30   0   0   0   0 -15],
-loss = 1.4190072954620558, calc time: 1.5507898330688477 secs
+loss = 1.4104007851677833, calc time: 1.4618480205535889 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [1 0 1 0 1 0 1 0 1 0 1 2],
 iats: [ 0 30 30 30 30 30 15  0],
 iats_diff: [ 30   0   0   0   0 -15 -15],
-loss = 4.205657559425883, calc time: 1.5974009037017822 secs
+loss = 4.181230780199808, calc time: 1.5176150798797607 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 1 0 0 1 0 1 0 1 0 1 1],
 iats: [ 0  0 15 45 30 30 30 15],
 iats_diff: [  0  15  30 -15   0   0 -15],
-loss = 1.753404729412901, calc time: 1.6068029403686523 secs
+loss = 1.7466715280235965, calc time: 1.4834210872650146 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 1 0 0 1 0 1 0 1 1],
 iats: [ 0  0 30 15 45 30 30 15],
 iats_diff: [  0  30 -15  30 -15   0 -15],
-loss = 1.5003523275738382, calc time: 1.521069049835205 secs
+loss = 1.4928571222881766, calc time: 1.5398609638214111 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 0 1 1 0 0 1 0 1 1],
 iats: [ 0  0 30 30 15 45 30 15],
 iats_diff: [  0  30   0 -15  30 -15 -15],
-loss = 1.4799204090613483, calc time: 1.5901329517364502 secs
+loss = 1.4712218141821174, calc time: 1.5369668006896973 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 0 1 0 1 1 0 0 1 1],
 iats: [ 0  0 30 30 30 15 45 15],
 iats_diff: [  0  30   0   0 -15  30 -30],
-loss = 1.4771469156467405, calc time: 1.526716947555542 secs
+loss = 1.4678364165530207, calc time: 1.4813461303710938 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-#### Found better schedule: [2 0 1 0 1 0 1 0 1 1 0 1] with loss: 1.2114045603647747
+#### Found better schedule: [2 0 1 0 1 0 1 0 1 1 0 1] with loss: 1.205436998435101
 
 Generated new psm
 </code></pre>
@@ -366,40 +366,40 @@ Generated new psm
 <pre><code>schedule: [2 0 1 0 1 0 1 0 1 1 0 1],
 iats: [ 0  0 30 30 30 30 15 30],
 iats_diff: [  0  30   0   0   0 -15  15],
-loss = 1.2114045603647747, calc time: 1.517603874206543 secs
+loss = 1.205436998435101, calc time: 1.5322797298431396 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [1 0 1 0 1 0 1 0 1 1 0 2],
 iats: [ 0 30 30 30 30 15 30  0],
 iats_diff: [ 30   0   0   0 -15  15 -30],
-loss = 3.8130833873111856, calc time: 1.5954339504241943 secs
+loss = 3.776778862604127, calc time: 1.4539401531219482 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 1 0 0 1 0 1 0 1 1 0 1],
 iats: [ 0  0 15 45 30 30 15 30],
 iats_diff: [  0  15  30 -15   0 -15  15],
-loss = 1.54580199431562, calc time: 1.6065890789031982 secs
+loss = 1.5417077412909141, calc time: 1.447620153427124 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 1 0 0 1 0 1 1 0 1],
 iats: [ 0  0 30 15 45 30 15 30],
 iats_diff: [  0  30 -15  30 -15 -15  15],
-loss = 1.2927254201152847, calc time: 1.599867820739746 secs
+loss = 1.2878777797504872, calc time: 1.442784070968628 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 0 1 1 0 0 1 1 0 1],
 iats: [ 0  0 30 30 15 45 15 30],
 iats_diff: [  0  30   0 -15  30 -30  15],
-loss = 1.2716436006540044, calc time: 1.56880784034729 secs
+loss = 1.2656734729931964, calc time: 1.5738940238952637 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-#### Found better schedule: [2 0 1 0 1 0 1 1 0 1 0 1] with loss: 1.2055497369854167
+#### Found better schedule: [2 0 1 0 1 0 1 1 0 1 0 1] with loss: 1.1985583392579737
 
 Generated new psm
 </code></pre>
@@ -408,99 +408,64 @@ Generated new psm
 <pre><code>schedule: [2 0 1 0 1 0 1 1 0 1 0 1],
 iats: [ 0  0 30 30 30 15 30 30],
 iats_diff: [  0  30   0   0 -15  15   0],
-loss = 1.2055497369854167, calc time: 1.6540751457214355 secs
+loss = 1.1985583392579737, calc time: 1.449477195739746 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [1 0 1 0 1 0 1 1 0 1 0 2],
 iats: [ 0 30 30 30 15 30 30  0],
 iats_diff: [ 30   0   0 -15  15   0 -30],
-loss = 3.799749756817863, calc time: 1.5697698593139648 secs
+loss = 3.763566406074824, calc time: 1.4820520877838135 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 1 0 0 1 0 1 1 0 1 0 1],
 iats: [ 0  0 15 45 30 15 30 30],
 iats_diff: [  0  15  30 -15 -15  15   0],
-loss = 1.539932789033532, calc time: 1.5202391147613525 secs
+loss = 1.5348212881217365, calc time: 1.4497771263122559 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 1 0 0 1 1 0 1 0 1],
 iats: [ 0  0 30 15 45 15 30 30],
 iats_diff: [  0  30 -15  30 -30  15   0],
-loss = 1.286384515220363, calc time: 1.5101029872894287 secs
-</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-#### Found better schedule: [2 0 1 0 1 1 0 1 0 1 0 1] with loss: 1.2051199375105335
-
-Generated new psm
+loss = 1.28042268152354, calc time: 1.5323150157928467 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>schedule: [2 0 1 0 1 1 0 1 0 1 0 1],
 iats: [ 0  0 30 30 15 30 30 30],
 iats_diff: [  0  30   0 -15  15   0   0],
-loss = 1.2051199375105335, calc time: 1.5269219875335693 secs
+loss = 1.1994214516517707, calc time: 1.4600389003753662 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [1 0 1 0 1 1 0 1 0 1 0 2],
-iats: [ 0 30 30 15 30 30 30  0],
-iats_diff: [ 30   0 -15  15   0   0 -30],
-loss = 3.7985047564941525, calc time: 1.5376908779144287 secs
+<pre><code>schedule: [2 0 1 0 1 0 2 0 0 1 0 1],
+iats: [ 0  0 30 30 30  0 45 30],
+iats_diff: [  0  30   0   0 -30  45 -15],
+loss = 1.7075348459879667, calc time: 1.5664350986480713 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 1 0 0 1 1 0 1 0 1 0 1],
-iats: [ 0  0 15 45 15 30 30 30],
-iats_diff: [  0  15  30 -30  15   0   0],
-loss = 1.5391154183103475, calc time: 1.5958778858184814 secs
+<pre><code>schedule: [2 0 1 0 1 0 1 1 1 0 0 1],
+iats: [ 0  0 30 30 30 15 15 45],
+iats_diff: [  0  30   0   0 -15   0  30],
+loss = 1.279293985080504, calc time: 1.5558991432189941 secs
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 1 0 1 0 1 0 1 0 1],
-iats: [ 0  0 30 15 30 30 30 30],
-iats_diff: [  0  30 -15  15   0   0   0],
-loss = 1.22696574325763, calc time: 1.732637882232666 secs
-</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 2 0 0 1 0 1 0 1],
-iats: [ 0  0 30 30  0 45 30 30],
-iats_diff: [  0  30   0 -30  45 -15   0],
-loss = 1.7167666108010833, calc time: 1.5913469791412354 secs
-</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 1 1 0 0 1 0 1],
-iats: [ 0  0 30 30 15 15 45 30],
-iats_diff: [  0  30   0 -15   0  30 -15],
-loss = 1.291053987776476, calc time: 1.5714588165283203 secs
-</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 1 0 1 1 0 0 1],
-iats: [ 0  0 30 30 15 30 15 45],
-iats_diff: [  0  30   0 -15  15 -15  30],
-loss = 1.2604147046428467, calc time: 1.596369981765747 secs
-</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>schedule: [2 0 1 0 1 1 0 1 0 1 1 0],
-iats: [ 0  0 30 30 15 30 30 15],
-iats_diff: [  0  30   0 -15  15   0 -15],
-loss = 1.4841214147183492, calc time: 1.5145249366760254 secs
+<pre><code>schedule: [2 0 1 0 1 0 1 1 0 1 1 0],
+iats: [ 0  0 30 30 30 15 30 15],
+iats_diff: [  0  30   0   0 -15  15 -15],
+loss = 1.4785438534350166, calc time: 1.5364410877227783 secs
 
-Finished iterating in: 40 seconds
+Finished iterating in: 31 seconds
 
 Best result:
-schedule: [2 0 1 0 1 1 0 1 0 1 0 1],
-iats: [ 0  0 30 30 15 30 30 30],
-iats_diff: [  0  30   0 -15  15   0   0],
-loss = 1.2051199375105335, calc time: 1.5791077613830566 secs
+schedule: [2 0 1 0 1 0 1 1 0 1 0 1],
+iats: [ 0  0 30 30 30 15 30 30],
+iats_diff: [  0  30   0   0 -15  15   0],
+loss = 1.1985583392579737, calc time: 1.6062731742858887 secs
 </code></pre>
 </div>
 </div>

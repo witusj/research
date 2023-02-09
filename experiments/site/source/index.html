@@ -20,6 +20,25 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -128,11 +147,23 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Here I will share all my experiments.</p>
+<p>This site contains the code experiments for my research on appointment scheduling optimization. Specifically I am working on solution methods for single stage stochastic programming problems (1-SSP) and so-called off-line scheduling system. In an off-line scheduling system all patients that want an appointment in a specific time-frame (e.g.&nbsp;day) are gathered first and then given an appointment time. An example of such a problem is scheduling a number of patients into a series of fixed time slots for a single physician. Each patient will have a certain service time that can not be predicted, but has some known distribution with a mean and variance. If a certain patient needs more time to consult than his tiime slot the next patient will start later. In case the patient finishes earlier, the doctor has idle time.</p>
+<p>Both waiting times - for patient and doctor - are undesirable. The question is how to find an optimal schedule that minimizes total waiting times. Weights can be given to both types of waiting times to accommodate for different utilities of saved time for patients and doctors.</p>
+<p>Solution methods for these kinds of problems can be divided into two types: (1) analytical and (2) numerical. Analytical methods applies mathematical principles to a problem in order to obtain provable results. Numerical methods use sets of iterative procedures to find solutions to problems that are hard to solve by analytical methods. A numerical method is considered accurate if it finds: (1) an optimal solution in a given time or (2) a perturbed (or near-optimal) solution with a known deterministic error bound, which is a bound on the solution’s (relative or absolute) optimality gap. An inaccurate method does not produce an error bound and the quality of the solution can not be determined <span class="citation" data-cites="ahmadi-javid_outpatient_2017">(<a href="#ref-ahmadi-javid_outpatient_2017" role="doc-biblioref">Ahmadi-Javid, Jalali, and Klassen 2017</a>)</span>.</p>
+<p>Ideas:</p>
+<ul>
+<li><p>Apply utility function to waiting times -&gt; one minute of waiting is more acceptable than 30 minutes of waiting.</p></li>
+<li></li>
+</ul>
 
 
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-ahmadi-javid_outpatient_2017" class="csl-entry" role="doc-biblioentry">
+Ahmadi-Javid, Amir, Zahra Jalali, and Kenneth J Klassen. 2017. <span>“Outpatient Appointment Systems in Healthcare: <span>A</span> Review of Optimization Studies.”</span> <em>European Journal of Operational Research</em> 258 (1): 3–34. <a href="https://doi.org/10.1016/j.ejor.2016.06.064">https://doi.org/10.1016/j.ejor.2016.06.064</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
