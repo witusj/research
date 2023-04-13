@@ -1,0 +1,22 @@
+---
+title: "2023-04-13"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## HCP:
+
+-   De spreadsheet voor de validatie opgeschoond:
+    -   De mean en variantie van de new case worden nu correct berekend
+    -   Onnodige kolommen en rijen zijn verwijderd
+    -   Er wordt nu ook automatisch een validatie uitgevoerd (laatste
+        tabblad)
+-   To do: Kijken naar de berekeningen van de LoS en de gemiddelde
+    geplande zorg per week per team.
