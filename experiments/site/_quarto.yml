@@ -12,10 +12,10 @@ website:
       - sim-based-opt.qmd
       - search-function.qmd
       - schedule-probabilities.qmd
-
+      
 format:
   html:
-    theme: cosmo
+    theme: united
     css: styles.css
     toc: true
 
