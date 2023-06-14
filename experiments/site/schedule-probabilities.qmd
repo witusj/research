@@ -284,6 +284,7 @@ def run_schedule(x, d, s, u=1, print_schedule=True):
   schedule.calculate_system_states(until=u)
   schedule.calculate_wait_times(until=u)
   if(print_schedule): print(schedule)
+  print(schedule.system['ew'])
   return(schedule)
 ```
 
