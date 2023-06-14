@@ -320,7 +320,7 @@ sch.visualize_system('p_min')
 ```{python}
 """"Test case with more than 1 clients in the system at the same time
 url: https://docs.google.com/spreadsheets/d/1_l9bMqEfLT2-TpZz3MrDFIid30ZsywTVH8Lzc5uHrGw/edit?usp=sharing"""
-x = np.array([1, 0, 1, 0, 1, 1, 1], dtype=np.int64)
+x = np.array([1, 0, 2, 0, 1, 1, 1], dtype=np.int64)
 d = 5
 l = 6
 limit = calc_distr_limit(l * x.sum())+1
@@ -332,7 +332,7 @@ sch = run_schedule(x, d, s, u, False)
 ```
 
 ```{python}
-sch.visualize_state()
+sch.visualize_state(2)
 ```
 
 ```{python}
