@@ -1,6 +1,9 @@
 ---
-title: "Scheduling Analytical"
+title: "Scheduling Local Search"
+bibliography: "bibliography.bib"
 ---
+
+This code replicates methods from @kaandorp_optimal_2007.
 
 ```{python}
 import numpy as np
@@ -137,7 +140,11 @@ A schedule with $T$ intervals can have $T$ states. A state of a schedule at inte
 
 \- $p^+_t(i)$, the probability of the total amount of work ($i$) in interval $t$, ergo: the work left from the previous state plus all work related to arriving patients.
 
-$p^+_t(i)$ is equal to the convolution of the distribution of waiting times of the last patient with the distribution of his service time.
+$p^+_t(i)$ is equal to the convolution of the distribution of waiting times of the last patient with the distribution of his service time:
+
+```code
+test
+```
 
 ```{python}
 
