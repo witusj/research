@@ -130,7 +130,15 @@ if __name__ == '__main__':
 zero_arrays(np.array([1, 0, 3]), 4)
 ```
 
-A schedule with T intervals can have T states. A state of a schedule at interval T is defined by $p^-_t(i)$, the amount of work left at the end of the state at interval $t-1$ and $v_t(i)$, the arriving amount of work in interval $t$.
+A schedule with $T$ intervals can have $T$ states. A state of a schedule at interval $t$ is defined by:
+
+\- $p^-_t(i)$, the distribution of the amount of work ($i$) left at the end of the state at interval $t-1$,
+
+\- $w_{tk}(i)$, the distribution of waiting time ($i$) for a patient $k$ in interval $t$
+
+\- $p^+_t(i)$, the probability of the total amount of work ($i$) in interval $t$, ergo: the work left from the previous state plus all work related to arriving patients.
+
+$p^+_t(i)$ is equal to the convolution of the distribution of waiting times of the last patient with the distribution of his service time.
 
 ```{python}
 
@@ -280,11 +288,11 @@ Finally, the `Schedule` class has a `__str__` method that returns a string repre
 To improve the readability of the code, the `Schedule` class could be refactored to use more descriptive variable names. Additionally, the `calculate_system_states` method could be split into smaller methods to improve its readability and maintainability. Finally, the `visualize_p_plus` method could be modified to take a state parameter, allowing the user to visualize the `p_plus` array for any state.
 
 ```{python}
-def run_schedule(x, d, s, u=1, print_schedule=True):
+def run_schedule(x, d, s, u=1, print_system=True):
   schedule = Schedule(x=x, d=d, s=s)
   schedule.calculate_system_states(until=u)
   schedule.calculate_wait_times(until=u)
-  if(print_schedule): print(schedule)
+  if(print_system): print(schedule)
   print(f"Expected wt per state: {schedule.system['ew']}")
   return(schedule)
 ```
