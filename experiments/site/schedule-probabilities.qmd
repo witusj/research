@@ -372,4 +372,3 @@ run_schedule(x, d, s, u, False)
 sch = run_schedule(x, d, s, u, False)
 sch.visualize_system('p_plus')
 ```
-
