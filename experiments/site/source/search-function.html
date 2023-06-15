@@ -194,7 +194,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># sts = np.array([14, 14, 14, 15, 16]) # service times - for simple numerical testing</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># sts = np.random.poisson(lam=14, size=1000) - using poisson distribution</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> <span class="fl">0.1</span> <span class="co"># percentage of no-shows</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>nsh <span class="op">=</span> <span class="fl">0.1</span> <span class="co"># percentage of no-shows</span></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>nsims <span class="op">=</span> <span class="dv">100000</span> <span class="co"># number of simulations</span></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>logs <span class="op">=</span> <span class="va">False</span> <span class="co"># do not print simulation logs</span></span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>lnm <span class="op">=</span> <span class="dv">14</span> <span class="co"># lognormal mean</span></span>
@@ -293,140 +293,140 @@ Generated new psm
 schedule: [2 0 1 0 1 0 1 0 1 0 1 1],
 iats: [ 0  0 20 20 20 20 20 10],
 iats_diff: [  0  20   0   0   0   0 -10],
-loss = 3.661097963178163, calc time: 1.3872859477996826 secs
+loss = 3.6716851242095334, calc time: 1.5179798603057861 secs
 
 schedule: [1 0 1 0 1 0 1 0 1 0 1 2],
 iats: [ 0 20 20 20 20 20 10  0],
 iats_diff: [ 20   0   0   0   0 -10 -10],
-loss = 7.270067395857499, calc time: 1.4305880069732666 secs
+loss = 7.286299535043646, calc time: 1.5414819717407227 secs
 
 schedule: [2 1 0 0 1 0 1 0 1 0 1 1],
 iats: [ 0  0 10 30 20 20 20 10],
 iats_diff: [  0  10  20 -10   0   0 -10],
-loss = 4.019923093752004, calc time: 1.3848340511322021 secs
+loss = 4.031102438808455, calc time: 1.7974920272827148 secs
 
 schedule: [2 0 1 1 0 0 1 0 1 0 1 1],
 iats: [ 0  0 20 10 30 20 20 10],
 iats_diff: [  0  20 -10  20 -10   0 -10],
-loss = 3.8928942897684795, calc time: 1.3767917156219482 secs
+loss = 3.9041418739070854, calc time: 1.781458854675293 secs
 
 schedule: [2 0 1 0 1 1 0 0 1 0 1 1],
 iats: [ 0  0 20 20 10 30 20 10],
 iats_diff: [  0  20   0 -10  20 -10 -10],
-loss = 3.8275190329012907, calc time: 1.3872089385986328 secs
+loss = 3.837414671434219, calc time: 1.6434581279754639 secs
 
 schedule: [2 0 1 0 1 0 1 1 0 0 1 1],
 iats: [ 0  0 20 20 20 10 30 10],
 iats_diff: [  0  20   0   0 -10  20 -20],
-loss = 3.7667196026676617, calc time: 1.3879380226135254 secs
+loss = 3.7747008330533673, calc time: 1.9688258171081543 secs
 
 
-#### Found better schedule: [2 0 1 0 1 0 1 0 1 1 0 1] with loss: 3.0453857325203684
+#### Found better schedule: [2 0 1 0 1 0 1 0 1 1 0 1] with loss: 3.05527084083188
 
 Generated new psm
 
 schedule: [2 0 1 0 1 0 1 0 1 1 0 1],
 iats: [ 0  0 20 20 20 20 10 20],
 iats_diff: [  0  20   0   0   0 -10  10],
-loss = 3.0453857325203684, calc time: 1.3979971408843994 secs
+loss = 3.05527084083188, calc time: 1.7685072422027588 secs
 
 schedule: [1 0 1 0 1 0 1 0 1 1 0 2],
 iats: [ 0 20 20 20 20 10 20  0],
 iats_diff: [ 20   0   0   0 -10  10 -20],
-loss = 6.305830425181746, calc time: 1.4223382472991943 secs
+loss = 6.322862840488815, calc time: 1.8105688095092773 secs
 
 schedule: [2 1 0 0 1 0 1 0 1 1 0 1],
 iats: [ 0  0 10 30 20 20 10 20],
 iats_diff: [  0  10  20 -10   0 -10  10],
-loss = 3.403676210539972, calc time: 1.3807580471038818 secs
+loss = 3.4142084050350006, calc time: 1.6382780075073242 secs
 
 schedule: [2 0 1 1 0 0 1 0 1 1 0 1],
 iats: [ 0  0 20 10 30 20 10 20],
 iats_diff: [  0  20 -10  20 -10 -10  10],
-loss = 3.274579104608133, calc time: 1.40687894821167 secs
+loss = 3.2848074544504184, calc time: 1.5463969707489014 secs
 
 schedule: [2 0 1 0 1 1 0 0 1 1 0 1],
 iats: [ 0  0 20 20 10 30 10 20],
 iats_diff: [  0  20   0 -10  20 -20  10],
-loss = 3.1973284292466744, calc time: 1.3803179264068604 secs
+loss = 3.2069859513556906, calc time: 1.5412111282348633 secs
 
 
-#### Found better schedule: [2 0 1 0 1 0 1 1 0 1 0 1] with loss: 2.9078769746102484
+#### Found better schedule: [2 0 1 0 1 0 1 1 0 1 0 1] with loss: 2.9134185320015797
 
 Generated new psm
 
 schedule: [2 0 1 0 1 0 1 1 0 1 0 1],
 iats: [ 0  0 20 20 20 10 20 20],
 iats_diff: [  0  20   0   0 -10  10   0],
-loss = 2.9078769746102484, calc time: 1.4773790836334229 secs
+loss = 2.9134185320015797, calc time: 1.6064817905426025 secs
 
 schedule: [1 0 1 0 1 0 1 1 0 1 0 2],
 iats: [ 0 20 20 20 10 20 20  0],
 iats_diff: [ 20   0   0 -10  10   0 -20],
-loss = 6.062971290278159, calc time: 1.3976776599884033 secs
+loss = 6.08462671404423, calc time: 1.5066807270050049 secs
 
 schedule: [2 1 0 0 1 0 1 1 0 1 0 1],
 iats: [ 0  0 10 30 20 10 20 20],
 iats_diff: [  0  10  20 -10 -10  10   0],
-loss = 3.2648377514742513, calc time: 1.390462875366211 secs
+loss = 3.2714053747027148, calc time: 1.48492431640625 secs
 
 schedule: [2 0 1 1 0 0 1 1 0 1 0 1],
 iats: [ 0  0 20 10 30 10 20 20],
 iats_diff: [  0  20 -10  20 -20  10   0],
-loss = 3.129110772615485, calc time: 1.371920108795166 secs
+loss = 3.134464248363983, calc time: 1.4793739318847656 secs
 
 
-#### Found better schedule: [2 0 1 0 1 1 0 1 0 1 0 1] with loss: 2.9012873830773565
+#### Found better schedule: [2 0 1 0 1 1 0 1 0 1 0 1] with loss: 2.9061981224732523
 
 Generated new psm
 
 schedule: [2 0 1 0 1 1 0 1 0 1 0 1],
 iats: [ 0  0 20 20 10 20 20 20],
 iats_diff: [  0  20   0 -10  10   0   0],
-loss = 2.9012873830773565, calc time: 1.4069139957427979 secs
+loss = 2.9061981224732523, calc time: 1.5571210384368896 secs
 
 schedule: [1 0 1 0 1 1 0 1 0 1 0 2],
 iats: [ 0 20 20 10 20 20 20  0],
 iats_diff: [ 20   0 -10  10   0   0 -20],
-loss = 5.994477376293785, calc time: 1.4207251071929932 secs
+loss = 6.01960618132277, calc time: 1.4764001369476318 secs
 
 schedule: [2 1 0 0 1 1 0 1 0 1 0 1],
 iats: [ 0  0 10 30 10 20 20 20],
 iats_diff: [  0  10  20 -20  10   0   0],
-loss = 3.2535384729161487, calc time: 1.4254951477050781 secs
+loss = 3.2591356444273427, calc time: 1.473478078842163 secs
 
 schedule: [2 0 1 1 0 1 0 1 0 1 0 1],
 iats: [ 0  0 20 10 20 20 20 20],
 iats_diff: [  0  20 -10  10   0   0   0],
-loss = 2.997865683560268, calc time: 1.615185022354126 secs
+loss = 3.0041837516079757, calc time: 1.6064879894256592 secs
 
 schedule: [2 0 1 0 2 0 0 1 0 1 0 1],
 iats: [ 0  0 20 20  0 30 20 20],
 iats_diff: [  0  20   0 -20  30 -10   0],
-loss = 3.312792924663543, calc time: 1.5099527835845947 secs
+loss = 3.3178253988018716, calc time: 1.5969631671905518 secs
 
 schedule: [2 0 1 0 1 1 1 0 0 1 0 1],
 iats: [ 0  0 20 20 10 10 30 20],
 iats_diff: [  0  20   0 -10   0  20 -10],
-loss = 3.132139416797089, calc time: 1.6170439720153809 secs
+loss = 3.1336238364681606, calc time: 1.5795371532440186 secs
 
 schedule: [2 0 1 0 1 1 0 1 1 0 0 1],
 iats: [ 0  0 20 20 10 20 10 30],
 iats_diff: [  0  20   0 -10  10 -10  20],
-loss = 3.014178988417628, calc time: 1.681849718093872 secs
+loss = 3.0211345295327963, calc time: 1.5699739456176758 secs
 
 schedule: [2 0 1 0 1 1 0 1 0 1 1 0],
 iats: [ 0  0 20 20 10 20 20 10],
 iats_diff: [  0  20   0 -10  10   0 -10],
-loss = 4.041639239818646, calc time: 1.5357129573822021 secs
+loss = 4.051289230106285, calc time: 1.616145133972168 secs
 
-Finished iterating in: 37 seconds
+Finished iterating in: 42 seconds
 
 Best result:
 schedule: [2 0 1 0 1 1 0 1 0 1 0 1],
 iats: [ 0  0 20 20 10 20 20 20],
 iats_diff: [  0  20   0 -10  10   0   0],
-loss = 2.9012873830773565, calc time: 1.3931779861450195 secs
+loss = 2.9061981224732523, calc time: 1.4831058979034424 secs
 </code></pre>
 </div>
 </div>
@@ -440,7 +440,7 @@ loss = 2.9012873830773565, calc time: 1.3931779861450195 secs
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> elements</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>ns <span class="op">=</span> <span class="fl">0.1</span> <span class="co"># percentage of no-shows</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>nsh <span class="op">=</span> <span class="fl">0.1</span> <span class="co"># percentage of no-shows</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>nsims <span class="op">=</span> <span class="dv">100000</span> <span class="co"># number of simulations</span></span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>logs <span class="op">=</span> <span class="va">False</span> <span class="co"># do not print simulation logs</span></span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>lnm <span class="op">=</span> <span class="dv">20</span> <span class="co"># lognormal mean</span></span>
@@ -532,1052 +532,948 @@ Generated new psm
 schedule: [2 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0],
 iats: [ 0  0 30 30 30 30 30 30 30],
 iats_diff: [ 0 30  0  0  0  0  0  0],
-loss = 5.108284084996704, calc time: 1.6209089756011963 secs
+loss = 5.104791608707836, calc time: 1.6837959289550781 secs
 
 
-#### Found better schedule: [1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1] with loss: 4.498170460209998
+#### Found better schedule: [1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1] with loss: 4.486402638180274
 
 Generated new psm
 
 schedule: [1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1],
 iats: [ 0 30 30 30 30 30 30 30 20],
 iats_diff: [ 30   0   0   0   0   0   0 -10],
-loss = 4.498170460209998, calc time: 1.6427311897277832 secs
+loss = 4.486402638180274, calc time: 1.8714687824249268 secs
 
 schedule: [0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 2],
 iats: [30 30 30 30 30 30 30 20  0],
 iats_diff: [  0   0   0   0   0   0 -10 -20],
-loss = 12.164361928384526, calc time: 1.7687129974365234 secs
+loss = 12.142251528597965, calc time: 1.6933329105377197 secs
 
 schedule: [1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1],
 iats: [ 0 20 40 30 30 30 30 30 20],
 iats_diff: [ 20  20 -10   0   0   0   0 -10],
-loss = 4.569734031927946, calc time: 1.9941320419311523 secs
+loss = 4.557750158446255, calc time: 1.6878693103790283 secs
 
 schedule: [1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1],
 iats: [ 0 30 20 40 30 30 30 30 20],
 iats_diff: [ 30 -10  20 -10   0   0   0 -10],
-loss = 4.572483568556477, calc time: 1.7262780666351318 secs
+loss = 4.560279460914177, calc time: 1.918220043182373 secs
 
 schedule: [1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 1],
 iats: [ 0 30 30 20 40 30 30 30 20],
 iats_diff: [ 30   0 -10  20 -10   0   0 -10],
-loss = 4.572627113414332, calc time: 1.6901202201843262 secs
+loss = 4.560642852007922, calc time: 1.759124994277954 secs
 
 schedule: [1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 1],
 iats: [ 0 30 30 30 20 40 30 30 20],
 iats_diff: [ 30   0   0 -10  20 -10   0 -10],
-loss = 4.572519980971154, calc time: 1.617222785949707 secs
+loss = 4.561124056255835, calc time: 1.8020200729370117 secs
 
 schedule: [1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 1],
 iats: [ 0 30 30 30 30 20 40 30 20],
 iats_diff: [ 30   0   0   0 -10  20 -10 -10],
-loss = 4.570393863216464, calc time: 1.5187199115753174 secs
+loss = 4.558004479601295, calc time: 1.8807201385498047 secs
 
 schedule: [1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 1],
 iats: [ 0 30 30 30 30 30 20 40 20],
 iats_diff: [ 30   0   0   0   0 -10  20 -20],
-loss = 4.55282828564922, calc time: 1.509902000427246 secs
+loss = 4.54300010831862, calc time: 1.6882851123809814 secs
 
 
-#### Found better schedule: [1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1] with loss: 4.016514812527413
+#### Found better schedule: [1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1] with loss: 4.013422296131823
 
 Generated new psm
 
 schedule: [1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1],
 iats: [ 0 30 30 30 30 30 30 20 30],
 iats_diff: [ 30   0   0   0   0   0 -10  10],
-loss = 4.016514812527413, calc time: 1.6623587608337402 secs
+loss = 4.013422296131823, calc time: 2.350790023803711 secs
 
 schedule: [0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 2],
 iats: [30 30 30 30 30 30 20 30  0],
 iats_diff: [  0   0   0   0   0 -10  10 -30],
-loss = 11.506113726403502, calc time: 1.5640230178833008 secs
+loss = 11.492322124432294, calc time: 2.3109331130981445 secs
 
 schedule: [1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1],
 iats: [ 0 20 40 30 30 30 30 20 30],
 iats_diff: [ 20  20 -10   0   0   0 -10  10],
-loss = 4.08807838424536, calc time: 1.6184382438659668 secs
+loss = 4.084767806672307, calc time: 2.4993579387664795 secs
 
 schedule: [1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1],
 iats: [ 0 30 20 40 30 30 30 20 30],
 iats_diff: [ 30 -10  20 -10   0   0 -10  10],
-loss = 4.090794518196965, calc time: 1.5656540393829346 secs
+loss = 4.087297810979997, calc time: 2.0649120807647705 secs
 
 schedule: [1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 1 0 0 1],
 iats: [ 0 30 30 20 40 30 30 20 30],
 iats_diff: [ 30   0 -10  20 -10   0 -10  10],
-loss = 4.090954777569051, calc time: 1.4940388202667236 secs
+loss = 4.087619102064863, calc time: 2.088181972503662 secs
 
 schedule: [1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 1 0 0 1],
 iats: [ 0 30 30 30 20 40 30 20 30],
 iats_diff: [ 30   0   0 -10  20 -10 -10  10],
-loss = 4.090475255525456, calc time: 1.4853880405426025 secs
+loss = 4.087772004118273, calc time: 1.6897609233856201 secs
 
 schedule: [1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 1 0 0 1],
 iats: [ 0 30 30 30 30 20 40 20 30],
 iats_diff: [ 30   0   0   0 -10  20 -20  10],
-loss = 4.085318799728998, calc time: 1.504390001296997 secs
+loss = 4.080893987044881, calc time: 1.648681879043579 secs
 
 
-#### Found better schedule: [1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1] with loss: 3.961364849745979
+#### Found better schedule: [1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1] with loss: 3.959173607841808
 
 Generated new psm
 
 schedule: [1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1],
 iats: [ 0 30 30 30 30 30 20 30 30],
 iats_diff: [ 30   0   0   0   0 -10  10   0],
-loss = 3.961364849745979, calc time: 1.5557539463043213 secs
+loss = 3.959173607841808, calc time: 1.7266349792480469 secs
 
 schedule: [0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 2],
 iats: [30 30 30 30 30 20 30 30  0],
 iats_diff: [  0   0   0   0 -10  10   0 -30],
-loss = 11.430469956239019, calc time: 1.5606470108032227 secs
+loss = 11.410943727422385, calc time: 1.6480748653411865 secs
 
 schedule: [1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1],
 iats: [ 0 20 40 30 30 30 20 30 30],
 iats_diff: [ 20  20 -10   0   0 -10  10   0],
-loss = 4.032921226991387, calc time: 1.5746839046478271 secs
+loss = 4.030516932504926, calc time: 1.858745813369751 secs
 
 schedule: [1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1],
 iats: [ 0 30 20 40 30 30 20 30 30],
 iats_diff: [ 30 -10  20 -10   0 -10  10   0],
-loss = 4.035611174726215, calc time: 1.5005230903625488 secs
+loss = 4.033022039753769, calc time: 1.6529581546783447 secs
 
 schedule: [1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 1 0 0 1 0 0 1],
 iats: [ 0 30 30 20 40 30 20 30 30],
 iats_diff: [ 30   0 -10  20 -10 -10  10   0],
-loss = 4.035601297167394, calc time: 1.4933128356933594 secs
+loss = 4.0331428902948785, calc time: 1.6256539821624756 secs
 
 schedule: [1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 1 0 0 1 0 0 1],
 iats: [ 0 30 30 30 20 40 20 30 30],
 iats_diff: [ 30   0   0 -10  20 -20  10   0],
-loss = 4.033033894915385, calc time: 1.5714788436889648 secs
+loss = 4.031273278791438, calc time: 1.6779882907867432 secs
 
 
-#### Found better schedule: [1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1] with loss: 3.9537703769309047
+#### Found better schedule: [1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1] with loss: 3.9494616792714416
 
 Generated new psm
 
 schedule: [1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 30 30 30 30 20 30 30 30],
 iats_diff: [ 30   0   0   0 -10  10   0   0],
-loss = 3.9537703769309047, calc time: 1.4948129653930664 secs
+loss = 3.9494616792714416, calc time: 1.673426866531372 secs
 
 schedule: [0 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 2],
 iats: [30 30 30 30 20 30 30 30  0],
 iats_diff: [  0   0   0 -10  10   0   0 -30],
-loss = 11.420736353094714, calc time: 1.45930814743042 secs
+loss = 11.401819277622083, calc time: 1.6262929439544678 secs
 
 schedule: [1 0 1 0 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 40 30 30 20 30 30 30],
 iats_diff: [ 20  20 -10   0 -10  10   0   0],
-loss = 4.025310003443797, calc time: 1.4901988506317139 secs
+loss = 4.020770564892245, calc time: 1.6073777675628662 secs
 
 schedule: [1 0 0 1 0 1 0 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 30 20 40 30 20 30 30 30],
 iats_diff: [ 30 -10  20 -10 -10  10   0   0],
-loss = 4.027804039007345, calc time: 1.4680802822113037 secs
+loss = 4.023105289939144, calc time: 1.6187782287597656 secs
 
 schedule: [1 0 0 1 0 0 1 0 1 0 0 0 1 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 30 30 20 40 20 30 30 30],
 iats_diff: [ 30   0 -10  20 -20  10   0   0],
-loss = 4.025742681409006, calc time: 1.4596037864685059 secs
+loss = 4.021239158961172, calc time: 1.7785100936889648 secs
 
 
-#### Found better schedule: [1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 1] with loss: 3.9530966972008845
+#### Found better schedule: [1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 1] with loss: 3.9493715294969953
 
 Generated new psm
 
 schedule: [1 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 30 30 30 20 30 30 30 30],
 iats_diff: [ 30   0   0 -10  10   0   0   0],
-loss = 3.9530966972008845, calc time: 1.4809110164642334 secs
+loss = 3.9493715294969953, calc time: 1.61549711227417 secs
 
 schedule: [0 0 0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [30 30 30 20 30 30 30 30  0],
 iats_diff: [  0   0 -10  10   0   0   0 -30],
-loss = 11.419459609223642, calc time: 1.4685719013214111 secs
+loss = 11.399489211493737, calc time: 1.6206419467926025 secs
 
 schedule: [1 0 1 0 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 40 30 20 30 30 30 30],
 iats_diff: [ 20  20 -10 -10  10   0   0   0],
-loss = 4.024428230321755, calc time: 1.4898760318756104 secs
+loss = 4.020494561310224, calc time: 1.569997787475586 secs
 
 schedule: [1 0 0 1 0 1 0 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 30 20 40 20 30 30 30 30],
 iats_diff: [ 30 -10  20 -20  10   0   0   0],
-loss = 4.024920289293697, calc time: 1.4801607131958008 secs
+loss = 4.020884960633779, calc time: 1.5873091220855713 secs
 
 
-#### Found better schedule: [1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1] with loss: 3.9529334982465802
+#### Found better schedule: [1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1] with loss: 3.9485471432105834
 
 Generated new psm
 
 schedule: [1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 30 30 20 30 30 30 30 30],
 iats_diff: [ 30   0 -10  10   0   0   0   0],
-loss = 3.9529334982465802, calc time: 1.4714059829711914 secs
+loss = 3.9485471432105834, calc time: 1.5919747352600098 secs
 
 schedule: [0 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [30 30 20 30 30 30 30 30  0],
 iats_diff: [  0 -10  10   0   0   0   0 -30],
-loss = 11.418968296650988, calc time: 1.4591002464294434 secs
+loss = 11.398733974279352, calc time: 1.5565550327301025 secs
 
 schedule: [1 0 1 0 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 40 20 30 30 30 30 30],
 iats_diff: [ 20  20 -20  10   0   0   0   0],
-loss = 4.0220709782109765, calc time: 1.4834952354431152 secs
+loss = 4.017446805813418, calc time: 1.8426101207733154 secs
 
 
-#### Found better schedule: [1 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1] with loss: 3.952674955860991
+#### Found better schedule: [1 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1] with loss: 3.947974108469159
 
 Generated new psm
 
 schedule: [1 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 30 20 30 30 30 30 30 30],
 iats_diff: [ 30 -10  10   0   0   0   0   0],
-loss = 3.952674955860991, calc time: 1.4829719066619873 secs
+loss = 3.947974108469159, calc time: 1.657214879989624 secs
 
 schedule: [0 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [30 20 30 30 30 30 30 30  0],
 iats_diff: [-10  10   0   0   0   0   0 -30],
-loss = 11.41559652872879, calc time: 1.458772897720337 secs
+loss = 11.395669036913382, calc time: 1.546839952468872 secs
 
 
-#### Found better schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1] with loss: 3.949307650040059
-
-Generated new psm
-
-schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
-iats: [ 0 20 30 30 30 30 30 30 30],
-iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.4744138717651367 secs
-
-schedule: [0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
-iats: [20 30 30 30 30 30 30 30  0],
-iats_diff: [ 10   0   0   0   0   0   0 -30],
-loss = 11.32853289009352, calc time: 1.475679636001587 secs
-
-schedule: [1 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
-iats: [ 0 10 40 30 30 30 30 30 30],
-iats_diff: [ 10  30 -10   0   0   0   0   0],
-loss = 4.282920771457124, calc time: 1.4690072536468506 secs
-
-schedule: [1 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
-iats: [ 0 20 20 40 30 30 30 30 30],
-iats_diff: [ 20   0  20 -10   0   0   0   0],
-loss = 4.056425994200198, calc time: 1.4725639820098877 secs
-
-schedule: [1 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
-iats: [ 0 20 30 20 40 30 30 30 30],
-iats_diff: [ 20  10 -10  20 -10   0   0   0],
-loss = 4.027506042029247, calc time: 1.4720120429992676 secs
-
-schedule: [1 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1],
-iats: [ 0 20 30 30 20 40 30 30 30],
-iats_diff: [ 20  10   0 -10  20 -10   0   0],
-loss = 4.024368263109382, calc time: 1.4663429260253906 secs
-
-schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1],
-iats: [ 0 20 30 30 30 20 40 30 30],
-iats_diff: [ 20  10   0   0 -10  20 -10   0],
-loss = 4.023107945479397, calc time: 1.4654312133789062 secs
-
-schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1],
-iats: [ 0 20 30 30 30 30 20 40 30],
-iats_diff: [ 20  10   0   0   0 -10  20 -10],
-loss = 4.020685493953893, calc time: 1.4656848907470703 secs
-
-schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1],
-iats: [ 0 20 30 30 30 30 30 20 40],
-iats_diff: [ 20  10   0   0   0   0 -10  20],
-loss = 3.991497121688682, calc time: 1.479330062866211 secs
-
-schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0],
-iats: [ 0 20 30 30 30 30 30 30 20],
-iats_diff: [ 20  10   0   0   0   0   0 -10],
-loss = 4.585234098845269, calc time: 1.4945859909057617 secs
+#### Found better schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1] with loss: 3.9449490753524925
 
 Generated new psm
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 30 30 30],
 iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.4756908416748047 secs
+loss = 3.9449490753524925, calc time: 1.5760619640350342 secs
 
 schedule: [0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [20 30 30 30 30 30 30 30  0],
 iats_diff: [ 10   0   0   0   0   0   0 -30],
-loss = 11.32853289009352, calc time: 1.4693870544433594 secs
+loss = 11.309048406063297, calc time: 1.5475530624389648 secs
 
 schedule: [1 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 10 40 30 30 30 30 30 30],
 iats_diff: [ 10  30 -10   0   0   0   0   0],
-loss = 4.282920771457124, calc time: 1.4615702629089355 secs
+loss = 4.278881916751997, calc time: 1.5679118633270264 secs
 
 schedule: [1 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 20 40 30 30 30 30 30],
 iats_diff: [ 20   0  20 -10   0   0   0   0],
-loss = 4.056425994200198, calc time: 1.477484941482544 secs
+loss = 4.051621534759203, calc time: 1.5809829235076904 secs
 
 schedule: [1 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 20 40 30 30 30 30],
 iats_diff: [ 20  10 -10  20 -10   0   0   0],
-loss = 4.027506042029247, calc time: 1.4669959545135498 secs
+loss = 4.022927419073504, calc time: 1.703498125076294 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 20 40 30 30 30],
 iats_diff: [ 20  10   0 -10  20 -10   0   0],
-loss = 4.024368263109382, calc time: 1.493638277053833 secs
+loss = 4.020336374979233, calc time: 1.5919480323791504 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 20 40 30 30],
 iats_diff: [ 20  10   0   0 -10  20 -10   0],
-loss = 4.023107945479397, calc time: 1.5858161449432373 secs
+loss = 4.018474430487119, calc time: 1.6333799362182617 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 20 40 30],
 iats_diff: [ 20  10   0   0   0 -10  20 -10],
-loss = 4.020685493953893, calc time: 1.4594337940216064 secs
+loss = 4.016718532739353, calc time: 1.7375810146331787 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1],
 iats: [ 0 20 30 30 30 30 30 20 40],
 iats_diff: [ 20  10   0   0   0   0 -10  20],
-loss = 3.991497121688682, calc time: 1.4948039054870605 secs
+loss = 3.987710768924146, calc time: 1.6104810237884521 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0],
 iats: [ 0 20 30 30 30 30 30 30 20],
 iats_diff: [ 20  10   0   0   0   0   0 -10],
-loss = 4.585234098845269, calc time: 1.4907798767089844 secs
+loss = 4.57302326903036, calc time: 1.6008930206298828 secs
 
 Generated new psm
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 30 30 30],
 iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.4736380577087402 secs
+loss = 3.9449490753524925, calc time: 1.5946712493896484 secs
 
 schedule: [0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [20 30 30 30 30 30 30 30  0],
 iats_diff: [ 10   0   0   0   0   0   0 -30],
-loss = 11.32853289009352, calc time: 1.4472849369049072 secs
+loss = 11.309048406063297, calc time: 1.5651483535766602 secs
 
 schedule: [1 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 10 40 30 30 30 30 30 30],
 iats_diff: [ 10  30 -10   0   0   0   0   0],
-loss = 4.282920771457124, calc time: 1.4987657070159912 secs
+loss = 4.278881916751997, calc time: 1.5770008563995361 secs
 
 schedule: [1 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 20 40 30 30 30 30 30],
 iats_diff: [ 20   0  20 -10   0   0   0   0],
-loss = 4.056425994200198, calc time: 1.4552817344665527 secs
+loss = 4.051621534759203, calc time: 1.6163361072540283 secs
 
 schedule: [1 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 20 40 30 30 30 30],
 iats_diff: [ 20  10 -10  20 -10   0   0   0],
-loss = 4.027506042029247, calc time: 1.4792289733886719 secs
+loss = 4.022927419073504, calc time: 1.6227352619171143 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 20 40 30 30 30],
 iats_diff: [ 20  10   0 -10  20 -10   0   0],
-loss = 4.024368263109382, calc time: 1.4953620433807373 secs
+loss = 4.020336374979233, calc time: 1.7216148376464844 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 20 40 30 30],
 iats_diff: [ 20  10   0   0 -10  20 -10   0],
-loss = 4.023107945479397, calc time: 1.4711108207702637 secs
+loss = 4.018474430487119, calc time: 1.6261849403381348 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 20 40 30],
 iats_diff: [ 20  10   0   0   0 -10  20 -10],
-loss = 4.020685493953893, calc time: 1.4699082374572754 secs
+loss = 4.016718532739353, calc time: 1.6315438747406006 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1],
 iats: [ 0 20 30 30 30 30 30 20 40],
 iats_diff: [ 20  10   0   0   0   0 -10  20],
-loss = 3.991497121688682, calc time: 1.4828591346740723 secs
+loss = 3.987710768924146, calc time: 1.6276278495788574 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0],
 iats: [ 0 20 30 30 30 30 30 30 20],
 iats_diff: [ 20  10   0   0   0   0   0 -10],
-loss = 4.585234098845269, calc time: 1.4956719875335693 secs
+loss = 4.57302326903036, calc time: 1.6075048446655273 secs
 
 Generated new psm
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 30 30 30],
 iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.4785997867584229 secs
+loss = 3.9449490753524925, calc time: 1.6652569770812988 secs
 
 schedule: [0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [20 30 30 30 30 30 30 30  0],
 iats_diff: [ 10   0   0   0   0   0   0 -30],
-loss = 11.32853289009352, calc time: 1.4807980060577393 secs
+loss = 11.309048406063297, calc time: 1.6095433235168457 secs
 
 schedule: [1 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 10 40 30 30 30 30 30 30],
 iats_diff: [ 10  30 -10   0   0   0   0   0],
-loss = 4.282920771457124, calc time: 1.4857542514801025 secs
+loss = 4.278881916751997, calc time: 1.606705904006958 secs
 
 schedule: [1 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 20 40 30 30 30 30 30],
 iats_diff: [ 20   0  20 -10   0   0   0   0],
-loss = 4.056425994200198, calc time: 1.4608221054077148 secs
+loss = 4.051621534759203, calc time: 1.8834178447723389 secs
 
 schedule: [1 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 20 40 30 30 30 30],
 iats_diff: [ 20  10 -10  20 -10   0   0   0],
-loss = 4.027506042029247, calc time: 1.4743142127990723 secs
+loss = 4.022927419073504, calc time: 1.8156061172485352 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 20 40 30 30 30],
 iats_diff: [ 20  10   0 -10  20 -10   0   0],
-loss = 4.024368263109382, calc time: 1.480499267578125 secs
+loss = 4.020336374979233, calc time: 1.6524121761322021 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 20 40 30 30],
 iats_diff: [ 20  10   0   0 -10  20 -10   0],
-loss = 4.023107945479397, calc time: 1.4747099876403809 secs
+loss = 4.018474430487119, calc time: 1.6900112628936768 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 20 40 30],
 iats_diff: [ 20  10   0   0   0 -10  20 -10],
-loss = 4.020685493953893, calc time: 1.549917221069336 secs
+loss = 4.016718532739353, calc time: 1.7030048370361328 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1],
 iats: [ 0 20 30 30 30 30 30 20 40],
 iats_diff: [ 20  10   0   0   0   0 -10  20],
-loss = 3.991497121688682, calc time: 1.4709398746490479 secs
+loss = 3.987710768924146, calc time: 2.0248289108276367 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0],
 iats: [ 0 20 30 30 30 30 30 30 20],
 iats_diff: [ 20  10   0   0   0   0   0 -10],
-loss = 4.585234098845269, calc time: 1.4930970668792725 secs
+loss = 4.57302326903036, calc time: 1.7999482154846191 secs
 
 Generated new psm
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 30 30 30],
 iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.485835075378418 secs
+loss = 3.9449490753524925, calc time: 1.648705005645752 secs
 
 schedule: [0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [20 30 30 30 30 30 30 30  0],
 iats_diff: [ 10   0   0   0   0   0   0 -30],
-loss = 11.32853289009352, calc time: 1.4525690078735352 secs
+loss = 11.309048406063297, calc time: 1.6207451820373535 secs
 
 schedule: [1 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 10 40 30 30 30 30 30 30],
 iats_diff: [ 10  30 -10   0   0   0   0   0],
-loss = 4.282920771457124, calc time: 1.4804859161376953 secs
+loss = 4.278881916751997, calc time: 1.6366450786590576 secs
 
 schedule: [1 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 20 40 30 30 30 30 30],
 iats_diff: [ 20   0  20 -10   0   0   0   0],
-loss = 4.056425994200198, calc time: 1.482022762298584 secs
+loss = 4.051621534759203, calc time: 1.6164348125457764 secs
 
 schedule: [1 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 20 40 30 30 30 30],
 iats_diff: [ 20  10 -10  20 -10   0   0   0],
-loss = 4.027506042029247, calc time: 1.4826788902282715 secs
+loss = 4.022927419073504, calc time: 1.6521680355072021 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 20 40 30 30 30],
 iats_diff: [ 20  10   0 -10  20 -10   0   0],
-loss = 4.024368263109382, calc time: 1.4757461547851562 secs
+loss = 4.020336374979233, calc time: 1.6221089363098145 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 20 40 30 30],
 iats_diff: [ 20  10   0   0 -10  20 -10   0],
-loss = 4.023107945479397, calc time: 1.5155689716339111 secs
+loss = 4.018474430487119, calc time: 1.600647211074829 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 20 40 30],
 iats_diff: [ 20  10   0   0   0 -10  20 -10],
-loss = 4.020685493953893, calc time: 1.456981897354126 secs
+loss = 4.016718532739353, calc time: 1.5778300762176514 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1],
 iats: [ 0 20 30 30 30 30 30 20 40],
 iats_diff: [ 20  10   0   0   0   0 -10  20],
-loss = 3.991497121688682, calc time: 1.4564790725708008 secs
+loss = 3.987710768924146, calc time: 1.5846457481384277 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0],
 iats: [ 0 20 30 30 30 30 30 30 20],
 iats_diff: [ 20  10   0   0   0   0   0 -10],
-loss = 4.585234098845269, calc time: 1.51149582862854 secs
+loss = 4.57302326903036, calc time: 1.6916511058807373 secs
 
 Generated new psm
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 30 30 30],
 iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.484184980392456 secs
+loss = 3.9449490753524925, calc time: 1.7024881839752197 secs
 
 schedule: [0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [20 30 30 30 30 30 30 30  0],
 iats_diff: [ 10   0   0   0   0   0   0 -30],
-loss = 11.32853289009352, calc time: 1.4946317672729492 secs
+loss = 11.309048406063297, calc time: 1.5522468090057373 secs
 
 schedule: [1 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 10 40 30 30 30 30 30 30],
 iats_diff: [ 10  30 -10   0   0   0   0   0],
-loss = 4.282920771457124, calc time: 1.4862010478973389 secs
+loss = 4.278881916751997, calc time: 1.5497708320617676 secs
 
 schedule: [1 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 20 40 30 30 30 30 30],
 iats_diff: [ 20   0  20 -10   0   0   0   0],
-loss = 4.056425994200198, calc time: 1.4832746982574463 secs
+loss = 4.051621534759203, calc time: 1.560723066329956 secs
 
 schedule: [1 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 20 40 30 30 30 30],
 iats_diff: [ 20  10 -10  20 -10   0   0   0],
-loss = 4.027506042029247, calc time: 1.4764678478240967 secs
+loss = 4.022927419073504, calc time: 1.559161901473999 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 20 40 30 30 30],
 iats_diff: [ 20  10   0 -10  20 -10   0   0],
-loss = 4.024368263109382, calc time: 1.461806058883667 secs
+loss = 4.020336374979233, calc time: 1.5876879692077637 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 20 40 30 30],
 iats_diff: [ 20  10   0   0 -10  20 -10   0],
-loss = 4.023107945479397, calc time: 1.5030081272125244 secs
+loss = 4.018474430487119, calc time: 1.6538212299346924 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 20 40 30],
 iats_diff: [ 20  10   0   0   0 -10  20 -10],
-loss = 4.020685493953893, calc time: 1.4938111305236816 secs
+loss = 4.016718532739353, calc time: 1.6728599071502686 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1],
 iats: [ 0 20 30 30 30 30 30 20 40],
 iats_diff: [ 20  10   0   0   0   0 -10  20],
-loss = 3.991497121688682, calc time: 1.5516009330749512 secs
+loss = 3.987710768924146, calc time: 1.5769810676574707 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0],
 iats: [ 0 20 30 30 30 30 30 30 20],
 iats_diff: [ 20  10   0   0   0   0   0 -10],
-loss = 4.585234098845269, calc time: 1.5437102317810059 secs
+loss = 4.57302326903036, calc time: 1.5735821723937988 secs
 
 Generated new psm
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 30 30 30],
 iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.4880719184875488 secs
+loss = 3.9449490753524925, calc time: 1.658606767654419 secs
 
 schedule: [0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [20 30 30 30 30 30 30 30  0],
 iats_diff: [ 10   0   0   0   0   0   0 -30],
-loss = 11.32853289009352, calc time: 1.4668071269989014 secs
+loss = 11.309048406063297, calc time: 1.5794119834899902 secs
 
 schedule: [1 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 10 40 30 30 30 30 30 30],
 iats_diff: [ 10  30 -10   0   0   0   0   0],
-loss = 4.282920771457124, calc time: 1.5182831287384033 secs
+loss = 4.278881916751997, calc time: 1.587918996810913 secs
 
 schedule: [1 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 20 40 30 30 30 30 30],
 iats_diff: [ 20   0  20 -10   0   0   0   0],
-loss = 4.056425994200198, calc time: 1.5146639347076416 secs
+loss = 4.051621534759203, calc time: 1.5761198997497559 secs
 
 schedule: [1 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 20 40 30 30 30 30],
 iats_diff: [ 20  10 -10  20 -10   0   0   0],
-loss = 4.027506042029247, calc time: 1.4773120880126953 secs
+loss = 4.022927419073504, calc time: 1.5861618518829346 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 20 40 30 30 30],
 iats_diff: [ 20  10   0 -10  20 -10   0   0],
-loss = 4.024368263109382, calc time: 1.4848430156707764 secs
+loss = 4.020336374979233, calc time: 1.5741369724273682 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 20 40 30 30],
 iats_diff: [ 20  10   0   0 -10  20 -10   0],
-loss = 4.023107945479397, calc time: 1.473876953125 secs
+loss = 4.018474430487119, calc time: 1.6279597282409668 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 20 40 30],
 iats_diff: [ 20  10   0   0   0 -10  20 -10],
-loss = 4.020685493953893, calc time: 1.464425802230835 secs
+loss = 4.016718532739353, calc time: 1.5837628841400146 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1],
 iats: [ 0 20 30 30 30 30 30 20 40],
 iats_diff: [ 20  10   0   0   0   0 -10  20],
-loss = 3.991497121688682, calc time: 1.456299066543579 secs
+loss = 3.987710768924146, calc time: 1.568011999130249 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0],
 iats: [ 0 20 30 30 30 30 30 30 20],
 iats_diff: [ 20  10   0   0   0   0   0 -10],
-loss = 4.585234098845269, calc time: 1.517333984375 secs
+loss = 4.57302326903036, calc time: 1.6267850399017334 secs
 
 Generated new psm
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 30 30 30],
 iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.4812941551208496 secs
+loss = 3.9449490753524925, calc time: 1.6671440601348877 secs
 
 schedule: [0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [20 30 30 30 30 30 30 30  0],
 iats_diff: [ 10   0   0   0   0   0   0 -30],
-loss = 11.32853289009352, calc time: 1.4860968589782715 secs
+loss = 11.309048406063297, calc time: 1.5439238548278809 secs
 
 schedule: [1 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 10 40 30 30 30 30 30 30],
 iats_diff: [ 10  30 -10   0   0   0   0   0],
-loss = 4.282920771457124, calc time: 1.4641749858856201 secs
+loss = 4.278881916751997, calc time: 1.6339809894561768 secs
 
 schedule: [1 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 20 40 30 30 30 30 30],
 iats_diff: [ 20   0  20 -10   0   0   0   0],
-loss = 4.056425994200198, calc time: 1.4615590572357178 secs
+loss = 4.051621534759203, calc time: 1.589318037033081 secs
 
 schedule: [1 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 20 40 30 30 30 30],
 iats_diff: [ 20  10 -10  20 -10   0   0   0],
-loss = 4.027506042029247, calc time: 1.4805850982666016 secs
+loss = 4.022927419073504, calc time: 1.594480276107788 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 20 40 30 30 30],
 iats_diff: [ 20  10   0 -10  20 -10   0   0],
-loss = 4.024368263109382, calc time: 1.4894869327545166 secs
+loss = 4.020336374979233, calc time: 1.5897881984710693 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 20 40 30 30],
 iats_diff: [ 20  10   0   0 -10  20 -10   0],
-loss = 4.023107945479397, calc time: 1.4864120483398438 secs
+loss = 4.018474430487119, calc time: 1.6295642852783203 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 20 40 30],
 iats_diff: [ 20  10   0   0   0 -10  20 -10],
-loss = 4.020685493953893, calc time: 1.4599089622497559 secs
+loss = 4.016718532739353, calc time: 1.5777950286865234 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1],
 iats: [ 0 20 30 30 30 30 30 20 40],
 iats_diff: [ 20  10   0   0   0   0 -10  20],
-loss = 3.991497121688682, calc time: 1.475511074066162 secs
+loss = 3.987710768924146, calc time: 1.5897271633148193 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0],
 iats: [ 0 20 30 30 30 30 30 30 20],
 iats_diff: [ 20  10   0   0   0   0   0 -10],
-loss = 4.585234098845269, calc time: 1.4618310928344727 secs
+loss = 4.57302326903036, calc time: 1.6061909198760986 secs
 
 Generated new psm
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 30 30 30],
 iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.6243181228637695 secs
+loss = 3.9449490753524925, calc time: 1.725555181503296 secs
 
 schedule: [0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [20 30 30 30 30 30 30 30  0],
 iats_diff: [ 10   0   0   0   0   0   0 -30],
-loss = 11.32853289009352, calc time: 1.4610466957092285 secs
+loss = 11.309048406063297, calc time: 1.767887830734253 secs
 
 schedule: [1 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 10 40 30 30 30 30 30 30],
 iats_diff: [ 10  30 -10   0   0   0   0   0],
-loss = 4.282920771457124, calc time: 1.4852089881896973 secs
+loss = 4.278881916751997, calc time: 1.688035249710083 secs
 
 schedule: [1 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 20 40 30 30 30 30 30],
 iats_diff: [ 20   0  20 -10   0   0   0   0],
-loss = 4.056425994200198, calc time: 1.4946391582489014 secs
+loss = 4.051621534759203, calc time: 1.7509970664978027 secs
 
 schedule: [1 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 20 40 30 30 30 30],
 iats_diff: [ 20  10 -10  20 -10   0   0   0],
-loss = 4.027506042029247, calc time: 1.4869129657745361 secs
+loss = 4.022927419073504, calc time: 1.767181158065796 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 20 40 30 30 30],
 iats_diff: [ 20  10   0 -10  20 -10   0   0],
-loss = 4.024368263109382, calc time: 1.4789080619812012 secs
+loss = 4.020336374979233, calc time: 1.796501636505127 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 20 40 30 30],
 iats_diff: [ 20  10   0   0 -10  20 -10   0],
-loss = 4.023107945479397, calc time: 1.4985909461975098 secs
+loss = 4.018474430487119, calc time: 1.7357749938964844 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 20 40 30],
 iats_diff: [ 20  10   0   0   0 -10  20 -10],
-loss = 4.020685493953893, calc time: 1.5301733016967773 secs
+loss = 4.016718532739353, calc time: 1.8027822971343994 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1],
 iats: [ 0 20 30 30 30 30 30 20 40],
 iats_diff: [ 20  10   0   0   0   0 -10  20],
-loss = 3.991497121688682, calc time: 1.4878571033477783 secs
+loss = 3.987710768924146, calc time: 1.5849201679229736 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0],
 iats: [ 0 20 30 30 30 30 30 30 20],
 iats_diff: [ 20  10   0   0   0   0   0 -10],
-loss = 4.585234098845269, calc time: 1.4884850978851318 secs
+loss = 4.57302326903036, calc time: 1.6640090942382812 secs
 
 Generated new psm
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 30 30 30],
 iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.5071890354156494 secs
+loss = 3.9449490753524925, calc time: 1.5999140739440918 secs
 
 schedule: [0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [20 30 30 30 30 30 30 30  0],
 iats_diff: [ 10   0   0   0   0   0   0 -30],
-loss = 11.32853289009352, calc time: 1.4878580570220947 secs
+loss = 11.309048406063297, calc time: 1.558098316192627 secs
 
 schedule: [1 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 10 40 30 30 30 30 30 30],
 iats_diff: [ 10  30 -10   0   0   0   0   0],
-loss = 4.282920771457124, calc time: 1.4966459274291992 secs
+loss = 4.278881916751997, calc time: 1.587292194366455 secs
 
 schedule: [1 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 20 40 30 30 30 30 30],
 iats_diff: [ 20   0  20 -10   0   0   0   0],
-loss = 4.056425994200198, calc time: 1.4914400577545166 secs
+loss = 4.051621534759203, calc time: 1.5765230655670166 secs
 
 schedule: [1 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 20 40 30 30 30 30],
 iats_diff: [ 20  10 -10  20 -10   0   0   0],
-loss = 4.027506042029247, calc time: 1.4947903156280518 secs
+loss = 4.022927419073504, calc time: 1.5694687366485596 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 20 40 30 30 30],
 iats_diff: [ 20  10   0 -10  20 -10   0   0],
-loss = 4.024368263109382, calc time: 1.4971041679382324 secs
+loss = 4.020336374979233, calc time: 1.5789151191711426 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 20 40 30 30],
 iats_diff: [ 20  10   0   0 -10  20 -10   0],
-loss = 4.023107945479397, calc time: 1.5275242328643799 secs
+loss = 4.018474430487119, calc time: 1.6909902095794678 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 20 40 30],
 iats_diff: [ 20  10   0   0   0 -10  20 -10],
-loss = 4.020685493953893, calc time: 1.5075037479400635 secs
+loss = 4.016718532739353, calc time: 1.6622731685638428 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1],
 iats: [ 0 20 30 30 30 30 30 20 40],
 iats_diff: [ 20  10   0   0   0   0 -10  20],
-loss = 3.991497121688682, calc time: 1.7648050785064697 secs
+loss = 3.987710768924146, calc time: 1.6403400897979736 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0],
 iats: [ 0 20 30 30 30 30 30 30 20],
 iats_diff: [ 20  10   0   0   0   0   0 -10],
-loss = 4.585234098845269, calc time: 1.5409858226776123 secs
+loss = 4.57302326903036, calc time: 1.6045441627502441 secs
 
 Generated new psm
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 30 30 30],
 iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.5067191123962402 secs
+loss = 3.9449490753524925, calc time: 1.680837869644165 secs
 
 schedule: [0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [20 30 30 30 30 30 30 30  0],
 iats_diff: [ 10   0   0   0   0   0   0 -30],
-loss = 11.32853289009352, calc time: 1.4860270023345947 secs
+loss = 11.309048406063297, calc time: 1.5644400119781494 secs
 
 schedule: [1 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 10 40 30 30 30 30 30 30],
 iats_diff: [ 10  30 -10   0   0   0   0   0],
-loss = 4.282920771457124, calc time: 1.4859530925750732 secs
+loss = 4.278881916751997, calc time: 1.6369211673736572 secs
 
 schedule: [1 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 20 40 30 30 30 30 30],
 iats_diff: [ 20   0  20 -10   0   0   0   0],
-loss = 4.056425994200198, calc time: 1.4721078872680664 secs
+loss = 4.051621534759203, calc time: 1.7126641273498535 secs
 
 schedule: [1 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 20 40 30 30 30 30],
 iats_diff: [ 20  10 -10  20 -10   0   0   0],
-loss = 4.027506042029247, calc time: 1.4667441844940186 secs
+loss = 4.022927419073504, calc time: 1.695586919784546 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 20 40 30 30 30],
 iats_diff: [ 20  10   0 -10  20 -10   0   0],
-loss = 4.024368263109382, calc time: 1.4646921157836914 secs
+loss = 4.020336374979233, calc time: 1.626929759979248 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 20 40 30 30],
 iats_diff: [ 20  10   0   0 -10  20 -10   0],
-loss = 4.023107945479397, calc time: 1.5279359817504883 secs
+loss = 4.018474430487119, calc time: 1.5911056995391846 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 20 40 30],
 iats_diff: [ 20  10   0   0   0 -10  20 -10],
-loss = 4.020685493953893, calc time: 1.49757981300354 secs
+loss = 4.016718532739353, calc time: 1.5766620635986328 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1],
 iats: [ 0 20 30 30 30 30 30 20 40],
 iats_diff: [ 20  10   0   0   0   0 -10  20],
-loss = 3.991497121688682, calc time: 1.452392816543579 secs
+loss = 3.987710768924146, calc time: 1.6889259815216064 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0],
 iats: [ 0 20 30 30 30 30 30 30 20],
 iats_diff: [ 20  10   0   0   0   0   0 -10],
-loss = 4.585234098845269, calc time: 1.5165166854858398 secs
+loss = 4.57302326903036, calc time: 1.5874159336090088 secs
 
 Generated new psm
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 30 30 30],
 iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.5135722160339355 secs
+loss = 3.9449490753524925, calc time: 1.6205761432647705 secs
 
 schedule: [0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [20 30 30 30 30 30 30 30  0],
 iats_diff: [ 10   0   0   0   0   0   0 -30],
-loss = 11.32853289009352, calc time: 1.455916166305542 secs
+loss = 11.309048406063297, calc time: 1.569432020187378 secs
 
 schedule: [1 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 10 40 30 30 30 30 30 30],
 iats_diff: [ 10  30 -10   0   0   0   0   0],
-loss = 4.282920771457124, calc time: 1.4749479293823242 secs
+loss = 4.278881916751997, calc time: 1.5893399715423584 secs
 
 schedule: [1 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 20 40 30 30 30 30 30],
 iats_diff: [ 20   0  20 -10   0   0   0   0],
-loss = 4.056425994200198, calc time: 1.4674980640411377 secs
+loss = 4.051621534759203, calc time: 1.8039002418518066 secs
 
 schedule: [1 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 20 40 30 30 30 30],
 iats_diff: [ 20  10 -10  20 -10   0   0   0],
-loss = 4.027506042029247, calc time: 1.473383903503418 secs
+loss = 4.022927419073504, calc time: 1.8368470668792725 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 20 40 30 30 30],
 iats_diff: [ 20  10   0 -10  20 -10   0   0],
-loss = 4.024368263109382, calc time: 1.4781410694122314 secs
+loss = 4.020336374979233, calc time: 1.5988390445709229 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 20 40 30 30],
 iats_diff: [ 20  10   0   0 -10  20 -10   0],
-loss = 4.023107945479397, calc time: 1.5096120834350586 secs
+loss = 4.018474430487119, calc time: 1.62453293800354 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 20 40 30],
 iats_diff: [ 20  10   0   0   0 -10  20 -10],
-loss = 4.020685493953893, calc time: 1.469243049621582 secs
+loss = 4.016718532739353, calc time: 1.5820107460021973 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1],
 iats: [ 0 20 30 30 30 30 30 20 40],
 iats_diff: [ 20  10   0   0   0   0 -10  20],
-loss = 3.991497121688682, calc time: 1.4732048511505127 secs
+loss = 3.987710768924146, calc time: 1.571056842803955 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0],
 iats: [ 0 20 30 30 30 30 30 30 20],
 iats_diff: [ 20  10   0   0   0   0   0 -10],
-loss = 4.585234098845269, calc time: 1.4619519710540771 secs
+loss = 4.57302326903036, calc time: 1.5693340301513672 secs
 
 Generated new psm
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 30 30 30],
 iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.5127618312835693 secs
+loss = 3.9449490753524925, calc time: 1.6223361492156982 secs
 
 schedule: [0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [20 30 30 30 30 30 30 30  0],
 iats_diff: [ 10   0   0   0   0   0   0 -30],
-loss = 11.32853289009352, calc time: 1.4940032958984375 secs
+loss = 11.309048406063297, calc time: 1.5599958896636963 secs
 
 schedule: [1 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 10 40 30 30 30 30 30 30],
 iats_diff: [ 10  30 -10   0   0   0   0   0],
-loss = 4.282920771457124, calc time: 1.4818520545959473 secs
+loss = 4.278881916751997, calc time: 1.668686866760254 secs
 
 schedule: [1 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 20 40 30 30 30 30 30],
 iats_diff: [ 20   0  20 -10   0   0   0   0],
-loss = 4.056425994200198, calc time: 1.497804880142212 secs
+loss = 4.051621534759203, calc time: 1.5999178886413574 secs
 
 schedule: [1 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 20 40 30 30 30 30],
 iats_diff: [ 20  10 -10  20 -10   0   0   0],
-loss = 4.027506042029247, calc time: 1.4708402156829834 secs
+loss = 4.022927419073504, calc time: 1.5924971103668213 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 20 40 30 30 30],
 iats_diff: [ 20  10   0 -10  20 -10   0   0],
-loss = 4.024368263109382, calc time: 1.4753129482269287 secs
+loss = 4.020336374979233, calc time: 1.5975298881530762 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 20 40 30 30],
 iats_diff: [ 20  10   0   0 -10  20 -10   0],
-loss = 4.023107945479397, calc time: 1.470201015472412 secs
+loss = 4.018474430487119, calc time: 1.5783989429473877 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 20 40 30],
 iats_diff: [ 20  10   0   0   0 -10  20 -10],
-loss = 4.020685493953893, calc time: 1.4724199771881104 secs
+loss = 4.016718532739353, calc time: 1.578174114227295 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1],
 iats: [ 0 20 30 30 30 30 30 20 40],
 iats_diff: [ 20  10   0   0   0   0 -10  20],
-loss = 3.991497121688682, calc time: 1.4928278923034668 secs
+loss = 3.987710768924146, calc time: 1.5601611137390137 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0],
 iats: [ 0 20 30 30 30 30 30 30 20],
 iats_diff: [ 20  10   0   0   0   0   0 -10],
-loss = 4.585234098845269, calc time: 1.4743812084197998 secs
+loss = 4.57302326903036, calc time: 1.5546202659606934 secs
 
 Generated new psm
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 30 30 30],
 iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.5487370491027832 secs
+loss = 3.9449490753524925, calc time: 1.5988190174102783 secs
 
 schedule: [0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [20 30 30 30 30 30 30 30  0],
 iats_diff: [ 10   0   0   0   0   0   0 -30],
-loss = 11.32853289009352, calc time: 1.4877841472625732 secs
+loss = 11.309048406063297, calc time: 1.5868144035339355 secs
 
 schedule: [1 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 10 40 30 30 30 30 30 30],
 iats_diff: [ 10  30 -10   0   0   0   0   0],
-loss = 4.282920771457124, calc time: 1.4884822368621826 secs
+loss = 4.278881916751997, calc time: 1.6085612773895264 secs
 
 schedule: [1 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 20 40 30 30 30 30 30],
 iats_diff: [ 20   0  20 -10   0   0   0   0],
-loss = 4.056425994200198, calc time: 1.4668231010437012 secs
+loss = 4.051621534759203, calc time: 1.6570532321929932 secs
 
 schedule: [1 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 20 40 30 30 30 30],
 iats_diff: [ 20  10 -10  20 -10   0   0   0],
-loss = 4.027506042029247, calc time: 1.4632148742675781 secs
+loss = 4.022927419073504, calc time: 1.582810878753662 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 20 40 30 30 30],
 iats_diff: [ 20  10   0 -10  20 -10   0   0],
-loss = 4.024368263109382, calc time: 1.4567301273345947 secs
+loss = 4.020336374979233, calc time: 1.623633861541748 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 20 40 30 30],
 iats_diff: [ 20  10   0   0 -10  20 -10   0],
-loss = 4.023107945479397, calc time: 1.4764678478240967 secs
+loss = 4.018474430487119, calc time: 1.5783188343048096 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 20 40 30],
 iats_diff: [ 20  10   0   0   0 -10  20 -10],
-loss = 4.020685493953893, calc time: 1.4771108627319336 secs
+loss = 4.016718532739353, calc time: 1.5989670753479004 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1],
 iats: [ 0 20 30 30 30 30 30 20 40],
 iats_diff: [ 20  10   0   0   0   0 -10  20],
-loss = 3.991497121688682, calc time: 1.475682020187378 secs
+loss = 3.987710768924146, calc time: 1.5697519779205322 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0],
 iats: [ 0 20 30 30 30 30 30 30 20],
 iats_diff: [ 20  10   0   0   0   0   0 -10],
-loss = 4.585234098845269, calc time: 1.4822189807891846 secs
+loss = 4.57302326903036, calc time: 1.5908739566802979 secs
 
 Generated new psm
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 30 30 30],
 iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.5019888877868652 secs
+loss = 3.9449490753524925, calc time: 1.5898213386535645 secs
 
 schedule: [0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
 iats: [20 30 30 30 30 30 30 30  0],
 iats_diff: [ 10   0   0   0   0   0   0 -30],
-loss = 11.32853289009352, calc time: 1.4653980731964111 secs
+loss = 11.309048406063297, calc time: 1.5482609272003174 secs
 
 schedule: [1 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 10 40 30 30 30 30 30 30],
 iats_diff: [ 10  30 -10   0   0   0   0   0],
-loss = 4.282920771457124, calc time: 1.4728641510009766 secs
+loss = 4.278881916751997, calc time: 1.5701780319213867 secs
 
 schedule: [1 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 20 40 30 30 30 30 30],
 iats_diff: [ 20   0  20 -10   0   0   0   0],
-loss = 4.056425994200198, calc time: 1.4859929084777832 secs
+loss = 4.051621534759203, calc time: 1.5967438220977783 secs
 
 schedule: [1 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 20 40 30 30 30 30],
 iats_diff: [ 20  10 -10  20 -10   0   0   0],
-loss = 4.027506042029247, calc time: 1.4581058025360107 secs
+loss = 4.022927419073504, calc time: 1.5863308906555176 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 20 40 30 30 30],
 iats_diff: [ 20  10   0 -10  20 -10   0   0],
-loss = 4.024368263109382, calc time: 1.461029052734375 secs
+loss = 4.020336374979233, calc time: 1.5738129615783691 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 20 40 30 30],
 iats_diff: [ 20  10   0   0 -10  20 -10   0],
-loss = 4.023107945479397, calc time: 1.4596891403198242 secs
+loss = 4.018474430487119, calc time: 1.56939697265625 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 20 40 30],
 iats_diff: [ 20  10   0   0   0 -10  20 -10],
-loss = 4.020685493953893, calc time: 1.4676101207733154 secs
+loss = 4.016718532739353, calc time: 1.5500538349151611 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1],
 iats: [ 0 20 30 30 30 30 30 20 40],
 iats_diff: [ 20  10   0   0   0   0 -10  20],
-loss = 3.991497121688682, calc time: 1.4694857597351074 secs
+loss = 3.987710768924146, calc time: 1.753830909729004 secs
 
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0],
 iats: [ 0 20 30 30 30 30 30 30 20],
 iats_diff: [ 20  10   0   0   0   0   0 -10],
-loss = 4.585234098845269, calc time: 1.488708734512329 secs
-
-Generated new psm
-
-schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
-iats: [ 0 20 30 30 30 30 30 30 30],
-iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.5386888980865479 secs
-
-schedule: [0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 2],
-iats: [20 30 30 30 30 30 30 30  0],
-iats_diff: [ 10   0   0   0   0   0   0 -30],
-loss = 11.32853289009352, calc time: 1.4734671115875244 secs
-
-schedule: [1 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
-iats: [ 0 10 40 30 30 30 30 30 30],
-iats_diff: [ 10  30 -10   0   0   0   0   0],
-loss = 4.282920771457124, calc time: 1.464994192123413 secs
-
-schedule: [1 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
-iats: [ 0 20 20 40 30 30 30 30 30],
-iats_diff: [ 20   0  20 -10   0   0   0   0],
-loss = 4.056425994200198, calc time: 1.4868049621582031 secs
-
-schedule: [1 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
-iats: [ 0 20 30 20 40 30 30 30 30],
-iats_diff: [ 20  10 -10  20 -10   0   0   0],
-loss = 4.027506042029247, calc time: 1.4683010578155518 secs
-
-schedule: [1 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1 0 0 1],
-iats: [ 0 20 30 30 20 40 30 30 30],
-iats_diff: [ 20  10   0 -10  20 -10   0   0],
-loss = 4.024368263109382, calc time: 1.4648840427398682 secs
-
-schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1 0 0 1],
-iats: [ 0 20 30 30 30 20 40 30 30],
-iats_diff: [ 20  10   0   0 -10  20 -10   0],
-loss = 4.023107945479397, calc time: 1.4853808879852295 secs
-
-schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1 0 0 1],
-iats: [ 0 20 30 30 30 30 20 40 30],
-iats_diff: [ 20  10   0   0   0 -10  20 -10],
-loss = 4.020685493953893, calc time: 1.4617931842803955 secs
-
-schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0 0 0 1],
-iats: [ 0 20 30 30 30 30 30 20 40],
-iats_diff: [ 20  10   0   0   0   0 -10  20],
-loss = 3.991497121688682, calc time: 1.4631400108337402 secs
-
-schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 0],
-iats: [ 0 20 30 30 30 30 30 30 20],
-iats_diff: [ 20  10   0   0   0   0   0 -10],
-loss = 4.585234098845269, calc time: 1.4751067161560059 secs
+loss = 4.57302326903036, calc time: 1.6491987705230713 secs
 
 Finished iterating in: 305 seconds
 
@@ -1585,7 +1481,7 @@ Best result:
 schedule: [1 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1],
 iats: [ 0 20 30 30 30 30 30 30 30],
 iats_diff: [20 10  0  0  0  0  0  0],
-loss = 3.949307650040059, calc time: 1.5009379386901855 secs
+loss = 3.9449490753524925, calc time: 1.5946810245513916 secs
 </code></pre>
 </div>
 </div>
