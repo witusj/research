@@ -23,7 +23,7 @@ pct = np.array([1, 0]) # distribution of client types -> normal or emergency
 # sts = np.array([14, 14, 14, 15, 16]) # service times - for simple numerical testing
 # sts = np.random.poisson(lam=14, size=1000) - using poisson distribution
 
-ns = 0.1 # percentage of no-shows
+nsh = 0.1 # percentage of no-shows
 nsims = 100000 # number of simulations
 logs = False # do not print simulation logs
 lnm = 14 # lognormal mean
@@ -129,7 +129,7 @@ def distribute_elements(n, t):
     return elements
   
 
-ns = 0.1 # percentage of no-shows
+nsh = 0.1 # percentage of no-shows
 nsims = 100000 # number of simulations
 logs = False # do not print simulation logs
 lnm = 20 # lognormal mean
