@@ -388,3 +388,25 @@ sch = run_schedule(x, d, s, u, False)
 sch.visualize_system('p_plus')
 ```
 
+```{python}
+T = 24 # number of intervals
+x = np.zeros(T) 
+t = np.arange(T, step=2)
+x[t] = 1
+x[-1] = 1
+x[0] = 2 
+x = x.astype(int) # initial schedule
+print(f'Initial schedule: {x}')
+N = np.sum(x)
+d = 10
+l = 20
+sd = 10
+limit = calc_distr_limit(l * N)+1
+service_times = range(0, limit)
+s = np.array([lognorm.pdf(x = i, scale = l, s = sd) for i in service_times], dtype=np.float64)
+u = T-1
+run_schedule(x, d, s, u, False)
+sch = run_schedule(x, d, s, u, False)
+sch.visualize_system('p_plus')
+sch.visualize_state(0)
+```
