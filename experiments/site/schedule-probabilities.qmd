@@ -1,5 +1,4 @@
 ---
-jupyter: python3
 title: "Scheduling Analytical"
 ---
 
@@ -312,24 +311,24 @@ sch.visualize_system('p_min')
 ```
 
 ```{python}
-""""Test case with validation in spreadsheet
+"""Test case with validation in spreadsheet
 url: https://docs.google.com/spreadsheets/d/1_l9bMqEfLT2-TpZz3MrDFIid30ZsywTVH8Lzc5uHrGw/edit?usp=sharing"""
-x = np.array([1, 0, 1, 0, 1, 0, 1], dtype=np.int64)
-d = 3
+x = np.array([1, 1], dtype=np.int64)
+d = 5
 l = 6
 limit = calc_distr_limit(l * x.sum())+1
 service_times = range(0, limit)
 s = np.array([poisson.pmf(i, l) for i in service_times], dtype=np.float64)
-u = 2
+u = 1
   
-sch = run_schedule(x, d, s, u, False)
+sch = run_schedule(x, d, s, u, True)
 
 sch.visualize_system('p_min')
+sch.visualize_state(1, 'p_min')
 ```
 
 ```{python}
-""""Test case with more than 1 clients in the system at the same time
-url: https://docs.google.com/spreadsheets/d/1_l9bMqEfLT2-TpZz3MrDFIid30ZsywTVH8Lzc5uHrGw/edit?usp=sharing"""
+"""Test case with more than 1 clients in the system at the same time"""
 x = np.array([1, 0, 2, 0, 1, 1, 1], dtype=np.int64)
 d = 5
 l = 6
@@ -352,3 +351,25 @@ sch.visualize_system(dist='p_min')
 ```{python}
 sch.visualize_system('p_plus')
 ```
+
+```{python}
+T = 24 # number of intervals
+x = np.zeros(T) 
+t = np.arange(T, step=2)
+x[t] = 1
+x[-1] = 1
+x[0] = 2 
+x = x.astype(int) # initial schedule
+print(f'Initial schedule: {x}')
+N = np.sum(x)
+d = 10
+l = 20
+limit = calc_distr_limit(l * N)+1
+service_times = range(0, limit)
+s = np.array([poisson.pmf(i, l) for i in service_times], dtype=np.float64)
+u = T-1
+run_schedule(x, d, s, u, False)
+sch = run_schedule(x, d, s, u, False)
+sch.visualize_system('p_plus')
+```
+
