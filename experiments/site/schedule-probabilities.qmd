@@ -218,11 +218,11 @@ class Schedule:
           self.system['ew'][t] = ew
         
         
-    def visualize_state(self, state=-1, dist='p_plus'):
+    def visualize_state(self, state='', dist='p_plus'):
         """
         Visualize a distribution in the last given state.
         """
-        if state == -1:
+        if state == '':
             state = self.state
         trace = go.Scatter(
             x=list(range(len(self.system[dist][state]))),
@@ -243,9 +243,10 @@ class Schedule:
     
     def visualize_system(self, dist='p_plus'):
          
+         values = self.system[dist]
          trace = go.Heatmap(
-                    z=self.system[dist],
-                    text=np.around(self.system[dist], 2),
+                    z=values,
+                    text=np.around(values, 2),
                     texttemplate="%{text}",
                     textfont={"size":10}
                     )
@@ -257,7 +258,7 @@ class Schedule:
             yaxis=dict(title='Probability')
         )
          fig = go.Figure(data=data, layout=layout)
-         fig.show()
+         pyo.iplot(fig)
         
     def __str__(self):
         """
@@ -284,7 +285,7 @@ def run_schedule(x, d, s, u=1, print_schedule=True):
   schedule.calculate_system_states(until=u)
   schedule.calculate_wait_times(until=u)
   if(print_schedule): print(schedule)
-  print(schedule.system['ew'])
+  print(f"Expected wt per state: {schedule.system['ew']}")
   return(schedule)
 ```
 
@@ -337,7 +338,7 @@ sch.visualize_state(2)
 ```
 
 ```{python}
-sch.visualize_system('p_min')
+sch.visualize_system(dist='p_min')
 ```
 
 ```{python}
