@@ -9,6 +9,7 @@ This code replicates methods from @kaandorp_optimal_2007.
 import numpy as np
 from scipy.stats import poisson
 from scipy.stats import lognorm
+from scipy import signal
 import plotly.graph_objs as go
 import plotly.offline as pyo
 import unittest
@@ -144,9 +145,9 @@ A schedule with $T$ intervals can have $T$ states. A state of a schedule at inte
 
 $p^+_t(i)$ is equal to the convolution of the distribution of waiting times of the last patient with the distribution of his service time. The iteration is as follows with K patients scheduled at interval t:
 
-> Step 1: $w_{t0}(i) = p^-_t(i)$ # The first patient has to wait for all the work leftover from the previous interval
+> Step 1: $w_{t0}(i) = p^-_t(i)$ \# The first patient has to wait for all the work leftover from the previous interval
 
-> Step 2: $w_{t1}(i) = w_{t0}(i)*s(i)$ # The next patient has to wait for the previous patient waiting time and service time
+> Step 2: $w_{t1}(i) = w_{t0}(i)*s(i)$ \# The next patient has to wait for the previous patient waiting time and service time
 
 > . . .
 
@@ -190,7 +191,6 @@ class Schedule:
 
             while self.state < until:
                 """Set state to 1, because state 0 has already been calculated in the constructor.
-                TO CHECK: WHAT HAPPENS IF SOMETHING CHANGES IN STATE 0?
                 """
                 
                 self.state += 1
@@ -386,48 +386,4 @@ u = T-1
 sch = run_schedule(x, d, s, u, False)
 sch.visualize_system('p_plus')
 ```
-```{python}
-T = 24 # number of intervals
-x = np.zeros(T) 
-t = np.arange(T, step=2)
-x[t] = 1
-x[-1] = 1
-x[0] = 2 
-x = x.astype(int) # initial schedule
-print(f'Initial schedule: {x}')
-N = np.sum(x)
-d = 10
-lnm = 20
-lns = 5
-mu, sigma = fn.logn_mean_lns(lnm, lns)
-print(mu, sigma)
-limit = calc_distr_limit(l * N)+1
-service_times = range(0, limit)
-s = np.array([lognorm.pdf(i, sigma, loc=0, scale=np.exp(mu)) for i in service_times], dtype=np.float64)
-u = T-1
-sch = run_schedule(x, d, s, u, False)
-sch.visualize_system('p_plus')
-```
 
-```{python}
-T = 24 # number of intervals
-x = np.zeros(T) 
-t = np.arange(T, step=2)
-x[t] = 1
-x[-1] = 1
-x[0] = 2 
-x = x.astype(int) # initial schedule
-print(f'Initial schedule: {x}')
-N = np.sum(x)
-d = 10
-lnm = 14 
-lns = 5
-mu, sigma = fn.logn_mean_lns(lnm, lns)
-print(mu, sigma)
-limit = calc_distr_limit(l * N)+1
-service_times = range(0, limit)
-s = np.array([lognorm.pdf(i, sigma, loc=0, scale=np.exp(mu)) for i in service_times], dtype=np.float64)
-u = T-1
-sch = run_schedule(x, d, s, u, False)
-sch.visualize_system('p_plus')
-```
