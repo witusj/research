@@ -256,8 +256,7 @@ class Schedule:
         data = [trace]
         
         layout = go.Layout(
-            title=f'{dist} in state {state}<br><small>AUR = {np.sum(self.system[dist][state])}</small>',
-            subtitle = f'test',
+            title=f'{dist} in state {state}<br><sub>AUR = {np.round(np.sum(self.system[dist][state]), 3)}</sub>',
             xaxis=dict(title='Time'),
             yaxis=dict(title='Probability')
         )
