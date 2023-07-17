@@ -1,0 +1,16 @@
+---
+title: "2023-04-13"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## ![](images/IMG_20230629.jpeg)OBP:
+
+Notes Joost Berkhout
