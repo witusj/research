@@ -155,6 +155,8 @@ $p^+_t(i)$ is equal to the convolution of the distribution of waiting times of t
 
 With $s(i)$ being the distribution of individual service times.
 
+NB: Suggestie Joost - $p_N := \sum_{i=N}^\infty p_i$
+
 ```{python}
 
 """
@@ -184,7 +186,7 @@ class Schedule:
                      for i in range(1, self.parameters['x'][0]):
                             self.system['w'][0][i] = np.convolve(self.system['w'][0][i-1], self.parameters['s'])[:(len(self.parameters['s']))]
             self.system['p_plus'][0] = self.system['p_min'][0].copy() if self.parameters['x'][0] == 0 else np.convolve(self.system['w'][0][-1], self.parameters['s'])[:(len(self.parameters['s']))]
-            # Initializ array for saving total expected waiting times per state
+            # Initialize array for saving total expected waiting times per state
             self.system['ew'] = np.zeros(len(self.parameters['x']), dtype=np.float64)
         
     def calculate_system_states(self, until = 1):
@@ -215,7 +217,6 @@ class Schedule:
                      for i in range(1, self.parameters['x'][self.state]):
                             self.system['w'][self.state][i] = np.convolve(self.system['w'][self.state][i-1], self.parameters['s'])[:(len(self.parameters['s']))]
 
-                
                 
                 """The probablitity that the amount of work left in the system equals i just before state t ends equals 
                 the convolution of the waiting time distribution of the last arriving patient and the service time distribution. 
@@ -255,7 +256,8 @@ class Schedule:
         data = [trace]
         
         layout = go.Layout(
-            title=f'{dist} in state {state}',
+            title=f'{dist} in state {state}<br><small>AUR = {np.sum(self.system[dist][state])}</small>',
+            subtitle = f'test',
             xaxis=dict(title='Time'),
             yaxis=dict(title='Probability')
         )
@@ -277,7 +279,7 @@ class Schedule:
          layout = go.Layout(
             title=f'{dist}',
             xaxis=dict(title='Time'),
-            yaxis=dict(title='Probability')
+            yaxis=dict(title='Interval')
         )
          fig = go.Figure(data=data, layout=layout)
          pyo.iplot(fig)
@@ -386,4 +388,3 @@ u = T-1
 sch = run_schedule(x, d, s, u, False)
 sch.visualize_system('p_plus')
 ```
-
