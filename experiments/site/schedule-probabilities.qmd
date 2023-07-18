@@ -287,7 +287,7 @@ class Schedule:
         data = [trace]
         
         layout = go.Layout(
-            title=f'{dist} in state {state}<br><sub>AUR = {np.round(np.sum(self.system[dist][state]), 3)}</sub>',
+            title=f'{dist} in state {state} with x = {self.parameters["x"]}<br><sub>AUR = {np.round(np.sum(self.system[dist][state]), 3)}</sub>',
             xaxis=dict(title='Time'),
             yaxis=dict(title='Probability')
         )
@@ -307,7 +307,7 @@ class Schedule:
          data = [trace]
 
          layout = go.Layout(
-            title=f'{dist}',
+            title=f'{dist} with x = {self.parameters["x"]}',
             xaxis=dict(title='Time'),
             yaxis=dict(title='Interval')
         )
