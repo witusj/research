@@ -6,6 +6,8 @@ bibliography: "bibliography.bib"
 This code replicates methods from @kaandorp_optimal_2007.
 
 ```{python}
+import logging
+import datetime
 import numpy as np
 from scipy.stats import poisson
 from scipy.stats import lognorm
@@ -14,6 +16,8 @@ import plotly.graph_objs as go
 import plotly.offline as pyo
 import unittest
 import functions as fn
+
+logging.basicConfig(filename='logs.txt', encoding='utf-8', level=logging.DEBUG)
 
 # """
 # Function to calculate the convolution of two arrays.
@@ -173,6 +177,7 @@ class Schedule:
     def __init__(self, x, d, s):
             # Initialize the parameters dictionary with x, d, and s.
             self.parameters = dict({'x': x, 'd': d, 's': s})
+            logging.info(f'{datetime.datetime.now()} - x = {self.parameters["x"]}')
             # Initialize the system dictionary with p_min and v.
             self.system = dict({
                 'p_min': np.zeros((len(self.parameters['x']), len(self.parameters['s'])), dtype=np.float64),
@@ -197,25 +202,26 @@ class Schedule:
                 """
             
             while self.state < until:
+                logging.info(f'{datetime.datetime.now()} - State = {self.state}')
                 
                 """The probability that the amount of work left in the system equals zero just before state t starts is the probablity that the total amount work in state t-1 was less than or equal to the interval length d."""
-                
+                logging.info(f'{datetime.datetime.now()} - Calculating p_min in state {self.state}')
                 self.system['p_min'][self.state][0] = np.sum(self.system['p_plus'][self.state-1][:(self.parameters['d'] + 1)])
                 
                 """The probability that the amount of work left in the system equals i just before state t starts is the probablity that the total amount work in state t-1 exceeded the interval length d with amount i."""
                 
                 self.system['p_min'][self.state][1:(-1*self.parameters['d'])] = self.system['p_plus'][self.state-1][(self.parameters['d'] + 1):]
                 
-                """Service time distribution are calculated as n times convolutions, where n is the number of clients scheduled. The resulting vector is truncated to the length of the service time distribution."""
-                # self.system['v'][self.state] = convolve_n(self.parameters['s'].copy(), self.parameters['x'][self.state])[:(len(self.parameters['s']))]
-                
                 """The distribution of waiting times of the first patient in state t equals p_min. 
                 The distribution of waiting times of the second patient in state t equals the convolution of the distribution 
                 of waiting times of the first patient in state t and the service time distribution. 
                 The resulting vector is truncated to the length of the service time distribution."""
                 if(self.parameters['x'][self.state] > 0): # Only calculate waiting times if there are patients scheduled in the state
+                     logging.info(f'{datetime.datetime.now()} - Calculating w[{self.state}][0] in state {self.state}')
                      self.system['w'][self.state][0] = self.system['p_min'][self.state].copy()
+                     logging.info(f'{datetime.datetime.now()} - Done')
                      for i in range(1, self.parameters['x'][self.state]):
+                            logging.info(f'{datetime.datetime.now()} - Calculating w[{self.state}][{i}] in state {self.state}')
                             self.system['w'][self.state][i] = np.convolve(self.system['w'][self.state][i-1], self.parameters['s'])[:(len(self.parameters['s']))]
 
                 
@@ -224,24 +230,30 @@ class Schedule:
                 Unless there are no patients in the state t. In that case the distributio of total work just before t ends is equal 
                 to the distribution of work at the beginning of t. 
                 The resulting vector is truncated to the length of the service time distribution."""
+                logging.info(f'{datetime.datetime.now()} - Calculating p_plus in state {self.state}')
                 self.system['p_plus'][self.state] = self.system['p_min'][self.state].copy() if self.parameters['x'][self.state] == 0 else np.convolve(self.system['w'][self.state][-1], self.parameters['s'])[:(len(self.parameters['s']))]
                 """Jump to next state"""
                 self.state += 1
     
-    def impute_compositions(self, i=1, k=1):
-      self.state = i
+    def impute_compositions(self, s=1, k=2):
+      logging.info(f'{datetime.datetime.now()} - Running impute_compositions() in state {self.state}')
       # Select the subset from the schedule for the compositions. Truncate if subset falls outside of schedule's end.
-      j = min(len(self.parameters['x']), i+k)
-      k = j - i
-      c = self.parameters['x'][i:j]
+      t = min(len(self.parameters['x']), s+k)
+      k = t - s
+      c = self.parameters['x'][s:t]
       n = c.sum()
       # Generate compositions
       compositions = weak_compositions(n, k)
       for comp in compositions:
-        self.parameters['x'][i:j] = comp.copy()
-        self.state = i
-        self.calculate_system_states()
-        print(self.parameters['x'])
+        # Insert composition in x
+        self.parameters['x'][s:t] = comp.copy()
+        # Set starting state
+        self.state = s
+        # Adjust the array for waiting time distributions to new x
+        self.system['w'][s:] = zero_arrays(self.parameters['x'][s:].copy(), len(self.parameters['s']))
+        # Recalculate dsitributions
+        logging.info(f'{datetime.datetime.now()} - Calculating distributions in state {self.state} with x = {self.parameters["x"]}')
+        self.calculate_system_states(until=len(self.parameters['x']))
         
     
     def calculate_wait_times(self):
@@ -328,7 +340,7 @@ def run_schedule(x, d, s, u=1, print_system=True):
   schedule.calculate_wait_times()
   if(print_system): print(schedule)
   print(f"Expected wt per state: {schedule.system['ew']}")
-  # schedule.impute_compositions(i=1, k=3)
+  schedule.impute_compositions(s=1, k=2)
   return(schedule)
 ```
 
@@ -354,7 +366,7 @@ l = 6
 limit = calc_distr_limit(l * x.sum())+1
 service_times = range(0, limit)
 s = np.array([poisson.pmf(i, l) for i in service_times], dtype=np.float64)
-u = 1
+u = len(x)
   
 sch = run_schedule(x, d, s, u, True)
 
@@ -402,7 +414,7 @@ l = 20
 limit = calc_distr_limit(l * N)+1
 service_times = range(0, limit)
 s = np.array([poisson.pmf(i, l) for i in service_times], dtype=np.float64)
-u = T-1
+u = T
 sch = run_schedule(x, d, s, u, False)
 sch.visualize_system('p_plus')
 ```
