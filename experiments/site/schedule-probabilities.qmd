@@ -175,7 +175,15 @@ A schedule class with a constructor and a method to calculate the system states.
 """
 class Schedule:
     def __init__(self, x, d, s):
-            # Initialize the parameters dictionary with x, d, and s.
+            """
+            Initialize the class with a schedule of patients and a service time distribution.
+            
+            Args:
+            d (int): An integer representing the time lenght of an interval.
+            x (list): A list of integers representing the number of patients scheduled to arrive at each time step.
+            s (list): A list of floats representing the probability distribution of service times.
+            """
+            
             self.parameters = dict({'x': x, 'd': d, 's': s})
             logging.info(f'{datetime.datetime.now()} - x = {self.parameters["x"]}')
             # Initialize the system dictionary with p_min and v.
@@ -198,8 +206,12 @@ class Schedule:
             self.state = 1
         
     def calculate_system_states(self, until = 1):
-            """Set state to the interval from which to start (re-)calculating waiting time distributions.
-                """
+            """
+            Calculate the probabilities of the system being in each state at each time step.
+            
+            Args:
+            until (int): An optional integer representing the state until which to calculate the probabilities.
+            """
             
             while self.state < until:
                 logging.info(f'{datetime.datetime.now()} - State = {self.state}')
@@ -236,12 +248,21 @@ class Schedule:
                 self.state += 1
     
     def impute_compositions(self, s=1, k=2):
-      logging.info(f'{datetime.datetime.now()} - Running impute_compositions() in state {self.state}')
+      """
+      Impute the compositions of patients in a given time interval.
+      
+      Args:
+      s (int): An integer representing the starting state.
+      k (int): An integer representing the number of states from the starting state to include in the compositions.
+      """
+      logging.info(f'{datetime.datetime.now()} - Running impute_compositions() in state {self.state} with x = {self.parameters["x"]}')
       # Select the subset from the schedule for the compositions. Truncate if subset falls outside of schedule's end.
       t = min(len(self.parameters['x']), s+k)
       k = t - s
       c = self.parameters['x'][s:t]
       n = c.sum()
+      lowest_wt = self.system["ew"].sum()
+      store_optim = dict({ 'x' : self.parameters['x'].copy(), 'ew' : self.system["ew"].copy(), 'tot_wt' : lowest_wt})
       # Generate compositions
       compositions = weak_compositions(n, k)
       for comp in compositions:
@@ -254,9 +275,22 @@ class Schedule:
         # Recalculate dsitributions
         logging.info(f'{datetime.datetime.now()} - Calculating distributions in state {self.state} with x = {self.parameters["x"]}')
         self.calculate_system_states(until=len(self.parameters['x']))
-        
+        self.calculate_wait_times()
+        test_wt = self.system["ew"].sum()
+        if(test_wt < lowest_wt):
+          lowest_wt = test_wt
+          store_optim['x'] = self.parameters['x'].copy()
+          store_optim['ew'] = self.system["ew"].copy()
+          store_optim['tot_wt'] = lowest_wt
+        logging.info(f'{datetime.datetime.now()} - wt = {self.system["ew"]} (total = {self.system["ew"].sum()}) for x = {self.parameters["x"]}')
+      logging.info(f'{datetime.datetime.now()} - lowest wt = {store_optim["tot_wt"]} for x = {store_optim["x"]}')
+      self.parameters['x'] = store_optim['x']
+      self.system["ew"] = store_optim['ew']
     
     def calculate_wait_times(self):
+      """
+      Calculate the expected waiting time for each time step.
+      """
     # Initialize time counter
       t = 0
       # Calculate the expected waiting time for each time step
@@ -275,6 +309,10 @@ class Schedule:
     def visualize_state(self, state='', dist='p_plus'):
         """
         Visualize a distribution in the last given state.
+        
+        Args:
+        state (int): An optional integer representing the state to visualize. If not provided, the current state is used.
+        dist (str): An optional string representing the distribution to visualize. Defaults to 'p_plus'.
         """
         if state == '':
             state = self.state
@@ -296,23 +334,28 @@ class Schedule:
         pyo.iplot(fig)
     
     def visualize_system(self, dist='p_plus'):
-         
-         values = self.system[dist]
-         trace = go.Heatmap(
+      
+        """
+        Visualize a distribution for the entire system.
+        
+        Args:
+        dist (str): An optional string representing the distribution to visualize. Defaults to 'p_plus'.
+        """
+        values = self.system[dist]
+        trace = go.Heatmap(
                     z=values,
                     text=np.around(values, 2),
                     texttemplate="%{text}",
                     textfont={"size":10}
                     )
-         data = [trace]
-
-         layout = go.Layout(
+        data = [trace]
+        layout = go.Layout(
             title=f'{dist} with x = {self.parameters["x"]}',
             xaxis=dict(title='Time'),
             yaxis=dict(title='Interval')
         )
-         fig = go.Figure(data=data, layout=layout)
-         pyo.iplot(fig)
+        fig = go.Figure(data=data, layout=layout)
+        pyo.iplot(fig)
         
     def __str__(self):
         """
@@ -321,17 +364,21 @@ class Schedule:
         return("p_min = % s \nw = % s \np_plus = % s \new = % s" % (self.system['p_min'], self.system['w'], self.system['p_plus'], self.system['ew']))
 ```
 
-The code above defines a `Schedule` class that is used to calculate the probability distributions of the amount of work in a system at different states. The class has a constructor that takes three parameters `x`, `d`, and `s`, which represent the number of clients scheduled, the interval length, and the service time distribution, respectively.
+This Python class, named **`Schedule`**, simulates a scheduling system. Itis be used for analyzing a scheduling system that has time intervals with varying numbers of scheduled patients.
 
-The constructor initializes the `parameters` dictionary with the input parameters, and the `system` dictionary with two NumPy arrays `p_min` and `p_plus`. The `p_min` array represents the probability distribution of the amount of work in the system just before a state starts, and the `p_plus` array represents the probability distribution of the total amount of work in the system until a state ends. The constructor also initializes the `state` variable to 0, and sets the first element of `p_min` in the initial state to 1. Additionally, the constructor initializes an array of arrays for saving waiting times distributions per patient, `w`, and an array for saving total expected waiting times per state, `ew`.
+Here's a breakdown of what happens in the class:
 
-The `Schedule` class has two methods `calculate_system_states` and `calculate_wait_times`. The `calculate_system_states` method calculates the probability distributions of the amount of work in the system at different states. The method uses a while loop to iterate over the states, starting from state 1. For each state, the method calculates the probability distribution of the amount of work in the system just before the state starts (`p_min`), and the probability distribution of the amount of work in the system just after the state ends (`p_plus`). The method also calculates the waiting time distribution of the patients in the state (`w`). The `calculate_wait_times` method calculates the expected waiting time for each time step.
+1.  **Initialization (`__init__`):** In the initialization function, parameters **`x`**, **`d`**, **`s`** are set which represent the patients scheduled in each interval, the interval length, and the service time distribution, respectively. It also initializes certain elements of the **`system`** dictionary such as **`p_min`**, **`p_plus`**, and **`w`** which are used for storing the distributions of work in the system at the start and end of each state and the distributions of waiting times of each patient.
 
-The `Schedule` class also has a `visualize_p_plus` method that visualizes the `p_plus` array in the last calculated state. The method uses the Plotly library to create a scatter plot of the `p_plus` array.
+2.  **`calculate_system_states`:** This function is used to calculate the system states. This involves calculation of the amount of work left in the system just before the start of each state (**`p_min`**) and just before the end of each state (**`p_plus`**), along with the waiting time distributions of patients (**`w`**) using convolution. The **`until`** parameter can be used to control until which state the system states should be calculated.
 
-Finally, the `Schedule` class has a `__str__` method that returns a string representation of the `p_min`, `w`, `p_plus`, and `ew` arrays.
+3.  **`impute_compositions`:** This function changes the scheduling of patients (represented by the array **`x`**) for a certain number of intervals (**`k`** intervals starting from interval **`s`**). All possible ways of distributing a certain number of tasks (**`n`**) over the intervals are generated (**`compositions`**), and for each possible distribution, the system states are recalculated.
 
-To improve the readability of the code, the `Schedule` class could be refactored to use more descriptive variable names. Additionally, the `calculate_system_states` method could be split into smaller methods to improve its readability and maintainability. Finally, the `visualize_p_plus` method could be modified to take a state parameter, allowing the user to visualize the `p_plus` array for any state.
+4.  **`calculate_wait_times`:** This function calculates the expected waiting times for each interval by adding up the expected waiting times of all tasks in the interval.
+
+5.  **`visualize_state` and `visualize_system`:** These functions are used to visualize a certain distribution (**`p_min`**, **`p_plus`**, or **`w`**) for a certain state or for all states in a heat map. The visualization is done using Plotly.
+
+6.  **`__str__`:** This function is used to get a string representation of the schedule instance, which shows the values of the **`p_min`**, **`w`**, **`p_plus`**, and **`ew`** arrays.
 
 ```{python}
 def run_schedule(x, d, s, u=1, print_system=True):
@@ -339,8 +386,9 @@ def run_schedule(x, d, s, u=1, print_system=True):
   schedule.calculate_system_states(until=u)
   schedule.calculate_wait_times()
   if(print_system): print(schedule)
-  print(f"Expected wt per state: {schedule.system['ew']}")
-  schedule.impute_compositions(s=1, k=2)
+  k = 3
+  for i in np.arange(1, (len(x) - k)):
+    schedule.impute_compositions(s=i, k=k)
   return(schedule)
 ```
 
