@@ -1,0 +1,996 @@
+INFO:root:2023-07-18 10:30:44.860272 - x = [2 0 3 1 1]
+INFO:root:2023-07-18 10:30:44.860692 - State = 1
+INFO:root:2023-07-18 10:30:44.860746 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:30:44.860815 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:30:44.860863 - State = 2
+INFO:root:2023-07-18 10:30:44.860901 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:30:44.860952 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:30:44.860994 - Done
+INFO:root:2023-07-18 10:30:44.861031 - Calculating w[2][1] in state 2
+INFO:root:2023-07-18 10:30:44.861076 - Calculating w[2][2] in state 2
+INFO:root:2023-07-18 10:30:44.861122 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:30:44.861168 - State = 3
+INFO:root:2023-07-18 10:30:44.861205 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:30:44.861256 - Calculating w[3][0] in state 3
+INFO:root:2023-07-18 10:30:44.861297 - Done
+INFO:root:2023-07-18 10:30:44.861334 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:30:44.861603 - Running impute_compositions() in state 4
+INFO:root:2023-07-18 10:30:44.861688 - Calculating distributions in state 1 with x = [2 0 3 1 1]
+INFO:root:2023-07-18 10:30:44.861800 - State = 1
+INFO:root:2023-07-18 10:30:44.861840 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:30:44.861893 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:30:44.861937 - State = 2
+INFO:root:2023-07-18 10:30:44.861973 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:30:44.862022 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:30:44.862064 - Done
+INFO:root:2023-07-18 10:30:44.862100 - Calculating w[2][1] in state 2
+INFO:root:2023-07-18 10:30:44.862143 - Calculating w[2][2] in state 2
+INFO:root:2023-07-18 10:30:44.862187 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:30:44.862233 - State = 3
+INFO:root:2023-07-18 10:30:44.862269 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:30:44.862318 - Calculating w[3][0] in state 3
+INFO:root:2023-07-18 10:30:44.862359 - Done
+INFO:root:2023-07-18 10:30:44.862395 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:30:44.862438 - State = 4
+INFO:root:2023-07-18 10:30:44.862478 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:30:44.862528 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:30:44.862569 - Done
+INFO:root:2023-07-18 10:30:44.862605 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:30:44.862660 - Calculating distributions in state 1 with x = [2 1 2 1 1]
+INFO:root:2023-07-18 10:30:44.862770 - State = 1
+INFO:root:2023-07-18 10:30:44.862807 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:30:44.862859 - Calculating w[1][0] in state 1
+INFO:root:2023-07-18 10:30:44.862902 - Done
+INFO:root:2023-07-18 10:30:44.862939 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:30:44.862983 - State = 2
+INFO:root:2023-07-18 10:30:44.863020 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:30:44.863068 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:30:44.863109 - Done
+INFO:root:2023-07-18 10:30:44.863145 - Calculating w[2][1] in state 2
+INFO:root:2023-07-18 10:30:44.863188 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:30:44.863233 - State = 3
+INFO:root:2023-07-18 10:30:44.863270 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:30:44.863319 - Calculating w[3][0] in state 3
+INFO:root:2023-07-18 10:30:44.863360 - Done
+INFO:root:2023-07-18 10:30:44.863396 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:30:44.863439 - State = 4
+INFO:root:2023-07-18 10:30:44.863475 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:30:44.863524 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:30:44.863565 - Done
+INFO:root:2023-07-18 10:30:44.863600 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:30:44.863655 - Calculating distributions in state 1 with x = [2 2 1 1 1]
+INFO:root:2023-07-18 10:30:44.863760 - State = 1
+INFO:root:2023-07-18 10:30:44.863797 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:30:44.863849 - Calculating w[1][0] in state 1
+INFO:root:2023-07-18 10:30:44.863890 - Done
+INFO:root:2023-07-18 10:30:44.863927 - Calculating w[1][1] in state 1
+INFO:root:2023-07-18 10:30:44.863985 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:30:44.864033 - State = 2
+INFO:root:2023-07-18 10:30:44.864070 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:30:44.864121 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:30:44.864162 - Done
+INFO:root:2023-07-18 10:30:44.864199 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:30:44.864243 - State = 3
+INFO:root:2023-07-18 10:30:44.864280 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:30:44.864330 - Calculating w[3][0] in state 3
+INFO:root:2023-07-18 10:30:44.864371 - Done
+INFO:root:2023-07-18 10:30:44.864408 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:30:44.864451 - State = 4
+INFO:root:2023-07-18 10:30:44.864487 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:30:44.864537 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:30:44.864578 - Done
+INFO:root:2023-07-18 10:30:44.864614 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:30:44.864667 - Calculating distributions in state 1 with x = [2 3 0 1 1]
+INFO:root:2023-07-18 10:30:44.864771 - State = 1
+INFO:root:2023-07-18 10:30:44.864808 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:30:44.864859 - Calculating w[1][0] in state 1
+INFO:root:2023-07-18 10:30:44.864901 - Done
+INFO:root:2023-07-18 10:30:44.864937 - Calculating w[1][1] in state 1
+INFO:root:2023-07-18 10:30:44.864980 - Calculating w[1][2] in state 1
+INFO:root:2023-07-18 10:30:44.865024 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:30:44.865069 - State = 2
+INFO:root:2023-07-18 10:30:44.865105 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:30:44.865154 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:30:44.865196 - State = 3
+INFO:root:2023-07-18 10:30:44.865232 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:30:44.865280 - Calculating w[3][0] in state 3
+INFO:root:2023-07-18 10:30:44.865321 - Done
+INFO:root:2023-07-18 10:30:44.865356 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:30:44.865399 - State = 4
+INFO:root:2023-07-18 10:30:44.865435 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:30:44.865484 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:30:44.865525 - Done
+INFO:root:2023-07-18 10:30:44.865560 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:30:45.478529 - x = [1 1]
+INFO:root:2023-07-18 10:30:45.479026 - State = 1
+INFO:root:2023-07-18 10:30:45.479096 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:30:45.479186 - Calculating w[1][0] in state 1
+INFO:root:2023-07-18 10:30:45.479243 - Done
+INFO:root:2023-07-18 10:30:45.479295 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:30:45.486179 - Running impute_compositions() in state 2
+INFO:root:2023-07-18 10:30:45.486396 - Calculating distributions in state 1 with x = [1 1]
+INFO:root:2023-07-18 10:30:45.486643 - State = 1
+INFO:root:2023-07-18 10:30:45.486772 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:30:45.486860 - Calculating w[1][0] in state 1
+INFO:root:2023-07-18 10:30:45.486989 - Done
+INFO:root:2023-07-18 10:30:45.487170 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:30:46.838244 - x = [1 0 2 0 1 1 1]
+INFO:root:2023-07-18 10:30:46.838934 - State = 1
+INFO:root:2023-07-18 10:30:46.839009 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:30:46.839098 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:30:46.839158 - State = 2
+INFO:root:2023-07-18 10:30:46.839204 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:30:46.839267 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:30:46.839324 - Done
+INFO:root:2023-07-18 10:30:46.839369 - Calculating w[2][1] in state 2
+INFO:root:2023-07-18 10:30:46.839510 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:30:46.839629 - State = 3
+INFO:root:2023-07-18 10:30:46.839688 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:30:46.839762 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:30:46.840178 - Running impute_compositions() in state 4
+INFO:root:2023-07-18 10:30:46.840292 - Calculating distributions in state 1 with x = [1 0 2 0 1 1 1]
+INFO:root:2023-07-18 10:30:46.840478 - State = 1
+INFO:root:2023-07-18 10:30:46.840529 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:30:46.840594 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:30:46.840646 - State = 2
+INFO:root:2023-07-18 10:30:46.840727 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:30:46.840887 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:30:46.841088 - Done
+INFO:root:2023-07-18 10:30:46.841212 - Calculating w[2][1] in state 2
+INFO:root:2023-07-18 10:30:46.841361 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:30:46.841468 - State = 3
+INFO:root:2023-07-18 10:30:46.841522 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:30:46.841592 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:30:46.841648 - State = 4
+INFO:root:2023-07-18 10:30:46.841691 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:30:46.841753 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:30:46.841803 - Done
+INFO:root:2023-07-18 10:30:46.841848 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:30:46.841921 - State = 5
+INFO:root:2023-07-18 10:30:46.841973 - Calculating p_min in state 5
+INFO:root:2023-07-18 10:30:46.842036 - Calculating w[5][0] in state 5
+INFO:root:2023-07-18 10:30:46.842088 - Done
+INFO:root:2023-07-18 10:30:46.842132 - Calculating p_plus in state 5
+INFO:root:2023-07-18 10:30:46.842193 - State = 6
+INFO:root:2023-07-18 10:30:46.842237 - Calculating p_min in state 6
+INFO:root:2023-07-18 10:30:46.842297 - Calculating w[6][0] in state 6
+INFO:root:2023-07-18 10:30:46.842408 - Done
+INFO:root:2023-07-18 10:30:46.842504 - Calculating p_plus in state 6
+INFO:root:2023-07-18 10:30:46.842604 - Calculating distributions in state 1 with x = [1 1 1 0 1 1 1]
+INFO:root:2023-07-18 10:30:46.842770 - State = 1
+INFO:root:2023-07-18 10:30:46.842817 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:30:46.842882 - Calculating w[1][0] in state 1
+INFO:root:2023-07-18 10:30:46.842934 - Done
+INFO:root:2023-07-18 10:30:46.842979 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:30:46.843041 - State = 2
+INFO:root:2023-07-18 10:30:46.843085 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:30:46.843146 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:30:46.843195 - Done
+INFO:root:2023-07-18 10:30:46.843239 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:30:46.843298 - State = 3
+INFO:root:2023-07-18 10:30:46.843342 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:30:46.843417 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:30:46.843465 - State = 4
+INFO:root:2023-07-18 10:30:46.843506 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:30:46.843562 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:30:46.843609 - Done
+INFO:root:2023-07-18 10:30:46.843651 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:30:46.843707 - State = 5
+INFO:root:2023-07-18 10:30:46.843749 - Calculating p_min in state 5
+INFO:root:2023-07-18 10:30:46.843806 - Calculating w[5][0] in state 5
+INFO:root:2023-07-18 10:30:46.843852 - Done
+INFO:root:2023-07-18 10:30:46.843894 - Calculating p_plus in state 5
+INFO:root:2023-07-18 10:30:46.843950 - State = 6
+INFO:root:2023-07-18 10:30:46.843992 - Calculating p_min in state 6
+INFO:root:2023-07-18 10:30:46.844049 - Calculating w[6][0] in state 6
+INFO:root:2023-07-18 10:30:46.844096 - Done
+INFO:root:2023-07-18 10:30:46.844138 - Calculating p_plus in state 6
+INFO:root:2023-07-18 10:30:46.844207 - Calculating distributions in state 1 with x = [1 2 0 0 1 1 1]
+INFO:root:2023-07-18 10:30:46.844337 - State = 1
+INFO:root:2023-07-18 10:30:46.844381 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:30:46.844439 - Calculating w[1][0] in state 1
+INFO:root:2023-07-18 10:30:46.844486 - Done
+INFO:root:2023-07-18 10:30:46.844529 - Calculating w[1][1] in state 1
+INFO:root:2023-07-18 10:30:46.844585 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:30:46.844644 - State = 2
+INFO:root:2023-07-18 10:30:46.844686 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:30:46.844744 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:30:46.844811 - State = 3
+INFO:root:2023-07-18 10:30:46.844858 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:30:46.844920 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:30:46.844968 - State = 4
+INFO:root:2023-07-18 10:30:46.845008 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:30:46.845063 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:30:46.845260 - Done
+INFO:root:2023-07-18 10:30:46.845363 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:30:46.845471 - State = 5
+INFO:root:2023-07-18 10:30:46.845625 - Calculating p_min in state 5
+INFO:root:2023-07-18 10:30:46.845711 - Calculating w[5][0] in state 5
+INFO:root:2023-07-18 10:30:46.845799 - Done
+INFO:root:2023-07-18 10:30:46.845848 - Calculating p_plus in state 5
+INFO:root:2023-07-18 10:30:46.845911 - State = 6
+INFO:root:2023-07-18 10:30:46.845955 - Calculating p_min in state 6
+INFO:root:2023-07-18 10:30:46.846016 - Calculating w[6][0] in state 6
+INFO:root:2023-07-18 10:30:46.846064 - Done
+INFO:root:2023-07-18 10:30:46.846105 - Calculating p_plus in state 6
+INFO:root:2023-07-18 10:30:48.319392 - x = [2 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1]
+INFO:root:2023-07-18 10:30:48.320065 - State = 1
+INFO:root:2023-07-18 10:30:48.320145 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:30:48.320218 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:30:48.320270 - State = 2
+INFO:root:2023-07-18 10:30:48.320310 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:30:48.320365 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:30:48.320414 - Done
+INFO:root:2023-07-18 10:30:48.320459 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:30:48.320666 - State = 3
+INFO:root:2023-07-18 10:30:48.320757 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:30:48.320829 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:30:48.320918 - State = 4
+INFO:root:2023-07-18 10:30:48.321028 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:30:48.321107 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:30:48.321160 - Done
+INFO:root:2023-07-18 10:30:48.321202 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:30:48.321418 - State = 5
+INFO:root:2023-07-18 10:30:48.321559 - Calculating p_min in state 5
+INFO:root:2023-07-18 10:30:48.321673 - Calculating p_plus in state 5
+INFO:root:2023-07-18 10:30:48.321837 - State = 6
+INFO:root:2023-07-18 10:30:48.321955 - Calculating p_min in state 6
+INFO:root:2023-07-18 10:30:48.322039 - Calculating w[6][0] in state 6
+INFO:root:2023-07-18 10:30:48.322100 - Done
+INFO:root:2023-07-18 10:30:48.322152 - Calculating p_plus in state 6
+INFO:root:2023-07-18 10:30:48.322382 - State = 7
+INFO:root:2023-07-18 10:30:48.322505 - Calculating p_min in state 7
+INFO:root:2023-07-18 10:30:48.322628 - Calculating p_plus in state 7
+INFO:root:2023-07-18 10:30:48.322706 - State = 8
+INFO:root:2023-07-18 10:30:48.322754 - Calculating p_min in state 8
+INFO:root:2023-07-18 10:30:48.322814 - Calculating w[8][0] in state 8
+INFO:root:2023-07-18 10:30:48.322862 - Done
+INFO:root:2023-07-18 10:30:48.322903 - Calculating p_plus in state 8
+INFO:root:2023-07-18 10:30:48.323049 - State = 9
+INFO:root:2023-07-18 10:30:48.323113 - Calculating p_min in state 9
+INFO:root:2023-07-18 10:30:48.323281 - Calculating p_plus in state 9
+INFO:root:2023-07-18 10:30:48.323369 - State = 10
+INFO:root:2023-07-18 10:30:48.323444 - Calculating p_min in state 10
+INFO:root:2023-07-18 10:30:48.323662 - Calculating w[10][0] in state 10
+INFO:root:2023-07-18 10:30:48.323783 - Done
+INFO:root:2023-07-18 10:30:48.323843 - Calculating p_plus in state 10
+INFO:root:2023-07-18 10:30:48.324038 - State = 11
+INFO:root:2023-07-18 10:30:48.324109 - Calculating p_min in state 11
+INFO:root:2023-07-18 10:30:48.324226 - Calculating p_plus in state 11
+INFO:root:2023-07-18 10:30:48.324289 - State = 12
+INFO:root:2023-07-18 10:30:48.324337 - Calculating p_min in state 12
+INFO:root:2023-07-18 10:30:48.324396 - Calculating w[12][0] in state 12
+INFO:root:2023-07-18 10:30:48.324443 - Done
+INFO:root:2023-07-18 10:30:48.324486 - Calculating p_plus in state 12
+INFO:root:2023-07-18 10:30:48.324633 - State = 13
+INFO:root:2023-07-18 10:30:48.324675 - Calculating p_min in state 13
+INFO:root:2023-07-18 10:30:48.324765 - Calculating p_plus in state 13
+INFO:root:2023-07-18 10:30:48.324854 - State = 14
+INFO:root:2023-07-18 10:30:48.324905 - Calculating p_min in state 14
+INFO:root:2023-07-18 10:30:48.324962 - Calculating w[14][0] in state 14
+INFO:root:2023-07-18 10:30:48.325009 - Done
+INFO:root:2023-07-18 10:30:48.325085 - Calculating p_plus in state 14
+INFO:root:2023-07-18 10:30:48.325297 - State = 15
+INFO:root:2023-07-18 10:30:48.325389 - Calculating p_min in state 15
+INFO:root:2023-07-18 10:30:48.325477 - Calculating p_plus in state 15
+INFO:root:2023-07-18 10:30:48.325549 - State = 16
+INFO:root:2023-07-18 10:30:48.325605 - Calculating p_min in state 16
+INFO:root:2023-07-18 10:30:48.325670 - Calculating w[16][0] in state 16
+INFO:root:2023-07-18 10:30:48.325731 - Done
+INFO:root:2023-07-18 10:30:48.325791 - Calculating p_plus in state 16
+INFO:root:2023-07-18 10:30:48.325943 - State = 17
+INFO:root:2023-07-18 10:30:48.325985 - Calculating p_min in state 17
+INFO:root:2023-07-18 10:30:48.326042 - Calculating p_plus in state 17
+INFO:root:2023-07-18 10:30:48.326099 - State = 18
+INFO:root:2023-07-18 10:30:48.326138 - Calculating p_min in state 18
+INFO:root:2023-07-18 10:30:48.326200 - Calculating w[18][0] in state 18
+INFO:root:2023-07-18 10:30:48.326245 - Done
+INFO:root:2023-07-18 10:30:48.326284 - Calculating p_plus in state 18
+INFO:root:2023-07-18 10:30:48.326484 - State = 19
+INFO:root:2023-07-18 10:30:48.326570 - Calculating p_min in state 19
+INFO:root:2023-07-18 10:30:48.326648 - Calculating p_plus in state 19
+INFO:root:2023-07-18 10:30:48.326702 - State = 20
+INFO:root:2023-07-18 10:30:48.326743 - Calculating p_min in state 20
+INFO:root:2023-07-18 10:30:48.326797 - Calculating w[20][0] in state 20
+INFO:root:2023-07-18 10:30:48.326842 - Done
+INFO:root:2023-07-18 10:30:48.326881 - Calculating p_plus in state 20
+INFO:root:2023-07-18 10:30:48.327005 - State = 21
+INFO:root:2023-07-18 10:30:48.327046 - Calculating p_min in state 21
+INFO:root:2023-07-18 10:30:48.327099 - Calculating p_plus in state 21
+INFO:root:2023-07-18 10:30:48.327144 - State = 22
+INFO:root:2023-07-18 10:30:48.327181 - Calculating p_min in state 22
+INFO:root:2023-07-18 10:30:48.327231 - Calculating w[22][0] in state 22
+INFO:root:2023-07-18 10:30:48.327274 - Done
+INFO:root:2023-07-18 10:30:48.327311 - Calculating p_plus in state 22
+INFO:root:2023-07-18 10:30:48.327427 - State = 23
+INFO:root:2023-07-18 10:30:48.327466 - Calculating p_min in state 23
+INFO:root:2023-07-18 10:30:48.327519 - Calculating w[23][0] in state 23
+INFO:root:2023-07-18 10:30:48.327562 - Done
+INFO:root:2023-07-18 10:30:48.327599 - Calculating p_plus in state 23
+INFO:root:2023-07-18 10:30:48.329004 - Running impute_compositions() in state 24
+INFO:root:2023-07-18 10:30:48.329156 - Calculating distributions in state 1 with x = [2 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1]
+INFO:root:2023-07-18 10:30:48.329314 - State = 1
+INFO:root:2023-07-18 10:30:48.329357 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:30:48.329414 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:30:48.329465 - State = 2
+INFO:root:2023-07-18 10:30:48.329504 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:30:48.329556 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:30:48.329601 - Done
+INFO:root:2023-07-18 10:30:48.329639 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:30:48.329781 - State = 3
+INFO:root:2023-07-18 10:30:48.329823 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:30:48.329876 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:30:48.329920 - State = 4
+INFO:root:2023-07-18 10:30:48.329957 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:30:48.330008 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:30:48.330050 - Done
+INFO:root:2023-07-18 10:30:48.330086 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:30:48.330217 - State = 5
+INFO:root:2023-07-18 10:30:48.330257 - Calculating p_min in state 5
+INFO:root:2023-07-18 10:30:48.330325 - Calculating p_plus in state 5
+INFO:root:2023-07-18 10:30:48.330371 - State = 6
+INFO:root:2023-07-18 10:30:48.330409 - Calculating p_min in state 6
+INFO:root:2023-07-18 10:30:48.330458 - Calculating w[6][0] in state 6
+INFO:root:2023-07-18 10:30:48.330500 - Done
+INFO:root:2023-07-18 10:30:48.330537 - Calculating p_plus in state 6
+INFO:root:2023-07-18 10:30:48.330663 - State = 7
+INFO:root:2023-07-18 10:30:48.330701 - Calculating p_min in state 7
+INFO:root:2023-07-18 10:30:48.330751 - Calculating p_plus in state 7
+INFO:root:2023-07-18 10:30:48.330795 - State = 8
+INFO:root:2023-07-18 10:30:48.330831 - Calculating p_min in state 8
+INFO:root:2023-07-18 10:30:48.330880 - Calculating w[8][0] in state 8
+INFO:root:2023-07-18 10:30:48.330922 - Done
+INFO:root:2023-07-18 10:30:48.330959 - Calculating p_plus in state 8
+INFO:root:2023-07-18 10:30:48.331084 - State = 9
+INFO:root:2023-07-18 10:30:48.331122 - Calculating p_min in state 9
+INFO:root:2023-07-18 10:30:48.331173 - Calculating p_plus in state 9
+INFO:root:2023-07-18 10:30:48.331219 - State = 10
+INFO:root:2023-07-18 10:30:48.331255 - Calculating p_min in state 10
+INFO:root:2023-07-18 10:30:48.331305 - Calculating w[10][0] in state 10
+INFO:root:2023-07-18 10:30:48.331347 - Done
+INFO:root:2023-07-18 10:30:48.331384 - Calculating p_plus in state 10
+INFO:root:2023-07-18 10:30:48.331507 - State = 11
+INFO:root:2023-07-18 10:30:48.331588 - Calculating p_min in state 11
+INFO:root:2023-07-18 10:30:48.331663 - Calculating p_plus in state 11
+INFO:root:2023-07-18 10:30:48.331716 - State = 12
+INFO:root:2023-07-18 10:30:48.331757 - Calculating p_min in state 12
+INFO:root:2023-07-18 10:30:48.331812 - Calculating w[12][0] in state 12
+INFO:root:2023-07-18 10:30:48.331857 - Done
+INFO:root:2023-07-18 10:30:48.331896 - Calculating p_plus in state 12
+INFO:root:2023-07-18 10:30:48.332021 - State = 13
+INFO:root:2023-07-18 10:30:48.332068 - Calculating p_min in state 13
+INFO:root:2023-07-18 10:30:48.332123 - Calculating p_plus in state 13
+INFO:root:2023-07-18 10:30:48.332169 - State = 14
+INFO:root:2023-07-18 10:30:48.332207 - Calculating p_min in state 14
+INFO:root:2023-07-18 10:30:48.332260 - Calculating w[14][0] in state 14
+INFO:root:2023-07-18 10:30:48.332304 - Done
+INFO:root:2023-07-18 10:30:48.332341 - Calculating p_plus in state 14
+INFO:root:2023-07-18 10:30:48.332467 - State = 15
+INFO:root:2023-07-18 10:30:48.332510 - Calculating p_min in state 15
+INFO:root:2023-07-18 10:30:48.332564 - Calculating p_plus in state 15
+INFO:root:2023-07-18 10:30:48.332610 - State = 16
+INFO:root:2023-07-18 10:30:48.332647 - Calculating p_min in state 16
+INFO:root:2023-07-18 10:30:48.332699 - Calculating w[16][0] in state 16
+INFO:root:2023-07-18 10:30:48.332743 - Done
+INFO:root:2023-07-18 10:30:48.332781 - Calculating p_plus in state 16
+INFO:root:2023-07-18 10:30:48.332900 - State = 17
+INFO:root:2023-07-18 10:30:48.332943 - Calculating p_min in state 17
+INFO:root:2023-07-18 10:30:48.332996 - Calculating p_plus in state 17
+INFO:root:2023-07-18 10:30:48.333042 - State = 18
+INFO:root:2023-07-18 10:30:48.333080 - Calculating p_min in state 18
+INFO:root:2023-07-18 10:30:48.333131 - Calculating w[18][0] in state 18
+INFO:root:2023-07-18 10:30:48.333175 - Done
+INFO:root:2023-07-18 10:30:48.333214 - Calculating p_plus in state 18
+INFO:root:2023-07-18 10:30:48.333330 - State = 19
+INFO:root:2023-07-18 10:30:48.333369 - Calculating p_min in state 19
+INFO:root:2023-07-18 10:30:48.333422 - Calculating p_plus in state 19
+INFO:root:2023-07-18 10:30:48.333468 - State = 20
+INFO:root:2023-07-18 10:30:48.333506 - Calculating p_min in state 20
+INFO:root:2023-07-18 10:30:48.333557 - Calculating w[20][0] in state 20
+INFO:root:2023-07-18 10:30:48.333601 - Done
+INFO:root:2023-07-18 10:30:48.333639 - Calculating p_plus in state 20
+INFO:root:2023-07-18 10:30:48.333754 - State = 21
+INFO:root:2023-07-18 10:30:48.333799 - Calculating p_min in state 21
+INFO:root:2023-07-18 10:30:48.333894 - Calculating p_plus in state 21
+INFO:root:2023-07-18 10:30:48.333954 - State = 22
+INFO:root:2023-07-18 10:30:48.333997 - Calculating p_min in state 22
+INFO:root:2023-07-18 10:30:48.334067 - Calculating w[22][0] in state 22
+INFO:root:2023-07-18 10:30:48.334117 - Done
+INFO:root:2023-07-18 10:30:48.334158 - Calculating p_plus in state 22
+INFO:root:2023-07-18 10:30:48.334295 - State = 23
+INFO:root:2023-07-18 10:30:48.334335 - Calculating p_min in state 23
+INFO:root:2023-07-18 10:30:48.334388 - Calculating w[23][0] in state 23
+INFO:root:2023-07-18 10:30:48.334431 - Done
+INFO:root:2023-07-18 10:30:48.334468 - Calculating p_plus in state 23
+INFO:root:2023-07-18 10:30:48.334628 - Calculating distributions in state 1 with x = [2 1 0 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1]
+INFO:root:2023-07-18 10:30:48.334791 - State = 1
+INFO:root:2023-07-18 10:30:48.334831 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:30:48.334885 - Calculating w[1][0] in state 1
+INFO:root:2023-07-18 10:30:48.334928 - Done
+INFO:root:2023-07-18 10:30:48.334966 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:30:48.335217 - State = 2
+INFO:root:2023-07-18 10:30:48.335275 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:30:48.335339 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:30:48.335388 - State = 3
+INFO:root:2023-07-18 10:30:48.335426 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:30:48.335478 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:30:48.335523 - State = 4
+INFO:root:2023-07-18 10:30:48.335559 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:30:48.335609 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:30:48.335652 - Done
+INFO:root:2023-07-18 10:30:48.335690 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:30:48.335836 - State = 5
+INFO:root:2023-07-18 10:30:48.335937 - Calculating p_min in state 5
+INFO:root:2023-07-18 10:30:48.336098 - Calculating p_plus in state 5
+INFO:root:2023-07-18 10:30:48.336156 - State = 6
+INFO:root:2023-07-18 10:30:48.336289 - Calculating p_min in state 6
+INFO:root:2023-07-18 10:30:48.336420 - Calculating w[6][0] in state 6
+INFO:root:2023-07-18 10:30:48.336507 - Done
+INFO:root:2023-07-18 10:30:48.336584 - Calculating p_plus in state 6
+INFO:root:2023-07-18 10:30:48.336790 - State = 7
+INFO:root:2023-07-18 10:30:48.336847 - Calculating p_min in state 7
+INFO:root:2023-07-18 10:30:48.336913 - Calculating p_plus in state 7
+INFO:root:2023-07-18 10:30:48.336963 - State = 8
+INFO:root:2023-07-18 10:30:48.337002 - Calculating p_min in state 8
+INFO:root:2023-07-18 10:30:48.337057 - Calculating w[8][0] in state 8
+INFO:root:2023-07-18 10:30:48.337127 - Done
+INFO:root:2023-07-18 10:30:48.337217 - Calculating p_plus in state 8
+INFO:root:2023-07-18 10:30:48.337475 - State = 9
+INFO:root:2023-07-18 10:30:48.337553 - Calculating p_min in state 9
+INFO:root:2023-07-18 10:30:48.337917 - Calculating p_plus in state 9
+INFO:root:2023-07-18 10:30:48.338026 - State = 10
+INFO:root:2023-07-18 10:30:48.338101 - Calculating p_min in state 10
+INFO:root:2023-07-18 10:30:48.338244 - Calculating w[10][0] in state 10
+INFO:root:2023-07-18 10:30:48.338428 - Done
+INFO:root:2023-07-18 10:30:48.338554 - Calculating p_plus in state 10
+INFO:root:2023-07-18 10:30:48.338777 - State = 11
+INFO:root:2023-07-18 10:30:48.338900 - Calculating p_min in state 11
+INFO:root:2023-07-18 10:30:48.339052 - Calculating p_plus in state 11
+INFO:root:2023-07-18 10:30:48.339230 - State = 12
+INFO:root:2023-07-18 10:30:48.339321 - Calculating p_min in state 12
+INFO:root:2023-07-18 10:30:48.339425 - Calculating w[12][0] in state 12
+INFO:root:2023-07-18 10:30:48.339481 - Done
+INFO:root:2023-07-18 10:30:48.339566 - Calculating p_plus in state 12
+INFO:root:2023-07-18 10:30:48.339757 - State = 13
+INFO:root:2023-07-18 10:30:48.339836 - Calculating p_min in state 13
+INFO:root:2023-07-18 10:30:48.339912 - Calculating p_plus in state 13
+INFO:root:2023-07-18 10:30:48.339970 - State = 14
+INFO:root:2023-07-18 10:30:48.340013 - Calculating p_min in state 14
+INFO:root:2023-07-18 10:30:48.340072 - Calculating w[14][0] in state 14
+INFO:root:2023-07-18 10:30:48.340120 - Done
+INFO:root:2023-07-18 10:30:48.340162 - Calculating p_plus in state 14
+INFO:root:2023-07-18 10:30:48.340312 - State = 15
+INFO:root:2023-07-18 10:30:48.340417 - Calculating p_min in state 15
+INFO:root:2023-07-18 10:30:48.340494 - Calculating p_plus in state 15
+INFO:root:2023-07-18 10:30:48.340546 - State = 16
+INFO:root:2023-07-18 10:30:48.340588 - Calculating p_min in state 16
+INFO:root:2023-07-18 10:30:48.340642 - Calculating w[16][0] in state 16
+INFO:root:2023-07-18 10:30:48.340708 - Done
+INFO:root:2023-07-18 10:30:48.340808 - Calculating p_plus in state 16
+INFO:root:2023-07-18 10:30:48.340994 - State = 17
+INFO:root:2023-07-18 10:30:48.341072 - Calculating p_min in state 17
+INFO:root:2023-07-18 10:30:48.341189 - Calculating p_plus in state 17
+INFO:root:2023-07-18 10:30:48.341345 - State = 18
+INFO:root:2023-07-18 10:30:48.341402 - Calculating p_min in state 18
+INFO:root:2023-07-18 10:30:48.341479 - Calculating w[18][0] in state 18
+INFO:root:2023-07-18 10:30:48.341530 - Done
+INFO:root:2023-07-18 10:30:48.341571 - Calculating p_plus in state 18
+INFO:root:2023-07-18 10:30:48.341707 - State = 19
+INFO:root:2023-07-18 10:30:48.341750 - Calculating p_min in state 19
+INFO:root:2023-07-18 10:30:48.341820 - Calculating p_plus in state 19
+INFO:root:2023-07-18 10:30:48.341871 - State = 20
+INFO:root:2023-07-18 10:30:48.341925 - Calculating p_min in state 20
+INFO:root:2023-07-18 10:30:48.341994 - Calculating w[20][0] in state 20
+INFO:root:2023-07-18 10:30:48.342070 - Done
+INFO:root:2023-07-18 10:30:48.342119 - Calculating p_plus in state 20
+INFO:root:2023-07-18 10:30:48.342301 - State = 21
+INFO:root:2023-07-18 10:30:48.342407 - Calculating p_min in state 21
+INFO:root:2023-07-18 10:30:48.342517 - Calculating p_plus in state 21
+INFO:root:2023-07-18 10:30:48.342607 - State = 22
+INFO:root:2023-07-18 10:30:48.342751 - Calculating p_min in state 22
+INFO:root:2023-07-18 10:30:48.342877 - Calculating w[22][0] in state 22
+INFO:root:2023-07-18 10:30:48.342940 - Done
+INFO:root:2023-07-18 10:30:48.342986 - Calculating p_plus in state 22
+INFO:root:2023-07-18 10:30:48.343107 - State = 23
+INFO:root:2023-07-18 10:30:48.343169 - Calculating p_min in state 23
+INFO:root:2023-07-18 10:30:48.343245 - Calculating w[23][0] in state 23
+INFO:root:2023-07-18 10:30:48.343296 - Done
+INFO:root:2023-07-18 10:30:48.343337 - Calculating p_plus in state 23
+INFO:root:2023-07-18 10:31:23.247820 - x = [2 0 3 1 1]
+INFO:root:2023-07-18 10:31:23.248499 - State = 1
+INFO:root:2023-07-18 10:31:23.248646 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:31:23.248843 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:31:23.249066 - State = 2
+INFO:root:2023-07-18 10:31:23.249345 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:31:23.249429 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:31:23.249474 - Done
+INFO:root:2023-07-18 10:31:23.249513 - Calculating w[2][1] in state 2
+INFO:root:2023-07-18 10:31:23.249597 - Calculating w[2][2] in state 2
+INFO:root:2023-07-18 10:31:23.249642 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:31:23.249684 - State = 3
+INFO:root:2023-07-18 10:31:23.249719 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:31:23.249766 - Calculating w[3][0] in state 3
+INFO:root:2023-07-18 10:31:23.249804 - Done
+INFO:root:2023-07-18 10:31:23.249861 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:31:23.250236 - Running impute_compositions() in state 4
+INFO:root:2023-07-18 10:31:23.250444 - Calculating distributions in state 1 with x = [2 0 3 1 1]
+INFO:root:2023-07-18 10:31:23.250561 - State = 1
+INFO:root:2023-07-18 10:31:23.250601 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:31:23.250652 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:31:23.250693 - State = 2
+INFO:root:2023-07-18 10:31:23.250728 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:31:23.250774 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:31:23.250812 - Done
+INFO:root:2023-07-18 10:31:23.250847 - Calculating w[2][1] in state 2
+INFO:root:2023-07-18 10:31:23.250889 - Calculating w[2][2] in state 2
+INFO:root:2023-07-18 10:31:23.250931 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:31:23.250973 - State = 3
+INFO:root:2023-07-18 10:31:23.251016 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:31:23.251062 - Calculating w[3][0] in state 3
+INFO:root:2023-07-18 10:31:23.251118 - Done
+INFO:root:2023-07-18 10:31:23.251165 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:31:23.251203 - State = 4
+INFO:root:2023-07-18 10:31:23.251234 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:31:23.251277 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:31:23.251312 - Done
+INFO:root:2023-07-18 10:31:23.251343 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:31:23.251392 - Calculating distributions in state 1 with x = [2 1 2 1 1]
+INFO:root:2023-07-18 10:31:23.251486 - State = 1
+INFO:root:2023-07-18 10:31:23.251519 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:31:23.251563 - Calculating w[1][0] in state 1
+INFO:root:2023-07-18 10:31:23.251599 - Done
+INFO:root:2023-07-18 10:31:23.251631 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:31:23.251670 - State = 2
+INFO:root:2023-07-18 10:31:23.251702 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:31:23.251744 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:31:23.251779 - Done
+INFO:root:2023-07-18 10:31:23.251811 - Calculating w[2][1] in state 2
+INFO:root:2023-07-18 10:31:23.251848 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:31:23.251886 - State = 3
+INFO:root:2023-07-18 10:31:23.251918 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:31:23.251960 - Calculating w[3][0] in state 3
+INFO:root:2023-07-18 10:31:23.252016 - Done
+INFO:root:2023-07-18 10:31:23.252075 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:31:23.252163 - State = 4
+INFO:root:2023-07-18 10:31:23.252209 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:31:23.252251 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:31:23.252285 - Done
+INFO:root:2023-07-18 10:31:23.252316 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:31:23.252363 - Calculating distributions in state 1 with x = [2 2 1 1 1]
+INFO:root:2023-07-18 10:31:23.252453 - State = 1
+INFO:root:2023-07-18 10:31:23.252485 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:31:23.252529 - Calculating w[1][0] in state 1
+INFO:root:2023-07-18 10:31:23.252564 - Done
+INFO:root:2023-07-18 10:31:23.252596 - Calculating w[1][1] in state 1
+INFO:root:2023-07-18 10:31:23.252633 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:31:23.252673 - State = 2
+INFO:root:2023-07-18 10:31:23.252704 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:31:23.252747 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:31:23.252782 - Done
+INFO:root:2023-07-18 10:31:23.252813 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:31:23.252851 - State = 3
+INFO:root:2023-07-18 10:31:23.252882 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:31:23.252924 - Calculating w[3][0] in state 3
+INFO:root:2023-07-18 10:31:23.252959 - Done
+INFO:root:2023-07-18 10:31:23.252990 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:31:23.253028 - State = 4
+INFO:root:2023-07-18 10:31:23.253059 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:31:23.253101 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:31:23.253136 - Done
+INFO:root:2023-07-18 10:31:23.253167 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:31:23.253255 - Calculating distributions in state 1 with x = [2 3 0 1 1]
+INFO:root:2023-07-18 10:31:23.253396 - State = 1
+INFO:root:2023-07-18 10:31:23.253428 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:31:23.253472 - Calculating w[1][0] in state 1
+INFO:root:2023-07-18 10:31:23.253507 - Done
+INFO:root:2023-07-18 10:31:23.253538 - Calculating w[1][1] in state 1
+INFO:root:2023-07-18 10:31:23.253576 - Calculating w[1][2] in state 1
+INFO:root:2023-07-18 10:31:23.253613 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:31:23.253652 - State = 2
+INFO:root:2023-07-18 10:31:23.253683 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:31:23.253725 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:31:23.253762 - State = 3
+INFO:root:2023-07-18 10:31:23.253816 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:31:23.253884 - Calculating w[3][0] in state 3
+INFO:root:2023-07-18 10:31:23.253920 - Done
+INFO:root:2023-07-18 10:31:23.253952 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:31:23.253990 - State = 4
+INFO:root:2023-07-18 10:31:23.254021 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:31:23.254063 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:31:23.254098 - Done
+INFO:root:2023-07-18 10:31:23.254129 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:31:23.788554 - x = [1 1]
+INFO:root:2023-07-18 10:31:23.788996 - State = 1
+INFO:root:2023-07-18 10:31:23.789046 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:31:23.789104 - Calculating w[1][0] in state 1
+INFO:root:2023-07-18 10:31:23.789145 - Done
+INFO:root:2023-07-18 10:31:23.789183 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:31:23.794075 - Running impute_compositions() in state 2
+INFO:root:2023-07-18 10:31:23.794437 - Calculating distributions in state 1 with x = [1 1]
+INFO:root:2023-07-18 10:31:23.794619 - State = 1
+INFO:root:2023-07-18 10:31:23.794655 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:31:23.794703 - Calculating w[1][0] in state 1
+INFO:root:2023-07-18 10:31:23.794739 - Done
+INFO:root:2023-07-18 10:31:23.794771 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:31:23.859622 - x = [1 0 2 0 1 1 1]
+INFO:root:2023-07-18 10:31:23.859965 - State = 1
+INFO:root:2023-07-18 10:31:23.860226 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:31:23.860531 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:31:23.860599 - State = 2
+INFO:root:2023-07-18 10:31:23.860644 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:31:23.860786 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:31:23.860838 - Done
+INFO:root:2023-07-18 10:31:23.860976 - Calculating w[2][1] in state 2
+INFO:root:2023-07-18 10:31:23.861056 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:31:23.861172 - State = 3
+INFO:root:2023-07-18 10:31:23.861214 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:31:23.861304 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:31:23.861690 - Running impute_compositions() in state 4
+INFO:root:2023-07-18 10:31:23.861970 - Calculating distributions in state 1 with x = [1 0 2 0 1 1 1]
+INFO:root:2023-07-18 10:31:23.862074 - State = 1
+INFO:root:2023-07-18 10:31:23.862110 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:31:23.862157 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:31:23.862195 - State = 2
+INFO:root:2023-07-18 10:31:23.862226 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:31:23.862269 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:31:23.862305 - Done
+INFO:root:2023-07-18 10:31:23.862337 - Calculating w[2][1] in state 2
+INFO:root:2023-07-18 10:31:23.862381 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:31:23.862426 - State = 3
+INFO:root:2023-07-18 10:31:23.862458 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:31:23.862501 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:31:23.862538 - State = 4
+INFO:root:2023-07-18 10:31:23.862569 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:31:23.862611 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:31:23.862646 - Done
+INFO:root:2023-07-18 10:31:23.862677 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:31:23.862720 - State = 5
+INFO:root:2023-07-18 10:31:23.862752 - Calculating p_min in state 5
+INFO:root:2023-07-18 10:31:23.862794 - Calculating w[5][0] in state 5
+INFO:root:2023-07-18 10:31:23.862828 - Done
+INFO:root:2023-07-18 10:31:23.862860 - Calculating p_plus in state 5
+INFO:root:2023-07-18 10:31:23.862902 - State = 6
+INFO:root:2023-07-18 10:31:23.862934 - Calculating p_min in state 6
+INFO:root:2023-07-18 10:31:23.862976 - Calculating w[6][0] in state 6
+INFO:root:2023-07-18 10:31:23.863010 - Done
+INFO:root:2023-07-18 10:31:23.863042 - Calculating p_plus in state 6
+INFO:root:2023-07-18 10:31:23.863095 - Calculating distributions in state 1 with x = [1 1 1 0 1 1 1]
+INFO:root:2023-07-18 10:31:23.863197 - State = 1
+INFO:root:2023-07-18 10:31:23.863242 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:31:23.863288 - Calculating w[1][0] in state 1
+INFO:root:2023-07-18 10:31:23.863324 - Done
+INFO:root:2023-07-18 10:31:23.863356 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:31:23.863401 - State = 2
+INFO:root:2023-07-18 10:31:23.863433 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:31:23.863476 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:31:23.863512 - Done
+INFO:root:2023-07-18 10:31:23.863543 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:31:23.863586 - State = 3
+INFO:root:2023-07-18 10:31:23.863618 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:31:23.863660 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:31:23.863696 - State = 4
+INFO:root:2023-07-18 10:31:23.863727 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:31:23.863768 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:31:23.863803 - Done
+INFO:root:2023-07-18 10:31:23.863834 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:31:23.863877 - State = 5
+INFO:root:2023-07-18 10:31:23.863909 - Calculating p_min in state 5
+INFO:root:2023-07-18 10:31:23.863951 - Calculating w[5][0] in state 5
+INFO:root:2023-07-18 10:31:23.863985 - Done
+INFO:root:2023-07-18 10:31:23.864017 - Calculating p_plus in state 5
+INFO:root:2023-07-18 10:31:23.864059 - State = 6
+INFO:root:2023-07-18 10:31:23.864090 - Calculating p_min in state 6
+INFO:root:2023-07-18 10:31:23.864132 - Calculating w[6][0] in state 6
+INFO:root:2023-07-18 10:31:23.864167 - Done
+INFO:root:2023-07-18 10:31:23.864198 - Calculating p_plus in state 6
+INFO:root:2023-07-18 10:31:23.864251 - Calculating distributions in state 1 with x = [1 2 0 0 1 1 1]
+INFO:root:2023-07-18 10:31:23.864345 - State = 1
+INFO:root:2023-07-18 10:31:23.864377 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:31:23.864421 - Calculating w[1][0] in state 1
+INFO:root:2023-07-18 10:31:23.864457 - Done
+INFO:root:2023-07-18 10:31:23.864488 - Calculating w[1][1] in state 1
+INFO:root:2023-07-18 10:31:23.864531 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:31:23.864575 - State = 2
+INFO:root:2023-07-18 10:31:23.864607 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:31:23.864649 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:31:23.864686 - State = 3
+INFO:root:2023-07-18 10:31:23.864716 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:31:23.864758 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:31:23.864794 - State = 4
+INFO:root:2023-07-18 10:31:23.864824 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:31:23.864865 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:31:23.864900 - Done
+INFO:root:2023-07-18 10:31:23.864931 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:31:23.864973 - State = 5
+INFO:root:2023-07-18 10:31:23.865004 - Calculating p_min in state 5
+INFO:root:2023-07-18 10:31:23.865046 - Calculating w[5][0] in state 5
+INFO:root:2023-07-18 10:31:23.865081 - Done
+INFO:root:2023-07-18 10:31:23.865112 - Calculating p_plus in state 5
+INFO:root:2023-07-18 10:31:23.865154 - State = 6
+INFO:root:2023-07-18 10:31:23.865185 - Calculating p_min in state 6
+INFO:root:2023-07-18 10:31:23.865227 - Calculating w[6][0] in state 6
+INFO:root:2023-07-18 10:31:23.865262 - Done
+INFO:root:2023-07-18 10:31:23.865293 - Calculating p_plus in state 6
+INFO:root:2023-07-18 10:31:24.000002 - x = [2 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1]
+INFO:root:2023-07-18 10:31:24.012403 - State = 1
+INFO:root:2023-07-18 10:31:24.012530 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:31:24.012646 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:31:24.012820 - State = 2
+INFO:root:2023-07-18 10:31:24.012907 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:31:24.013002 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:31:24.013073 - Done
+INFO:root:2023-07-18 10:31:24.013132 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:31:24.013328 - State = 3
+INFO:root:2023-07-18 10:31:24.013388 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:31:24.013551 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:31:24.013621 - State = 4
+INFO:root:2023-07-18 10:31:24.013677 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:31:24.013756 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:31:24.013823 - Done
+INFO:root:2023-07-18 10:31:24.013868 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:31:24.014019 - State = 5
+INFO:root:2023-07-18 10:31:24.014065 - Calculating p_min in state 5
+INFO:root:2023-07-18 10:31:24.014125 - Calculating p_plus in state 5
+INFO:root:2023-07-18 10:31:24.014178 - State = 6
+INFO:root:2023-07-18 10:31:24.014222 - Calculating p_min in state 6
+INFO:root:2023-07-18 10:31:24.014280 - Calculating w[6][0] in state 6
+INFO:root:2023-07-18 10:31:24.014330 - Done
+INFO:root:2023-07-18 10:31:24.014374 - Calculating p_plus in state 6
+INFO:root:2023-07-18 10:31:24.014522 - State = 7
+INFO:root:2023-07-18 10:31:24.014566 - Calculating p_min in state 7
+INFO:root:2023-07-18 10:31:24.014626 - Calculating p_plus in state 7
+INFO:root:2023-07-18 10:31:24.014677 - State = 8
+INFO:root:2023-07-18 10:31:24.014720 - Calculating p_min in state 8
+INFO:root:2023-07-18 10:31:24.014778 - Calculating w[8][0] in state 8
+INFO:root:2023-07-18 10:31:24.014827 - Done
+INFO:root:2023-07-18 10:31:24.014871 - Calculating p_plus in state 8
+INFO:root:2023-07-18 10:31:24.015017 - State = 9
+INFO:root:2023-07-18 10:31:24.015062 - Calculating p_min in state 9
+INFO:root:2023-07-18 10:31:24.015122 - Calculating p_plus in state 9
+INFO:root:2023-07-18 10:31:24.015173 - State = 10
+INFO:root:2023-07-18 10:31:24.015216 - Calculating p_min in state 10
+INFO:root:2023-07-18 10:31:24.015275 - Calculating w[10][0] in state 10
+INFO:root:2023-07-18 10:31:24.015324 - Done
+INFO:root:2023-07-18 10:31:24.015368 - Calculating p_plus in state 10
+INFO:root:2023-07-18 10:31:24.015512 - State = 11
+INFO:root:2023-07-18 10:31:24.015557 - Calculating p_min in state 11
+INFO:root:2023-07-18 10:31:24.015616 - Calculating p_plus in state 11
+INFO:root:2023-07-18 10:31:24.015669 - State = 12
+INFO:root:2023-07-18 10:31:24.015712 - Calculating p_min in state 12
+INFO:root:2023-07-18 10:31:24.015771 - Calculating w[12][0] in state 12
+INFO:root:2023-07-18 10:31:24.015820 - Done
+INFO:root:2023-07-18 10:31:24.015864 - Calculating p_plus in state 12
+INFO:root:2023-07-18 10:31:24.016006 - State = 13
+INFO:root:2023-07-18 10:31:24.016051 - Calculating p_min in state 13
+INFO:root:2023-07-18 10:31:24.016110 - Calculating p_plus in state 13
+INFO:root:2023-07-18 10:31:24.016161 - State = 14
+INFO:root:2023-07-18 10:31:24.016205 - Calculating p_min in state 14
+INFO:root:2023-07-18 10:31:24.016264 - Calculating w[14][0] in state 14
+INFO:root:2023-07-18 10:31:24.016313 - Done
+INFO:root:2023-07-18 10:31:24.016358 - Calculating p_plus in state 14
+INFO:root:2023-07-18 10:31:24.016497 - State = 15
+INFO:root:2023-07-18 10:31:24.016542 - Calculating p_min in state 15
+INFO:root:2023-07-18 10:31:24.016602 - Calculating p_plus in state 15
+INFO:root:2023-07-18 10:31:24.016652 - State = 16
+INFO:root:2023-07-18 10:31:24.016695 - Calculating p_min in state 16
+INFO:root:2023-07-18 10:31:24.016754 - Calculating w[16][0] in state 16
+INFO:root:2023-07-18 10:31:24.016803 - Done
+INFO:root:2023-07-18 10:31:24.016848 - Calculating p_plus in state 16
+INFO:root:2023-07-18 10:31:24.016986 - State = 17
+INFO:root:2023-07-18 10:31:24.017031 - Calculating p_min in state 17
+INFO:root:2023-07-18 10:31:24.017090 - Calculating p_plus in state 17
+INFO:root:2023-07-18 10:31:24.017142 - State = 18
+INFO:root:2023-07-18 10:31:24.017185 - Calculating p_min in state 18
+INFO:root:2023-07-18 10:31:24.017243 - Calculating w[18][0] in state 18
+INFO:root:2023-07-18 10:31:24.017293 - Done
+INFO:root:2023-07-18 10:31:24.017337 - Calculating p_plus in state 18
+INFO:root:2023-07-18 10:31:24.017472 - State = 19
+INFO:root:2023-07-18 10:31:24.017517 - Calculating p_min in state 19
+INFO:root:2023-07-18 10:31:24.017576 - Calculating p_plus in state 19
+INFO:root:2023-07-18 10:31:24.017627 - State = 20
+INFO:root:2023-07-18 10:31:24.017670 - Calculating p_min in state 20
+INFO:root:2023-07-18 10:31:24.017742 - Calculating w[20][0] in state 20
+INFO:root:2023-07-18 10:31:24.017793 - Done
+INFO:root:2023-07-18 10:31:24.017837 - Calculating p_plus in state 20
+INFO:root:2023-07-18 10:31:24.017970 - State = 21
+INFO:root:2023-07-18 10:31:24.018015 - Calculating p_min in state 21
+INFO:root:2023-07-18 10:31:24.018075 - Calculating p_plus in state 21
+INFO:root:2023-07-18 10:31:24.018127 - State = 22
+INFO:root:2023-07-18 10:31:24.018170 - Calculating p_min in state 22
+INFO:root:2023-07-18 10:31:24.018227 - Calculating w[22][0] in state 22
+INFO:root:2023-07-18 10:31:24.018292 - Done
+INFO:root:2023-07-18 10:31:24.018330 - Calculating p_plus in state 22
+INFO:root:2023-07-18 10:31:24.018442 - State = 23
+INFO:root:2023-07-18 10:31:24.018481 - Calculating p_min in state 23
+INFO:root:2023-07-18 10:31:24.018532 - Calculating w[23][0] in state 23
+INFO:root:2023-07-18 10:31:24.018575 - Done
+INFO:root:2023-07-18 10:31:24.018612 - Calculating p_plus in state 23
+INFO:root:2023-07-18 10:31:24.019577 - Running impute_compositions() in state 24
+INFO:root:2023-07-18 10:31:24.019725 - Calculating distributions in state 1 with x = [2 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1]
+INFO:root:2023-07-18 10:31:24.019906 - State = 1
+INFO:root:2023-07-18 10:31:24.019956 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:31:24.020020 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:31:24.020073 - State = 2
+INFO:root:2023-07-18 10:31:24.020116 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:31:24.020186 - Calculating w[2][0] in state 2
+INFO:root:2023-07-18 10:31:24.020461 - Done
+INFO:root:2023-07-18 10:31:24.020521 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:31:24.020658 - State = 3
+INFO:root:2023-07-18 10:31:24.020701 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:31:24.020758 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:31:24.020805 - State = 4
+INFO:root:2023-07-18 10:31:24.020844 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:31:24.020897 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:31:24.020948 - Done
+INFO:root:2023-07-18 10:31:24.020988 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:31:24.021120 - State = 5
+INFO:root:2023-07-18 10:31:24.021161 - Calculating p_min in state 5
+INFO:root:2023-07-18 10:31:24.021216 - Calculating p_plus in state 5
+INFO:root:2023-07-18 10:31:24.021262 - State = 6
+INFO:root:2023-07-18 10:31:24.021301 - Calculating p_min in state 6
+INFO:root:2023-07-18 10:31:24.021353 - Calculating w[6][0] in state 6
+INFO:root:2023-07-18 10:31:24.021398 - Done
+INFO:root:2023-07-18 10:31:24.021437 - Calculating p_plus in state 6
+INFO:root:2023-07-18 10:31:24.021566 - State = 7
+INFO:root:2023-07-18 10:31:24.021606 - Calculating p_min in state 7
+INFO:root:2023-07-18 10:31:24.021665 - Calculating p_plus in state 7
+INFO:root:2023-07-18 10:31:24.021713 - State = 8
+INFO:root:2023-07-18 10:31:24.021752 - Calculating p_min in state 8
+INFO:root:2023-07-18 10:31:24.021804 - Calculating w[8][0] in state 8
+INFO:root:2023-07-18 10:31:24.021849 - Done
+INFO:root:2023-07-18 10:31:24.021888 - Calculating p_plus in state 8
+INFO:root:2023-07-18 10:31:24.022016 - State = 9
+INFO:root:2023-07-18 10:31:24.022056 - Calculating p_min in state 9
+INFO:root:2023-07-18 10:31:24.022110 - Calculating p_plus in state 9
+INFO:root:2023-07-18 10:31:24.022157 - State = 10
+INFO:root:2023-07-18 10:31:24.022196 - Calculating p_min in state 10
+INFO:root:2023-07-18 10:31:24.022325 - Calculating w[10][0] in state 10
+INFO:root:2023-07-18 10:31:24.022404 - Done
+INFO:root:2023-07-18 10:31:24.022453 - Calculating p_plus in state 10
+INFO:root:2023-07-18 10:31:24.022663 - State = 11
+INFO:root:2023-07-18 10:31:24.022714 - Calculating p_min in state 11
+INFO:root:2023-07-18 10:31:24.022777 - Calculating p_plus in state 11
+INFO:root:2023-07-18 10:31:24.022826 - State = 12
+INFO:root:2023-07-18 10:31:24.022866 - Calculating p_min in state 12
+INFO:root:2023-07-18 10:31:24.022918 - Calculating w[12][0] in state 12
+INFO:root:2023-07-18 10:31:24.022962 - Done
+INFO:root:2023-07-18 10:31:24.023046 - Calculating p_plus in state 12
+INFO:root:2023-07-18 10:31:24.023334 - State = 13
+INFO:root:2023-07-18 10:31:24.023396 - Calculating p_min in state 13
+INFO:root:2023-07-18 10:31:24.023462 - Calculating p_plus in state 13
+INFO:root:2023-07-18 10:31:24.042084 - State = 14
+INFO:root:2023-07-18 10:31:24.042165 - Calculating p_min in state 14
+INFO:root:2023-07-18 10:31:24.042238 - Calculating w[14][0] in state 14
+INFO:root:2023-07-18 10:31:24.042286 - Done
+INFO:root:2023-07-18 10:31:24.042328 - Calculating p_plus in state 14
+INFO:root:2023-07-18 10:31:24.042455 - State = 15
+INFO:root:2023-07-18 10:31:24.042495 - Calculating p_min in state 15
+INFO:root:2023-07-18 10:31:24.042549 - Calculating p_plus in state 15
+INFO:root:2023-07-18 10:31:24.042595 - State = 16
+INFO:root:2023-07-18 10:31:24.042632 - Calculating p_min in state 16
+INFO:root:2023-07-18 10:31:24.042683 - Calculating w[16][0] in state 16
+INFO:root:2023-07-18 10:31:24.042727 - Done
+INFO:root:2023-07-18 10:31:24.042765 - Calculating p_plus in state 16
+INFO:root:2023-07-18 10:31:24.042885 - State = 17
+INFO:root:2023-07-18 10:31:24.042924 - Calculating p_min in state 17
+INFO:root:2023-07-18 10:31:24.042976 - Calculating p_plus in state 17
+INFO:root:2023-07-18 10:31:24.043021 - State = 18
+INFO:root:2023-07-18 10:31:24.043058 - Calculating p_min in state 18
+INFO:root:2023-07-18 10:31:24.043109 - Calculating w[18][0] in state 18
+INFO:root:2023-07-18 10:31:24.043152 - Done
+INFO:root:2023-07-18 10:31:24.043190 - Calculating p_plus in state 18
+INFO:root:2023-07-18 10:31:24.043307 - State = 19
+INFO:root:2023-07-18 10:31:24.043346 - Calculating p_min in state 19
+INFO:root:2023-07-18 10:31:24.043398 - Calculating p_plus in state 19
+INFO:root:2023-07-18 10:31:24.043442 - State = 20
+INFO:root:2023-07-18 10:31:24.043479 - Calculating p_min in state 20
+INFO:root:2023-07-18 10:31:24.043531 - Calculating w[20][0] in state 20
+INFO:root:2023-07-18 10:31:24.043574 - Done
+INFO:root:2023-07-18 10:31:24.043612 - Calculating p_plus in state 20
+INFO:root:2023-07-18 10:31:24.043727 - State = 21
+INFO:root:2023-07-18 10:31:24.043766 - Calculating p_min in state 21
+INFO:root:2023-07-18 10:31:24.043818 - Calculating p_plus in state 21
+INFO:root:2023-07-18 10:31:24.043863 - State = 22
+INFO:root:2023-07-18 10:31:24.043901 - Calculating p_min in state 22
+INFO:root:2023-07-18 10:31:24.043952 - Calculating w[22][0] in state 22
+INFO:root:2023-07-18 10:31:24.043996 - Done
+INFO:root:2023-07-18 10:31:24.044034 - Calculating p_plus in state 22
+INFO:root:2023-07-18 10:31:24.044146 - State = 23
+INFO:root:2023-07-18 10:31:24.044185 - Calculating p_min in state 23
+INFO:root:2023-07-18 10:31:24.044237 - Calculating w[23][0] in state 23
+INFO:root:2023-07-18 10:31:24.044279 - Done
+INFO:root:2023-07-18 10:31:24.044317 - Calculating p_plus in state 23
+INFO:root:2023-07-18 10:31:24.044466 - Calculating distributions in state 1 with x = [2 1 0 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1]
+INFO:root:2023-07-18 10:31:24.044634 - State = 1
+INFO:root:2023-07-18 10:31:24.044674 - Calculating p_min in state 1
+INFO:root:2023-07-18 10:31:24.044729 - Calculating w[1][0] in state 1
+INFO:root:2023-07-18 10:31:24.044773 - Done
+INFO:root:2023-07-18 10:31:24.044812 - Calculating p_plus in state 1
+INFO:root:2023-07-18 10:31:24.044942 - State = 2
+INFO:root:2023-07-18 10:31:24.044981 - Calculating p_min in state 2
+INFO:root:2023-07-18 10:31:24.045034 - Calculating p_plus in state 2
+INFO:root:2023-07-18 10:31:24.045078 - State = 3
+INFO:root:2023-07-18 10:31:24.045116 - Calculating p_min in state 3
+INFO:root:2023-07-18 10:31:24.045166 - Calculating p_plus in state 3
+INFO:root:2023-07-18 10:31:24.045210 - State = 4
+INFO:root:2023-07-18 10:31:24.045247 - Calculating p_min in state 4
+INFO:root:2023-07-18 10:31:24.045297 - Calculating w[4][0] in state 4
+INFO:root:2023-07-18 10:31:24.045339 - Done
+INFO:root:2023-07-18 10:31:24.045377 - Calculating p_plus in state 4
+INFO:root:2023-07-18 10:31:24.045503 - State = 5
+INFO:root:2023-07-18 10:31:24.045542 - Calculating p_min in state 5
+INFO:root:2023-07-18 10:31:24.045594 - Calculating p_plus in state 5
+INFO:root:2023-07-18 10:31:24.045654 - State = 6
+INFO:root:2023-07-18 10:31:24.045693 - Calculating p_min in state 6
+INFO:root:2023-07-18 10:31:24.045745 - Calculating w[6][0] in state 6
+INFO:root:2023-07-18 10:31:24.045788 - Done
+INFO:root:2023-07-18 10:31:24.045826 - Calculating p_plus in state 6
+INFO:root:2023-07-18 10:31:24.045953 - State = 7
+INFO:root:2023-07-18 10:31:24.045992 - Calculating p_min in state 7
+INFO:root:2023-07-18 10:31:24.046044 - Calculating p_plus in state 7
+INFO:root:2023-07-18 10:31:24.046089 - State = 8
+INFO:root:2023-07-18 10:31:24.046127 - Calculating p_min in state 8
+INFO:root:2023-07-18 10:31:24.046177 - Calculating w[8][0] in state 8
+INFO:root:2023-07-18 10:31:24.046219 - Done
+INFO:root:2023-07-18 10:31:24.046258 - Calculating p_plus in state 8
+INFO:root:2023-07-18 10:31:24.046396 - State = 9
+INFO:root:2023-07-18 10:31:24.046434 - Calculating p_min in state 9
+INFO:root:2023-07-18 10:31:24.046484 - Calculating p_plus in state 9
+INFO:root:2023-07-18 10:31:24.046526 - State = 10
+INFO:root:2023-07-18 10:31:24.046563 - Calculating p_min in state 10
+INFO:root:2023-07-18 10:31:24.046612 - Calculating w[10][0] in state 10
+INFO:root:2023-07-18 10:31:24.046653 - Done
+INFO:root:2023-07-18 10:31:24.046690 - Calculating p_plus in state 10
+INFO:root:2023-07-18 10:31:24.046810 - State = 11
+INFO:root:2023-07-18 10:31:24.046848 - Calculating p_min in state 11
+INFO:root:2023-07-18 10:31:24.046898 - Calculating p_plus in state 11
+INFO:root:2023-07-18 10:31:24.046941 - State = 12
+INFO:root:2023-07-18 10:31:24.046978 - Calculating p_min in state 12
+INFO:root:2023-07-18 10:31:24.047026 - Calculating w[12][0] in state 12
+INFO:root:2023-07-18 10:31:24.047067 - Done
+INFO:root:2023-07-18 10:31:24.047104 - Calculating p_plus in state 12
+INFO:root:2023-07-18 10:31:24.047222 - State = 13
+INFO:root:2023-07-18 10:31:24.047259 - Calculating p_min in state 13
+INFO:root:2023-07-18 10:31:24.047309 - Calculating p_plus in state 13
+INFO:root:2023-07-18 10:31:24.047352 - State = 14
+INFO:root:2023-07-18 10:31:24.047402 - Calculating p_min in state 14
+INFO:root:2023-07-18 10:31:24.047449 - Calculating w[14][0] in state 14
+INFO:root:2023-07-18 10:31:24.047490 - Done
+INFO:root:2023-07-18 10:31:24.047525 - Calculating p_plus in state 14
+INFO:root:2023-07-18 10:31:24.047639 - State = 15
+INFO:root:2023-07-18 10:31:24.047675 - Calculating p_min in state 15
+INFO:root:2023-07-18 10:31:24.047724 - Calculating p_plus in state 15
+INFO:root:2023-07-18 10:31:24.047766 - State = 16
+INFO:root:2023-07-18 10:31:24.047801 - Calculating p_min in state 16
+INFO:root:2023-07-18 10:31:24.047848 - Calculating w[16][0] in state 16
+INFO:root:2023-07-18 10:31:24.047887 - Done
+INFO:root:2023-07-18 10:31:24.047924 - Calculating p_plus in state 16
+INFO:root:2023-07-18 10:31:24.048035 - State = 17
+INFO:root:2023-07-18 10:31:24.048071 - Calculating p_min in state 17
+INFO:root:2023-07-18 10:31:24.048120 - Calculating p_plus in state 17
+INFO:root:2023-07-18 10:31:24.048162 - State = 18
+INFO:root:2023-07-18 10:31:24.048197 - Calculating p_min in state 18
+INFO:root:2023-07-18 10:31:24.048245 - Calculating w[18][0] in state 18
+INFO:root:2023-07-18 10:31:24.048285 - Done
+INFO:root:2023-07-18 10:31:24.048320 - Calculating p_plus in state 18
+INFO:root:2023-07-18 10:31:24.048441 - State = 19
+INFO:root:2023-07-18 10:31:24.048475 - Calculating p_min in state 19
+INFO:root:2023-07-18 10:31:24.048522 - Calculating p_plus in state 19
+INFO:root:2023-07-18 10:31:24.048563 - State = 20
+INFO:root:2023-07-18 10:31:24.048597 - Calculating p_min in state 20
+INFO:root:2023-07-18 10:31:24.048643 - Calculating w[20][0] in state 20
+INFO:root:2023-07-18 10:31:24.048682 - Done
+INFO:root:2023-07-18 10:31:24.048716 - Calculating p_plus in state 20
+INFO:root:2023-07-18 10:31:24.048820 - State = 21
+INFO:root:2023-07-18 10:31:24.048855 - Calculating p_min in state 21
+INFO:root:2023-07-18 10:31:24.048902 - Calculating p_plus in state 21
+INFO:root:2023-07-18 10:31:24.048943 - State = 22
+INFO:root:2023-07-18 10:31:24.048977 - Calculating p_min in state 22
+INFO:root:2023-07-18 10:31:24.049034 - Calculating w[22][0] in state 22
+INFO:root:2023-07-18 10:31:24.049074 - Done
+INFO:root:2023-07-18 10:31:24.049109 - Calculating p_plus in state 22
+INFO:root:2023-07-18 10:31:24.049211 - State = 23
+INFO:root:2023-07-18 10:31:24.049247 - Calculating p_min in state 23
+INFO:root:2023-07-18 10:31:24.049294 - Calculating w[23][0] in state 23
+INFO:root:2023-07-18 10:31:24.049347 - Done
+INFO:root:2023-07-18 10:31:24.049380 - Calculating p_plus in state 23
