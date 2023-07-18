@@ -102,10 +102,21 @@ def zero_arrays(num_zeros, l):
         result.append([zeros] * n)
     return result
 
-zero_arrays(np.array([1, 0, 3]), 4)
+print(f'Zero arrays are: {zero_arrays(np.array([1, 0, 3]), 4)}')
 
 def calc_distr_limit(l):
     return int(max(l+4*l**0.5, 100))
+  
+def weak_compositions(n, k):
+    if k == 1:
+        return [[n]]
+    compositions = []
+    for i in range(n + 1):
+        for composition in weak_compositions(n - i, k - 1):
+            compositions.append([i] + composition)
+    return compositions
+  
+print(f'Weak compositions are: {weak_compositions(2, 4)}')
 
 
 class TestConvolve(unittest.TestCase):
@@ -129,10 +140,6 @@ class TestConvolve(unittest.TestCase):
         
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)
-```
-
-```{python}
-zero_arrays(np.array([1, 0, 3]), 4)
 ```
 
 A schedule with $T$ intervals can have $T$ states. A state of a schedule at interval $t$ is defined by:
@@ -171,14 +178,8 @@ class Schedule:
                 'p_min': np.zeros((len(self.parameters['x']), len(self.parameters['s'])), dtype=np.float64),
                 'p_plus': np.zeros((len(self.parameters['x']), len(self.parameters['s'])), dtype=np.float64)
             })
-            # Set the initial state to 0.
-            self.state = 0
             # Set the first element of p_min in the initial state to 1.
-            self.system['p_min'][self.state][0] = 1
-            # Set the first row of v to s.
-            # self.system['v'][self.state] = convolve_n(self.parameters['s'].copy(), self.parameters['x'][self.state])[:(len(self.parameters['s']))]
-            # Set p_plus to v.
-            # self.system['p_plus'] = self.system['v'].copy()
+            self.system['p_min'][0][0] = 1
             # Initialize array of arrays for saving waiting times distributions per patient
             self.system['w'] = zero_arrays(self.parameters['x'].copy(), len(self.parameters['s']))
             if(self.parameters['x'][0] > 0): # Only calculate waiting times if there are patients scheduled in the state
@@ -188,14 +189,14 @@ class Schedule:
             self.system['p_plus'][0] = self.system['p_min'][0].copy() if self.parameters['x'][0] == 0 else np.convolve(self.system['w'][0][-1], self.parameters['s'])[:(len(self.parameters['s']))]
             # Initialize array for saving total expected waiting times per state
             self.system['ew'] = np.zeros(len(self.parameters['x']), dtype=np.float64)
+            # Set the initial state to 1.
+            self.state = 1
         
     def calculate_system_states(self, until = 1):
-
-            while self.state < until:
-                """Set state to 1, because state 0 has already been calculated in the constructor.
+            """Set state to the interval from which to start (re-)calculating waiting time distributions.
                 """
-                
-                self.state += 1
+            
+            while self.state < until:
                 
                 """The probability that the amount of work left in the system equals zero just before state t starts is the probablity that the total amount work in state t-1 was less than or equal to the interval length d."""
                 
@@ -224,8 +225,26 @@ class Schedule:
                 to the distribution of work at the beginning of t. 
                 The resulting vector is truncated to the length of the service time distribution."""
                 self.system['p_plus'][self.state] = self.system['p_min'][self.state].copy() if self.parameters['x'][self.state] == 0 else np.convolve(self.system['w'][self.state][-1], self.parameters['s'])[:(len(self.parameters['s']))]
+                """Jump to next state"""
+                self.state += 1
     
-    def calculate_wait_times(self, until = 1):
+    def impute_compositions(self, i=1, k=1):
+      self.state = i
+      # Select the subset from the schedule for the compositions. Truncate if subset falls outside of schedule's end.
+      j = min(len(self.parameters['x']), i+k)
+      k = j - i
+      c = self.parameters['x'][i:j]
+      n = c.sum()
+      # Generate compositions
+      compositions = weak_compositions(n, k)
+      for comp in compositions:
+        self.parameters['x'][i:j] = comp.copy()
+        self.state = i
+        self.calculate_system_states()
+        print(self.parameters['x'])
+        
+    
+    def calculate_wait_times(self):
     # Initialize time counter
       t = 0
       # Calculate the expected waiting time for each time step
@@ -306,9 +325,10 @@ To improve the readability of the code, the `Schedule` class could be refactored
 def run_schedule(x, d, s, u=1, print_system=True):
   schedule = Schedule(x=x, d=d, s=s)
   schedule.calculate_system_states(until=u)
-  schedule.calculate_wait_times(until=u)
+  schedule.calculate_wait_times()
   if(print_system): print(schedule)
   print(f"Expected wt per state: {schedule.system['ew']}")
+  # schedule.impute_compositions(i=1, k=3)
   return(schedule)
 ```
 
@@ -320,10 +340,9 @@ d = 3
 s=np.array(
     [0.1, 0.2, 0.3, 0.2, 0.15, 0.05, 0, 0, 0, 0, 0, 0, 0, 0], dtype=np.float64)
 u = 4
-
 sch = run_schedule(x, d, s, u, False)
-
 sch.visualize_system('p_min')
+
 ```
 
 ```{python}
@@ -344,7 +363,7 @@ sch.visualize_state(1, 'p_min')
 ```
 
 ```{python}
-"""Test case with more than 1 clients in the system at the same time"""
+"""Test case with more than 1 clients in the system in the same interval"""
 x = np.array([1, 0, 2, 0, 1, 1, 1], dtype=np.int64)
 d = 5
 l = 6
