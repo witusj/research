@@ -1,0 +1,50 @@
+---
+title: "Convexity"
+jupyter: envpy39
+---
+
+```{python}
+import numpy as np
+
+# Define the function
+def f(x):
+    return x**2
+
+# Define x1, x2 and t
+x1 = 1
+x2 = 3
+t = 0.5  # choose any value in [0, 1]
+
+# Compute the left-hand and right-hand side of the convexity inequality
+lhs = f(t*x1 + (1-t)*x2)
+rhs = t*f(x1) + (1-t)*f(x2)
+
+# Print the results
+print(f"Left-hand side: {lhs}")
+print(f"Right-hand side: {rhs}")
+
+# Check if the inequality holds
+if lhs <= rhs:
+    print("The function is convex.")
+else:
+    print("The function is not convex.")
+
+a = (f(x2) - f(x1)) / (x2 - x1)
+
+b = f(x1) - a*x1
+
+print(f'y = {a}x + {b}')
+```
+
+```{python}
+from sympy import *
+
+def g(x):
+  return 4*x - 3
+
+x = symbols('x')
+f = f(x)
+g = g(x)
+
+plot(f, g, (x, -1, 4))
+```
