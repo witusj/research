@@ -12,6 +12,7 @@ website:
       - sim-based-opt.qmd
       - search-function.qmd
       - schedule-probabilities.qmd
+      - convexity.qmd
       
 format:
   html:
