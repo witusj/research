@@ -260,7 +260,7 @@ class Schedule:
     
     def impute_compositions(self, s=1, k=2):
       """
-      Impute the compositions of patients in a given time interval and establish the schedule with the lowest total waiting time
+      Impute the compositions of patients in a given time interval and establish the schedule with the lowest total waiting time.
       
       Args:
       s (int): An integer representing the starting state.
@@ -277,6 +277,7 @@ class Schedule:
       # Generate compositions
       compositions = weak_compositions(n, k)
       logging.info(f'{datetime.datetime.now()} - Computing {len(compositions)} compositions')
+      # For all compositions calculate the waiting times
       for comp in compositions:
         # Insert composition in x
         self.parameters['x'][s:t] = comp.copy()
@@ -288,6 +289,7 @@ class Schedule:
         self.calculate_system_states(until=len(self.parameters['x']))
         self.calculate_wait_times()
         test_wt = self.system["ew"].sum()
+        # If a composition with a lower waiting time is found, store the system
         if(test_wt < lowest_wt):
           lowest_wt = test_wt
           store_optim['x'] = self.parameters['x'].copy()
@@ -295,7 +297,8 @@ class Schedule:
           store_optim['system'] = newsystem
           store_optim['tot_wt'] = lowest_wt
           logging.info(f'{datetime.datetime.now()} - Found lower wt = {lowest_wt} with x = {store_optim["x"]} and system = {store_optim["system"]}')
-      logging.info(f'{datetime.datetime.now()} - Final result wt = {lowest_wt} with x = {store_optim["x"]} and system = {store_optim["system"]}')    
+      logging.info(f'{datetime.datetime.now()} - Final result wt = {lowest_wt} with x = {store_optim["x"]} and system = {store_optim["system"]}')
+      # Set the system to the stored optimal system
       self.parameters['x'] = store_optim['x'].copy()
       self.system['p_min'] = store_optim['system']['p_min']
       self.system['p_plus'] = store_optim['system']['p_plus']
@@ -391,13 +394,16 @@ Here's a breakdown of what happens in the class:
 
 2.  **`calculate_system_states`:** This function is used to calculate the system states. This involves calculation of the amount of work left in the system just before the start of each state (**`p_min`**) and just before the end of each state (**`p_plus`**), along with the waiting time distributions of patients (**`w`**) using convolution. The **`until`** parameter can be used to control until which state the system states should be calculated.
 
-3.  **`impute_compositions`:** This function changes the scheduling of patients (represented by the array **`x`**) for a certain number of intervals (**`k`** intervals starting from interval **`s`**). All possible ways of distributing a certain number of tasks (**`n`**) over the intervals are generated (**`compositions`**), and for each possible distribution, the system states are recalculated.
+3.  **`impute_compositions`:** This function changes the scheduling of patients (represented by the array **`x`**) for a certain number of intervals (**`k`** intervals starting from interval **`s`**). All possible ways of distributing a certain number of patients (**`n`**) over the intervals are generated (**`compositions`**), for each possible distribution the system states are recalculated and the schedule with the lowest total waiting time is established.
+*NB: The system only requires recalculation starting from interval 's', because the schedule has not changed before that that interval.*
 
-4.  **`calculate_wait_times`:** This function calculates the expected waiting times for each interval by adding up the expected waiting times of all tasks in the interval.
+4.  **`search_function(k)`:** This function invokes `impute_compositions()` for different start states to find the optimal schedule with the lowest waiting time.
 
-5.  **`visualize_state` and `visualize_system`:** These functions are used to visualize a certain distribution (**`p_min`**, **`p_plus`**, or **`w`**) for a certain state or for all states in a heat map. The visualization is done using Plotly.
+5.  **`calculate_wait_times`:** This function calculates the expected waiting times for each interval by adding up the expected waiting times of all tasks in the interval.
 
-6.  **`__str__`:** This function is used to get a string representation of the schedule instance, which shows the values of the **`p_min`**, **`w`**, **`p_plus`**, and **`ew`** arrays.
+6.  **`visualize_state` and `visualize_system`:** These functions are used to visualize a certain distribution (**`p_min`**, **`p_plus`**, or **`w`**) for a certain state or for all states in a heat map. The visualization is done using Plotly.
+
+7.  **`__str__`:** This function is used to get a string representation of the schedule instance, which shows the values of the **`p_min`**, **`w`**, **`p_plus`**, and **`ew`** arrays.
 
 ```{python}
 def run_schedule(x, d, s, u=1, print_system=True):
