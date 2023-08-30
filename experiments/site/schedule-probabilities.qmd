@@ -272,8 +272,15 @@ class Schedule:
       k = t - s
       c = self.parameters['x'][s:t]
       n = c.sum()
-      lowest_wt = self.system["ew"].sum()
-      store_optim = dict({ 'x' : self.parameters['x'].copy(), 'system' : copy.deepcopy(self.system), 'tot_wt' : lowest_wt})
+      # Calculate initial loss
+      # lowest_wt = self.system["ew"].sum()
+      omega = 0.3
+      test_wt = self.system["ew"].sum()
+      self.calculate_tardiness()
+      indices = np.arange(self.system['p_min'][-1].size) 
+      exp_tard = (indices * self.system['p_min'][-1]).sum()
+      lowest_loss = omega * test_wt / self.parameters['x'].sum() + (1 - omega) * exp_tard
+      store_optim = dict({ 'x' : self.parameters['x'].copy(), 'system' : copy.deepcopy(self.system), 'tot_wt' : test_wt})
       # Generate compositions
       compositions = weak_compositions(n, k)
       logging.info(f'{datetime.datetime.now()} - Computing {len(compositions)} compositions')
@@ -306,18 +313,21 @@ class Schedule:
             # Set the initial state to 1.
             self.state = 1
         self.calculate_system_states(until=len(self.parameters['x']))
-        self.calculate_tardiness()
         self.calculate_wait_times()
         test_wt = self.system["ew"].sum()
+        self.calculate_tardiness()
+        indices = np.arange(self.system['p_min'][-1].size) 
+        exp_tard = (indices * self.system['p_min'][-1]).sum()
+        test_loss = omega * test_wt / self.parameters['x'].sum() + (1 - omega) * exp_tard
         # If a composition with a lower waiting time is found, store the system
-        if(test_wt < lowest_wt):
-          lowest_wt = test_wt
+        if(test_loss < lowest_loss):
+          lowest_loss = test_loss
           store_optim['x'] = self.parameters['x'].copy()
           newsystem = copy.deepcopy(self.system)
           store_optim['system'] = newsystem
-          store_optim['tot_wt'] = lowest_wt
-          logging.info(f'{datetime.datetime.now()} - Found lower wt = {lowest_wt} with x = {store_optim["x"]} and system = {store_optim["system"]}')
-      logging.info(f'{datetime.datetime.now()} - Final result wt = {lowest_wt} with x = {store_optim["x"]} and system = {store_optim["system"]}')
+          store_optim['tot_wt'] = test_wt
+          logging.info(f'{datetime.datetime.now()} - Found lower loss = {lowest_loss} with x = {store_optim["x"]} and system = {store_optim["system"]}')
+      logging.info(f'{datetime.datetime.now()} - Final result lowest loss = {lowest_loss} with x = {store_optim["x"]} and system = {store_optim["system"]}')
       # Set the system to the stored optimal system
       self.parameters['x'] = store_optim['x'].copy()
       self.system['p_min'] = store_optim['system']['p_min']
