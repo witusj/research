@@ -1,5 +1,5 @@
 ---
-title: "2023-06-29"
+title: "2023-08-31"
 author: "Witek ten Hove"
 format:
   html:
@@ -11,6 +11,6 @@ editor:
     wrap: 72
 ---
 
-## ![](images/IMG_20230629.jpeg)OBP:
+## ![](images/20230831_105330.jpg)OBP:
 
-Notes Joost Berkhout
+Uitwerking no-shows en emergency workers
