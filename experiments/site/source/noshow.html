@@ -200,43 +200,42 @@ div.csl-indent {
 <p><img src="images/20230831_105330.jpeg" class="img-fluid"></p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> service_time_with_no_shows(s, q):</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># """</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Function to adjust a distribution of service times for no-shows</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># </span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Args:</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">#     s (numpy.ndarray): An array with service times.</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">#     q (double): The fraction of no-shows.</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># </span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Returns:</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">#     numpy.ndarray: The adjusted array of service times.</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># """</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  s_adj <span class="op">=</span> s <span class="op">*</span> (<span class="dv">1</span><span class="op">-</span>q)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  s_adj[<span class="dv">0</span>] <span class="op">=</span> s_adj[<span class="dv">0</span>] <span class="op">+</span> q</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span>(s_adj)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_lists(short_list, long_list):</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extend the short lists to the length of the long list with zeros</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    short_list.extend([<span class="dv">0</span>] <span class="op">*</span> (<span class="bu">len</span>(long_list) <span class="op">-</span> <span class="bu">len</span>(short_list)))</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sum the elements of the two lists element-wise</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> [a <span class="op">+</span> b <span class="cf">for</span> a, b <span class="kw">in</span> <span class="bu">zip</span>(short_list, long_list)]</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_rolling_convolution(y, s, limit):</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  conv_list <span class="op">=</span> s</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  v <span class="op">=</span> [x <span class="op">*</span> y[<span class="dv">0</span>] <span class="cf">for</span> x <span class="kw">in</span> conv_list]</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="dv">0</span>, v, <span class="bu">len</span>(v))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> poisson</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> service_time_with_no_shows(s, q):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># """</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Function to adjust a distribution of service times for no-shows</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># </span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Args:</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">#     s (numpy.ndarray): An array with service times.</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">#     q (double): The fraction of no-shows.</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># </span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Returns:</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">#     numpy.ndarray: The adjusted array of service times.</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># """</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  s_adj <span class="op">=</span> s <span class="op">*</span> (<span class="dv">1</span><span class="op">-</span>q)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  s_adj[<span class="dv">0</span>] <span class="op">=</span> s_adj[<span class="dv">0</span>] <span class="op">+</span> q</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span>(s_adj)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_lists(short_list, long_list):</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extend the short lists to the length of the long list with zeros</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    short_list.extend([<span class="dv">0</span>] <span class="op">*</span> (<span class="bu">len</span>(long_list) <span class="op">-</span> <span class="bu">len</span>(short_list)))</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sum the elements of the two lists element-wise</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> [a <span class="op">+</span> b <span class="cf">for</span> a, b <span class="kw">in</span> <span class="bu">zip</span>(short_list, long_list)]</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_rolling_convolution(y, s, limit):</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  conv_list <span class="op">=</span> s</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  v <span class="op">=</span> [x <span class="op">*</span> y[<span class="dv">0</span>] <span class="cf">for</span> x <span class="kw">in</span> conv_list]</span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, limit):</span>
 <span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    conv_list <span class="op">=</span> np.convolve(conv_list, s)</span>
 <span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> add_lists(v, [x <span class="op">*</span> y[i] <span class="cf">for</span> x <span class="kw">in</span> conv_list])</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(i, v, <span class="bu">len</span>(v))</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f'conv_list = </span><span class="sc">{</span>conv_list<span class="sc">}</span><span class="ss"> with sum </span><span class="sc">{</span><span class="bu">sum</span>(conv_list)<span class="sc">}</span><span class="ss">, v = </span><span class="sc">{</span>v<span class="sc">}</span><span class="ss"> with sum </span><span class="sc">{</span><span class="bu">sum</span>(v)<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f'conv_list = </span><span class="sc">{</span>conv_list[:<span class="dv">10</span>]<span class="sc">}</span><span class="ss"> with sum </span><span class="sc">{</span><span class="bu">sum</span>(conv_list)<span class="sc">}</span><span class="ss">, v = </span><span class="sc">{</span>v[:<span class="dv">10</span>]<span class="sc">}</span><span class="ss"> with sum </span><span class="sc">{</span><span class="bu">sum</span>(v)<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="al">TEST</span><span class="co"> </span><span class="al">###</span></span>
@@ -250,17 +249,31 @@ div.csl-indent {
 </div>
 </div>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="al">TEST</span><span class="co"> </span><span class="al">###</span></span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="al">TEST</span><span class="co"> 1 </span><span class="al">###</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> [<span class="fl">0.5</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>]</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.7</span>]</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>limit <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>calculate_rolling_convolution(y, s, limit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>calculate_rolling_convolution(y, s, limit)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>service_times <span class="op">=</span> <span class="bu">range</span>(<span class="dv">0</span>, limit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>0 [0.05, 0.1, 0.35] 3
-1 [0.053000000000000005, 0.112, 0.40399999999999997, 0.08399999999999999, 0.14699999999999996] 5
-2 [0.053200000000000004, 0.11320000000000001, 0.41059999999999997, 0.10239999999999999, 0.19319999999999996, 0.0588, 0.06859999999999998] 7
-conv_list = [0.001 0.006 0.033 0.092 0.231 0.294 0.343] with sum 1.0, v = [0.053200000000000004, 0.11320000000000001, 0.41059999999999997, 0.10239999999999999, 0.19319999999999996, 0.0588, 0.06859999999999998] with sum 0.9999999999999999</code></pre>
+<pre><code>conv_list = [0.001 0.006 0.033 0.092 0.231 0.294 0.343] with sum 1.0, v = [0.053200000000000004, 0.11320000000000001, 0.41059999999999997, 0.10239999999999999, 0.19319999999999996, 0.0588, 0.06859999999999998] with sum 0.9999999999999999</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">### </span><span class="al">TEST</span><span class="co"> 2 </span><span class="al">###</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>len_y <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>len_se <span class="op">=</span> <span class="dv">300</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> [poisson.pmf(i, <span class="dv">2</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, len_y)]</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>se <span class="op">=</span> [poisson.pmf(i, <span class="dv">10</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, len_se)]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>calculate_rolling_convolution(y, se, len_y)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>service_times <span class="op">=</span> <span class="bu">range</span>(<span class="dv">0</span>, limit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>conv_list = [0. 0. 0. 0. 0. 0. 0. 0. 0. 0.] with sum 1.000000000000446, v = [6.144770272275882e-06, 6.145328216553419e-05, 0.00030732220778848765, 0.0010247793643651344, 0.002563808626256866, 0.0051350592539100804, 0.00858324446168137, 0.01233269472644276, 0.015593252353944275, 0.0177203279998164] with sum 1.0000000000000064</code></pre>
 </div>
 </div>
 

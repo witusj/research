@@ -41,11 +41,9 @@ def add_lists(short_list, long_list):
 def calculate_rolling_convolution(y, s, limit):
   conv_list = s
   v = [x * y[0] for x in conv_list]
-  print(0, v, len(v))
   for i in range(1, limit):
     conv_list = np.convolve(conv_list, s)
     v = add_lists(v, [x * y[i] for x in conv_list])
-    print(i, v, len(v))
   print(f'conv_list = {conv_list[:10]} with sum {sum(conv_list)}, v = {v[:10]} with sum {sum(v)}')
 ```
 
@@ -74,12 +72,10 @@ service_times = range(0, limit)
 ### TEST 2 ###
 
 len_y = 200
-len_se = 300
+len_se = 800
 y = [poisson.pmf(i, 2) for i in range(0, len_y)]
-se = [poisson.pmf(i, 10) for i in range(0, len_se)]
+se = [poisson.pmf(j, 15) for j in range(0, len_se)]
+print(sum(y), sum(se))
 
 calculate_rolling_convolution(y, se, len_y)
-
-service_times = range(0, limit)
-
 ```
