@@ -1,0 +1,85 @@
+---
+title: "No-shows and emergency patients"
+bibliography: "bibliography.bib"
+---
+
+This code replicates methods from @kaandorp_optimal_2007.
+
+![](images/20230831_105330.jpeg)
+
+```{python}
+import numpy as np
+from scipy.stats import poisson
+
+def service_time_with_no_shows(s, q):
+  # """
+  # Function to adjust a distribution of service times for no-shows
+  # 
+  # Args:
+  #     s (numpy.ndarray): An array with service times.
+  #     q (double): The fraction of no-shows.
+  # 
+  # Returns:
+  #     numpy.ndarray: The adjusted array of service times.
+  # """
+  
+  s_adj = s * (1-q)
+  s_adj[0] = s_adj[0] + q
+  
+  return(s_adj)
+
+def add_lists(short_list, long_list):
+    
+    # Extend the short lists to the length of the long list with zeros
+    short_list.extend([0] * (len(long_list) - len(short_list)))
+    
+    # Sum the elements of the two lists element-wise
+    result = [a + b for a, b in zip(short_list, long_list)]
+    
+    return result
+
+def calculate_rolling_convolution(y, s, limit):
+  conv_list = s
+  v = [x * y[0] for x in conv_list]
+  print(0, v, len(v))
+  for i in range(1, limit):
+    conv_list = np.convolve(conv_list, s)
+    v = add_lists(v, [x * y[i] for x in conv_list])
+    print(i, v, len(v))
+  print(f'conv_list = {conv_list[:10]} with sum {sum(conv_list)}, v = {v[:10]} with sum {sum(v)}')
+```
+
+```{python}
+### TEST ###
+
+s = np.array([0.5, 0.1, 0.4, 0.2])
+q = 0.1
+s_adj = service_time_with_no_shows(s, q)
+print(s_adj, s_adj.sum())
+
+```
+
+```{python}
+### TEST 1 ###
+
+y = [0.5, 0.3, 0.2]
+s = [0.1, 0.2, 0.7]
+limit = 3
+calculate_rolling_convolution(y, s, limit)
+
+service_times = range(0, limit)
+```
+
+```{python}
+### TEST 2 ###
+
+len_y = 200
+len_se = 300
+y = [poisson.pmf(i, 2) for i in range(0, len_y)]
+se = [poisson.pmf(i, 10) for i in range(0, len_se)]
+
+calculate_rolling_convolution(y, se, len_y)
+
+service_times = range(0, limit)
+
+```

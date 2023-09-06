@@ -13,6 +13,7 @@ website:
       - search-function.qmd
       - schedule-probabilities.qmd
       - convexity.qmd
+      - noshow.qmd
       
 format:
   html:
