@@ -258,7 +258,7 @@ class Schedule:
                 """Jump to next state"""
                 self.state += 1
     
-    def impute_compositions(self, s=0, k=2):
+    def impute_compositions(self, s=0, k=2, omega=0.5):
       """
       Impute the compositions of patients in a given time interval and establish the schedule with the lowest total waiting time.
       
@@ -274,7 +274,7 @@ class Schedule:
       n = c.sum()
       # Calculate initial loss
       # lowest_wt = self.system["ew"].sum()
-      omega = 0.3
+      omega = omega
       test_wt = self.system["ew"].sum()
       self.calculate_tardiness()
       indices = np.arange(self.system['p_min'][-1].size) 
@@ -344,12 +344,12 @@ class Schedule:
       logging.info(f'{datetime.datetime.now()} - calculating tardiness distribution:  {self.system["p_min"][-1]}')
       
     
-    def search_function(self, k=1):
+    def search_function(self, k=1, omega=0.5):
       """
       Slide over the schedule intervals and run inpute_compositions()
       """
       for i in range(0, len(self.parameters['x'] - k)):
-        self.impute_compositions(s=i, k=k)
+        self.impute_compositions(s=i, k=k, omega=omega)
       
       
     def calculate_wait_times(self):
@@ -455,7 +455,7 @@ def run_schedule(x, d, s, u=1, print_system=True):
   schedule.calculate_system_states(until=u)
   schedule.calculate_wait_times()
   if(print_system): print(schedule)
-  schedule.search_function(k=3)
+  schedule.search_function(k=3, omega=0.3)
   return(schedule)
 ```
 
