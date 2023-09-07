@@ -1,0 +1,22 @@
+---
+title: "2023-09-06"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## OBP:
+
+Conferenties:
+
+-   EURO Calendar: <https://www.euro-online.org/web/pages/460/calendar>
+    -   Euro24: <https://euro2024cph.dk/>
+-   Informs Calendar:
+    <https://www.informs.org/Meetings-Conferences/INFORMS-Conference-Calendar>
+    -   Informs Optimization: <https://ios2024.rice.edu/>
