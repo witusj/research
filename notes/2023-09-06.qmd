@@ -20,3 +20,11 @@ Conferenties:
 -   Informs Calendar:
     <https://www.informs.org/Meetings-Conferences/INFORMS-Conference-Calendar>
     -   Informs Optimization: <https://ios2024.rice.edu/>
+-   Studiegroep Wiskunde en Industrie: <https://www.swi-wiskunde.nl/>
+
+![](https://onlinelibrary.wiley.com/cms/asset/283f537f-77b5-41f9-b7ee-1722797b385a/deci12517-fig-0001-m.jpg){.my-5}
+
+From @https://doi.org/10.1111/deci.12517
+
+In this scheduling model $t_i$ is expressed as an arrival time:
+$$t_i = \Sigma_{j=1}^{i-1}x_j$$

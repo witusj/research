@@ -1,11 +1,19 @@
 ---
 title: "No-shows and emergency patients"
 bibliography: "bibliography.bib"
+format:
+  html:
+    page-layout: full
 ---
 
 This code replicates methods from @kaandorp_optimal_2007.
 
 ![](images/20230831_105330.jpeg)
+
+Let the number of
+arriving emergency patients be $Y$. Then the amount of work arriving is the Y-fold convolution of the vector representing the service time for emergency patients, $s_e^{(Y)}$. In this vector the $j$th element $s_{ej}$ denotes the probability that the service time of an emergency patient is $j$ minutes. Then the distribution of the amount of emergency work arriving at the start of any interval is given by:
+
+$$v_0(i) = \sum\limits_{y=1}^{\infty}s_{ei}^{(Y)}P(Y=y) = \Big(\sum\limits_{y=1}^{\infty}P(Y=y)s_{e}^{(y)}\Big)_i$$
 
 ```{python}
 import numpy as np
@@ -31,42 +39,55 @@ def service_time_with_no_shows(s, q):
   return(s_adj)
 
 def add_lists(short_list, long_list):
-    
-    # Extend the short lists to the length of the long list with zeros
-    short_list.extend([0] * (len(long_list) - len(short_list)))
-    
-    # Sum the elements of the two lists element-wise
-    result = [a + b for a, b in zip(short_list, long_list)]
-    
-    return result
+  # """
+  # This function takes in two lists and returns a new list where each element 
+  # is the sum of the elements from the input lists at the corresponding position.
+  # If the lists are of different lengths, the shorter list is extended with zeros 
+  # to match the length of the longer list.
+  # 
+  # Parameters:
+  # - short_list (list): The shorter list of numbers.
+  # - long_list (list): The longer list of numbers.
+  # 
+  # Returns:
+  # - list: A list containing the element-wise sum of the two input lists.
+  # """
+  
+  # Extend the short lists to the length of the long list with zeros
+  short_list.extend([0] * (len(long_list) - len(short_list)))
+  
+  # Sum the elements of the two lists element-wise
+  result = [a + b for a, b in zip(short_list, long_list)]
+  
+  return result
 
-def calculate_rolling_convolution(y, s, limit):
+def calculate_rolling_convolution(p_y, s, limit):
   conv_list = s
-  v = [x * y[0] for x in conv_list]
+  v = [x * p_y[0] for x in conv_list]
   for i in range(1, limit):
     conv_list = np.convolve(conv_list, s)
-    v = add_lists(v, [x * y[i] for x in conv_list])
-  print(f'conv_list = {conv_list[:10]} with sum {sum(conv_list)}, v = {v[:10]} with sum {sum(v)}')
+    v = add_lists(v, [x * p_y[i] for x in conv_list])
+  print(f'conv_list = {conv_list[:10]} (first ten elements) with sum {sum(conv_list)}, v = {v[:10]} with sum {sum(v)}')
   return(v)
 ```
 
 ```{python}
 ### TEST ###
 
-s = np.array([0.5, 0.1, 0.4, 0.2])
+s = np.array([0.0, 0.5, 0.2, 0.3])
 q = 0.1
 s_adj = service_time_with_no_shows(s, q)
-print(s_adj, s_adj.sum())
+print(f'adjusted service times={s_adj}, with sum  {s_adj.sum()}')
 
 ```
 
 ```{python}
 ### TEST 2 ###
 
-y = [0.5, 0.3, 0.2]
+p_y = [0.5, 0.3, 0.2]
 s = [0.1, 0.2, 0.7]
 limit = 3
-v = calculate_rolling_convolution(y, s, limit)
+v = calculate_rolling_convolution(p_y, s, limit)
 ```
 
 ```{python}
@@ -88,23 +109,22 @@ fig = go.Figure(data=data, layout=layout)
 pyo.iplot(fig)
 ```
 
-
 ```{python}
 ### TEST 3 ###
 
 len_y = 300
 len_se = 300
-y = [poisson.pmf(i, 1) for i in range(0, len_y)]
+p_y = [poisson.pmf(i, 2) for i in range(0, len_y)]
 se = [poisson.pmf(j, 10) for j in range(0, len_se)]
-print(sum(y), sum(se))
+print(sum(p_y), sum(se))
 
-v = calculate_rolling_convolution(y, se, len_y)
+v = calculate_rolling_convolution(p_y, se, len_y)
 ```
 
 ```{python}
 trace = go.Scatter(
-            x = list(range(len(v[:100]))),
-            y = v[:100],
+            x = list(range(len(v))),
+            y = v[:len_y],
             mode = 'lines'
         )
         
