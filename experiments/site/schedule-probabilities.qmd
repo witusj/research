@@ -273,8 +273,6 @@ class Schedule:
       c = self.parameters['x'][s:t]
       n = c.sum()
       # Calculate initial loss
-      # lowest_wt = self.system["ew"].sum()
-      omega = omega
       test_wt = self.system["ew"].sum()
       self.calculate_tardiness()
       indices = np.arange(self.system['p_min'][-1].size) 
