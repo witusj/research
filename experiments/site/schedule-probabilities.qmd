@@ -177,7 +177,7 @@ Suggestie Joost:
 
 -   Bewijzen Koole en Kuiper vergelijken
 
--   convexity for functions defined on discrete spaces (2002)
+-   [convexity for functions defined on discrete spaces (2002)](https://www.sciencedirect.com/science/article/pii/S0166218X01001913#:~:text=A%20discretely%20convex%20function%20of,then%20it%20is%20discretely%20convex.){target="_blank"}
 
 ```{python}
 
@@ -434,8 +434,7 @@ Here's a breakdown of what happens in the class:
 
 2.  **`calculate_system_states`:** This function is used to calculate the system states. This involves calculation of the amount of work left in the system just before the start of each state (**`p_min`**) and just before the end of each state (**`p_plus`**), along with the waiting time distributions of patients (**`w`**) using convolution. The **`until`** parameter can be used to control until which state the system states should be calculated.
 
-3.  **`impute_compositions`:** This function changes the scheduling of patients (represented by the array **`x`**) for a certain number of intervals (**`k`** intervals starting from interval **`s`**). All possible ways of distributing a certain number of patients (**`n`**) over the intervals are generated (**`compositions`**), for each possible distribution the system states are recalculated and the schedule with the lowest total waiting time is established.
-*NB: The system only requires recalculation starting from interval 's', because the schedule has not changed before that that interval.*
+3.  **`impute_compositions`:** This function changes the scheduling of patients (represented by the array **`x`**) for a certain number of intervals (**`k`** intervals starting from interval **`s`**). All possible ways of distributing a certain number of patients (**`n`**) over the intervals are generated (**`compositions`**), for each possible distribution the system states are recalculated and the schedule with the lowest total waiting time is established. *NB: The system only requires recalculation starting from interval 's', because the schedule has not changed before that that interval.*
 
 4.  **`search_function(k)`:** This function invokes `impute_compositions()` for different start states to find the optimal schedule with the lowest waiting time.
 
@@ -578,4 +577,3 @@ omega = 0.3
 sch = run_schedule(x, d, s, u, omega, False)
 sch.visualize_system('p_plus')
 ```
-
