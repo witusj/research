@@ -446,15 +446,15 @@ Here's a breakdown of what happens in the class:
 7.  **`__str__`:** This function is used to get a string representation of the schedule instance, which shows the values of the **`p_min`**, **`w`**, **`p_plus`**, and **`ew`** arrays.
 
 ```{python}
-def run_schedule(x, d, s, u=1, print_system=True):
-  file_to_clear = open("logs.txt",'w')
-  file_to_clear.close()
-  schedule = Schedule(x=x, d=d, s=s)
-  schedule.calculate_system_states(until=u)
-  schedule.calculate_wait_times()
-  if(print_system): print(schedule)
-  schedule.search_function(k=3, omega=0.3)
-  return(schedule)
+def run_schedule(x, d, s, u=1, omega=0.3, print_system=True):
+    file_to_clear = open("logs.txt",'w')
+    file_to_clear.close()
+    schedule = Schedule(x=x, d=d, s=s)
+    schedule.calculate_system_states(until=u)
+    schedule.calculate_wait_times()
+    if(print_system): print(schedule)
+    schedule.search_function(k=3, omega=omega)
+    return(schedule)
 ```
 
 ```{python}
@@ -469,8 +469,47 @@ s=np.array(
 indices = np.arange(s.size)
 exp_s = (indices * s).sum()
 print(f'exp_s = {exp_s}')
-u = 4
-sch = run_schedule(x, d, s, u, False)
+u = 5
+omega = 0.5
+sch = run_schedule(x, d, s, u, omega, False)
+sch.visualize_system('p_min')
+sch.visualize_system('p_plus')
+```
+
+```{python}
+"""Simple test case"""
+# clear the data in the info file
+# with open("logs.txt",'w') as file:
+  # pass
+x = np.array([2, 0, 3, 1, 1], dtype=np.int64)
+d = 3
+s=np.array(
+    [0.1, 0.2, 0.3, 0.2, 0.15, 0.05, 0, 0, 0, 0, 0, 0, 0, 0], dtype=np.float64)
+indices = np.arange(s.size)
+exp_s = (indices * s).sum()
+print(f'exp_s = {exp_s}')
+u = len(x)
+omega = 1
+sch = run_schedule(x, d, s, u, omega, False)
+sch.visualize_system('p_min')
+sch.visualize_system('p_plus')
+```
+
+```{python}
+"""Simple test case"""
+# clear the data in the info file
+# with open("logs.txt",'w') as file:
+  # pass
+x = np.array([2, 0, 3, 1, 1], dtype=np.int64)
+d = 3
+s=np.array(
+    [0.1, 0.2, 0.3, 0.2, 0.15, 0.05, 0, 0, 0, 0, 0, 0, 0, 0], dtype=np.float64)
+indices = np.arange(s.size)
+exp_s = (indices * s).sum()
+print(f'exp_s = {exp_s}')
+u = len(x)
+omega = 0
+sch = run_schedule(x, d, s, u, omega, False)
 sch.visualize_system('p_min')
 sch.visualize_system('p_plus')
 ```
@@ -485,8 +524,8 @@ limit = calc_distr_limit(l * x.sum())+1
 service_times = range(0, limit)
 s = np.array([poisson.pmf(i, l) for i in service_times], dtype=np.float64)
 u = len(x)
-
-sch = run_schedule(x, d, s, u, False)
+omega = 0.3
+sch = run_schedule(x, d, s, u, omega, False)
 
 sch.visualize_system('p_min')
 sch.visualize_state(1, 'p_min')
@@ -502,9 +541,9 @@ l = 6
 limit = calc_distr_limit(l * x.sum())+1
 service_times = range(0, limit)
 s = np.array([poisson.pmf(i, l) for i in service_times], dtype=np.float64)
-u = 4
-  
-sch = run_schedule(x, d, s, u, False)
+u = len(x)
+omega = 0.3  
+sch = run_schedule(x, d, s, u, omega, False)
 ```
 
 ```{python}
@@ -535,6 +574,7 @@ limit = calc_distr_limit(l * N)+1
 service_times = range(0, limit)
 s = np.array([poisson.pmf(i, l) for i in service_times], dtype=np.float64)
 u = T
-sch = run_schedule(x, d, s, u, False)
+omega = 0.3
+sch = run_schedule(x, d, s, u, omega, False)
 sch.visualize_system('p_plus')
 ```
