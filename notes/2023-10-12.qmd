@@ -1,0 +1,22 @@
+---
+title: "2023-10-12"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## OBP:
+
+Afspraak voor 9 november:
+
+- Implementeren search algoritme @kaandorp2007optimal
+- Onderzoeken convexiteit >> Discreet >> Sub- / Supermodulariteit
+- Artikel @kaandorp2007optimal bewijs begrijpen
+- Functie bouwen voor kleine instanties optimale schedule
+- Kleine instantie enumereren en search functie toepassen
