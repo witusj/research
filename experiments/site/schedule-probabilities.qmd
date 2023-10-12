@@ -578,3 +578,4 @@ omega = 0.3
 sch = run_schedule(x, d, s, u, omega, False)
 sch.visualize_system('p_plus')
 ```
+
