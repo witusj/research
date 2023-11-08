@@ -1,0 +1,233 @@
+---
+title: "Local Search Function"
+bibliography: "bibliography.bib"
+format:
+  html:
+    page-layout: full
+---
+
+This code replicates methods from @kaandorp_optimal_2007.
+
+```{python}
+import logging
+import copy
+import datetime
+import numpy as np
+from scipy.stats import poisson
+from scipy.stats import lognorm
+from scipy import signal
+from scipy.special import comb
+import plotly.graph_objs as go
+import plotly.offline as pyo
+from itertools import chain, combinations
+import copy
+```
+
+Schedule $x$ is a vector with each element representing the number of scheduled patients.
+
+```{python}
+#x = [2, 1, 0, 2]
+x = [2, 0, 0, 0, 2]
+```
+
+The number of possible schedules is
+
+$$\dbinom{N+T-1}{N}$$
+
+```{python}
+N = sum(x)
+T = len(x)
+result = comb(N + T - 1, N, exact=True)  # exact=True returns the exact integer
+print(result) 
+```
+
+```{python}
+def powerset(iterable):
+    "powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"
+    s = list(iterable)
+    return [list(item) for item in chain.from_iterable(combinations(s, r) for r in range(len(s)+1))]
+```
+
+```{python}
+test = powerset([1,2,3])
+list(test)
+```
+
+Define the vectors
+
+$$
+\left\{
+\begin{array}{c}
+\vec{u_1}, \\
+\vec{u_2}, \\
+\vec{u_3}, \\
+\vdots \\
+\vec{u_{T-1}}, \\
+\vec{u_T} \\
+\end{array}
+\right\} = 
+\left\{
+\begin{array}{c}
+(-1, 0,...., 0, 1), \\
+(1, -1, 0,...., 0), \\
+(0, 1, -1,...., 0), \\
+\vdots \\
+(0,...., 1, -1, 0), \\
+(0,...., 0, 1, -1) \\
+\end{array}
+\right\}
+$$ and take $V^* = \{u_1,....,u_T\}$.
+
+```{python}
+def get_v_star(t):
+    # Create an initial vector 'u' of zeros with length 't'
+    u = np.zeros(t)
+    # Set the first element of vector 'u' to -1
+    u[0] = -1
+    # Set the last element of vector 'u' to 1
+    u[-1] = 1
+    # Initialize the list 'v_star' with the initial vector 'u'
+    v_star = [u]
+    # Loop over the length of 'u' minus one times
+    for i in range(len(u) - 1):
+        # Append the last element of 'u' to the front of 'u'
+        u = np.append(u[-1], u)
+        # Remove the last element of 'u' to maintain the same length
+        u = np.delete(u, -1)
+        # Append the updated vector 'u' to the list 'v_star'
+        v_star.append(u)
+    # Convert the list of vectors 'v_star' into a NumPy array and return it
+    return(np.array(v_star))
+
+# Example of function call:
+# This will create a 4x4 matrix where each row is a cyclically shifted version of the first row
+get_v_star(4)
+```
+
+As the neighborhood of schedule $x$ we take all vectors of the form $x + v_1+..+v_k$ with $v_1,....,v_k \in V^*$
+
+```{python}
+# Set the value of 't'
+t = len(x)
+
+# Generate a matrix 'v_star' using the 'get_v_star' function
+v_star = get_v_star(t)
+
+# Generate all possible non-empty subsets (powerset) of the set {0, 1, 2, ..., t-1}
+# 'ids' will be a list of tuples, where each tuple is a subset of indices
+ids = list(powerset(range(t)))
+
+# Select the vectors from 'v_star' that correspond to the indices in each subset
+# 'sub_sets' will be a list of lists, where each inner list contains vectors from 'v_star'
+sub_sets = [v_star[i] for i in ids]
+
+# Sum the vectors within each subset and flatten the result to get a 1-D array
+# 'summed_sets' will be a list of 1-D numpy arrays, where each array is the sum of vectors
+summed_sets = [np.sum(sub_sets[i], axis=0).flatten() for i in range(len(sub_sets))]
+
+# 'summed_sets' is the final output
+summed_sets
+```
+
+```{python}
+y = np.array([x + summed_sets[i] for i in range(len(summed_sets))])
+y
+```
+
+such that $x + v_1+..+v_k \ge 0$
+
+```{python}
+import numpy as np
+
+# Create a mask for rows with negative values
+mask = ~np.any(y < 0, axis=1)
+
+# Filter out rows with negative values using the mask
+filtered_y = y[mask]
+
+filtered_y
+```
+
+So the whole neighborhood function becomes.
+
+```{python}
+def generate_search_neighborhood(schedule):
+  N = sum(schedule)
+  T = len(schedule)
+  print(f'The schedule = {schedule}')
+  
+  # Generate a matrix 'v_star' using the 'get_v_star' function
+  v_star = get_v_star(T)
+  
+  # Generate all possible non-empty subsets (powerset) of the set {0, 1, 2, ..., T-1}
+  # 'ids' will be a list of tuples, where each tuple is a subset of indices
+  ids = list(powerset(range(T)))
+
+  # Select the vectors from 'v_star' that correspond to the indices in each subset
+  # 'sub_sets' will be a list of lists, where each inner list contains vectors from 'v_star'
+  sub_sets = [v_star[i] for i in ids]
+
+  # Sum the vectors within each subset and flatten the result to get a 1-D array
+  # 'summed_sets' will be a list of 1-D numpy arrays, where each array is the sum of vectors
+  summed_sets = [np.sum(sub_sets[i], axis=0).flatten() for i in range(len(sub_sets))]
+  
+  neighborhood = np.array([schedule + summed_sets[i] for i in range(len(summed_sets))])
+  
+  # Create a mask for rows with negative values
+  mask = ~np.any(neighborhood < 0, axis=1)
+
+  # Filter out rows with negative values using the mask
+  filtered_neighborhood = neighborhood[mask]
+  print(f'And the neighborhood is {filtered_neighborhood}')
+  return filtered_neighborhood
+
+testnh = generate_search_neighborhood(x)
+```
+
+Let the objective function be a simple sum of square.
+
+```{python}
+def obj_function(x):
+  res = sum(map(lambda i: i * i, x))
+  return res
+
+obj_function(np.array(x))
+```
+
+The algorithm for computing an optimal schedule becomes.
+
+```{python}
+def search_best_solution(x):
+    obj_value = obj_function(x)
+    
+    # Keep track of the best solution found
+    best_solution = x.copy()
+    
+    # Continue the search until no improvement is found
+    while True:  # Start an outer loop that will continue until explicitly broken
+        nh = generate_search_neighborhood(best_solution)  # Generate a new neighborhood
+        improved = False  # Flag to check if an improvement was found in the inner loop
+        
+        for y in nh:  # Inner loop to search through the neighborhood
+            c = obj_function(y)
+            if c < obj_value:
+                obj_value = c
+                best_solution = y.copy()
+                print(f'Found better schedule {best_solution} with objective value {obj_value}')
+                improved = True  # Set the flag because an improvement was found
+                break  # Exit the inner loop to generate a new neighborhood
+        
+        if not improved:  # If no improvement was found in the inner loop
+            break  # Exit the outer loop - the search is complete
+
+    return best_solution, obj_value
+
+# Example usage:
+x = [5, 0, 0, 0, 1]
+initial_solution = x  # Replace this with your actual initial solution
+best_solution, best_obj_value = search_best_solution(initial_solution)
+print("Best solution found:", best_solution)
+print("Objective value of the best solution:", best_obj_value)
+```
+
+
