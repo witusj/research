@@ -1,0 +1,379 @@
+---
+title: "2023-10-12"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## OBP:
+
+Afspraak voor 8 november:
+
+-   Implementeren search algoritme @kaandorp2007optimal
+-   Onderzoeken convexiteit \>\> Discreet \>\> Sub- / Supermodulariteit
+-   Artikel @kaandorp2007optimal bewijs begrijpen
+-   Functie bouwen voor kleine instanties optimale schedule
+-   Kleine instantie enumereren en search functie toepassen
+
+### Bewijs @kaandorp2007optimal
+
+**Def. A.2** For some $x \in \mathbb{Z}^m$ and $\sigma$ a permutation of
+${0,....,m}$, we define the atom $S(x, \sigma)$ as the convex set with
+extreme points
+$x + v_{\sigma(0)}, x + v_{\sigma(0)} + v_{\sigma(1)}...., x + v_{\sigma(0)} + ... + v_{\sigma(m)}$.
+
+The concept of an "atom" in the theory of multimodular functions, as
+presented in mathematical literature like the one you referenced, is
+quite abstract and specialized. In less mathematical terms, an atom in
+this context can be thought of as a basic building block or a
+fundamental unit of the domain of a multimodular function that cannot be
+decomposed further while maintaining certain properties that define
+multimodularity.
+
+Multimodularity is a property of certain functions of integer vectors,
+where the function has a form of "diminishing returns" in each
+dimension. An atom in this setting is a minimal change to the input of
+the function that can affect its output.
+
+Here's a basic analogy before we move onto the code: Think of a
+multimodular function as a landscape of hills and valleys. The "atoms"
+are the smallest steps you can take in any direction that change your
+altitude. For a function to be multimodular, the sequence of these
+"atomic" steps you take must follow a pattern where if you've taken a
+step in one direction, taking a further step in that same direction
+won't increase your altitude by more than the previous step did
+(reflecting the concept of diminishing returns).
+
+Let's demonstrate a simple concept using Python code. We'll consider a
+one-dimensional function for the sake of simplicity. In the multimodular
+context, an "atom" would be the smallest unit of change in the
+function's input, which typically would be 1 for integer functions.
+Here's how we might explore this concept:
+
+
+
+This code plots a simple function and then calculates the effect of an
+"atom" in this domain. In the multimodular context, if we considered
+more complex functions and higher-dimensional domains, the concept of an
+"atom" would correspond to the minimal vector change that still affects
+the output.
+
+In the paper by @altman2000multimodularity, the concept is undoubtedly
+more complex and involved than what is illustrated here. The paper
+likely deals with integer programming or combinatorial optimization
+problems, where multimodularity helps in proving the optimality of
+certain algorithms or in the design of efficient algorithms for specific
+types of problems. The concept of an "atom" in those contexts would be
+tied to the incremental steps in the algorithm's process that maintain
+the function's multimodularity.
+
+A permutation refers to an ordering of a set of numbers. Specifically,
+for a set containing integers from 0 to $m$, a permutation $\sigma$ is a
+sequence that contains each integer from $0$ to $m$ exactly once, but in
+any order.
+
+The set $( {0, \ldots, m} )$ has $(m+1)!$ (factorial of $( m+1 )$)
+distinct permutations since there are $m+1$ elements in the set.
+
+The text defines an "atom" $( S(x, \sigma) )$ as a convex set built from a
+particular permutation of the set $( {0, \ldots, m} )$ and a starting
+point $x$ in $( \mathbb{Z}^m )$.
+
+Here's what the text is saying step-by-step:
+
+1.  Start with an integer $x$ which is an element of $( \mathbb{Z}^m
+    )$. This means that $x$ is within
+    the set $( {0, 1, 2, \ldots, m-1} )$.
+
+2.  Take a permutation $\sigma$ of the set $( {0, \ldots, m} )$. This
+    permutation is a reordering of the numbers from $0$ to $m$.
+
+3.  Create a sequence of points starting from $x$ and incrementally
+    adding the values from the permutation $\sigma$ to $x$. That is, you
+    create a sequence where the first point is $( x + v \cdot \sigma(0) )$, the
+    second is $( x + v \cdot \sigma(0) + v \cdot s(1) )$, and so on, up to $(
+    x + v \cdot s(0) + \ldots + v \cdot \sigma(m) )$, where $v$ could be a
+    vector defining direction and magnitude for each step.
+
+4.  The convex set $( S(x, \sigma) )$ is then defined by these points as
+    extreme points. A convex set in $\mathbb{R}^n$ is a set where,
+    for any two points within the set, the line segment connecting them
+    is also entirely within the set. The extreme points are the
+    "corners" or outermost points of the convex set.
+
+This is a geometrical and algebraic concept that can be visualized in
+higher dimensions. In two dimensions, you could think of the extreme
+points as the corners of a polygon. In higher dimensions, these extreme
+points define a convex polytope.
+
+```{python}
+import plotly.graph_objects as go
+import numpy as np
+from itertools import chain, combinations
+
+def multimodular_function(x, y, z):
+    """
+    A simple multimodular function for illustration.
+    This function is designed to have multiple local optima but one global optimum.
+    """
+    return -1 * (np.sin(x) + np.cos(y) + np.log(z + 1) - x**2/10 - y**2/10 - z**2/10)
+
+# Generate a grid of values in three dimensions
+x_values = np.linspace(-10, 10, 50)
+y_values = np.linspace(-10, 10, 50)
+z_values = np.linspace(0, 20, 50)
+
+# Compute the function values
+function_values = np.zeros((50, 50, 50))
+for i, x in enumerate(x_values):
+    for j, y in enumerate(y_values):
+        for k, z in enumerate(z_values):
+            function_values[i, j, k] = multimodular_function(x, y, z)
+
+# Find the global optimum
+max_value = np.max(function_values)
+optimum_indices = np.where(function_values == max_value)
+optimum_point = (x_values[optimum_indices[0][0]], y_values[optimum_indices[1][0]], z_values[optimum_indices[2][0]])
+
+# Plotting
+x, y, z = np.meshgrid(x_values, y_values, z_values)
+
+fig = go.Figure(data=[go.Scatter3d(x=x.flatten(), y=y.flatten(), z=z.flatten(),
+                                   mode='markers',
+                                   marker=dict(
+                                       size=4,
+                                       color=function_values.flatten(),  # Set color to function values
+                                       colorscale='Viridis',
+                                       opacity=0.8
+                                   ))])
+
+# Add marker for the optimum
+fig.add_trace(go.Scatter3d(x=[optimum_point[0]], y=[optimum_point[1]], z=[optimum_point[2]],
+                           mode='markers', marker=dict(color='red', size=10)))
+
+fig.update_layout(title='3D Multimodular Function Visualization',
+                  scene=dict(
+                      xaxis_title='X axis',
+                      yaxis_title='Y axis',
+                      zaxis_title='Z axis'),
+                  margin=dict(r=10, b=10, l=10, t=10))
+
+fig.show()
+```
+
+```{python}
+def powerset(iterable):
+    "powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"
+    s = list(iterable)
+    return [list(item) for item in chain.from_iterable(combinations(s, r) for r in range(len(s)+1))]
+  
+def get_v_star(t):
+    # Create an initial vector 'u' of zeros with length 't'
+    u = np.zeros(t)
+    # Set the first element of vector 'u' to -1
+    u[0] = -1
+    # Set the last element of vector 'u' to 1
+    u[-1] = 1
+    # Initialize the list 'v_star' with the initial vector 'u'
+    v_star = [u]
+    # Loop over the length of 'u' minus one times
+    for i in range(len(u) - 1):
+        # Append the last element of 'u' to the front of 'u'
+        u = np.append(u[-1], u)
+        # Remove the last element of 'u' to maintain the same length
+        u = np.delete(u, -1)
+        # Append the updated vector 'u' to the list 'v_star'
+        v_star.append(u)
+    # Convert the list of vectors 'v_star' into a NumPy array and return it
+    return(np.array(v_star))
+
+# Example of function call:
+# This will create a 4x4 matrix where each row is a cyclically shifted version of the first row
+
+def generate_search_neighborhood(schedule):
+  N = sum(schedule)
+  T = len(schedule)
+  print(f'The schedule = {schedule}')
+  
+  # Generate a matrix 'v_star' using the 'get_v_star' function
+  v_star = get_v_star(T)
+  
+  # Generate all possible non-empty subsets (powerset) of the set {0, 1, 2, ..., T-1}
+  # 'ids' will be a list of tuples, where each tuple is a subset of indices
+  ids = list(powerset(range(T)))
+
+  # Select the vectors from 'v_star' that correspond to the indices in each subset
+  # 'sub_sets' will be a list of lists, where each inner list contains vectors from 'v_star'
+  sub_sets = [v_star[i] for i in ids]
+
+  # Sum the vectors within each subset and flatten the result to get a 1-D array
+  # 'summed_sets' will be a list of 1-D numpy arrays, where each array is the sum of vectors
+  summed_sets = [np.sum(sub_sets[i], axis=0).flatten() for i in range(len(sub_sets))]
+  
+  neighborhood = np.array([schedule + summed_sets[i] for i in range(len(summed_sets))])
+  
+  # Create a mask for rows with negative values
+  mask = ~np.any(neighborhood < 0, axis=1)
+
+  # Filter out rows with negative values using the mask
+  filtered_neighborhood = neighborhood[mask]
+  print(f'And the neighborhood is {filtered_neighborhood}')
+  return filtered_neighborhood
+
+def obj_function(x):
+  res = sum(map(lambda i: i * i, x))
+  return res
+
+def split_coordinates(array):
+    """
+    Splits a numpy array of coordinates into separate vectors for x, y, and z.
+
+    Parameters:
+    array (numpy.ndarray): A numpy array where each row represents a set of coordinates (x, y, z).
+
+    Returns:
+    tuple: Three lists containing the x, y, and z coordinates, respectively.
+    """
+    x = array[:, 0]
+    y = array[:, 1]
+    z = array[:, 2]
+    return x.tolist(), y.tolist(), z.tolist()
+
+x = [3, 0, 0]
+testnh = generate_search_neighborhood(x)
+f_x = [obj_function(s) for s in testnh]
+x, y, z = split_coordinates(testnh)
+print(x, y, z, f_x)
+```
+
+```{python}
+fig = go.Figure(data=[go.Scatter3d(
+    x=x,
+    y=y,
+    z=z,
+    mode='markers',
+    marker=dict(
+        size=4,
+        color=f_x,  # Set color to function values
+        colorscale='Viridis',
+        opacity=0.8
+    ),
+    hoverinfo='text',
+    text=[f'f_x: {value:.2f}' for value in f_x]  # Display f_x value on hover, formatted to 2 decimal places
+)])
+
+fig.update_layout(title='3D Function Visualization',
+                  scene=dict(
+                      xaxis_title='X axis',
+                      yaxis_title='Y axis',
+                      zaxis_title='Z axis'))
+
+fig.show()
+```
+
+```{python}
+def search_solutions_3d(s, obj_func):
+    """
+    Perform a search for the best solution in a solution space using a neighborhood-based search algorithm.
+
+    Args:
+    s (list): The initial solution from which the search starts. Needs three elements x, y, z
+    obj_func (function): The objective function that evaluates the quality of a solution.
+
+    Returns:
+    list: The x, y, z coordinates (or components) of each solution in the search history.
+    list: The corresponding objective function values for each solution in the search history.
+
+    The function initializes with an initial solution 's' and evaluates it using the objective function 'obj_func'.
+    It then iteratively generates neighboring solutions, evaluates them, and keeps track of the best solution found so far.
+    The search continues until no further improvement is found in the neighborhood of the current best solution.
+    """
+
+    # Evaluate the initial solution
+    obj_value = obj_func(s)
+    
+    # Initialize the best solution as the initial solution
+    best_solution = s.copy()
+    
+    # Initialize lists to keep track of the search history
+    x, y, z, f_v = [], [], [], []
+    
+    # Start an outer loop that continues until no improvement is found
+    while True:
+        # Generate a new neighborhood of solutions around the current best solution
+        nh = generate_search_neighborhood(best_solution)
+        
+        # Flag to check if an improvement was found in the current iteration
+        improved = False
+        
+        # Iterate over each solution in the neighborhood
+        for s in nh:
+            # Append the components of the solution to the history lists
+            x.append(s[0])
+            y.append(s[1])
+            z.append(s[2])
+            
+            # Evaluate the current solution
+            c = obj_func(s)
+            f_v.append(c)
+            
+            # Check if the current solution is an improvement
+            if c < obj_value:
+                # Update the best solution and its objective value
+                obj_value = c
+                best_solution = s.copy()
+                print(f'Found better solution {best_solution} with objective value {obj_value}')
+                
+                # Mark that an improvement was found and exit the inner loop
+                improved = True
+                break
+        
+        # If no improvement was found in the entire neighborhood
+        if not improved:
+            # Exit the outer loop - the search is complete
+            break
+
+    # Return the search history
+    return x, y, z, f_v
+
+```
+
+```{python}
+s = [3, 0, 0]
+x, y, z, f_v = search_solutions_3d(s, obj_function)
+
+# Determine the range for each axis to set the ticks
+s_range = range(int(min(s)), int(max(s)) + 1)
+
+fig = go.Figure(data=[go.Scatter3d(
+    x=x,
+    y=y,
+    z=z,
+    mode='markers',
+    marker=dict(
+        size=6,
+        color=f_v,  # Set color to function values
+        colorscale='Plotly3',
+        opacity=0.8,
+        showscale=True
+    ),
+    hoverinfo='text',
+    text=[f'x: {xi:.0f}, y: {yi:.0f}, z: {zi:.0f}, f_v: {value:.1f}' for xi, yi, zi, value in zip(x, y, z, f_v)]
+)])
+
+fig.update_layout(title='3D Function Visualization',
+                  scene=dict(
+                      xaxis=dict(title='X axis', tickmode='array', tickvals=list(s_range)),
+                      yaxis=dict(title='Y axis', tickmode='array', tickvals=list(s_range)),
+                      zaxis=dict(title='Z axis', tickmode='array', tickvals=list(s_range))
+                  ))
+
+fig.show()
+```
+
