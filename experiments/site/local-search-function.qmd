@@ -229,5 +229,104 @@ best_solution, best_obj_value = search_best_solution(initial_solution)
 print("Best solution found:", best_solution)
 print("Objective value of the best solution:", best_obj_value)
 ```
+```{python}
+def search_solutions_3d(s, obj_func):
+    """
+    Perform a search for the best solution in a solution space using a neighborhood-based search algorithm.
+
+    Args:
+    s (list): The initial solution from which the search starts. Needs three elements x, y, z
+    obj_func (function): The objective function that evaluates the quality of a solution.
+
+    Returns:
+    list: The x, y, z coordinates (or components) of each solution in the search history.
+    list: The corresponding objective function values for each solution in the search history.
+
+    The function initializes with an initial solution 's' and evaluates it using the objective function 'obj_func'.
+    It then iteratively generates neighboring solutions, evaluates them, and keeps track of the best solution found so far.
+    The search continues until no further improvement is found in the neighborhood of the current best solution.
+    """
+
+    # Evaluate the initial solution
+    obj_value = obj_func(s)
+    
+    # Initialize the best solution as the initial solution
+    best_solution = s.copy()
+    
+    # Initialize lists to keep track of the search history
+    x, y, z, f_v = [], [], [], []
+    
+    # Start an outer loop that continues until no improvement is found
+    while True:
+        # Generate a new neighborhood of solutions around the current best solution
+        nh = generate_search_neighborhood(best_solution)
+        
+        # Flag to check if an improvement was found in the current iteration
+        improved = False
+        
+        # Iterate over each solution in the neighborhood
+        for s in nh:
+            # Append the components of the solution to the history lists
+            x.append(s[0])
+            y.append(s[1])
+            z.append(s[2])
+            
+            # Evaluate the current solution
+            c = obj_func(s)
+            f_v.append(c)
+            print(f'Tested solution {s} with objective value {c}')
+            
+            # Check if the current solution is an improvement
+            if c < obj_value:
+                # Update the best solution and its objective value
+                obj_value = c
+                best_solution = s.copy()
+                print(f'Found better solution {best_solution} with objective value {obj_value}')
+                
+                # Mark that an improvement was found and exit the inner loop
+                improved = True
+                break
+        
+        # If no improvement was found in the entire neighborhood
+        if not improved:
+            # Exit the outer loop - the search is complete
+            break
+
+    # Return the search history
+    return x, y, z, f_v
+```
+
+```{python}
+s = [3, 0, 0]
+x, y, z, f_v = search_solutions_3d(s, obj_function)
+
+# Determine the range for each axis to set the ticks
+s_range = range(int(min(s)), int(max(s)) + 1)
+
+fig = go.Figure(data=[go.Scatter3d(
+    x=x,
+    y=y,
+    z=z,
+    mode='markers',
+    marker=dict(
+        size=6,
+        color=f_v,  # Set color to function values
+        colorscale='Plotly3',
+        opacity=0.8,
+        showscale=True
+    ),
+    hoverinfo='text',
+    text=[f'x: {xi:.0f}, y: {yi:.0f}, z: {zi:.0f}, f_v: {value:.1f}' for xi, yi, zi, value in zip(x, y, z, f_v)]
+)])
+
+fig.update_layout(title='3D Function Visualization',
+                  scene=dict(
+                      xaxis=dict(title='X axis', tickmode='array', tickvals=list(s_range)),
+                      yaxis=dict(title='Y axis', tickmode='array', tickvals=list(s_range)),
+                      zaxis=dict(title='Z axis', tickmode='array', tickvals=list(s_range))
+                  ))
+
+fig.show()
+```
 
 
