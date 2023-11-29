@@ -229,6 +229,7 @@ best_solution, best_obj_value = search_best_solution(initial_solution)
 print("Best solution found:", best_solution)
 print("Objective value of the best solution:", best_obj_value)
 ```
+
 ```{python}
 def search_solutions_3d(s, obj_func):
     """
