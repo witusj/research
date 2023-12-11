@@ -17,6 +17,8 @@ import plotly.graph_objs as go
 import plotly.offline as pyo
 import unittest
 import functions as fn
+from itertools import chain, combinations
+import copy
 
 logging.basicConfig(filename='logs.txt', encoding='utf-8', level=logging.DEBUG)
 
@@ -153,7 +155,7 @@ def powerset(iterable):
   
 def get_v_star(t):
     # Create an initial vector 'u' of zeros with length 't'
-    u = np.zeros(t)
+    u = np.zeros(t, dtype=np.int64)
     # Set the first element of vector 'u' to -1
     u[0] = -1
     # Set the last element of vector 'u' to 1
@@ -315,37 +317,85 @@ class Schedule:
                 self.system['p_plus'][self.state] = self.system['p_min'][self.state].copy() if self.parameters['x'][self.state] == 0 else np.convolve(self.system['w'][self.state][-1], self.parameters['s'])[:(len(self.parameters['s']))]
                 """Jump to next state"""
                 self.state += 1
-                
-    def local_search(self):
+  
+      
+    def local_search(self, s=0, omega=0.5):
       """
       Generate for a given schedule a local search environment, establish for each schedule in the environment the lowest total waiting time, if a schedule with a lower waiting time is found, use this schedule to generate a new local environment and search this environment for lower waiting times. When a local environment contains no schedules with lower waiting stop searching.  
       """
       
-      # Establish search environment
-      obj_value = self.system["ew"].sum()
-    
-      # Keep track of the best solution found
-      best_solution = copy.deepcopy(parameters['x'])
+      # Calculate initial loss
+      test_wt = self.system["ew"].sum()
+      self.calculate_tardiness()
+      indices = np.arange(self.system['p_min'][-1].size) 
+      exp_tard = (indices * self.system['p_min'][-1]).sum()
+      lowest_loss = omega * test_wt / self.parameters['x'].sum() + (1 - omega) * exp_tard
+      store_optim = dict({ 'x' : self.parameters['x'].copy(), 'system' : copy.deepcopy(self.system), 'tot_wt' : test_wt})
     
       # Continue the search until no improvement is found
       while True:  # Start an outer loop that will continue until explicitly broken
-          nh = generate_search_neighborhood(best_solution)  # Generate a new neighborhood
+          nh = generate_search_neighborhood(self.parameters['x'])  # Generate a new neighborhood
           improved = False  # Flag to check if an improvement was found in the inner loop
           
           for y in nh:  # Inner loop to search through the neighborhood
-              c = obj_function(y)
-              if c < obj_value:
-                  obj_value = c
-                  best_solution = y.copy()
-                  print(f'Found better schedule {best_solution} with objective value {obj_value}')
-                  improved = True  # Set the flag because an improvement was found
-                  break  # Exit the inner loop to generate a new neighborhood
+              # Insert first element of nh in x
+              self.parameters['x'] = y.copy()
+              print(f"Test schedule = {self.parameters['x']}")
+              # Set starting state
+              self.state = 0
+              # Recalculate distributions
+              # If start state is 0 reinitialize p_min, w and p_plus in state 0
+              if(self.state == 0):
+                  self.system = dict({
+                      'p_min': np.zeros((len(self.parameters['x']) + 1, len(self.parameters['s'])), dtype=np.float64),
+                      'p_plus': np.zeros((len(self.parameters['x']), len(self.parameters['s'])), dtype=np.float64)
+                  })
+                  print("Calculated p_min and p_plus")
+                  # Set the first element of p_min in the initial state to 1.
+                  self.system['p_min'][0][0] = 1
+                  print("Set first element of p_min")
+                  # Initialize array of arrays for saving waiting times distributions per patient
+                  self.system['w'] = zero_arrays(self.parameters['x'].copy(), len(self.parameters['s']))
+                  print("Initialized waiting times")
+                  if(self.parameters['x'][0] > 0): # Only calculate waiting times if there are patients scheduled in the state
+                           self.system['w'][0][0] = self.system['p_min'][0].copy()
+                           for i in range(1, self.parameters['x'][0]):
+                                  self.system['w'][0][i] = np.convolve(self.system['w'][0][i-1], self.parameters['s'])[:(len(self.parameters['s']))]
+                  print("Calculated waiting times")
+                  self.system['p_plus'][0] = self.system['p_min'][0].copy() if self.parameters['x'][0] == 0 else np.convolve(self.system['w'][0][-1], self.parameters['s'])[:(len(self.parameters['s']))]
+                  # Initialize array for saving total expected waiting times per state
+                  self.system['ew'] = np.zeros(len(self.parameters['x']), dtype=np.float64)
+                  # Set the initial state to 1.
+                  self.state = 1
+                  print("System recalculated")
+              self.calculate_system_states(until=len(self.parameters['x']))
+              self.calculate_wait_times()
+              test_wt = self.system["ew"].sum()
+              self.calculate_tardiness()
+              indices = np.arange(self.system['p_min'][-1].size) 
+              exp_tard = (indices * self.system['p_min'][-1]).sum()
+              test_loss = omega * test_wt / self.parameters['x'].sum() + (1 - omega) * exp_tard
+              # If a composition with a lower waiting time is found, store the system
+              if(test_loss < lowest_loss):
+                lowest_loss = test_loss
+                store_optim['x'] = self.parameters['x'].copy()
+                newsystem = copy.deepcopy(self.system)
+                store_optim['system'] = newsystem
+                store_optim['tot_wt'] = test_wt
+                logging.info(f'{datetime.datetime.now()} - Found lower loss = {lowest_loss} with x = {store_optim["x"]} and system = {store_optim["system"]}')
+                improved = True  # Set the flag because an improvement was found
+                break  # Exit the inner loop to generate a new neighborhood
           
           if not improved:  # If no improvement was found in the inner loop
-              break  # Exit the outer loop - the search is complete
-  
-      return best_solution, obj_value
-      
+            break  # Exit the outer loop - the search is complete
+          
+          # Set the system to the stored optimal system 
+          logging.info(f'{datetime.datetime.now()} - Final result lowest loss = {lowest_loss} with x = {store_optim["x"]} and system = {store_optim["system"]}')
+          self.parameters['x'] = store_optim['x'].copy()
+          self.system['p_min'] = store_optim['system']['p_min']
+          self.system['p_plus'] = store_optim['system']['p_plus']
+          self.system['w'] = store_optim['system']['w']
+          self.system['ew'] = store_optim['system']['ew']
       
     
     def impute_compositions(self, s=0, k=2, omega=0.5):
@@ -542,7 +592,7 @@ def run_schedule(x, d, s, u=1, omega=0.3, print_system=True):
     schedule.calculate_system_states(until=u)
     schedule.calculate_wait_times()
     if(print_system): print(schedule)
-    schedule.search_function(k=3, omega=omega)
+    schedule.local_search(s=0, omega=omega)
     return(schedule)
 ```
 
