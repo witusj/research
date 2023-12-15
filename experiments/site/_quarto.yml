@@ -15,7 +15,7 @@ website:
       - convexity.qmd
       - noshow.qmd
       - local-search-function.qmd
-      - local-search-function-probabilities.qmd
+      - local-search-schedule-probabilities.qmd
       
 format:
   html:
