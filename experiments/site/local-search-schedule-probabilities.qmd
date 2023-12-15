@@ -179,7 +179,7 @@ def get_v_star(t):
 def generate_search_neighborhood(schedule):
   N = sum(schedule)
   T = len(schedule)
-  print(f'The schedule = {schedule}')
+  logging.info(f'The schedule = {schedule}')
   
   # Generate a matrix 'v_star' using the 'get_v_star' function
   v_star = get_v_star(T)
@@ -187,6 +187,7 @@ def generate_search_neighborhood(schedule):
   # Generate all possible non-empty subsets (powerset) of the set {0, 1, 2, ..., T-1}
   # 'ids' will be a list of tuples, where each tuple is a subset of indices
   ids = list(powerset(range(T)))
+  logging.info(f'Neighborhood size = {len(ids)}')
 
   # Select the vectors from 'v_star' that correspond to the indices in each subset
   # 'sub_sets' will be a list of lists, where each inner list contains vectors from 'v_star'
@@ -203,13 +204,13 @@ def generate_search_neighborhood(schedule):
 
   # Filter out rows with negative values using the mask
   filtered_neighborhood = neighborhood[mask]
-  print(f'And the neighborhood is {filtered_neighborhood}')
+  logging.info(f'And the neighborhood is {filtered_neighborhood}')
   return filtered_neighborhood
 
 def generate_small_search_neighborhood(schedule):
   N = sum(schedule)
   T = len(schedule)
-  print(f'The schedule = {schedule}')
+  logging.info(f'The schedule = {schedule}')
   
   # Generate a matrix 'v_star' using the 'get_v_star' function
   v_star = get_v_star(T)
@@ -221,7 +222,7 @@ def generate_small_search_neighborhood(schedule):
 
   # Filter out rows with negative values using the mask
   filtered_neighborhood = neighborhood[mask]
-  print(f'And the neighborhood is {filtered_neighborhood}')
+  logging.info(f'And the neighborhood is {filtered_neighborhood}')
   return filtered_neighborhood
 
 def distribute_patients(n_patients, n_timeslots):
@@ -236,7 +237,7 @@ def distribute_patients(n_patients, n_timeslots):
 
     return distribution
 
-def plot_timeline(slots):
+def plot_timeline(slots, title):
     # Create a figure
     fig = go.Figure()
 
@@ -246,7 +247,7 @@ def plot_timeline(slots):
 
     # Update layout
     fig.update_layout(
-        title="Timeline of Occupied Timeslots",
+        title=title,
         xaxis_title="Timeslots",
         yaxis=dict(showticklabels=False, showgrid=False, zeroline=False),
         showlegend=False
@@ -375,7 +376,6 @@ class Schedule:
       """
       Generate for a given schedule a local search environment, establish for each schedule in the environment the lowest total waiting time, if a schedule with a lower waiting time is found, use this schedule to generate a new local environment and search this environment for lower waiting times. When a local environment contains no schedules with lower waiting stop searching.  
       """
-      
       # Calculate initial loss
       test_wt = self.system["ew"].sum()
       self.calculate_tardiness()
@@ -392,7 +392,7 @@ class Schedule:
           for y in nh:  # Inner loop to search through the neighborhood
               # Insert first element of nh in x
               self.parameters['x'] = y.copy()
-              print(f"Test schedule = {self.parameters['x']}")
+              logging.info(f"Test schedule = {self.parameters['x']}")
               # Set starting state
               self.state = 0
               # If start state is 0 reinitialize p_min, w and p_plus in state 0
@@ -415,24 +415,24 @@ class Schedule:
                   # Set the initial state to 1.
                   self.state = 1
               self.calculate_system_states(until=len(self.parameters['x']))
-              print("System recalculated")
+              logging.info("System recalculated")
               self.calculate_wait_times()
               test_wt = self.system["ew"].sum()
-              print(f"Average waiting time={test_wt / self.parameters['x'].sum()}")
+              logging.info(f"Average waiting time={test_wt / self.parameters['x'].sum()}")
               self.calculate_tardiness()
               indices = np.arange(self.system['p_min'][-1].size) 
               exp_tard = (indices * self.system['p_min'][-1]).sum()
-              print(f'Expected tardiness={exp_tard}')
+              logging.info(f'Expected tardiness={exp_tard}')
               test_loss = omega * test_wt / self.parameters['x'].sum() + (1 - omega) * exp_tard
-              print(f'obj_value = {test_loss}')
-              # If a composition with a lower waiting time is found, store the system
+              logging.info(f'obj_value = {test_loss}')
+              # If a schedule with a lower waiting time is found, store the system
               if(test_loss < lowest_loss):
                 lowest_loss = test_loss
                 store_optim['x'] = self.parameters['x'].copy()
                 newsystem = copy.deepcopy(self.system)
                 store_optim['system'] = newsystem
                 store_optim['tot_wt'] = test_wt
-                logging.info(f'{datetime.datetime.now()} - Found lower loss = {lowest_loss} with x = {store_optim["x"]} and system = {store_optim["system"]}')
+                logging.info(f'{datetime.datetime.now()} - Found lower loss = {lowest_loss} with x = {store_optim["x"]}')
                 improved = True  # Set the flag because an improvement was found
                 break  # Exit the inner loop to generate a new neighborhood
           
@@ -451,7 +451,6 @@ class Schedule:
       """
       Generate for a given schedule a local search environment, establish for each schedule in the environment the lowest total waiting time, if a schedule with a lower waiting time is found, use this schedule to generate a new local environment and search this environment for lower waiting times. When a local environment contains no schedules with lower waiting stop searching.  
       """
-      
       # Calculate initial loss
       test_wt = self.system["ew"].sum()
       self.calculate_tardiness()
@@ -468,7 +467,7 @@ class Schedule:
           for y in nh:  # Inner loop to search through the neighborhood
               # Insert first element of nh in x
               self.parameters['x'] = y.copy()
-              print(f"Test schedule = {self.parameters['x']}")
+              logging.info(f"Test schedule = {self.parameters['x']}")
               # Set starting state
               self.state = 0
               # If start state is 0 reinitialize p_min, w and p_plus in state 0
@@ -491,24 +490,24 @@ class Schedule:
                   # Set the initial state to 1.
                   self.state = 1
               self.calculate_system_states(until=len(self.parameters['x']))
-              print("System recalculated")
+              logging.info("System recalculated")
               self.calculate_wait_times()
               test_wt = self.system["ew"].sum()
-              print(f"Average waiting time={test_wt / self.parameters['x'].sum()}")
+              logging.info(f"Average waiting time={test_wt / self.parameters['x'].sum()}")
               self.calculate_tardiness()
               indices = np.arange(self.system['p_min'][-1].size) 
               exp_tard = (indices * self.system['p_min'][-1]).sum()
-              print(f'Expected tardiness={exp_tard}')
+              logging.info(f'Expected tardiness={exp_tard}')
               test_loss = omega * test_wt / self.parameters['x'].sum() + (1 - omega) * exp_tard
-              print(f'obj_value = {test_loss}')
-              # If a composition with a lower waiting time is found, store the system
+              logging.info(f'obj_value = {test_loss}')
+              # If a schedule with a lower waiting time is found, store the system
               if(test_loss < lowest_loss):
                 lowest_loss = test_loss
                 store_optim['x'] = self.parameters['x'].copy()
                 newsystem = copy.deepcopy(self.system)
                 store_optim['system'] = newsystem
                 store_optim['tot_wt'] = test_wt
-                logging.info(f'{datetime.datetime.now()} - Found lower loss = {lowest_loss} with x = {store_optim["x"]} and system = {store_optim["system"]}')
+                logging.info(f'{datetime.datetime.now()} - Found lower loss = {lowest_loss} with x = {store_optim["x"]}')
                 improved = True  # Set the flag because an improvement was found
                 break  # Exit the inner loop to generate a new neighborhood
           
@@ -604,7 +603,7 @@ class Schedule:
       """
       self.system['p_min'][-1][0] = np.sum(self.system['p_plus'][-1][:(self.parameters['d'] + 1)])
       self.system['p_min'][-1][1:(-1*self.parameters['d'])] = self.system['p_plus'][-1][(self.parameters['d'] + 1):]
-      logging.info(f'{datetime.datetime.now()} - calculating tardiness distribution:  {self.system["p_min"][-1]}')
+      # logging.info(f'{datetime.datetime.now()} - calculating tardiness distribution:  {self.system["p_min"][-1]}')
       
     
     def search_function(self, k=1, omega=0.5):
@@ -626,7 +625,7 @@ class Schedule:
               a = range(len(dist))
               b = dist
               meanwt = np.dot(a, b)
-              print(f"Mean waiting time for patient {nr} in interval {interval} = {meanwt}")
+              logging.info(f"Mean waiting time for patient {nr} in interval {interval} = {meanwt}")
               ew += meanwt
           # Store the expected waiting time for the current time step
           self.system['ew'][interval] = ew
@@ -781,8 +780,8 @@ u = len(x)
 omega = 0.5
 sch = run_schedule(x, d, s, u, omega, False)
 x_final = sch.parameters['x']
-plot_timeline(x)
-plot_timeline(x_final)
+plot_timeline(x, "Timeline of Occupied Timeslots - Initial Schedule")
+plot_timeline(x_final, "Timeline of Occupied Timeslots - Finale Schedule")
 ```
 
 ```{python}
@@ -820,8 +819,8 @@ omega = 0.5
 sch = run_schedule(x, d, s, u, omega, False)
 sch.visualize_system('p_min')
 x_final = sch.parameters['x']
-plot_timeline(x)
-plot_timeline(x_final)
+plot_timeline(x, "Timeline of Occupied Timeslots - Initial Schedule")
+plot_timeline(x_final, "Timeline of Occupied Timeslots - Finale Schedule")
 ```
 
 ```{python}
@@ -843,7 +842,7 @@ u = T
 omega = 0.999
 sch = run_schedule_small_search(x, d, s, u, omega, False)
 x_final = sch.parameters['x']
-plot_timeline(x)
-plot_timeline(x_final)
-# sch.visualize_system('p_min')
+plot_timeline(x, "Timeline of Occupied Timeslots - Initial Schedule")
+plot_timeline(x_final, "Timeline of Occupied Timeslots - Finale Schedule")
+sch.visualize_system('p_min')
 ```
