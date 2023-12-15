@@ -205,6 +205,58 @@ def generate_search_neighborhood(schedule):
   filtered_neighborhood = neighborhood[mask]
   print(f'And the neighborhood is {filtered_neighborhood}')
   return filtered_neighborhood
+
+def generate_small_search_neighborhood(schedule):
+  N = sum(schedule)
+  T = len(schedule)
+  print(f'The schedule = {schedule}')
+  
+  # Generate a matrix 'v_star' using the 'get_v_star' function
+  v_star = get_v_star(T)
+  
+  neighborhood = np.array([schedule + v_star[i] for i in range(len(v_star))])
+  
+  # Create a mask for rows with negative values
+  mask = ~np.any(neighborhood < 0, axis=1)
+
+  # Filter out rows with negative values using the mask
+  filtered_neighborhood = neighborhood[mask]
+  print(f'And the neighborhood is {filtered_neighborhood}')
+  return filtered_neighborhood
+
+def distribute_patients(n_patients, n_timeslots):
+    # Create a list with all slots initially empty
+    distribution = [0] * n_timeslots
+
+    # Place patients in timeslots
+    for i in range(n_patients):
+        # Calculate the slot for each patient
+        slot = round(i * n_timeslots / n_patients)
+        distribution[slot] = 1
+
+    return distribution
+
+def plot_timeline(slots):
+    # Create a figure
+    fig = go.Figure()
+
+    # Iterate over each timeslot and add a bar for occupied slots
+    for i, slot in enumerate(slots):
+        fig.add_trace(go.Bar(x=[i], y=[slot], width=0.8, marker_color='black'))
+
+    # Update layout
+    fig.update_layout(
+        title="Timeline of Occupied Timeslots",
+        xaxis_title="Timeslots",
+        yaxis=dict(showticklabels=False, showgrid=False, zeroline=False),
+        showlegend=False
+    )
+
+    # Set y-axis range
+    fig.update_yaxes(range=[0, np.max(slots)])
+
+    # Show the figure
+    fig.show()
 ```
 
 A schedule with $T$ intervals can have $T$ states. A state of a schedule at interval $t$ is defined by:
@@ -273,12 +325,12 @@ class Schedule:
             self.system['p_plus'][0] = self.system['p_min'][0].copy() if self.parameters['x'][0] == 0 else np.convolve(self.system['w'][0][-1], self.parameters['s'])[:(len(self.parameters['s']))]
             # Initialize array for saving total expected waiting times per state
             self.system['ew'] = np.zeros(len(self.parameters['x']), dtype=np.float64)
-            # Set the initial state to 1.
+            # Set the initial state to 1.print(self.system)
             self.state = 1
         
     def calculate_system_states(self, until = 1):
             """
-            Calculate the probabilities of the system being in each state at each time step.
+            Calculate the probabilities of of work in system and waiting times in each state.
             
             Args:
             until (int): An optional integer representing the state until which to calculate the probabilities.
@@ -308,10 +360,10 @@ class Schedule:
                             self.system['w'][self.state][i] = np.convolve(self.system['w'][self.state][i-1], self.parameters['s'])[:(len(self.parameters['s']))]
 
                 
-                """The probablitity that the amount of work left in the system equals i just before state t ends equals 
-                the convolution of the waiting time distribution of the last arriving patient and the service time distribution. 
-                Unless there are no patients in the state t. In that case the distribution of total work just before t ends is equal 
-                to the distribution of work at the beginning of t. 
+                """The probablitity that the amount of work in the system equals i just after state t starts equals 
+                the convolution of the waiting time distribution of the last arriving patient in t-1 and the service time distribution. 
+                Unless there are no patients in the state t. In that case the distribution of total work just after t started is equal 
+                to the distribution of work left over from t-1. 
                 The resulting vector is truncated to the length of the service time distribution."""
                 logging.info(f'{datetime.datetime.now()} - Calculating p_plus in state {self.state}')
                 self.system['p_plus'][self.state] = self.system['p_min'][self.state].copy() if self.parameters['x'][self.state] == 0 else np.convolve(self.system['w'][self.state][-1], self.parameters['s'])[:(len(self.parameters['s']))]
@@ -319,7 +371,7 @@ class Schedule:
                 self.state += 1
   
       
-    def local_search(self, s=0, omega=0.5):
+    def local_search(self, omega=0.5):
       """
       Generate for a given schedule a local search environment, establish for each schedule in the environment the lowest total waiting time, if a schedule with a lower waiting time is found, use this schedule to generate a new local environment and search this environment for lower waiting times. When a local environment contains no schedules with lower waiting stop searching.  
       """
@@ -343,38 +395,36 @@ class Schedule:
               print(f"Test schedule = {self.parameters['x']}")
               # Set starting state
               self.state = 0
-              # Recalculate distributions
               # If start state is 0 reinitialize p_min, w and p_plus in state 0
               if(self.state == 0):
                   self.system = dict({
                       'p_min': np.zeros((len(self.parameters['x']) + 1, len(self.parameters['s'])), dtype=np.float64),
                       'p_plus': np.zeros((len(self.parameters['x']), len(self.parameters['s'])), dtype=np.float64)
                   })
-                  print("Calculated p_min and p_plus")
                   # Set the first element of p_min in the initial state to 1.
                   self.system['p_min'][0][0] = 1
-                  print("Set first element of p_min")
                   # Initialize array of arrays for saving waiting times distributions per patient
                   self.system['w'] = zero_arrays(self.parameters['x'].copy(), len(self.parameters['s']))
-                  print("Initialized waiting times")
                   if(self.parameters['x'][0] > 0): # Only calculate waiting times if there are patients scheduled in the state
                            self.system['w'][0][0] = self.system['p_min'][0].copy()
                            for i in range(1, self.parameters['x'][0]):
                                   self.system['w'][0][i] = np.convolve(self.system['w'][0][i-1], self.parameters['s'])[:(len(self.parameters['s']))]
-                  print("Calculated waiting times")
                   self.system['p_plus'][0] = self.system['p_min'][0].copy() if self.parameters['x'][0] == 0 else np.convolve(self.system['w'][0][-1], self.parameters['s'])[:(len(self.parameters['s']))]
                   # Initialize array for saving total expected waiting times per state
                   self.system['ew'] = np.zeros(len(self.parameters['x']), dtype=np.float64)
                   # Set the initial state to 1.
                   self.state = 1
-                  print("System recalculated")
               self.calculate_system_states(until=len(self.parameters['x']))
+              print("System recalculated")
               self.calculate_wait_times()
               test_wt = self.system["ew"].sum()
+              print(f"Average waiting time={test_wt / self.parameters['x'].sum()}")
               self.calculate_tardiness()
               indices = np.arange(self.system['p_min'][-1].size) 
               exp_tard = (indices * self.system['p_min'][-1]).sum()
+              print(f'Expected tardiness={exp_tard}')
               test_loss = omega * test_wt / self.parameters['x'].sum() + (1 - omega) * exp_tard
+              print(f'obj_value = {test_loss}')
               # If a composition with a lower waiting time is found, store the system
               if(test_loss < lowest_loss):
                 lowest_loss = test_loss
@@ -387,17 +437,92 @@ class Schedule:
                 break  # Exit the inner loop to generate a new neighborhood
           
           if not improved:  # If no improvement was found in the inner loop
+            logging.info(f'Finished searching')
+            # Set the system to the stored optimal system 
+            logging.info(f'{datetime.datetime.now()} - Final result lowest loss = {lowest_loss} with x = {store_optim["x"]} and system = {store_optim["system"]}')
+            self.parameters['x'] = store_optim['x'].copy()
+            self.system['p_min'] = store_optim['system']['p_min']
+            self.system['p_plus'] = store_optim['system']['p_plus']
+            self.system['w'] = store_optim['system']['w']
+            self.system['ew'] = store_optim['system']['ew']
+            break  # Exit the outer loop - the search is complete
+      
+    def small_local_search(self, omega=0.5):
+      """
+      Generate for a given schedule a local search environment, establish for each schedule in the environment the lowest total waiting time, if a schedule with a lower waiting time is found, use this schedule to generate a new local environment and search this environment for lower waiting times. When a local environment contains no schedules with lower waiting stop searching.  
+      """
+      
+      # Calculate initial loss
+      test_wt = self.system["ew"].sum()
+      self.calculate_tardiness()
+      indices = np.arange(self.system['p_min'][-1].size) 
+      exp_tard = (indices * self.system['p_min'][-1]).sum()
+      lowest_loss = omega * test_wt / self.parameters['x'].sum() + (1 - omega) * exp_tard
+      store_optim = dict({ 'x' : self.parameters['x'].copy(), 'system' : copy.deepcopy(self.system), 'tot_wt' : test_wt})
+    
+      # Continue the search until no improvement is found
+      while True:  # Start an outer loop that will continue until explicitly broken
+          nh = generate_small_search_neighborhood(self.parameters['x'])  # Generate a new neighborhood
+          improved = False  # Flag to check if an improvement was found in the inner loop
+          
+          for y in nh:  # Inner loop to search through the neighborhood
+              # Insert first element of nh in x
+              self.parameters['x'] = y.copy()
+              print(f"Test schedule = {self.parameters['x']}")
+              # Set starting state
+              self.state = 0
+              # If start state is 0 reinitialize p_min, w and p_plus in state 0
+              if(self.state == 0):
+                  self.system = dict({
+                      'p_min': np.zeros((len(self.parameters['x']) + 1, len(self.parameters['s'])), dtype=np.float64),
+                      'p_plus': np.zeros((len(self.parameters['x']), len(self.parameters['s'])), dtype=np.float64)
+                  })
+                  # Set the first element of p_min in the initial state to 1.
+                  self.system['p_min'][0][0] = 1
+                  # Initialize array of arrays for saving waiting times distributions per patient
+                  self.system['w'] = zero_arrays(self.parameters['x'].copy(), len(self.parameters['s']))
+                  if(self.parameters['x'][0] > 0): # Only calculate waiting times if there are patients scheduled in the state
+                           self.system['w'][0][0] = self.system['p_min'][0].copy()
+                           for i in range(1, self.parameters['x'][0]):
+                                  self.system['w'][0][i] = np.convolve(self.system['w'][0][i-1], self.parameters['s'])[:(len(self.parameters['s']))]
+                  self.system['p_plus'][0] = self.system['p_min'][0].copy() if self.parameters['x'][0] == 0 else np.convolve(self.system['w'][0][-1], self.parameters['s'])[:(len(self.parameters['s']))]
+                  # Initialize array for saving total expected waiting times per state
+                  self.system['ew'] = np.zeros(len(self.parameters['x']), dtype=np.float64)
+                  # Set the initial state to 1.
+                  self.state = 1
+              self.calculate_system_states(until=len(self.parameters['x']))
+              print("System recalculated")
+              self.calculate_wait_times()
+              test_wt = self.system["ew"].sum()
+              print(f"Average waiting time={test_wt / self.parameters['x'].sum()}")
+              self.calculate_tardiness()
+              indices = np.arange(self.system['p_min'][-1].size) 
+              exp_tard = (indices * self.system['p_min'][-1]).sum()
+              print(f'Expected tardiness={exp_tard}')
+              test_loss = omega * test_wt / self.parameters['x'].sum() + (1 - omega) * exp_tard
+              print(f'obj_value = {test_loss}')
+              # If a composition with a lower waiting time is found, store the system
+              if(test_loss < lowest_loss):
+                lowest_loss = test_loss
+                store_optim['x'] = self.parameters['x'].copy()
+                newsystem = copy.deepcopy(self.system)
+                store_optim['system'] = newsystem
+                store_optim['tot_wt'] = test_wt
+                logging.info(f'{datetime.datetime.now()} - Found lower loss = {lowest_loss} with x = {store_optim["x"]} and system = {store_optim["system"]}')
+                improved = True  # Set the flag because an improvement was found
+                break  # Exit the inner loop to generate a new neighborhood
+          
+          if not improved:  # If no improvement was found in the inner loop
+            logging.info(f'Finished searching')
+            # Set the system to the stored optimal system 
+            logging.info(f'{datetime.datetime.now()} - Final result lowest loss = {lowest_loss} with x = {store_optim["x"]} and system = {store_optim["system"]}')
+            self.parameters['x'] = store_optim['x'].copy()
+            self.system['p_min'] = store_optim['system']['p_min']
+            self.system['p_plus'] = store_optim['system']['p_plus']
+            self.system['w'] = store_optim['system']['w']
+            self.system['ew'] = store_optim['system']['ew']
             break  # Exit the outer loop - the search is complete
           
-          # Set the system to the stored optimal system 
-          logging.info(f'{datetime.datetime.now()} - Final result lowest loss = {lowest_loss} with x = {store_optim["x"]} and system = {store_optim["system"]}')
-          self.parameters['x'] = store_optim['x'].copy()
-          self.system['p_min'] = store_optim['system']['p_min']
-          self.system['p_plus'] = store_optim['system']['p_plus']
-          self.system['w'] = store_optim['system']['w']
-          self.system['ew'] = store_optim['system']['ew']
-      
-    
     def impute_compositions(self, s=0, k=2, omega=0.5):
       """
       Impute the compositions of patients in a given time interval and establish the schedule with the lowest total waiting time.
@@ -494,19 +619,17 @@ class Schedule:
       """
       Calculate the expected waiting time for each time step.
       """
-    # Initialize time counter
-      t = 0
-      # Calculate the expected waiting time for each time step
-      for t, w in enumerate(self.system['w']):
+      for interval, wtdists in enumerate(self.system['w']):
           ew = 0
-          for i in w:
+          for nr, dist in enumerate(wtdists):
               # Calculate the weighted sum of the waiting time distribution
-              a = range(len(i))
-              b = i
-              wt = np.dot(a, b)
-              ew += wt
+              a = range(len(dist))
+              b = dist
+              meanwt = np.dot(a, b)
+              print(f"Mean waiting time for patient {nr} in interval {interval} = {meanwt}")
+              ew += meanwt
           # Store the expected waiting time for the current time step
-          self.system['ew'][t] = ew
+          self.system['ew'][interval] = ew
         
         
     def visualize_state(self, state='', dist='p_plus'):
@@ -592,15 +715,27 @@ def run_schedule(x, d, s, u=1, omega=0.3, print_system=True):
     schedule.calculate_system_states(until=u)
     schedule.calculate_wait_times()
     if(print_system): print(schedule)
-    schedule.local_search(s=0, omega=omega)
+    schedule.local_search(omega=omega)
+    return(schedule)
+```
+
+```{python}
+def run_schedule_small_search(x, d, s, u=1, omega=0.3, print_system=True):
+    file_to_clear = open("logs.txt",'w')
+    file_to_clear.close()
+    schedule = Schedule(x=x, d=d, s=s)
+    schedule.calculate_system_states(until=u)
+    schedule.calculate_wait_times()
+    if(print_system): print(schedule)
+    schedule.small_local_search(omega=omega)
     return(schedule)
 ```
 
 ```{python}
 """Simple test case"""
 # clear the data in the info file
-# with open("logs.txt",'w') as file:
-  # pass
+with open("logs.txt",'w') as file:
+  pass
 x = np.array([2, 0, 3, 1, 1], dtype=np.int64)
 d = 3
 s=np.array(
@@ -610,44 +745,6 @@ exp_s = (indices * s).sum()
 print(f'exp_s = {exp_s}')
 u = 5
 omega = 0.5
-sch = run_schedule(x, d, s, u, omega, False)
-sch.visualize_system('p_min')
-sch.visualize_system('p_plus')
-```
-
-```{python}
-"""Simple test case"""
-# clear the data in the info file
-# with open("logs.txt",'w') as file:
-  # pass
-x = np.array([2, 0, 3, 1, 1], dtype=np.int64)
-d = 3
-s=np.array(
-    [0.1, 0.2, 0.3, 0.2, 0.15, 0.05, 0, 0, 0, 0, 0, 0, 0, 0], dtype=np.float64)
-indices = np.arange(s.size)
-exp_s = (indices * s).sum()
-print(f'exp_s = {exp_s}')
-u = len(x)
-omega = 1
-sch = run_schedule(x, d, s, u, omega, False)
-sch.visualize_system('p_min')
-sch.visualize_system('p_plus')
-```
-
-```{python}
-"""Simple test case"""
-# clear the data in the info file
-# with open("logs.txt",'w') as file:
-  # pass
-x = np.array([2, 0, 3, 1, 1], dtype=np.int64)
-d = 3
-s=np.array(
-    [0.1, 0.2, 0.3, 0.2, 0.15, 0.05, 0, 0, 0, 0, 0, 0, 0, 0], dtype=np.float64)
-indices = np.arange(s.size)
-exp_s = (indices * s).sum()
-print(f'exp_s = {exp_s}')
-u = len(x)
-omega = 0
 sch = run_schedule(x, d, s, u, omega, False)
 sch.visualize_system('p_min')
 sch.visualize_system('p_plus')
@@ -681,8 +778,11 @@ limit = calc_distr_limit(l * x.sum())+1
 service_times = range(0, limit)
 s = np.array([poisson.pmf(i, l) for i in service_times], dtype=np.float64)
 u = len(x)
-omega = 0.3  
+omega = 0.5
 sch = run_schedule(x, d, s, u, omega, False)
+x_final = sch.parameters['x']
+plot_timeline(x)
+plot_timeline(x_final)
 ```
 
 ```{python}
@@ -698,12 +798,15 @@ sch.visualize_system('p_plus')
 ```
 
 ```{python}
-T = 24 # number of intervals
+with open("logs.txt",'w') as file:
+  pass
+T = 12 # number of intervals
 x = np.zeros(T) 
 t = np.arange(T, step=2)
 x[t] = 1
 x[-1] = 1
-x[0] = 2 
+x[0] = 2
+x[1] = 1
 x = x.astype(int) # initial schedule
 print(f'Initial schedule: {x}')
 N = np.sum(x)
@@ -713,7 +816,34 @@ limit = calc_distr_limit(l * N)+1
 service_times = range(0, limit)
 s = np.array([poisson.pmf(i, l) for i in service_times], dtype=np.float64)
 u = T
-omega = 0.3
+omega = 0.5
 sch = run_schedule(x, d, s, u, omega, False)
-sch.visualize_system('p_plus')
+sch.visualize_system('p_min')
+x_final = sch.parameters['x']
+plot_timeline(x)
+plot_timeline(x_final)
+```
+
+```{python}
+with open("logs.txt",'w') as file:
+  pass
+
+T = 48 # number of intervals
+N = 10
+x = np.array(distribute_patients(N, T))
+
+print(f'Initial schedule: {x}')
+N = np.sum(x)
+d = 5
+l = 20
+limit = calc_distr_limit(l * N)+1
+service_times = range(0, limit)
+s = np.array([poisson.pmf(i, l) for i in service_times], dtype=np.float64)
+u = T
+omega = 0.999
+sch = run_schedule_small_search(x, d, s, u, omega, False)
+x_final = sch.parameters['x']
+plot_timeline(x)
+plot_timeline(x_final)
+# sch.visualize_system('p_min')
 ```
