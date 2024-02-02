@@ -1,0 +1,173 @@
+INFO:root:2023-12-15 11:35:37.286761 - x = [1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0
+ 0 1 0 0 0 0 1 0 0 0 0]
+INFO:root:2023-12-15 11:35:37.287528 - State = 1
+INFO:root:2023-12-15 11:35:37.287604 - Calculating p_min in state 1
+INFO:root:2023-12-15 11:35:37.287688 - Calculating p_plus in state 1
+INFO:root:2023-12-15 11:35:37.287754 - State = 2
+INFO:root:2023-12-15 11:35:37.287807 - Calculating p_min in state 2
+INFO:root:2023-12-15 11:35:37.287874 - Calculating p_plus in state 2
+INFO:root:2023-12-15 11:35:37.287932 - State = 3
+INFO:root:2023-12-15 11:35:37.287984 - Calculating p_min in state 3
+INFO:root:2023-12-15 11:35:37.288049 - Calculating p_plus in state 3
+INFO:root:2023-12-15 11:35:37.288107 - State = 4
+INFO:root:2023-12-15 11:35:37.288155 - Calculating p_min in state 4
+INFO:root:2023-12-15 11:35:37.288222 - Calculating p_plus in state 4
+INFO:root:2023-12-15 11:35:37.288283 - State = 5
+INFO:root:2023-12-15 11:35:37.288330 - Calculating p_min in state 5
+INFO:root:2023-12-15 11:35:37.288395 - Calculating w[5][0] in state 5
+INFO:root:2023-12-15 11:35:37.288516 - Done
+INFO:root:2023-12-15 11:35:37.288600 - Calculating p_plus in state 5
+INFO:root:2023-12-15 11:35:37.288721 - State = 6
+INFO:root:2023-12-15 11:35:37.288782 - Calculating p_min in state 6
+INFO:root:2023-12-15 11:35:37.288862 - Calculating p_plus in state 6
+INFO:root:2023-12-15 11:35:37.288923 - State = 7
+INFO:root:2023-12-15 11:35:37.288974 - Calculating p_min in state 7
+INFO:root:2023-12-15 11:35:37.289044 - Calculating p_plus in state 7
+INFO:root:2023-12-15 11:35:37.289104 - State = 8
+INFO:root:2023-12-15 11:35:37.289211 - Calculating p_min in state 8
+INFO:root:2023-12-15 11:35:37.289350 - Calculating p_plus in state 8
+INFO:root:2023-12-15 11:35:37.289430 - State = 9
+INFO:root:2023-12-15 11:35:37.289486 - Calculating p_min in state 9
+INFO:root:2023-12-15 11:35:37.289559 - Calculating p_plus in state 9
+INFO:root:2023-12-15 11:35:37.289618 - State = 10
+INFO:root:2023-12-15 11:35:37.289670 - Calculating p_min in state 10
+INFO:root:2023-12-15 11:35:37.289736 - Calculating w[10][0] in state 10
+INFO:root:2023-12-15 11:35:37.289795 - Done
+INFO:root:2023-12-15 11:35:37.289845 - Calculating p_plus in state 10
+INFO:root:2023-12-15 11:35:37.289937 - State = 11
+INFO:root:2023-12-15 11:35:37.289986 - Calculating p_min in state 11
+INFO:root:2023-12-15 11:35:37.290055 - Calculating p_plus in state 11
+INFO:root:2023-12-15 11:35:37.290130 - State = 12
+INFO:root:2023-12-15 11:35:37.290207 - Calculating p_min in state 12
+INFO:root:2023-12-15 11:35:37.290313 - Calculating p_plus in state 12
+INFO:root:2023-12-15 11:35:37.290385 - State = 13
+INFO:root:2023-12-15 11:35:37.290468 - Calculating p_min in state 13
+INFO:root:2023-12-15 11:35:37.290601 - Calculating p_plus in state 13
+INFO:root:2023-12-15 11:35:37.290680 - State = 14
+INFO:root:2023-12-15 11:35:37.290739 - Calculating p_min in state 14
+INFO:root:2023-12-15 11:35:37.290817 - Calculating w[14][0] in state 14
+INFO:root:2023-12-15 11:35:37.290901 - Done
+INFO:root:2023-12-15 11:35:37.290984 - Calculating p_plus in state 14
+INFO:root:2023-12-15 11:35:37.291110 - State = 15
+INFO:root:2023-12-15 11:35:37.291179 - Calculating p_min in state 15
+INFO:root:2023-12-15 11:35:37.291253 - Calculating p_plus in state 15
+INFO:root:2023-12-15 11:35:37.291381 - State = 16
+INFO:root:2023-12-15 11:35:37.291473 - Calculating p_min in state 16
+INFO:root:2023-12-15 11:35:37.291574 - Calculating p_plus in state 16
+INFO:root:2023-12-15 11:35:37.291643 - State = 17
+INFO:root:2023-12-15 11:35:37.291702 - Calculating p_min in state 17
+INFO:root:2023-12-15 11:35:37.291783 - Calculating p_plus in state 17
+INFO:root:2023-12-15 11:35:37.291843 - State = 18
+INFO:root:2023-12-15 11:35:37.291895 - Calculating p_min in state 18
+INFO:root:2023-12-15 11:35:37.291966 - Calculating p_plus in state 18
+INFO:root:2023-12-15 11:35:37.292021 - State = 19
+INFO:root:2023-12-15 11:35:37.292073 - Calculating p_min in state 19
+INFO:root:2023-12-15 11:35:37.292139 - Calculating w[19][0] in state 19
+INFO:root:2023-12-15 11:35:37.292198 - Done
+INFO:root:2023-12-15 11:35:37.292275 - Calculating p_plus in state 19
+INFO:root:2023-12-15 11:35:37.292368 - State = 20
+INFO:root:2023-12-15 11:35:37.292422 - Calculating p_min in state 20
+INFO:root:2023-12-15 11:35:37.292491 - Calculating p_plus in state 20
+INFO:root:2023-12-15 11:35:37.292551 - State = 21
+INFO:root:2023-12-15 11:35:37.292600 - Calculating p_min in state 21
+INFO:root:2023-12-15 11:35:37.292670 - Calculating p_plus in state 21
+INFO:root:2023-12-15 11:35:37.292727 - State = 22
+INFO:root:2023-12-15 11:35:37.292777 - Calculating p_min in state 22
+INFO:root:2023-12-15 11:35:37.292845 - Calculating p_plus in state 22
+INFO:root:2023-12-15 11:35:37.292905 - State = 23
+INFO:root:2023-12-15 11:35:37.292954 - Calculating p_min in state 23
+INFO:root:2023-12-15 11:35:37.293022 - Calculating p_plus in state 23
+INFO:root:2023-12-15 11:35:37.293089 - State = 24
+INFO:root:2023-12-15 11:35:37.293145 - Calculating p_min in state 24
+INFO:root:2023-12-15 11:35:37.293216 - Calculating w[24][0] in state 24
+INFO:root:2023-12-15 11:35:37.293274 - Done
+INFO:root:2023-12-15 11:35:37.293329 - Calculating p_plus in state 24
+INFO:root:2023-12-15 11:35:37.293426 - State = 25
+INFO:root:2023-12-15 11:35:37.293485 - Calculating p_min in state 25
+INFO:root:2023-12-15 11:35:37.293552 - Calculating p_plus in state 25
+INFO:root:2023-12-15 11:35:37.293613 - State = 26
+INFO:root:2023-12-15 11:35:37.293662 - Calculating p_min in state 26
+INFO:root:2023-12-15 11:35:37.293730 - Calculating p_plus in state 26
+INFO:root:2023-12-15 11:35:37.293800 - State = 27
+INFO:root:2023-12-15 11:35:37.293857 - Calculating p_min in state 27
+INFO:root:2023-12-15 11:35:37.293928 - Calculating p_plus in state 27
+INFO:root:2023-12-15 11:35:37.293986 - State = 28
+INFO:root:2023-12-15 11:35:37.294037 - Calculating p_min in state 28
+INFO:root:2023-12-15 11:35:37.294103 - Calculating p_plus in state 28
+INFO:root:2023-12-15 11:35:37.294161 - State = 29
+INFO:root:2023-12-15 11:35:37.294214 - Calculating p_min in state 29
+INFO:root:2023-12-15 11:35:37.294284 - Calculating w[29][0] in state 29
+INFO:root:2023-12-15 11:35:37.294340 - Done
+INFO:root:2023-12-15 11:35:37.294391 - Calculating p_plus in state 29
+INFO:root:2023-12-15 11:35:37.294484 - State = 30
+INFO:root:2023-12-15 11:35:37.294536 - Calculating p_min in state 30
+INFO:root:2023-12-15 11:35:37.294615 - Calculating p_plus in state 30
+INFO:root:2023-12-15 11:35:37.294673 - State = 31
+INFO:root:2023-12-15 11:35:37.294724 - Calculating p_min in state 31
+INFO:root:2023-12-15 11:35:37.294790 - Calculating p_plus in state 31
+INFO:root:2023-12-15 11:35:37.294850 - State = 32
+INFO:root:2023-12-15 11:35:37.294899 - Calculating p_min in state 32
+INFO:root:2023-12-15 11:35:37.294968 - Calculating p_plus in state 32
+INFO:root:2023-12-15 11:35:37.295048 - State = 33
+INFO:root:2023-12-15 11:35:37.295103 - Calculating p_min in state 33
+INFO:root:2023-12-15 11:35:37.295174 - Calculating p_plus in state 33
+INFO:root:2023-12-15 11:35:37.295235 - State = 34
+INFO:root:2023-12-15 11:35:37.295284 - Calculating p_min in state 34
+INFO:root:2023-12-15 11:35:37.295352 - Calculating w[34][0] in state 34
+INFO:root:2023-12-15 11:35:37.295413 - Done
+INFO:root:2023-12-15 11:35:37.295463 - Calculating p_plus in state 34
+INFO:root:2023-12-15 11:35:37.295555 - State = 35
+INFO:root:2023-12-15 11:35:37.295611 - Calculating p_min in state 35
+INFO:root:2023-12-15 11:35:37.295691 - Calculating p_plus in state 35
+INFO:root:2023-12-15 11:35:37.295756 - State = 36
+INFO:root:2023-12-15 11:35:37.295805 - Calculating p_min in state 36
+INFO:root:2023-12-15 11:35:37.295874 - Calculating p_plus in state 36
+INFO:root:2023-12-15 11:35:37.295948 - State = 37
+INFO:root:2023-12-15 11:35:37.295999 - Calculating p_min in state 37
+INFO:root:2023-12-15 11:35:37.296067 - Calculating p_plus in state 37
+INFO:root:2023-12-15 11:35:37.296131 - State = 38
+INFO:root:2023-12-15 11:35:37.296185 - Calculating p_min in state 38
+INFO:root:2023-12-15 11:35:37.296257 - Calculating w[38][0] in state 38
+INFO:root:2023-12-15 11:35:37.296313 - Done
+INFO:root:2023-12-15 11:35:37.296365 - Calculating p_plus in state 38
+INFO:root:2023-12-15 11:35:37.296481 - State = 39
+INFO:root:2023-12-15 11:35:37.296541 - Calculating p_min in state 39
+INFO:root:2023-12-15 11:35:37.296611 - Calculating p_plus in state 39
+INFO:root:2023-12-15 11:35:37.296672 - State = 40
+INFO:root:2023-12-15 11:35:37.296722 - Calculating p_min in state 40
+INFO:root:2023-12-15 11:35:37.296798 - Calculating p_plus in state 40
+INFO:root:2023-12-15 11:35:37.296860 - State = 41
+INFO:root:2023-12-15 11:35:37.296911 - Calculating p_min in state 41
+INFO:root:2023-12-15 11:35:37.296986 - Calculating p_plus in state 41
+INFO:root:2023-12-15 11:35:37.297044 - State = 42
+INFO:root:2023-12-15 11:35:37.297095 - Calculating p_min in state 42
+INFO:root:2023-12-15 11:35:37.297161 - Calculating p_plus in state 42
+INFO:root:2023-12-15 11:35:37.297220 - State = 43
+INFO:root:2023-12-15 11:35:37.297275 - Calculating p_min in state 43
+INFO:root:2023-12-15 11:35:37.297342 - Calculating w[43][0] in state 43
+INFO:root:2023-12-15 11:35:37.297400 - Done
+INFO:root:2023-12-15 11:35:37.297450 - Calculating p_plus in state 43
+INFO:root:2023-12-15 11:35:37.297545 - State = 44
+INFO:root:2023-12-15 11:35:37.297601 - Calculating p_min in state 44
+INFO:root:2023-12-15 11:35:37.297671 - Calculating p_plus in state 44
+INFO:root:2023-12-15 11:35:37.297735 - State = 45
+INFO:root:2023-12-15 11:35:37.297788 - Calculating p_min in state 45
+INFO:root:2023-12-15 11:35:37.297862 - Calculating p_plus in state 45
+INFO:root:2023-12-15 11:35:37.297923 - State = 46
+INFO:root:2023-12-15 11:35:37.297972 - Calculating p_min in state 46
+INFO:root:2023-12-15 11:35:37.298035 - Calculating p_plus in state 46
+INFO:root:2023-12-15 11:35:37.298094 - State = 47
+INFO:root:2023-12-15 11:35:37.298143 - Calculating p_min in state 47
+INFO:root:2023-12-15 11:35:37.298211 - Calculating p_plus in state 47
+INFO:root:Mean waiting time for patient 0 in interval 0 = 0.0
+INFO:root:Mean waiting time for patient 0 in interval 5 = 0.33082811857550787
+INFO:root:Mean waiting time for patient 0 in interval 10 = 0.4218282240944377
+INFO:root:Mean waiting time for patient 0 in interval 14 = 2.062365331627678
+INFO:root:Mean waiting time for patient 0 in interval 19 = 1.0548699886276467
+INFO:root:Mean waiting time for patient 0 in interval 24 = 0.7107533334123064
+INFO:root:Mean waiting time for patient 0 in interval 29 = 0.5778339516689601
+INFO:root:Mean waiting time for patient 0 in interval 34 = 0.5224745256867752
+INFO:root:Mean waiting time for patient 0 in interval 38 = 2.140402449949751
+INFO:root:Mean waiting time for patient 0 in interval 43 = 1.0994085937050921
+INFO:root:The schedule = [1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0
+ 0 1 0 0 0 0 1 0 0 0 0]

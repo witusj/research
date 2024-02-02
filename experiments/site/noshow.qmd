@@ -10,7 +10,12 @@ This code replicates methods from @kaandorp_optimal_2007.
 
 ![](images/20230831_105330.jpeg)
 
+<<<<<<< HEAD
 Let the number of arriving emergency patients be $Y$. Then the amount of work arriving is the Y-fold convolution of the vector representing the service time for emergency patients, $s_e^{(Y)}$. In this vector the $j$th element $s_{ej}$ denotes the probability that the service time of an emergency patient is $j$ minutes. Then the distribution of the amount of emergency work arriving at the start of any interval is given by:
+=======
+Let the number of
+arriving emergency patients be $Y$. Then the amount of work arriving is the Y-fold convolution of the vector representing the service time for emergency patients, $s_e^{(Y)}$. In this vector the $j$th element $s_{ej}$ denotes the probability that the service time of an emergency patient is $j$ minutes. Then the distribution of the amount of emergency work arriving at the start of any interval is given by:
+>>>>>>> 93d587d4403d8ca688a94e5a51a1e80e9d3c94f3
 
 $$v_0(i) = \sum\limits_{y=1}^{\infty}s_{ei}^{(Y)}P(Y=y) = \Big(\sum\limits_{y=1}^{\infty}P(Y=y)s_{e}^{(y)}\Big)_i$$
 
@@ -60,9 +65,14 @@ def add_lists(short_list, long_list):
   
   return result
 
+<<<<<<< HEAD
 def calculate_rolling_convolution(p_y, s):
   conv_list = s
   limit = len(p_y)
+=======
+def calculate_rolling_convolution(p_y, s, limit):
+  conv_list = s
+>>>>>>> 93d587d4403d8ca688a94e5a51a1e80e9d3c94f3
   v = [x * p_y[0] for x in conv_list]
   for i in range(1, limit):
     conv_list = np.convolve(conv_list, s)
@@ -84,9 +94,16 @@ print(f'adjusted service times={s_adj}, with sum  {s_adj.sum()}')
 ```{python}
 ### TEST 2 ###
 
+<<<<<<< HEAD
 p_y = [0.3, 0.8]
 s = [0.1, 0.2, 0.7]
 v = calculate_rolling_convolution(p_y, s)
+=======
+p_y = [0.5, 0.3, 0.2]
+s = [0.1, 0.2, 0.7]
+limit = 3
+v = calculate_rolling_convolution(p_y, s, limit)
+>>>>>>> 93d587d4403d8ca688a94e5a51a1e80e9d3c94f3
 ```
 
 ```{python}
@@ -117,8 +134,12 @@ p_y = [poisson.pmf(i, 2) for i in range(0, len_y)]
 se = [poisson.pmf(j, 10) for j in range(0, len_se)]
 print(sum(p_y), sum(se))
 
+<<<<<<< HEAD
 v = calculate_rolling_convolution(p_y, se)
 len(v)
+=======
+v = calculate_rolling_convolution(p_y, se, len_y)
+>>>>>>> 93d587d4403d8ca688a94e5a51a1e80e9d3c94f3
 ```
 
 ```{python}
