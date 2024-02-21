@@ -123,7 +123,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="python-implementation" class="level4">
 <h4 class="anchored" data-anchor-id="python-implementation">Python Implementation</h4>
 <p>To illustrate key concepts, this post includes Python code snippets demonstrating various scheduling algorithms and techniques, such as dynamic programming and integer programming.</p>
-<p>For instance, let’s examine a simple weighted interval scheduling problem using dynamic programming:</p>
+<p>For instance, let’s examine a simple weighted interval scheduling problem using dynamic programming. The Python code for the weighted interval scheduling problem using dynamic programming can be applied in project management to optimally allocate resources and improve project efficiency. By implementing this algorithm, project managers can prioritize tasks based on their importance and ensure that critical activities are completed without conflicts.</p>
+<p>For example, imagine a software development team working on multiple projects simultaneously. They want to optimize their resource allocation across these projects to meet strict delivery timelines. By applying the weighted interval scheduling algorithm with dynamic programming, they could create a priority list of tasks, taking into account both the urgency and importance of each task. This allows them to make informed decisions about which tasks should receive higher priority during resource allocation, ultimately leading to faster completion times and increased customer satisfaction.</p>
+<p>Additionally, this algorithm can help reduce costs by preventing unnecessary duplication of effort and reducing idle time for resources. As a result, organizations can achieve greater productivity and competitiveness in their respective markets.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> weighted_interval_scheduling(requests):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sort requests by decreasing weight</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    sorted_requests <span class="op">=</span> <span class="bu">sorted</span>(requests, reverse<span class="op">=</span><span class="va">True</span>, key<span class="op">=</span><span class="kw">lambda</span> r: r[<span class="st">'weight'</span>])</span>
@@ -145,90 +147,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>requests <span class="op">=</span> [{<span class="st">'id'</span>: <span class="dv">1</span>, <span class="st">'start'</span>: <span class="dv">0</span>, <span class="st">'end'</span>: <span class="dv">5</span>, <span class="st">'weight'</span>: <span class="dv">10</span>}, {<span class="st">'id'</span>: <span class="dv">2</span>, <span class="st">'start'</span>: <span class="dv">1</span>, <span class="st">'end'</span>: <span class="dv">8</span>, <span class="st">'weight'</span>: <span class="dv">8</span>}]</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Maximum weight:"</span>, weighted_interval_scheduling(requests))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>By understanding the principles discussed in this blog post, readers will gain valuable insights into the world of scheduling theory, algorithms, and systems, enabling them to tackle challenging real-world problems effectively.</p>
-<p>Citations:</p>
+<p>References:</p>
 <ol type="1">
-<li><a href="https://www.stern.nyu.edu/om/faculty/pinedo/scheduling/shakhlevich/handout01.pdf">https://www.stern.nyu.edu/om/faculty/pinedo/scheduling/shakhlevich/handout01.pdf</a></li>
-<li><a href="https://www.tutorialspoint.com/operating_system/os_process_scheduling_algorithms.htm">https://www.tutorialspoint.com/operating_system/os_process_scheduling_algorithms.htm</a></li>
-<li><a href="https://www.cs.umd.edu/class/fall2017/cmsc451-0101/Lects/lect10-dp-intv-sched.pdf">https://www.cs.umd.edu/class/fall2017/cmsc451-0101/Lects/lect10-dp-intv-sched.pdf</a></li>
-<li><a href="https://web.mit.edu/15.053/www/AMP-Chapter-09.pdf">https://web.mit.edu/15.053/www/AMP-Chapter-09.pdf</a></li>
-<li><a href="https://www.nii.ac.jp/userimg/lectures/20131010/Lecture1.pdf">https://www.nii.ac.jp/userimg/lectures/20131010/Lecture1.pdf</a></li>
-<li><a href="https://www.geeksforgeeks.org/cpu-scheduling-in-operating-systems/">https://www.geeksforgeeks.org/cpu-scheduling-in-operating-systems/</a></li>
-<li><a href="https://www.geeksforgeeks.org/weighted-job-scheduling/">https://www.geeksforgeeks.org/weighted-job-scheduling/</a></li>
-<li><a href="https://www.sciencedirect.com/topics/computer-science/scheduling-theory">https://www.sciencedirect.com/topics/computer-science/scheduling-theory</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Scheduling_(computing)">https://en.wikipedia.org/wiki/Scheduling_(computing)</a></li>
-<li><a href="https://courses.cs.washington.edu/courses/cse521/13wi/slides/06dp-sched.pdf">https://courses.cs.washington.edu/courses/cse521/13wi/slides/06dp-sched.pdf</a></li>
-<li><a href="https://link.springer.com/chapter/10.1007/978-3-540-69446-5_4">https://link.springer.com/chapter/10.1007/978-3-540-69446-5_4</a></li>
-<li><a href="https://www.advsyscon.com/blog/job-scheduling-algorithms/">https://www.advsyscon.com/blog/job-scheduling-algorithms/</a></li>
-<li><a href="https://www.educative.io/answers/what-is-weighted-job-scheduling-in-dynamic-programming">https://www.educative.io/answers/what-is-weighted-job-scheduling-in-dynamic-programming</a></li>
-<li><a href="https://www.amazon.com/Introduction-Scheduling-Chapman-Computational-Science/dp/1138117722">https://www.amazon.com/Introduction-Scheduling-Chapman-Computational-Science/dp/1138117722</a></li>
-<li><a href="https://www.guru99.com/cpu-scheduling-algorithms.html">https://www.guru99.com/cpu-scheduling-algorithms.html</a></li>
-<li><a href="https://www.cs.cmu.edu/~ckingsf/bioinfo-lectures/dynamicp.pdf">https://www.cs.cmu.edu/~ckingsf/bioinfo-lectures/dynamicp.pdf</a></li>
-<li><a href="https://greenbeanbookspdx.indielite.org/book/9781138117723">https://greenbeanbookspdx.indielite.org/book/9781138117723</a></li>
-<li><a href="https://www.javatpoint.com/os-scheduling-algorithms">https://www.javatpoint.com/os-scheduling-algorithms</a></li>
-<li><a href="https://youtube.com/watch?v=iIX1YvbLbvc">https://youtube.com/watch?v=iIX1YvbLbvc</a></li>
-<li><a href="https://sites.google.com/cs.uni.wroc.pl/boehm/scheduling-theory-21">https://sites.google.com/cs.uni.wroc.pl/boehm/scheduling-theory-21</a></li>
-<li><a href="https://www.scaler.com/topics/operating-system/scheduling-algorithms-in-os/">https://www.scaler.com/topics/operating-system/scheduling-algorithms-in-os/</a></li>
-<li><a href="https://www.sciencedirect.com/science/article/pii/0895717790903703/pdf?md5=c6befa39de273118a4711537ae9418a6&amp;pid=1-s2.0-089571">https://www.sciencedirect.com/science/article/pii/0895717790903703/pdf?md5=c6befa39de273118a4711537ae9418a6&amp;pid=1-s2.0-0895717790903703-main.pdf</a></li>
+<li><a href="https://www.stern.nyu.edu/om/faculty/pinedo/scheduling/shakhlevich/handout01.pdf">Handout on Scheduling by Shakhlevich - NYU Stern</a></li>
+<li><a href="https://www.tutorialspoint.com/operating_system/os_process_scheduling_algorithms.htm">Operating System Process Scheduling Algorithms - Tutorialspoint</a></li>
+<li><a href="https://www.cs.umd.edu/class/fall2017/cmsc451-0101/Lects/lect10-dp-intv-sched.pdf">Lecture Notes on Dynamic Programming and Interval Scheduling - University of Maryland</a></li>
+<li><a href="https://web.mit.edu/15.053/www/AMP-Chapter-09.pdf">Chapter 9: Advanced Mathematical Programming - MIT</a></li>
+<li><a href="https://www.nii.ac.jp/userimg/lectures/20131010/Lecture1.pdf">Lecture on Scheduling Algorithms - National Institute of Informatics, Japan</a></li>
+<li><a href="https://www.geeksforgeeks.org/cpu-scheduling-in-operating-systems/">CPU Scheduling in Operating Systems - GeeksforGeeks</a></li>
+<li><a href="https://www.geeksforgeeks.org/weighted-job-scheduling/">Weighted Job Scheduling - GeeksforGeeks</a></li>
+<li><a href="https://www.sciencedirect.com/topics/computer-science/scheduling-theory">Overview of Scheduling Theory - ScienceDirect</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Scheduling_(computing)">Scheduling (Computing) - Wikipedia</a></li>
+<li><a href="https://courses.cs.washington.edu/courses/cse521/13wi/slides/06dp-sched.pdf">Slides on Dynamic Programming Scheduling - University of Washington</a></li>
+<li><a href="https://link.springer.com/chapter/10.1007/978-3-540-69446-5_4">Job Scheduling Algorithms - Springer Link</a></li>
+<li><a href="https://www.advsyscon.com/blog/job-scheduling-algorithms/">Job Scheduling Algorithms Blog Post - Advanced Systems Concepts</a></li>
+<li><a href="https://www.educative.io/answers/what-is-weighted-job-scheduling-in-dynamic-programming">Weighted Job Scheduling in Dynamic Programming - Educative.io</a></li>
+<li><a href="https://www.amazon.com/Introduction-Scheduling-Chapman-Computational-Science/dp/1138117722">Introduction to Scheduling - Amazon Book</a></li>
+<li><a href="https://www.guru99.com/cpu-scheduling-algorithms.html">CPU Scheduling Algorithms - Guru99</a></li>
+<li><a href="https://www.cs.cmu.edu/~ckingsf/bioinfo-lectures/dynamicp.pdf">Dynamic Programming Lecture Notes - CMU</a></li>
+<li><a href="https://greenbeanbookspdx.indielite.org/book/9781138117723">Book on Scheduling - Green Bean Books</a></li>
+<li><a href="https://www.javatpoint.com/os-scheduling-algorithms">Scheduling Algorithms in Operating Systems - Javatpoint</a></li>
+<li><a href="https://youtube.com/watch?v=iIX1YvbLbvc">Video Lecture on Scheduling - YouTube</a></li>
+<li><a href="https://sites.google.com/cs.uni.wroc.pl/boehm/scheduling-theory-21">Scheduling Theory Course Material - University of Wroclaw</a></li>
+<li><a href="https://www.scaler.com/topics/operating-system/scheduling-algorithms-in-os/">Scheduling Algorithms in Operating Systems - Scaler Topics</a></li>
+<li><a href="https://www.sciencedirect.com/science/article/pii/0895717790903703/pdf?md5=c6befa39de273118a4711537ae9418a6&amp;pid=1-s2.0-0895717790903703-main.pdf">Scientific Article on Scheduling - ScienceDirect</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Scheduling_(production_processes)">Scheduling in Production Processes - Wikipedia</a></li>
+<li><a href="https://data-flair.training/blogs/scheduling-algorithms-in-operating-system/">Scheduling Algorithms in Operating Systems - Data Flair</a></li>
+<li><a href="https://www.cs.toronto.edu/~toni/Courses/364-2002/Notes/lect10.pdf">Lecture Notes on Scheduling - University of Toronto</a></li>
+</ol>
+<p>References for Python code:</p>
+<ol type="1">
+<li><a href="https://www.geeksforgeeks.org/weighted-job-scheduling/">Weighted Job Scheduling - GeeksforGeeks</a></li>
+<li><a href="https://www.sciencedirect.com/science/article/pii/S0307904X1300334X">Article on Advancements in Scheduling Algorithms - ScienceDirect</a></li>
+<li><a href="https://www.tutorialspoint.com/golang-program-to-implement-a-weighted-interval-scheduling-algorithm">Golang Program to Implement a Weighted Interval Scheduling Algorithm - TutorialsPoint</a></li>
+<li><a href="https://www.researchgate.net/publication/251981179_Project_Scheduling_Problem_with_Weighted_Multi-Skill_Resources_Enhancing_the_Efficiency_of_Project_Scheduling">Project Scheduling Problem with Weighted Multi-Skill Resources: Enhancing the Efficiency of Project Scheduling - ResearchGate</a></li>
+<li><a href="https://www.scirp.org/html/3556.html">Scientific Research Publishing on Scheduling - SCIRP</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Interval_scheduling">Interval Scheduling - Wikipedia</a></li>
+<li><a href="https://www.sciencedirect.com/topics/computer-science/scheduling-interval">Topics in Computer Science: Scheduling Interval - ScienceDirect</a></li>
+<li><a href="https://www.researchgate.net/publication/220204278_Weighted_Multi-Skill_Resources_Project_Scheduling">Weighted Multi-Skill Resources Project Scheduling - ResearchGate</a></li>
 </ol>
 </section>
-</section>
-</section>
-<section id="understanding-scheduling-theory-algorithms-and-systems" class="level2">
-<h2 class="anchored" data-anchor-id="understanding-scheduling-theory-algorithms-and-systems">Understanding Scheduling Theory, Algorithms, and Systems</h2>
-<section id="dynamic-programming-and-integer-programming-1" class="level3">
-<h3 class="anchored" data-anchor-id="dynamic-programming-and-integer-programming-1">Dynamic Programming and Integer Programming</h3>
-<p><strong>Dynamic Programming (DP)</strong> is a powerful algorithm design technique that solves optimization problems through recursive decomposition and memorization of intermediate calculations. It finds optimal solutions by breaking down a problem into smaller subproblems and building up the solution from their combinations.</p>
-<p><strong>Integer Programming</strong> focuses on finding optimal solutions for discrete variables, making it particularly useful for scheduling problems involving integral constraints.</p>
-</section>
-<section id="complexity-hierarchy-of-scheduling-problems" class="level3">
-<h3 class="anchored" data-anchor-id="complexity-hierarchy-of-scheduling-problems">Complexity Hierarchy of Scheduling Problems</h3>
-<p>Most scheduling problems belong to the NP-hard category, necessitating advanced approaches like approximation algorithms, metaheuristics, and exact exponential-time algorithms.</p>
-</section>
-<section id="stochastic-scheduling-problems-1" class="level3">
-<h3 class="anchored" data-anchor-id="stochastic-scheduling-problems-1">Stochastic Scheduling Problems</h3>
-<p>Real-world scheduling issues involve uncertainty, such as machine failures, random arrival patterns, and variable processing speeds. <strong>Stochastic scheduling</strong> addresses these challenges by incorporating probabilistic models and statistical analysis.</p>
-</section>
-<section id="python-implementation-1" class="level3">
-<h3 class="anchored" data-anchor-id="python-implementation-1">Python Implementation</h3>
-<p>Below is a sample Python implementation of a weighted interval scheduling problem using dynamic programming:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> weighted_interval_scheduling(requests):</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sort requests by decreasing weight</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    sorted_requests <span class="op">=</span> <span class="bu">sorted</span>(requests, reverse<span class="op">=</span><span class="va">True</span>, key<span class="op">=</span><span class="kw">lambda</span> r: r[<span class="st">'weight'</span>])</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize dp array</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    dp <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> <span class="bu">len</span>(sorted_requests)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    dp[<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> sorted_requests[<span class="op">-</span><span class="dv">1</span>][<span class="st">'weight'</span>]</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fill dp array bottom-up</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="bu">len</span>(sorted_requests) <span class="op">-</span> <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>):</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>):</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> sorted_requests[j][<span class="st">'end'</span>] <span class="op">&lt;=</span> sorted_requests[i][<span class="st">'start'</span>]:</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>                dp[i] <span class="op">=</span> <span class="bu">max</span>(dp[i], dp[j] <span class="op">+</span> sorted_requests[i][<span class="st">'weight'</span>])</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return the maximum weight achievable</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dp[<span class="dv">0</span>]</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Test data</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>requests <span class="op">=</span> [{<span class="st">'id'</span>: <span class="dv">1</span>, <span class="st">'start'</span>: <span class="dv">0</span>, <span class="st">'end'</span>: <span class="dv">5</span>, <span class="st">'weight'</span>: <span class="dv">10</span>}, {<span class="st">'id'</span>: <span class="dv">2</span>, <span class="st">'start'</span>: <span class="dv">1</span>, <span class="st">'end'</span>: <span class="dv">8</span>, <span class="st">'weight'</span>: <span class="dv">8</span>}]</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Maximum weight:"</span>, weighted_interval_scheduling(requests))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Using this knowledge, readers will understand the fundamental principles behind scheduling theory, algorithms, and systems, empowering them to tackle challenging real-world problems effectively.</p>
-<p>Citations:</p>
-<ol type="1">
-<li><a href="https://www.sciencedirect.com/science/article/pii/0895717790903703/pdf?md5=c6befa39de273118a4711537ae9418a6&amp;pid=1-s2.0-0895717790903703-main.pdf">ScienceDirect - Dynamic Programming</a></li>
-<li><a href="https://www.geeksforgeeks.org/weighted-job-scheduling/">GeeksforGeeks - Weighted Job Scheduling</a></li>
-<li><a href="https://youtube.com/watch?v=s19y3XCAzAg">YouTube - Dynamic Programming Video Tutorial</a></li>
-<li><a href="https://www.cs.cmu.edu/~ckingsf/bioinfo-lectures/dynamicp.pdf">Carnegie Mellon University - Introduction to Dynamic Programming</a></li>
-<li><a href="https://youtube.com/watch?v=iIX1YvbLbvc">YouTube - Dynamic Programming Example Explained</a></li>
-<li><a href="https://secon.utulsa.edu/cs2123/slides/dp1p.pdf">University of Tulsa - Dynamic Programming Lecture Slides</a></li>
-<li><a href="https://www.cs.umd.edu/class/fall2017/cmsc451-0101/Lects/lect10-dp-intv-sched.pdf">University of Maryland - Lecture on Dynamic Programming and Interval Scheduling</a></li>
-<li><a href="https://youtube.com/watch?v=AxQjrWiOdkE">YouTube - Understanding Dynamic Programming with Examples</a></li>
-<li><a href="https://youtube.com/watch?v=cr6Ip0J9izc">YouTube - Advanced Dynamic Programming Concepts</a></li>
-<li><a href="https://www.cs.toronto.edu/~toni/Courses/364-2002/Notes/lect10.pdf">University of Toronto - Lecture Notes on Dynamic Programming</a></li>
-<li><a href="https://people.eng.unimelb.edu.au/pstuckey/papers/rehearsal.pdf">University of Melbourne - Paper on Rehearsal Problem and Dynamic Programming</a></li>
-<li><a href="https://research.vu.nl/files/42163578/complete%20dissertation.pdf">VU University Amsterdam - Dissertation on Dynamic Programming</a></li>
-<li><a href="https://courses.cs.washington.edu/courses/cse521/13wi/slides/06dp-sched.pdf">University of Washington - Course Slides on Dynamic Programming Scheduling</a></li>
-</ol>
 </section>
 </section>
 

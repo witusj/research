@@ -50,7 +50,11 @@ demonstrating various scheduling algorithms and techniques, such as
 dynamic programming and integer programming.
 
 For instance, let's examine a simple weighted interval scheduling
-problem using dynamic programming:
+problem using dynamic programming. The Python code for the weighted interval scheduling problem using dynamic programming can be applied in project management to optimally allocate resources and improve project efficiency. By implementing this algorithm, project managers can prioritize tasks based on their importance and ensure that critical activities are completed without conflicts.
+
+For example, imagine a software development team working on multiple projects simultaneously. They want to optimize their resource allocation across these projects to meet strict delivery timelines. By applying the weighted interval scheduling algorithm with dynamic programming, they could create a priority list of tasks, taking into account both the urgency and importance of each task. This allows them to make informed decisions about which tasks should receive higher priority during resource allocation, ultimately leading to faster completion times and increased customer satisfaction.
+
+Additionally, this algorithm can help reduce costs by preventing unnecessary duplication of effort and reducing idle time for resources. As a result, organizations can achieve greater productivity and competitiveness in their respective markets.
 
 ``` python
 def weighted_interval_scheduling(requests):
@@ -80,103 +84,43 @@ will gain valuable insights into the world of scheduling theory,
 algorithms, and systems, enabling them to tackle challenging real-world
 problems effectively.
 
-Citations:
+References:
 
-1. [https://www.stern.nyu.edu/om/faculty/pinedo/scheduling/shakhlevich/handout01.pdf](https://www.stern.nyu.edu/om/faculty/pinedo/scheduling/shakhlevich/handout01.pdf)
-2. [https://www.tutorialspoint.com/operating_system/os_process_scheduling_algorithms.htm](https://www.tutorialspoint.com/operating_system/os_process_scheduling_algorithms.htm)
-3. [https://www.cs.umd.edu/class/fall2017/cmsc451-0101/Lects/lect10-dp-intv-sched.pdf](https://www.cs.umd.edu/class/fall2017/cmsc451-0101/Lects/lect10-dp-intv-sched.pdf)
-4. [https://web.mit.edu/15.053/www/AMP-Chapter-09.pdf](https://web.mit.edu/15.053/www/AMP-Chapter-09.pdf)
-5. [https://www.nii.ac.jp/userimg/lectures/20131010/Lecture1.pdf](https://www.nii.ac.jp/userimg/lectures/20131010/Lecture1.pdf)
-6. [https://www.geeksforgeeks.org/cpu-scheduling-in-operating-systems/](https://www.geeksforgeeks.org/cpu-scheduling-in-operating-systems/)
-7. [https://www.geeksforgeeks.org/weighted-job-scheduling/](https://www.geeksforgeeks.org/weighted-job-scheduling/)
-8. [https://www.sciencedirect.com/topics/computer-science/scheduling-theory](https://www.sciencedirect.com/topics/computer-science/scheduling-theory)
-9. [https://en.wikipedia.org/wiki/Scheduling_(computing)](https://en.wikipedia.org/wiki/Scheduling_(computing))
-10. [https://courses.cs.washington.edu/courses/cse521/13wi/slides/06dp-sched.pdf](https://courses.cs.washington.edu/courses/cse521/13wi/slides/06dp-sched.pdf)
-11. [https://link.springer.com/chapter/10.1007/978-3-540-69446-5_4](https://link.springer.com/chapter/10.1007/978-3-540-69446-5_4)
-12. [https://www.advsyscon.com/blog/job-scheduling-algorithms/](https://www.advsyscon.com/blog/job-scheduling-algorithms/)
-13. [https://www.educative.io/answers/what-is-weighted-job-scheduling-in-dynamic-programming](https://www.educative.io/answers/what-is-weighted-job-scheduling-in-dynamic-programming)
-14. [https://www.amazon.com/Introduction-Scheduling-Chapman-Computational-Science/dp/1138117722](https://www.amazon.com/Introduction-Scheduling-Chapman-Computational-Science/dp/1138117722)
-15. [https://www.guru99.com/cpu-scheduling-algorithms.html](https://www.guru99.com/cpu-scheduling-algorithms.html)
-16. [https://www.cs.cmu.edu/~ckingsf/bioinfo-lectures/dynamicp.pdf](https://www.cs.cmu.edu/~ckingsf/bioinfo-lectures/dynamicp.pdf)
-17. [https://greenbeanbookspdx.indielite.org/book/9781138117723](https://greenbeanbookspdx.indielite.org/book/9781138117723)
-18. [https://www.javatpoint.com/os-scheduling-algorithms](https://www.javatpoint.com/os-scheduling-algorithms)
-19. [https://youtube.com/watch?v=iIX1YvbLbvc](https://youtube.com/watch?v=iIX1YvbLbvc)
-20. [https://sites.google.com/cs.uni.wroc.pl/boehm/scheduling-theory-21](https://sites.google.com/cs.uni.wroc.pl/boehm/scheduling-theory-21)
-21. [https://www.scaler.com/topics/operating-system/scheduling-algorithms-in-os/](https://www.scaler.com/topics/operating-system/scheduling-algorithms-in-os/)
-22. [https://www.sciencedirect.com/science/article/pii/0895717790903703/pdf?md5=c6befa39de273118a4711537ae9418a6&pid=1-s2.0-0895717790903703-main.pdf](https://www.sciencedirect.com/science/article/pii/0895717790903703/pdf?md5=c6befa39de273118a4711537ae9418a6&pid=1-s2.0-089571)
+1. [Handout on Scheduling by Shakhlevich - NYU Stern](https://www.stern.nyu.edu/om/faculty/pinedo/scheduling/shakhlevich/handout01.pdf)
+2. [Operating System Process Scheduling Algorithms - Tutorialspoint](https://www.tutorialspoint.com/operating_system/os_process_scheduling_algorithms.htm)
+3. [Lecture Notes on Dynamic Programming and Interval Scheduling - University of Maryland](https://www.cs.umd.edu/class/fall2017/cmsc451-0101/Lects/lect10-dp-intv-sched.pdf)
+4. [Chapter 9: Advanced Mathematical Programming - MIT](https://web.mit.edu/15.053/www/AMP-Chapter-09.pdf)
+5. [Lecture on Scheduling Algorithms - National Institute of Informatics, Japan](https://www.nii.ac.jp/userimg/lectures/20131010/Lecture1.pdf)
+6. [CPU Scheduling in Operating Systems - GeeksforGeeks](https://www.geeksforgeeks.org/cpu-scheduling-in-operating-systems/)
+7. [Weighted Job Scheduling - GeeksforGeeks](https://www.geeksforgeeks.org/weighted-job-scheduling/)
+8. [Overview of Scheduling Theory - ScienceDirect](https://www.sciencedirect.com/topics/computer-science/scheduling-theory)
+9. [Scheduling (Computing) - Wikipedia](https://en.wikipedia.org/wiki/Scheduling_(computing))
+10. [Slides on Dynamic Programming Scheduling - University of Washington](https://courses.cs.washington.edu/courses/cse521/13wi/slides/06dp-sched.pdf)
+11. [Job Scheduling Algorithms - Springer Link](https://link.springer.com/chapter/10.1007/978-3-540-69446-5_4)
+12. [Job Scheduling Algorithms Blog Post - Advanced Systems Concepts](https://www.advsyscon.com/blog/job-scheduling-algorithms/)
+13. [Weighted Job Scheduling in Dynamic Programming - Educative.io](https://www.educative.io/answers/what-is-weighted-job-scheduling-in-dynamic-programming)
+14. [Introduction to Scheduling - Amazon Book](https://www.amazon.com/Introduction-Scheduling-Chapman-Computational-Science/dp/1138117722)
+15. [CPU Scheduling Algorithms - Guru99](https://www.guru99.com/cpu-scheduling-algorithms.html)
+16. [Dynamic Programming Lecture Notes - CMU](https://www.cs.cmu.edu/~ckingsf/bioinfo-lectures/dynamicp.pdf)
+17. [Book on Scheduling - Green Bean Books](https://greenbeanbookspdx.indielite.org/book/9781138117723)
+18. [Scheduling Algorithms in Operating Systems - Javatpoint](https://www.javatpoint.com/os-scheduling-algorithms)
+19. [Video Lecture on Scheduling - YouTube](https://youtube.com/watch?v=iIX1YvbLbvc)
+20. [Scheduling Theory Course Material - University of Wroclaw](https://sites.google.com/cs.uni.wroc.pl/boehm/scheduling-theory-21)
+21. [Scheduling Algorithms in Operating Systems - Scaler Topics](https://www.scaler.com/topics/operating-system/scheduling-algorithms-in-os/)
+22. [Scientific Article on Scheduling - ScienceDirect](https://www.sciencedirect.com/science/article/pii/0895717790903703/pdf?md5=c6befa39de273118a4711537ae9418a6&pid=1-s2.0-0895717790903703-main.pdf)
+23. [Scheduling in Production Processes - Wikipedia](https://en.wikipedia.org/wiki/Scheduling_(production_processes))
+24. [Scheduling Algorithms in Operating Systems - Data Flair](https://data-flair.training/blogs/scheduling-algorithms-in-operating-system/)
+25. [Lecture Notes on Scheduling - University of Toronto](https://www.cs.toronto.edu/~toni/Courses/364-2002/Notes/lect10.pdf)
 
-## Understanding Scheduling Theory, Algorithms, and Systems
+References for Python code:
 
-### Dynamic Programming and Integer Programming
+1. [Weighted Job Scheduling - GeeksforGeeks](https://www.geeksforgeeks.org/weighted-job-scheduling/)
+2. [Article on Advancements in Scheduling Algorithms - ScienceDirect](https://www.sciencedirect.com/science/article/pii/S0307904X1300334X)
+3. [Golang Program to Implement a Weighted Interval Scheduling Algorithm - TutorialsPoint](https://www.tutorialspoint.com/golang-program-to-implement-a-weighted-interval-scheduling-algorithm)
+4. [Project Scheduling Problem with Weighted Multi-Skill Resources: Enhancing the Efficiency of Project Scheduling - ResearchGate](https://www.researchgate.net/publication/251981179_Project_Scheduling_Problem_with_Weighted_Multi-Skill_Resources_Enhancing_the_Efficiency_of_Project_Scheduling)
+5. [Scientific Research Publishing on Scheduling - SCIRP](https://www.scirp.org/html/3556.html)
+6. [Interval Scheduling - Wikipedia](https://en.wikipedia.org/wiki/Interval_scheduling)
+7. [Topics in Computer Science: Scheduling Interval - ScienceDirect](https://www.sciencedirect.com/topics/computer-science/scheduling-interval)
+8. [Weighted Multi-Skill Resources Project Scheduling - ResearchGate](https://www.researchgate.net/publication/220204278_Weighted_Multi-Skill_Resources_Project_Scheduling)
 
-**Dynamic Programming (DP)** is a powerful algorithm design technique
-that solves optimization problems through recursive decomposition and
-memorization of intermediate calculations. It finds optimal solutions by
-breaking down a problem into smaller subproblems and building up the
-solution from their combinations.
 
-**Integer Programming** focuses on finding optimal solutions for
-discrete variables, making it particularly useful for scheduling
-problems involving integral constraints.
-
-### Complexity Hierarchy of Scheduling Problems
-
-Most scheduling problems belong to the NP-hard category, necessitating
-advanced approaches like approximation algorithms, metaheuristics, and
-exact exponential-time algorithms.
-
-### Stochastic Scheduling Problems
-
-Real-world scheduling issues involve uncertainty, such as machine
-failures, random arrival patterns, and variable processing speeds.
-**Stochastic scheduling** addresses these challenges by incorporating
-probabilistic models and statistical analysis.
-
-### Python Implementation
-
-Below is a sample Python implementation of a weighted interval
-scheduling problem using dynamic programming:
-
-``` python
-def weighted_interval_scheduling(requests):
-    # Sort requests by decreasing weight
-    sorted_requests = sorted(requests, reverse=True, key=lambda r: r['weight'])
-    
-    # Initialize dp array
-    dp = [0] * len(sorted_requests)
-    dp[-1] = sorted_requests[-1]['weight']
-
-    # Fill dp array bottom-up
-    for i in range(-2, -len(sorted_requests) - 1, -1):
-        for j in range(i, -1, -1):
-            if sorted_requests[j]['end'] <= sorted_requests[i]['start']:
-                dp[i] = max(dp[i], dp[j] + sorted_requests[i]['weight'])
-        
-    # Return the maximum weight achievable
-    return dp[0]
-
-# Test data
-requests = [{'id': 1, 'start': 0, 'end': 5, 'weight': 10}, {'id': 2, 'start': 1, 'end': 8, 'weight': 8}]
-
-print("Maximum weight:", weighted_interval_scheduling(requests))
-```
-
-Using this knowledge, readers will understand the fundamental principles
-behind scheduling theory, algorithms, and systems, empowering them to
-tackle challenging real-world problems effectively.
-
-Citations:
-
-1. [ScienceDirect - Dynamic Programming](https://www.sciencedirect.com/science/article/pii/0895717790903703/pdf?md5=c6befa39de273118a4711537ae9418a6&pid=1-s2.0-0895717790903703-main.pdf)
-2. [GeeksforGeeks - Weighted Job Scheduling](https://www.geeksforgeeks.org/weighted-job-scheduling/)
-3. [YouTube - Dynamic Programming Video Tutorial](https://youtube.com/watch?v=s19y3XCAzAg)
-4. [Carnegie Mellon University - Introduction to Dynamic Programming](https://www.cs.cmu.edu/~ckingsf/bioinfo-lectures/dynamicp.pdf)
-5. [YouTube - Dynamic Programming Example Explained](https://youtube.com/watch?v=iIX1YvbLbvc)
-6. [University of Tulsa - Dynamic Programming Lecture Slides](https://secon.utulsa.edu/cs2123/slides/dp1p.pdf)
-7. [University of Maryland - Lecture on Dynamic Programming and Interval Scheduling](https://www.cs.umd.edu/class/fall2017/cmsc451-0101/Lects/lect10-dp-intv-sched.pdf)
-8. [YouTube - Understanding Dynamic Programming with Examples](https://youtube.com/watch?v=AxQjrWiOdkE)
-9. [YouTube - Advanced Dynamic Programming Concepts](https://youtube.com/watch?v=cr6Ip0J9izc)
-10. [University of Toronto - Lecture Notes on Dynamic Programming](https://www.cs.toronto.edu/~toni/Courses/364-2002/Notes/lect10.pdf)
-11. [University of Melbourne - Paper on Rehearsal Problem and Dynamic Programming](https://people.eng.unimelb.edu.au/pstuckey/papers/rehearsal.pdf)
-12. [VU University Amsterdam - Dissertation on Dynamic Programming](https://research.vu.nl/files/42163578/complete%20dissertation.pdf)
-13. [University of Washington - Course Slides on Dynamic Programming Scheduling](https://courses.cs.washington.edu/courses/cse521/13wi/slides/06dp-sched.pdf)
