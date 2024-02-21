@@ -49,6 +49,11 @@ To illustrate key concepts, this post includes Python code snippets
 demonstrating various scheduling algorithms and techniques, such as
 dynamic programming and integer programming.
 
+```{=html}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/iIX1YvbLbvc?si=VmLelFg_zf3vnkKO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+```
+
+
 For instance, let's examine a simple weighted interval scheduling
 problem using dynamic programming. The Python code for the weighted interval scheduling problem using dynamic programming can be applied in project management to optimally allocate resources and improve project efficiency. By implementing this algorithm, project managers can prioritize tasks based on their importance and ensure that critical activities are completed without conflicts.
 
