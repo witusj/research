@@ -56,33 +56,89 @@ For example, imagine a software development team working on multiple projects si
 
 Additionally, this algorithm can help reduce costs by preventing unnecessary duplication of effort and reducing idle time for resources. As a result, organizations can achieve greater productivity and competitiveness in their respective markets.
 
-``` python
-def weighted_interval_scheduling(requests):
-    # Sort requests by decreasing weight
-    sorted_requests = sorted(requests, reverse=True, key=lambda r: r['weight'])
+```{python}
+def weighted_interval_scheduling_with_schedule(requests):
+    # Sort requests by finish time to ensure non-overlapping meetings are considered properly
+    sorted_requests = sorted(requests, key=lambda r: r['end'])
     
-    # Initialize dp array
-    dp = [0] * len(sorted_requests)
-    dp[-1] = sorted_requests[-1]['weight']
+    # Initialize dp array to store tuples of (maximum weight, list of meetings IDs leading to that weight)
+    dp = [(0, [])] * (len(sorted_requests) + 1)
 
-    # Fill dp array bottom-up
-    for i in range(-2, -len(sorted_requests) - 1, -1):
-        for j in range(i, -1, -1):
-            if sorted_requests[j]['end'] <= sorted_requests[i]['start']:
-                dp[i] = max(dp[i], dp[j] + sorted_requests[i]['weight'])
-            
-    # Return the maximum weight achievable
-    return dp[0]
+    # Helper function to find the latest non-conflicting meeting
+    def find_latest_non_conflicting(meeting_index):
+        for j in range(meeting_index - 1, -1, -1):
+            if sorted_requests[j]['end'] <= sorted_requests[meeting_index]['start']:
+                return j + 1
+        return 0
 
-# Test data
-requests = [{'id': 1, 'start': 0, 'end': 5, 'weight': 10}, {'id': 2, 'start': 1, 'end': 8, 'weight': 8}]
-print("Maximum weight:", weighted_interval_scheduling(requests))
+    # Fill dp array
+    for i in range(1, len(sorted_requests) + 1):
+        include_weight = sorted_requests[i-1]['weight']
+        include_meetings = [sorted_requests[i-1]['id']]
+        
+        # Find the latest non-conflicting meeting
+        latest_non_conflicting = find_latest_non_conflicting(i-1)
+        include_weight += dp[latest_non_conflicting][0]
+        include_meetings = dp[latest_non_conflicting][1] + include_meetings
+        
+        # Choose max of including or excluding the current meeting
+        if include_weight > dp[i-1][0]:
+            dp[i] = (include_weight, include_meetings)
+        else:
+            dp[i] = dp[i-1]
+
+    # The last element of dp now contains the maximum weight and the optimal schedule
+    max_weight, optimal_schedule = dp[-1]
+    print("Maximum weight:", max_weight)
+    print("Optimal schedule of meetings:", optimal_schedule)
+    return max_weight, optimal_schedule
 ```
 
-By understanding the principles discussed in this blog post, readers
-will gain valuable insights into the world of scheduling theory,
-algorithms, and systems, enabling them to tackle challenging real-world
-problems effectively.
+### Business Case: Conference Room Booking Optimization
+
+#### Background:
+A multinational corporation, "GlobalTech," faces challenges in managing its limited number of conference rooms across various office locations. With a dynamic work environment involving cross-functional teams, the demand for conference rooms varies in terms of importance, team size, and required amenities. The goal is to optimize the allocation of these rooms to ensure that high-priority meetings are accommodated effectively, maximizing overall meeting value to the company.
+
+#### Decision Problem:
+The primary decision problem is how to schedule the use of conference rooms to maximize the total value (or "weight") of meetings held within a given week, taking into account that meetings have different priorities (weights), durations, and specific start and end times. This problem involves deciding which meetings to approve and schedule in the limited available conference room space to achieve the highest cumulative priority score.
+
+#### Input Variables:
+- **Requests**: A list of meeting requests, each with:
+  - `id`: A unique identifier for the meeting.
+  - `start`: The requested start time of the meeting.
+  - `end`: The requested end time of the meeting.
+  - `weight`: The priority or value of the meeting to the organization, which could factor in the importance of the meeting's purpose, the seniority of participants, or the strategic value of the meeting outcomes.
+
+#### Solution Method Using Dynamic Programming:
+The weighted interval scheduling problem is solved using dynamic programming to ensure that GlobalTech can find the optimal combination of meetings that maximizes the total value of meetings held, while ensuring no two selected meetings overlap in time. The dynamic programming approach involves sorting meetings by their end times, then iteratively building up a solution by considering, for each meeting, whether including it leads to a higher total value than excluding it, given the meetings already considered.
+
+#### Code Application:
+The provided Python function, `weighted_interval_scheduling`, represents an algorithm to solve this optimization problem. It sorts the meetings by their priority (weight) and then uses dynamic programming to find the optimal subset of meetings that maximizes the total weight without overlaps.
+
+#### Real-Life Application:
+Consider GlobalTech has the following meeting requests for a particular conference room:
+
+1. **Strategic Planning** (`id: 1`, `start: 9 AM`, `end: 11 AM`, `weight: 50`)
+2. **Product Launch Review** (`id: 2`, `start: 10 AM`, `end: 12 PM`, `weight: 40`)
+3. **Team Building Workshop** (`id: 3`, `start: 1 PM`, `end: 3 PM`, `weight: 30`)
+4. **Quarterly Financial Review** (`id: 4`, `start: 2 PM`, `end: 4 PM`, `weight: 45`)
+
+Using the provided code, GlobalTech can input these meetings as requests and determine the optimal schedule that maximizes the total value of meetings hosted in the conference room.
+
+```{python}
+requests = [
+    {'id': 1, 'start': 9, 'end': 11, 'weight': 50},
+    {'id': 2, 'start': 10, 'end': 12, 'weight': 40},
+    {'id': 3, 'start': 13, 'end': 15, 'weight': 30},
+    {'id': 4, 'start': 14, 'end': 16, 'weight': 45}
+]
+
+weighted_interval_scheduling_with_schedule(requests)
+```
+
+
+#### Managerial Perspective:
+From a managerial standpoint, this approach enables GlobalTech to make data-driven decisions about allocating scarce resources (conference rooms) in a way that maximizes the strategic value delivered to the company. It considers the complex interplay between meeting times, durations, and their relative importance, providing a clear, optimized schedule that supports the company's operational and strategic goals. This method also demonstrates to stakeholders the company's commitment to efficiency and strategic focus, using advanced problem-solving techniques to address everyday operational challenges.
 
 References:
 

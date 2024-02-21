@@ -126,27 +126,106 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>For instance, let’s examine a simple weighted interval scheduling problem using dynamic programming. The Python code for the weighted interval scheduling problem using dynamic programming can be applied in project management to optimally allocate resources and improve project efficiency. By implementing this algorithm, project managers can prioritize tasks based on their importance and ensure that critical activities are completed without conflicts.</p>
 <p>For example, imagine a software development team working on multiple projects simultaneously. They want to optimize their resource allocation across these projects to meet strict delivery timelines. By applying the weighted interval scheduling algorithm with dynamic programming, they could create a priority list of tasks, taking into account both the urgency and importance of each task. This allows them to make informed decisions about which tasks should receive higher priority during resource allocation, ultimately leading to faster completion times and increased customer satisfaction.</p>
 <p>Additionally, this algorithm can help reduce costs by preventing unnecessary duplication of effort and reducing idle time for resources. As a result, organizations can achieve greater productivity and competitiveness in their respective markets.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> weighted_interval_scheduling(requests):</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sort requests by decreasing weight</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    sorted_requests <span class="op">=</span> <span class="bu">sorted</span>(requests, reverse<span class="op">=</span><span class="va">True</span>, key<span class="op">=</span><span class="kw">lambda</span> r: r[<span class="st">'weight'</span>])</span>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> weighted_interval_scheduling_with_schedule(requests):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sort requests by finish time to ensure non-overlapping meetings are considered properly</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    sorted_requests <span class="op">=</span> <span class="bu">sorted</span>(requests, key<span class="op">=</span><span class="kw">lambda</span> r: r[<span class="st">'end'</span>])</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize dp array</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    dp <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> <span class="bu">len</span>(sorted_requests)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    dp[<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> sorted_requests[<span class="op">-</span><span class="dv">1</span>][<span class="st">'weight'</span>]</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fill dp array bottom-up</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="bu">len</span>(sorted_requests) <span class="op">-</span> <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>):</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(i, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>):</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> sorted_requests[j][<span class="st">'end'</span>] <span class="op">&lt;=</span> sorted_requests[i][<span class="st">'start'</span>]:</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                dp[i] <span class="op">=</span> <span class="bu">max</span>(dp[i], dp[j] <span class="op">+</span> sorted_requests[i][<span class="st">'weight'</span>])</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return the maximum weight achievable</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dp[<span class="dv">0</span>]</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Test data</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>requests <span class="op">=</span> [{<span class="st">'id'</span>: <span class="dv">1</span>, <span class="st">'start'</span>: <span class="dv">0</span>, <span class="st">'end'</span>: <span class="dv">5</span>, <span class="st">'weight'</span>: <span class="dv">10</span>}, {<span class="st">'id'</span>: <span class="dv">2</span>, <span class="st">'start'</span>: <span class="dv">1</span>, <span class="st">'end'</span>: <span class="dv">8</span>, <span class="st">'weight'</span>: <span class="dv">8</span>}]</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Maximum weight:"</span>, weighted_interval_scheduling(requests))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>By understanding the principles discussed in this blog post, readers will gain valuable insights into the world of scheduling theory, algorithms, and systems, enabling them to tackle challenging real-world problems effectively.</p>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize dp array to store tuples of (maximum weight, list of meetings IDs leading to that weight)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    dp <span class="op">=</span> [(<span class="dv">0</span>, [])] <span class="op">*</span> (<span class="bu">len</span>(sorted_requests) <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Helper function to find the latest non-conflicting meeting</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> find_latest_non_conflicting(meeting_index):</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(meeting_index <span class="op">-</span> <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> sorted_requests[j][<span class="st">'end'</span>] <span class="op">&lt;=</span> sorted_requests[meeting_index][<span class="st">'start'</span>]:</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> j <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fill dp array</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(sorted_requests) <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        include_weight <span class="op">=</span> sorted_requests[i<span class="op">-</span><span class="dv">1</span>][<span class="st">'weight'</span>]</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        include_meetings <span class="op">=</span> [sorted_requests[i<span class="op">-</span><span class="dv">1</span>][<span class="st">'id'</span>]]</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Find the latest non-conflicting meeting</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        latest_non_conflicting <span class="op">=</span> find_latest_non_conflicting(i<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        include_weight <span class="op">+=</span> dp[latest_non_conflicting][<span class="dv">0</span>]</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        include_meetings <span class="op">=</span> dp[latest_non_conflicting][<span class="dv">1</span>] <span class="op">+</span> include_meetings</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Choose max of including or excluding the current meeting</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> include_weight <span class="op">&gt;</span> dp[i<span class="op">-</span><span class="dv">1</span>][<span class="dv">0</span>]:</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>            dp[i] <span class="op">=</span> (include_weight, include_meetings)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>            dp[i] <span class="op">=</span> dp[i<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The last element of dp now contains the maximum weight and the optimal schedule</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    max_weight, optimal_schedule <span class="op">=</span> dp[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Maximum weight:"</span>, max_weight)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Optimal schedule of meetings:"</span>, optimal_schedule)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> max_weight, optimal_schedule</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="business-case-conference-room-booking-optimization" class="level3">
+<h3 class="anchored" data-anchor-id="business-case-conference-room-booking-optimization">Business Case: Conference Room Booking Optimization</h3>
+<section id="background" class="level4">
+<h4 class="anchored" data-anchor-id="background">Background:</h4>
+<p>A multinational corporation, “GlobalTech,” faces challenges in managing its limited number of conference rooms across various office locations. With a dynamic work environment involving cross-functional teams, the demand for conference rooms varies in terms of importance, team size, and required amenities. The goal is to optimize the allocation of these rooms to ensure that high-priority meetings are accommodated effectively, maximizing overall meeting value to the company.</p>
+</section>
+<section id="decision-problem" class="level4">
+<h4 class="anchored" data-anchor-id="decision-problem">Decision Problem:</h4>
+<p>The primary decision problem is how to schedule the use of conference rooms to maximize the total value (or “weight”) of meetings held within a given week, taking into account that meetings have different priorities (weights), durations, and specific start and end times. This problem involves deciding which meetings to approve and schedule in the limited available conference room space to achieve the highest cumulative priority score.</p>
+</section>
+<section id="input-variables" class="level4">
+<h4 class="anchored" data-anchor-id="input-variables">Input Variables:</h4>
+<ul>
+<li><strong>Requests</strong>: A list of meeting requests, each with:
+<ul>
+<li><code>id</code>: A unique identifier for the meeting.</li>
+<li><code>start</code>: The requested start time of the meeting.</li>
+<li><code>end</code>: The requested end time of the meeting.</li>
+<li><code>weight</code>: The priority or value of the meeting to the organization, which could factor in the importance of the meeting’s purpose, the seniority of participants, or the strategic value of the meeting outcomes.</li>
+</ul></li>
+</ul>
+</section>
+<section id="solution-method-using-dynamic-programming" class="level4">
+<h4 class="anchored" data-anchor-id="solution-method-using-dynamic-programming">Solution Method Using Dynamic Programming:</h4>
+<p>The weighted interval scheduling problem is solved using dynamic programming to ensure that GlobalTech can find the optimal combination of meetings that maximizes the total value of meetings held, while ensuring no two selected meetings overlap in time. The dynamic programming approach involves sorting meetings by their end times, then iteratively building up a solution by considering, for each meeting, whether including it leads to a higher total value than excluding it, given the meetings already considered.</p>
+</section>
+<section id="code-application" class="level4">
+<h4 class="anchored" data-anchor-id="code-application">Code Application:</h4>
+<p>The provided Python function, <code>weighted_interval_scheduling</code>, represents an algorithm to solve this optimization problem. It sorts the meetings by their priority (weight) and then uses dynamic programming to find the optimal subset of meetings that maximizes the total weight without overlaps.</p>
+</section>
+<section id="real-life-application" class="level4">
+<h4 class="anchored" data-anchor-id="real-life-application">Real-Life Application:</h4>
+<p>Consider GlobalTech has the following meeting requests for a particular conference room:</p>
+<ol type="1">
+<li><strong>Strategic Planning</strong> (<code>id: 1</code>, <code>start: 9 AM</code>, <code>end: 11 AM</code>, <code>weight: 50</code>)</li>
+<li><strong>Product Launch Review</strong> (<code>id: 2</code>, <code>start: 10 AM</code>, <code>end: 12 PM</code>, <code>weight: 40</code>)</li>
+<li><strong>Team Building Workshop</strong> (<code>id: 3</code>, <code>start: 1 PM</code>, <code>end: 3 PM</code>, <code>weight: 30</code>)</li>
+<li><strong>Quarterly Financial Review</strong> (<code>id: 4</code>, <code>start: 2 PM</code>, <code>end: 4 PM</code>, <code>weight: 45</code>)</li>
+</ol>
+<p>Using the provided code, GlobalTech can input these meetings as requests and determine the optimal schedule that maximizes the total value of meetings hosted in the conference room.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>requests <span class="op">=</span> [</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'id'</span>: <span class="dv">1</span>, <span class="st">'start'</span>: <span class="dv">9</span>, <span class="st">'end'</span>: <span class="dv">11</span>, <span class="st">'weight'</span>: <span class="dv">50</span>},</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'id'</span>: <span class="dv">2</span>, <span class="st">'start'</span>: <span class="dv">10</span>, <span class="st">'end'</span>: <span class="dv">12</span>, <span class="st">'weight'</span>: <span class="dv">40</span>},</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'id'</span>: <span class="dv">3</span>, <span class="st">'start'</span>: <span class="dv">13</span>, <span class="st">'end'</span>: <span class="dv">15</span>, <span class="st">'weight'</span>: <span class="dv">30</span>},</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    {<span class="st">'id'</span>: <span class="dv">4</span>, <span class="st">'start'</span>: <span class="dv">14</span>, <span class="st">'end'</span>: <span class="dv">16</span>, <span class="st">'weight'</span>: <span class="dv">45</span>}</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>weighted_interval_scheduling_with_schedule(requests)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Maximum weight: 95
+Optimal schedule of meetings: [1, 4]</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>(95, [1, 4])</code></pre>
+</div>
+</div>
+</section>
+<section id="managerial-perspective" class="level4">
+<h4 class="anchored" data-anchor-id="managerial-perspective">Managerial Perspective:</h4>
+<p>From a managerial standpoint, this approach enables GlobalTech to make data-driven decisions about allocating scarce resources (conference rooms) in a way that maximizes the strategic value delivered to the company. It considers the complex interplay between meeting times, durations, and their relative importance, providing a clear, optimized schedule that supports the company’s operational and strategic goals. This method also demonstrates to stakeholders the company’s commitment to efficiency and strategic focus, using advanced problem-solving techniques to address everyday operational challenges.</p>
 <p>References:</p>
 <ol type="1">
 <li><a href="https://www.stern.nyu.edu/om/faculty/pinedo/scheduling/shakhlevich/handout01.pdf">Handout on Scheduling by Shakhlevich - NYU Stern</a></li>
