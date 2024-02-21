@@ -184,4 +184,49 @@ References for Python code:
 7. [Topics in Computer Science: Scheduling Interval - ScienceDirect](https://www.sciencedirect.com/topics/computer-science/scheduling-interval)
 8. [Weighted Multi-Skill Resources Project Scheduling - ResearchGate](https://www.researchgate.net/publication/220204278_Weighted_Multi-Skill_Resources_Project_Scheduling)
 
+#### Complexity Hierarchy
 
+Understanding the complexity of scheduling problems is fundamental in identifying efficient algorithms for specific scenarios. Scheduling problems, often lying within the realm of NP-hardness, necessitate advanced solution methods such as approximation algorithms, metaheuristics, and exact exponential-time algorithms to find optimal or near-optimal solutions.
+
+```{=html}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/3ifx3EOtSm8?si=nUJ6XhaJUk6zf5SX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+```
+
+
+#### Dynamic Programming Applied to Scheduling Theory
+
+Dynamic programming stands out as a powerful methodology for addressing scheduling problems by decomposing complex challenges into manageable subproblems. This approach ensures the efficient computation of optimal solutions, exemplified by solving the weighted interval scheduling problem. Through dynamic programming, one can optimize the total weight of non-overlapping intervals, showcasing the technique's utility in formulating and solving scheduling issues.
+
+#### Complexity Measurement and Its Importance
+
+The complexity of scheduling problems significantly influences the selection and development of algorithms. Time complexity and space complexity are two critical metrics for evaluating the efficiency of scheduling algorithms:
+
+- **Time Complexity:** This metric assesses how the execution time of an algorithm scales with the input size. In scheduling theory, the focus might be on understanding whether an algorithm's running time increases linearly with the number of tasks or exponentially with the complexity of task dependencies.
+  
+- **Space Complexity:** This metric evaluates the amount of memory an algorithm uses in relation to the input size. Analyzing an algorithm's space complexity involves determining whether it requires additional memory beyond the initial input, which is crucial for scheduling problems where storage efficiency can be as important as computational speed.
+
+#### Theoretical and Practical Implications
+
+The complexity hierarchy of scheduling problems underscores the theoretical and practical challenges in developing effective scheduling solutions. This hierarchy highlights the computational intractability of many scheduling problems, emphasizing the need for sophisticated algorithms capable of handling NP-hard problems.
+
+- **Search Results Contextualized:** A review of literature and existing resources reveals various facets of scheduling theory, from time-dependent scheduling, which deals with variable job durations, to the mathematical formulations used to represent and solve scheduling problems. These resources illustrate the breadth of scheduling theory, including its application to optimizing finite sets of operations and the representation of processes in task networks.
+
+- **Addressing Computational Intractability:** The classification of scheduling problems based on complexity provides insights into designing efficient scheduling algorithms. This involves not only understanding the theoretical underpinnings of NP-hard problems but also applying practical techniques for managing precedence constraints and other factors that increase computational complexity.
+
+In conclusion, the complexity hierarchy is a critical consideration in scheduling theory, affecting both the theoretical exploration of scheduling problems and the practical development of algorithms. By leveraging dynamic programming and understanding the nuances of time and space complexity, researchers and practitioners can navigate the challenges posed by NP-hard problems, leading to more effective and efficient scheduling solutions.
+
+### References:
+
+1. **Time-Dependent Scheduling:** [Springer Link](https://link.springer.com/chapter/10.1007/978-3-540-69446-5_4) - Discusses the intricacies of scheduling problems where job durations are influenced by their start times.
+
+2. **Introduction to Scheduling Theory:** [NYU Stern](https://www.stern.nyu.edu/om/faculty/pinedo/scheduling/shakhlevich/handout01.pdf) - Provides an overview of scheduling theory, emphasizing the development of optimal schedules.
+
+3. **Scheduling Theory Overview:** [Encyclopedia of Mathematics](https://encyclopediaofmath.org/wiki/Scheduling_theory) - A comprehensive examination of scheduling theory as a branch of applied mathematics focused on scheduling problem formulations and solutions.
+
+4. **Scheduling Theory in Practice:** [ScienceDirect](https://www.sciencedirect.com/topics/computer-science/scheduling-theory) - Describes the process representation in scheduling theory, highlighting task network representations.
+
+5. **Complexity of Scheduling Under Precedence Constraints:** [JSTOR](https://www.jstor.org/stable/169889) - Discusses the increased computational complexity introduced by precedence constraints in scheduling problems.
+
+6. **Introduction to Scheduling:** [Amazon](https://www.amazon.com/Introduction-Scheduling-Chapman-Computational-Science/dp/1138117722) - A resource providing insights into the complexities and methodologies of scheduling, including discussions on space and time complexity.
+
+7. **Computation in Complex Systems (Spring 2022):** [Complexity Explorer](https://www.complexityexplorer.org/courses/140-computation-in-complex-systems-spring-2022) - This course offers an in-depth look into computational models and algorithms used in the analysis of complex systems, with relevance to understanding the computational complexity found in scheduling problems.
