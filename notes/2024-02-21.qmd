@@ -13,7 +13,7 @@ editor:
 
 ## OBP:
 
-### Blog Post Title: Understanding Scheduling Theory, Algorithms, and Systems
+### Scheduling Theory, Algorithms, and Systems
 
 This comprehensive guide introduces you to the fundamentals of
 scheduling theory, algorithms, and systems, emphasizing dynamic
