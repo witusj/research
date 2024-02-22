@@ -247,10 +247,10 @@ for n in n_values:
 fig = go.Figure()
 
 # Add traces
-fig.add_trace(go.Scatter(x=list(n_values), y=n_squared_values, mode='lines+markers', name='$n^2$'))
-fig.add_trace(go.Scatter(x=list(n_values), y=n_cubed_values, mode='lines+markers', name='$n^3$'))
-fig.add_trace(go.Scatter(x=list(n_values), y=two_log_n_squared_values, mode='lines+markers', name='$2^{log(n)^2}$'))
-fig.add_trace(go.Scatter(x=list(n_values), y=two_to_the_n_values, mode='lines+markers', name='$2^{n^2}$'))
+fig.add_trace(go.Scatter(x=list(n_values), y=n_squared_values, mode='lines+markers', name='n^2'))
+fig.add_trace(go.Scatter(x=list(n_values), y=n_cubed_values, mode='lines+markers', name='n^3'))
+fig.add_trace(go.Scatter(x=list(n_values), y=two_log_n_squared_values, mode='lines+markers', name='2^{log(n)^2}'))
+fig.add_trace(go.Scatter(x=list(n_values), y=two_to_the_n_values, mode='lines+markers', name='2^{n^2}'))
 
 # Add titles and labels
 fig.update_layout(title='Mathematical Functions Visualization',
