@@ -250,10 +250,41 @@ fig = go.Figure()
 fig.add_trace(go.Scatter(x=list(n_values), y=n_squared_values, mode='lines+markers', name='n^2'))
 fig.add_trace(go.Scatter(x=list(n_values), y=n_cubed_values, mode='lines+markers', name='n^3'))
 fig.add_trace(go.Scatter(x=list(n_values), y=two_log_n_squared_values, mode='lines+markers', name='2^{log(n)^2}'))
-fig.add_trace(go.Scatter(x=list(n_values), y=two_to_the_n_values, mode='lines+markers', name='2^{n^2}'))
+fig.add_trace(go.Scatter(x=list(n_values), y=two_to_the_n_values, mode='lines+markers', name=r'2^{n^2}'))
 
 # Add titles and labels
 fig.update_layout(title='Mathematical Functions Visualization',
+                  xaxis_title='n',
+                  yaxis_title='Value',
+                  legend_title='Function')
+
+# Show plot
+fig
+```
+
+
+```{=html}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/n8Z7v09zrl0?si=lqxFAx_z48YI2Q1p" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+```
+
+```{python}
+def complexity_example(n):
+  f = n * math.log(n) + n**2 * 10**8 + n**3 / 1000
+  g = n**3
+  return f, g
+x = [x for x in range(1000000, 150000000, 100000)]
+f = [complexity_example(n)[0] for n in x]
+g = [complexity_example(n)[1] for n in x]
+
+# Create Plotly figure
+fig = go.Figure()
+
+# Add traces
+fig.add_trace(go.Scatter(x=x, y=f, mode='lines', name='f'))
+fig.add_trace(go.Scatter(x=x, y=g, mode='lines', name='g'))
+
+# Add titles and labels
+fig.update_layout(title='Complexity',
                   xaxis_title='n',
                   yaxis_title='Value',
                   legend_title='Function')
