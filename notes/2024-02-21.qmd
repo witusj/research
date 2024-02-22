@@ -209,6 +209,56 @@ The complexity of scheduling problems significantly influences the selection and
 
 The complexity hierarchy of scheduling problems underscores the theoretical and practical challenges in developing effective scheduling solutions. This hierarchy highlights the computational intractability of many scheduling problems, emphasizing the need for sophisticated algorithms capable of handling NP-hard problems.
 
+```{python}
+import math
+import plotly.graph_objects as go
+
+def calculate_values(n):
+    n_squared = n ** 2
+    n_cubed = n ** 3
+    two_log_n_squared = 2 ** (math.log(n, 2) ** 2)  # Assuming log base 2
+    two_to_the_n = 2 ** (n)
+
+    return n_squared, n_cubed, two_log_n_squared, two_to_the_n
+
+# Example usage
+n = 4
+results = calculate_values(n)
+
+# Generate data
+n_values = range(1,18)  # Example: Generate values from 1 to 10
+n_squared_values = []
+n_cubed_values = []
+two_log_n_squared_values = []
+two_to_the_n_values = []
+
+for n in n_values:
+    results = calculate_values(n)
+    n_squared_values.append(results[0])
+    n_cubed_values.append(results[1])
+    two_log_n_squared_values.append(results[2])
+    two_to_the_n_values.append(results[3])
+
+# Create Plotly figure
+fig = go.Figure()
+
+# Add traces
+fig.add_trace(go.Scatter(x=list(n_values), y=n_squared_values, mode='lines+markers', name='$n^2$'))
+fig.add_trace(go.Scatter(x=list(n_values), y=n_cubed_values, mode='lines+markers', name='$n^3$'))
+fig.add_trace(go.Scatter(x=list(n_values), y=two_log_n_squared_values, mode='lines+markers', name='$2^{log(n)^2}$'))
+fig.add_trace(go.Scatter(x=list(n_values), y=two_to_the_n_values, mode='lines+markers', name='$2^{n^2}$'))
+
+# Add titles and labels
+fig.update_layout(title='Mathematical Functions Visualization',
+                  xaxis_title='n',
+                  yaxis_title='Value',
+                  legend_title='Function')
+
+# Show plot
+fig.show()
+```
+
+
 - **Search Results Contextualized:** A review of literature and existing resources reveals various facets of scheduling theory, from time-dependent scheduling, which deals with variable job durations, to the mathematical formulations used to represent and solve scheduling problems. These resources illustrate the breadth of scheduling theory, including its application to optimizing finite sets of operations and the representation of processes in task networks.
 
 - **Addressing Computational Intractability:** The classification of scheduling problems based on complexity provides insights into designing efficient scheduling algorithms. This involves not only understanding the theoretical underpinnings of NP-hard problems but also applying practical techniques for managing precedence constraints and other factors that increase computational complexity.
