@@ -205,6 +205,10 @@ The complexity of scheduling problems significantly influences the selection and
   
 - **Space Complexity:** This metric evaluates the amount of memory an algorithm uses in relation to the input size. Analyzing an algorithm's space complexity involves determining whether it requires additional memory beyond the initial input, which is crucial for scheduling problems where storage efficiency can be as important as computational speed.
 
+$f(n)=\mathcal{O}(n^3)$ means that when $n$ is large $f(n)$ scales with $n^3$ or less. Here $f(n)$ can mean the time it takes to compute, or the memory necessary to store all instances.
+
+Formally, $f(n)=\mathcal{O}(g(n))$ if there exists constants $C$ and $n_0$ such that, $\forall \  n > n_0, f(n) \leq Cg(n)$
+
 #### Theoretical and Practical Implications
 
 The complexity hierarchy of scheduling problems underscores the theoretical and practical challenges in developing effective scheduling solutions. This hierarchy highlights the computational intractability of many scheduling problems, emphasizing the need for sophisticated algorithms capable of handling NP-hard problems.
@@ -255,7 +259,7 @@ fig.update_layout(title='Mathematical Functions Visualization',
                   legend_title='Function')
 
 # Show plot
-fig.show()
+fig
 ```
 
 
