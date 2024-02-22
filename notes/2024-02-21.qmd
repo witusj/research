@@ -216,6 +216,7 @@ The complexity hierarchy of scheduling problems underscores the theoretical and 
 ```{python}
 import math
 import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 
 def calculate_values(n):
     n_squared = n ** 2
@@ -267,6 +268,7 @@ fig
 <iframe width="560" height="315" src="https://www.youtube.com/embed/n8Z7v09zrl0?si=lqxFAx_z48YI2Q1p" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 ```
 
+
 ```{python}
 def complexity_example(n):
   f = n * math.log(n) + n**2 * 10**8 + n**3 / 1000
@@ -275,13 +277,18 @@ def complexity_example(n):
 x = [x for x in range(1000000, 150000000, 100000)]
 f = [complexity_example(n)[0] for n in x]
 g = [complexity_example(n)[1] for n in x]
+f_over_g = [f[i]/g[i] for i in range(0, len(f))]
 
 # Create Plotly figure
-fig = go.Figure()
+fig = make_subplots(specs=[[{"secondary_y": True}]])
 
 # Add traces
-fig.add_trace(go.Scatter(x=x, y=f, mode='lines', name='f'))
-fig.add_trace(go.Scatter(x=x, y=g, mode='lines', name='g'))
+fig.add_trace(go.Scatter(x=x, y=f, mode='lines', name='f'),
+    secondary_y=False,)
+fig.add_trace(go.Scatter(x=x, y=g, mode='lines', name='g'),
+    secondary_y=False,)
+fig.add_trace(go.Scatter(x=x, y=f_over_g, mode='lines', name='f / g',line=dict(dash='dash')),
+    secondary_y=True)
 
 # Add titles and labels
 fig.update_layout(title='Complexity',
@@ -292,6 +299,7 @@ fig.update_layout(title='Complexity',
 # Show plot
 fig
 ```
+
 
 
 - **Search Results Contextualized:** A review of literature and existing resources reveals various facets of scheduling theory, from time-dependent scheduling, which deals with variable job durations, to the mathematical formulations used to represent and solve scheduling problems. These resources illustrate the breadth of scheduling theory, including its application to optimizing finite sets of operations and the representation of processes in task networks.
