@@ -40,6 +40,8 @@ To do:\
 
 -   Generate ideas for efficiency improvements
 
+-   Finish up the coding
+
     	
     Citations:
 
