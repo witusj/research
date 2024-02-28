@@ -30,19 +30,15 @@ multimodular, a local optimum must be also a global optimum.
 
 To do:\
 
--   Establish the complexity (big O) of the strategy developed by
+-   [ ] Establish the complexity (big O) of the strategy developed by
     @kaandorp2007optimal
 
-```{=html}
-<!-- -->
-```
--   Establish recent developed strategies and their complexity
+-   [ ] Establish recent developed strategies and their complexity
 
--   Generate ideas for efficiency improvements
+-   [ ] Generate ideas for efficiency improvements
 
--   Finish up the coding
+-   [ ] Finish up the coding
 
-    	
     Citations:
 
 <ol>

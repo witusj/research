@@ -4,7 +4,6 @@
 for file in *.qmd; do
     
     # Convert qmd to ipynb
-    echo "Converting $file to $output..."
     quarto convert "$file"
 done
 
