@@ -1,0 +1,96 @@
+---
+title: "2024-02-28"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## OBP:
+
+The paper "Optimal outpatient appointment scheduling" by
+@kaandorp2007optimal applies a local search procedure to solve the
+scheduling problem. This approach falls under the category of a **greedy
+algorithm strategy**. Greedy algorithms make locally optimal choices at
+each step with the hope of finding a global optimum, while dynamic
+programming solves subproblems recursively and reuses their solutions to
+avoid repeated calculations. In this case, the local search procedure in
+the paper aims to converge to the optimal schedule based on various
+factors like expected waiting times of patients, idle time of the
+doctor, and tardiness as objectives.
+
+Generally greedy algorithms do not guarantee global optimums. However,
+because @kaandorp2007optimal have proved that the objective function is
+multimodular, a local optimum must be also a global optimum.
+
+To do:\
+
+-   Establish the complexity (big O) of the strategy developed by
+    @kaandorp2007optimal
+
+```{=html}
+<!-- -->
+```
+-   Establish recent developed strategies and their complexity
+
+-   Generate ideas for efficiency improvements
+
+    	
+    Citations:
+
+<ol>
+
+<li><a href="https://link.springer.com/article/10.1007/s10729-007-9015-x" target="_blank" target="_blank">Optimal
+Outpatient Appointment Scheduling - Springer</a></li>
+
+<li><a href="https://www.geeksforgeeks.org/greedy-approach-vs-dynamic-programming/" target="_blank" target="_blank">Greedy
+Approach vs Dynamic Programming - GeeksforGeeks</a></li>
+
+<li><a href="https://www.researchgate.net/publication/6144725_Optimal_outpatient_appointment_scheduling" target="_blank" target="_blank">Optimal
+Outpatient Appointment Scheduling - ResearchGate</a></li>
+
+<li><a href="https://stackoverflow.com/questions/16690249/what-is-the-difference-between-dynamic-programming-and-greedy-approach" target="_blank" target="_blank">Difference
+Between Dynamic Programming and Greedy Approach - Stack
+Overflow</a></li>
+
+<li><a href="https://pubmed.ncbi.nlm.nih.gov/17695133/" target="_blank" target="_blank">Optimal
+Outpatient Appointment Scheduling - PubMed</a></li>
+
+<li><a href="https://www.boardinfinity.com/blog/greedy-vs-dp/" target="_blank">Greedy
+vs DP - Board Infinity</a></li>
+
+<li><a href="https://research.vu.nl/files/2432179/fulltext.pdf" target="_blank">Optimal
+Outpatient Appointment Scheduling (Full Text PDF) - VU Research</a></li>
+
+<li><a href="https://www.javatpoint.com/dynamic-programming-vs-greedy-method" target="_blank">Dynamic
+Programming vs Greedy Method - JavaTpoint</a></li>
+
+<li><a href="https://research.vu.nl/en/publications/optimal-outpatient-appointment-scheduling" target="_blank">Optimal
+Outpatient Appointment Scheduling Publication - VU Research</a></li>
+
+<li><a href="http://www.cs.otago.ac.nz/cosc242/pdf/L22.pdf" target="_blank">Lecture
+Notes on Greedy Algorithms vs Dynamic Programming - University of
+Otago</a></li>
+
+<li><a href="https://www.semanticscholar.org/paper/Optimal-outpatient-appointment-scheduling-Kaandorp-Koole/326fe320c952c9ca0ec65f6f6e168929d55515be" target="_blank">Optimal
+Outpatient Appointment Scheduling - Semantic Scholar</a></li>
+
+<li><a href="https://www.reddit.com/r/leetcode/comments/12o747d/is_there_a_proven_way_to_distinguish_between/" target="_blank">Discussion
+on Greedy vs Dynamic Programming - Reddit</a></li>
+
+<li><a href="https://link.springer.com/chapter/10.1007/978-3-642-21713-5_9" target="_blank">Advanced
+Methods for Outpatient Appointment Scheduling - Springer</a></li>
+
+<li><a href="https://www.geeksforgeeks.org/comparison-among-greedy-divide-and-conquer-and-dynamic-programming-algorithm/" target="_blank">Comparison
+Among Greedy, Divide and Conquer, and Dynamic Programming Algorithms -
+GeeksforGeeks</a></li>
+
+<li><a href="https://scholar.google.com/citations?hl=en&user=3oaD850AAAAJ" target="_blank">Scholar
+Profile for Outpatient Appointment Scheduling Research</a></li>
+
+</ol>

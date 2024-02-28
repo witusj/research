@@ -36,6 +36,12 @@ lie within the realm of NP-hardness, requiring advanced methods like
 approximation algorithms, metaheuristics, and exact exponential-time
 algorithms.
 
+```{=html}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/3ifx3EOtSm8?si=nUJ6XhaJUk6zf5SX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+```
+
+Insert: Eulerian vs Hamiltonian paths
+
 #### Stochastic Scheduling Problems
 
 In real-world situations, uncertainty exists due to factors like machine
@@ -52,14 +58,28 @@ dynamic programming and integer programming.
 ```{=html}
 <iframe width="560" height="315" src="https://www.youtube.com/embed/iIX1YvbLbvc?si=VmLelFg_zf3vnkKO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 ```
-
-
 For instance, let's examine a simple weighted interval scheduling
-problem using dynamic programming. The Python code for the weighted interval scheduling problem using dynamic programming can be applied in project management to optimally allocate resources and improve project efficiency. By implementing this algorithm, project managers can prioritize tasks based on their importance and ensure that critical activities are completed without conflicts.
+problem using dynamic programming. The Python code for the weighted
+interval scheduling problem using dynamic programming can be applied in
+project management to optimally allocate resources and improve project
+efficiency. By implementing this algorithm, project managers can
+prioritize tasks based on their importance and ensure that critical
+activities are completed without conflicts.
 
-For example, imagine a software development team working on multiple projects simultaneously. They want to optimize their resource allocation across these projects to meet strict delivery timelines. By applying the weighted interval scheduling algorithm with dynamic programming, they could create a priority list of tasks, taking into account both the urgency and importance of each task. This allows them to make informed decisions about which tasks should receive higher priority during resource allocation, ultimately leading to faster completion times and increased customer satisfaction.
+For example, imagine a software development team working on multiple
+projects simultaneously. They want to optimize their resource allocation
+across these projects to meet strict delivery timelines. By applying the
+weighted interval scheduling algorithm with dynamic programming, they
+could create a priority list of tasks, taking into account both the
+urgency and importance of each task. This allows them to make informed
+decisions about which tasks should receive higher priority during
+resource allocation, ultimately leading to faster completion times and
+increased customer satisfaction.
 
-Additionally, this algorithm can help reduce costs by preventing unnecessary duplication of effort and reducing idle time for resources. As a result, organizations can achieve greater productivity and competitiveness in their respective markets.
+Additionally, this algorithm can help reduce costs by preventing
+unnecessary duplication of effort and reducing idle time for resources.
+As a result, organizations can achieve greater productivity and
+competitiveness in their respective markets.
 
 ```{python}
 def weighted_interval_scheduling_with_schedule(requests):
@@ -102,33 +122,72 @@ def weighted_interval_scheduling_with_schedule(requests):
 ### Business Case: Conference Room Booking Optimization
 
 #### Background:
-A multinational corporation, "GlobalTech," faces challenges in managing its limited number of conference rooms across various office locations. With a dynamic work environment involving cross-functional teams, the demand for conference rooms varies in terms of importance, team size, and required amenities. The goal is to optimize the allocation of these rooms to ensure that high-priority meetings are accommodated effectively, maximizing overall meeting value to the company.
+
+A multinational corporation, "GlobalTech," faces challenges in managing
+its limited number of conference rooms across various office locations.
+With a dynamic work environment involving cross-functional teams, the
+demand for conference rooms varies in terms of importance, team size,
+and required amenities. The goal is to optimize the allocation of these
+rooms to ensure that high-priority meetings are accommodated
+effectively, maximizing overall meeting value to the company.
 
 #### Decision Problem:
-The primary decision problem is how to schedule the use of conference rooms to maximize the total value (or "weight") of meetings held within a given week, taking into account that meetings have different priorities (weights), durations, and specific start and end times. This problem involves deciding which meetings to approve and schedule in the limited available conference room space to achieve the highest cumulative priority score.
+
+The primary decision problem is how to schedule the use of conference
+rooms to maximize the total value (or "weight") of meetings held within
+a given week, taking into account that meetings have different
+priorities (weights), durations, and specific start and end times. This
+problem involves deciding which meetings to approve and schedule in the
+limited available conference room space to achieve the highest
+cumulative priority score.
 
 #### Input Variables:
-- **Requests**: A list of meeting requests, each with:
-  - `id`: A unique identifier for the meeting.
-  - `start`: The requested start time of the meeting.
-  - `end`: The requested end time of the meeting.
-  - `weight`: The priority or value of the meeting to the organization, which could factor in the importance of the meeting's purpose, the seniority of participants, or the strategic value of the meeting outcomes.
+
+-   **Requests**: A list of meeting requests, each with:
+    -   `id`: A unique identifier for the meeting.
+    -   `start`: The requested start time of the meeting.
+    -   `end`: The requested end time of the meeting.
+    -   `weight`: The priority or value of the meeting to the
+        organization, which could factor in the importance of the
+        meeting's purpose, the seniority of participants, or the
+        strategic value of the meeting outcomes.
 
 #### Solution Method Using Dynamic Programming:
-The weighted interval scheduling problem is solved using dynamic programming to ensure that GlobalTech can find the optimal combination of meetings that maximizes the total value of meetings held, while ensuring no two selected meetings overlap in time. The dynamic programming approach involves sorting meetings by their end times, then iteratively building up a solution by considering, for each meeting, whether including it leads to a higher total value than excluding it, given the meetings already considered.
+
+The weighted interval scheduling problem is solved using dynamic
+programming to ensure that GlobalTech can find the optimal combination
+of meetings that maximizes the total value of meetings held, while
+ensuring no two selected meetings overlap in time. The dynamic
+programming approach involves sorting meetings by their end times, then
+iteratively building up a solution by considering, for each meeting,
+whether including it leads to a higher total value than excluding it,
+given the meetings already considered.
 
 #### Code Application:
-The provided Python function, `weighted_interval_scheduling`, represents an algorithm to solve this optimization problem. It sorts the meetings by their priority (weight) and then uses dynamic programming to find the optimal subset of meetings that maximizes the total weight without overlaps.
+
+The provided Python function, `weighted_interval_scheduling`, represents
+an algorithm to solve this optimization problem. It sorts the meetings
+by their priority (weight) and then uses dynamic programming to find the
+optimal subset of meetings that maximizes the total weight without
+overlaps.
 
 #### Real-Life Application:
-Consider GlobalTech has the following meeting requests for a particular conference room:
 
-1. **Strategic Planning** (`id: 1`, `start: 9 AM`, `end: 11 AM`, `weight: 50`)
-2. **Product Launch Review** (`id: 2`, `start: 10 AM`, `end: 12 PM`, `weight: 40`)
-3. **Team Building Workshop** (`id: 3`, `start: 1 PM`, `end: 3 PM`, `weight: 30`)
-4. **Quarterly Financial Review** (`id: 4`, `start: 2 PM`, `end: 4 PM`, `weight: 45`)
+Consider GlobalTech has the following meeting requests for a particular
+conference room:
 
-Using the provided code, GlobalTech can input these meetings as requests and determine the optimal schedule that maximizes the total value of meetings hosted in the conference room.
+1.  **Strategic Planning** (`id: 1`, `start: 9 AM`, `end: 11 AM`,
+    `weight: 50`)
+2.  **Product Launch Review** (`id: 2`, `start: 10 AM`, `end: 12 PM`,
+    `weight: 40`)
+3.  **Team Building Workshop** (`id: 3`, `start: 1 PM`, `end: 3 PM`,
+    `weight: 30`)
+4.  **Quarterly Financial Review** (`id: 4`, `start: 2 PM`, `end: 4 PM`,
+    `weight: 45`)
+
+Using the provided code, GlobalTech can input these meetings as requests
+and determine the optimal schedule that maximizes the total value of
+meetings hosted in the conference room.
 
 ```{python}
 requests = [
@@ -141,82 +200,295 @@ requests = [
 weighted_interval_scheduling_with_schedule(requests)
 ```
 
-
 #### Managerial Perspective:
-From a managerial standpoint, this approach enables GlobalTech to make data-driven decisions about allocating scarce resources (conference rooms) in a way that maximizes the strategic value delivered to the company. It considers the complex interplay between meeting times, durations, and their relative importance, providing a clear, optimized schedule that supports the company's operational and strategic goals. This method also demonstrates to stakeholders the company's commitment to efficiency and strategic focus, using advanced problem-solving techniques to address everyday operational challenges.
+
+From a managerial standpoint, this approach enables GlobalTech to make
+data-driven decisions about allocating scarce resources (conference
+rooms) in a way that maximizes the strategic value delivered to the
+company. It considers the complex interplay between meeting times,
+durations, and their relative importance, providing a clear, optimized
+schedule that supports the company's operational and strategic goals.
+This method also demonstrates to stakeholders the company's commitment
+to efficiency and strategic focus, using advanced problem-solving
+techniques to address everyday operational challenges.
 
 References:
 
-1. [Handout on Scheduling by Shakhlevich - NYU Stern](https://www.stern.nyu.edu/om/faculty/pinedo/scheduling/shakhlevich/handout01.pdf)
-2. [Operating System Process Scheduling Algorithms - Tutorialspoint](https://www.tutorialspoint.com/operating_system/os_process_scheduling_algorithms.htm)
-3. [Lecture Notes on Dynamic Programming and Interval Scheduling - University of Maryland](https://www.cs.umd.edu/class/fall2017/cmsc451-0101/Lects/lect10-dp-intv-sched.pdf)
-4. [Chapter 9: Advanced Mathematical Programming - MIT](https://web.mit.edu/15.053/www/AMP-Chapter-09.pdf)
-5. [Lecture on Scheduling Algorithms - National Institute of Informatics, Japan](https://www.nii.ac.jp/userimg/lectures/20131010/Lecture1.pdf)
-6. [CPU Scheduling in Operating Systems - GeeksforGeeks](https://www.geeksforgeeks.org/cpu-scheduling-in-operating-systems/)
-7. [Weighted Job Scheduling - GeeksforGeeks](https://www.geeksforgeeks.org/weighted-job-scheduling/)
-8. [Overview of Scheduling Theory - ScienceDirect](https://www.sciencedirect.com/topics/computer-science/scheduling-theory)
-9. [Scheduling (Computing) - Wikipedia](https://en.wikipedia.org/wiki/Scheduling_(computing))
-10. [Slides on Dynamic Programming Scheduling - University of Washington](https://courses.cs.washington.edu/courses/cse521/13wi/slides/06dp-sched.pdf)
-11. [Job Scheduling Algorithms - Springer Link](https://link.springer.com/chapter/10.1007/978-3-540-69446-5_4)
-12. [Job Scheduling Algorithms Blog Post - Advanced Systems Concepts](https://www.advsyscon.com/blog/job-scheduling-algorithms/)
-13. [Weighted Job Scheduling in Dynamic Programming - Educative.io](https://www.educative.io/answers/what-is-weighted-job-scheduling-in-dynamic-programming)
-14. [Introduction to Scheduling - Amazon Book](https://www.amazon.com/Introduction-Scheduling-Chapman-Computational-Science/dp/1138117722)
-15. [CPU Scheduling Algorithms - Guru99](https://www.guru99.com/cpu-scheduling-algorithms.html)
-16. [Dynamic Programming Lecture Notes - CMU](https://www.cs.cmu.edu/~ckingsf/bioinfo-lectures/dynamicp.pdf)
-17. [Book on Scheduling - Green Bean Books](https://greenbeanbookspdx.indielite.org/book/9781138117723)
-18. [Scheduling Algorithms in Operating Systems - Javatpoint](https://www.javatpoint.com/os-scheduling-algorithms)
-19. [Video Lecture on Scheduling - YouTube](https://youtube.com/watch?v=iIX1YvbLbvc)
-20. [Scheduling Theory Course Material - University of Wroclaw](https://sites.google.com/cs.uni.wroc.pl/boehm/scheduling-theory-21)
-21. [Scheduling Algorithms in Operating Systems - Scaler Topics](https://www.scaler.com/topics/operating-system/scheduling-algorithms-in-os/)
-22. [Scientific Article on Scheduling - ScienceDirect](https://www.sciencedirect.com/science/article/pii/0895717790903703/pdf?md5=c6befa39de273118a4711537ae9418a6&pid=1-s2.0-0895717790903703-main.pdf)
-23. [Scheduling in Production Processes - Wikipedia](https://en.wikipedia.org/wiki/Scheduling_(production_processes))
-24. [Scheduling Algorithms in Operating Systems - Data Flair](https://data-flair.training/blogs/scheduling-algorithms-in-operating-system/)
-25. [Lecture Notes on Scheduling - University of Toronto](https://www.cs.toronto.edu/~toni/Courses/364-2002/Notes/lect10.pdf)
+1.  [Handout on Scheduling by Shakhlevich - NYU
+    Stern](https://www.stern.nyu.edu/om/faculty/pinedo/scheduling/shakhlevich/handout01.pdf)
+2.  [Operating System Process Scheduling Algorithms -
+    Tutorialspoint](https://www.tutorialspoint.com/operating_system/os_process_scheduling_algorithms.htm)
+3.  [Lecture Notes on Dynamic Programming and Interval Scheduling -
+    University of
+    Maryland](https://www.cs.umd.edu/class/fall2017/cmsc451-0101/Lects/lect10-dp-intv-sched.pdf)
+4.  [Chapter 9: Advanced Mathematical Programming -
+    MIT](https://web.mit.edu/15.053/www/AMP-Chapter-09.pdf)
+5.  [Lecture on Scheduling Algorithms - National Institute of
+    Informatics,
+    Japan](https://www.nii.ac.jp/userimg/lectures/20131010/Lecture1.pdf)
+6.  [CPU Scheduling in Operating Systems -
+    GeeksforGeeks](https://www.geeksforgeeks.org/cpu-scheduling-in-operating-systems/)
+7.  [Weighted Job Scheduling -
+    GeeksforGeeks](https://www.geeksforgeeks.org/weighted-job-scheduling/)
+8.  [Overview of Scheduling Theory -
+    ScienceDirect](https://www.sciencedirect.com/topics/computer-science/scheduling-theory)
+9.  [Scheduling (Computing) -
+    Wikipedia](https://en.wikipedia.org/wiki/Scheduling_(computing))
+10. [Slides on Dynamic Programming Scheduling - University of
+    Washington](https://courses.cs.washington.edu/courses/cse521/13wi/slides/06dp-sched.pdf)
+11. [Job Scheduling Algorithms - Springer
+    Link](https://link.springer.com/chapter/10.1007/978-3-540-69446-5_4)
+12. [Job Scheduling Algorithms Blog Post - Advanced Systems
+    Concepts](https://www.advsyscon.com/blog/job-scheduling-algorithms/)
+13. [Weighted Job Scheduling in Dynamic Programming -
+    Educative.io](https://www.educative.io/answers/what-is-weighted-job-scheduling-in-dynamic-programming)
+14. [Introduction to Scheduling - Amazon
+    Book](https://www.amazon.com/Introduction-Scheduling-Chapman-Computational-Science/dp/1138117722)
+15. [CPU Scheduling Algorithms -
+    Guru99](https://www.guru99.com/cpu-scheduling-algorithms.html)
+16. [Dynamic Programming Lecture Notes -
+    CMU](https://www.cs.cmu.edu/~ckingsf/bioinfo-lectures/dynamicp.pdf)
+17. [Book on Scheduling - Green Bean
+    Books](https://greenbeanbookspdx.indielite.org/book/9781138117723)
+18. [Scheduling Algorithms in Operating Systems -
+    Javatpoint](https://www.javatpoint.com/os-scheduling-algorithms)
+19. [Video Lecture on Scheduling -
+    YouTube](https://youtube.com/watch?v=iIX1YvbLbvc)
+20. [Scheduling Theory Course Material - University of
+    Wroclaw](https://sites.google.com/cs.uni.wroc.pl/boehm/scheduling-theory-21)
+21. [Scheduling Algorithms in Operating Systems - Scaler
+    Topics](https://www.scaler.com/topics/operating-system/scheduling-algorithms-in-os/)
+22. [Scientific Article on Scheduling -
+    ScienceDirect](https://www.sciencedirect.com/science/article/pii/0895717790903703/pdf?md5=c6befa39de273118a4711537ae9418a6&pid=1-s2.0-0895717790903703-main.pdf)
+23. [Scheduling in Production Processes -
+    Wikipedia](https://en.wikipedia.org/wiki/Scheduling_(production_processes))
+24. [Scheduling Algorithms in Operating Systems - Data
+    Flair](https://data-flair.training/blogs/scheduling-algorithms-in-operating-system/)
+25. [Lecture Notes on Scheduling - University of
+    Toronto](https://www.cs.toronto.edu/~toni/Courses/364-2002/Notes/lect10.pdf)
 
 References for Python code:
 
-1. [Weighted Job Scheduling - GeeksforGeeks](https://www.geeksforgeeks.org/weighted-job-scheduling/)
-2. [Article on Advancements in Scheduling Algorithms - ScienceDirect](https://www.sciencedirect.com/science/article/pii/S0307904X1300334X)
-3. [Golang Program to Implement a Weighted Interval Scheduling Algorithm - TutorialsPoint](https://www.tutorialspoint.com/golang-program-to-implement-a-weighted-interval-scheduling-algorithm)
-4. [Project Scheduling Problem with Weighted Multi-Skill Resources: Enhancing the Efficiency of Project Scheduling - ResearchGate](https://www.researchgate.net/publication/251981179_Project_Scheduling_Problem_with_Weighted_Multi-Skill_Resources_Enhancing_the_Efficiency_of_Project_Scheduling)
-5. [Scientific Research Publishing on Scheduling - SCIRP](https://www.scirp.org/html/3556.html)
-6. [Interval Scheduling - Wikipedia](https://en.wikipedia.org/wiki/Interval_scheduling)
-7. [Topics in Computer Science: Scheduling Interval - ScienceDirect](https://www.sciencedirect.com/topics/computer-science/scheduling-interval)
-8. [Weighted Multi-Skill Resources Project Scheduling - ResearchGate](https://www.researchgate.net/publication/220204278_Weighted_Multi-Skill_Resources_Project_Scheduling)
+1.  [Weighted Job Scheduling -
+    GeeksforGeeks](https://www.geeksforgeeks.org/weighted-job-scheduling/)
+2.  [Article on Advancements in Scheduling Algorithms -
+    ScienceDirect](https://www.sciencedirect.com/science/article/pii/S0307904X1300334X)
+3.  [Golang Program to Implement a Weighted Interval Scheduling
+    Algorithm -
+    TutorialsPoint](https://www.tutorialspoint.com/golang-program-to-implement-a-weighted-interval-scheduling-algorithm)
+4.  [Project Scheduling Problem with Weighted Multi-Skill Resources:
+    Enhancing the Efficiency of Project Scheduling -
+    ResearchGate](https://www.researchgate.net/publication/251981179_Project_Scheduling_Problem_with_Weighted_Multi-Skill_Resources_Enhancing_the_Efficiency_of_Project_Scheduling)
+5.  [Scientific Research Publishing on Scheduling -
+    SCIRP](https://www.scirp.org/html/3556.html)
+6.  [Interval Scheduling -
+    Wikipedia](https://en.wikipedia.org/wiki/Interval_scheduling)
+7.  [Topics in Computer Science: Scheduling Interval -
+    ScienceDirect](https://www.sciencedirect.com/topics/computer-science/scheduling-interval)
+8.  [Weighted Multi-Skill Resources Project Scheduling -
+    ResearchGate](https://www.researchgate.net/publication/220204278_Weighted_Multi-Skill_Resources_Project_Scheduling)
 
-#### Complexity Hierarchy
-
-Understanding the complexity of scheduling problems is fundamental in identifying efficient algorithms for specific scenarios. Scheduling problems, often lying within the realm of NP-hardness, necessitate advanced solution methods such as approximation algorithms, metaheuristics, and exact exponential-time algorithms to find optimal or near-optimal solutions.
-
-```{=html}
-<iframe width="560" height="315" src="https://www.youtube.com/embed/3ifx3EOtSm8?si=nUJ6XhaJUk6zf5SX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-```
-
+### Elaborations
 
 #### Dynamic Programming Applied to Scheduling Theory
 
-Dynamic programming stands out as a powerful methodology for addressing scheduling problems by decomposing complex challenges into manageable subproblems. This approach ensures the efficient computation of optimal solutions, exemplified by solving the weighted interval scheduling problem. Through dynamic programming, one can optimize the total weight of non-overlapping intervals, showcasing the technique's utility in formulating and solving scheduling issues.
+Dynamic programming stands out as a powerful methodology for addressing
+scheduling problems by decomposing complex challenges into manageable
+subproblems. This approach ensures the efficient computation of optimal
+solutions, exemplified by solving the weighted interval scheduling
+problem. Through dynamic programming, one can optimize the total weight
+of non-overlapping intervals, showcasing the technique's utility in
+formulating and solving scheduling issues.
+
+Dynamic programming is one of several strategies for polynomial time algorithms. Others are:
+
+- Divide and conquer. Eg. mergesort.
+
+```{=html}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/G-shHVNRlRE?si=LX7yFyekELgXqVbj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+```
+
+```{python}
+def merge_sort(arr):
+    if len(arr) > 1:
+        # Finding the mid of the array
+        mid = len(arr) // 2
+        
+        # Dividing the array elements into 2 halves
+        L = arr[:mid]
+        R = arr[mid:]
+        print(f"divided array: L:{L}, R={R}")
+        
+        # Sorting the first half
+        merge_sort(L)
+        print("sorting L")
+        
+        # Sorting the second half
+        merge_sort(R)
+        print("sorting R")
+
+        i = j = k = 0
+        print("setting i, j, k to zero")
+        
+        # Merge the temp arrays back into arr
+        while i < len(L) and j < len(R):
+            if L[i] < R[j]:
+                arr[k] = L[i]
+                i += 1
+            else:
+                arr[k] = R[j]
+                j += 1
+            k += 1
+            print("merging L and R")
+        
+        # Checking if any element was left
+        while i < len(L):
+            arr[k] = L[i]
+            i += 1
+            k += 1
+            print("checking L")
+        
+        while j < len(R):
+            arr[k] = R[j]
+            j += 1
+            k += 1
+            print("checking L")
+
+# Example usage
+arr = [12, 11, 13, 5, 6, 7]
+print("Given array is", arr)
+merge_sort(arr)
+print("Sorted array is", arr)
+```
+
+- Greedy algorithms (local searc)
+
+```{=html}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SOlVhxhBVKA?si=waF3xGs5dpl-kwyK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+```
+
 
 #### Complexity Measurement and Its Importance
 
-The complexity of scheduling problems significantly influences the selection and development of algorithms. Time complexity and space complexity are two critical metrics for evaluating the efficiency of scheduling algorithms:
+The complexity of scheduling problems significantly influences the
+selection and development of algorithms. Time complexity and space
+complexity are two critical metrics for evaluating the efficiency of
+scheduling algorithms:
 
-- **Time Complexity:** This metric assesses how the execution time of an algorithm scales with the input size. In scheduling theory, the focus might be on understanding whether an algorithm's running time increases linearly with the number of tasks or exponentially with the complexity of task dependencies.
-  
-- **Space Complexity:** This metric evaluates the amount of memory an algorithm uses in relation to the input size. Analyzing an algorithm's space complexity involves determining whether it requires additional memory beyond the initial input, which is crucial for scheduling problems where storage efficiency can be as important as computational speed.
+-   **Time Complexity:** This metric assesses how the execution time of
+    an algorithm scales with the input size. In scheduling theory, the
+    focus might be on understanding whether an algorithm's running time
+    increases linearly with the number of tasks or exponentially with
+    the complexity of task dependencies.
 
-$f(n)=\mathcal{O}(n^3)$ means that when $n$ is large $f(n)$ scales with $n^3$ or less. Here $f(n)$ can mean the time it takes to compute, or the memory necessary to store all instances.
+-   **Space Complexity:** This metric evaluates the amount of memory an
+    algorithm uses in relation to the input size. Analyzing an
+    algorithm's space complexity involves determining whether it
+    requires additional memory beyond the initial input, which is
+    crucial for scheduling problems where storage efficiency can be as
+    important as computational speed.
 
-Formally, $f(n)=\mathcal{O}(g(n))$ if there exists constants $C$ and $n_0$ such that, $\forall \  n > n_0, f(n) \leq Cg(n)$
-
-#### Theoretical and Practical Implications
-
-The complexity hierarchy of scheduling problems underscores the theoretical and practical challenges in developing effective scheduling solutions. This hierarchy highlights the computational intractability of many scheduling problems, emphasizing the need for sophisticated algorithms capable of handling NP-hard problems.
-
+```{=html}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/n8Z7v09zrl0?si=lqxFAx_z48YI2Q1p" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+```
 ```{python}
 import math
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+
+def complexity_example(n):
+  f = n * math.log(n) + n**2 * 10**8 + n**3 / 1000
+  g = n**3
+  return f, g
+x = [x for x in range(1000000, 150000000, 100000)]
+f = [complexity_example(n)[0] for n in x]
+g = [complexity_example(n)[1] for n in x]
+f_over_g = [f[i]/g[i] for i in range(0, len(f))]
+
+# Create Plotly figure
+fig = make_subplots(specs=[[{"secondary_y": True}]])
+
+# Add traces
+fig.add_trace(go.Scatter(x=x, y=f, mode='lines', name='f'),
+    secondary_y=False,)
+fig.add_trace(go.Scatter(x=x, y=g, mode='lines', name='g'),
+    secondary_y=False,)
+fig.add_trace(go.Scatter(x=x, y=f_over_g, mode='lines', name='f / g',line=dict(dash='dash')),
+    secondary_y=True)
+
+# Add titles and labels
+fig.update_layout(title='Complexity',
+                  xaxis_title='n',
+                  yaxis_title='Value',
+                  legend_title='Function')
+
+# Show plot
+fig
+```
+
+$f(n)=\mathcal{O}(n^3)$ means that when $n$ is large $f(n)$ scales with
+$n^3$ or less. Here $f(n)$ can mean the time it takes to compute, or the
+memory necessary to store all instances.
+
+Formally, $f(n)=\mathcal{O}(g(n))$ if there exists constants $C$ and
+$n_0$ such that, $\forall \  n > n_0, f(n) \leq Cg(n)$
+
+$f(n)=\mathcal{\Omega}(n^3)$ means that when $n$ is large $f(n)$ scales
+with $n^3$ or more : $g(n) = \mathcal{O}(f(n))$.
+
+$f(n)=\mathcal{\Theta}(n^3)$ means that when $n$ is large $f(n)$ scales
+with $n^3$ more or less: $f(n) = \mathcal{O}(g(n))$ and
+$g(n) = \mathcal{O}(f(n))$.
+
+$f(n)=\mathcal{o}(n^3)$ means that when $n$ is large $f(n)$ grows much
+slower than $n^3$ or the ratio $f(n) / n^3$ tends to zero as $n$ grows.
+
+Example of a function that grows faster than polynomial, but slower than
+exponential when $n$ is large.
+
+```{python}
+def complexity_example_one(n):
+  if n > 0:
+    f = n**math.log(n)
+  else:
+    f = 0
+  g1 = n**2
+  g2 = 1.5**(n)
+  return f, g1, g2
+
+x = [x for x in range(1, 40, 1)]
+f, g1, g2 = zip(*[complexity_example_one(n) for n in x])
+
+# Create Plotly figure
+fig = go.Figure()
+
+# Add traces
+fig.add_trace(go.Scatter(x=x, y=f, mode='lines', name='f'))
+fig.add_trace(go.Scatter(x=x, y=g1, mode='lines', name='g1'))
+fig.add_trace(go.Scatter(x=x, y=g2, mode='lines', name='g2'))
+
+# Add titles and labels
+fig.update_layout(title='Complexity',
+                  xaxis_title='n',
+                  yaxis_title='Value - log scale',
+                  legend_title='Function',
+                  yaxis_type='log',  # Logarithmic scale
+                  xaxis_type='linear',)
+
+# Show plot
+fig
+
+```
+
+#### Theoretical and Practical Implications
+
+The complexity hierarchy of scheduling problems underscores the
+theoretical and practical challenges in developing effective scheduling
+solutions. This hierarchy highlights the computational intractability of
+many scheduling problems, emphasizing the need for sophisticated
+algorithms capable of handling NP-hard problems.
+
+```{python}
 
 def calculate_values(n):
     n_squared = n ** 2
@@ -254,7 +526,7 @@ fig.add_trace(go.Scatter(x=list(n_values), y=two_log_n_squared_values, mode='lin
 fig.add_trace(go.Scatter(x=list(n_values), y=two_to_the_n_values, mode='lines+markers', name=r'2^{n^2}'))
 
 # Add titles and labels
-fig.update_layout(title='Mathematical Functions Visualization',
+fig.update_layout(title='Complexity examples',
                   xaxis_title='n',
                   yaxis_title='Value',
                   legend_title='Function')
@@ -263,63 +535,70 @@ fig.update_layout(title='Mathematical Functions Visualization',
 fig
 ```
 
+-   **Search Results Contextualized:** A review of literature and
+    existing resources reveals various facets of scheduling theory, from
+    time-dependent scheduling, which deals with variable job durations,
+    to the mathematical formulations used to represent and solve
+    scheduling problems. These resources illustrate the breadth of
+    scheduling theory, including its application to optimizing finite
+    sets of operations and the representation of processes in task
+    networks.
 
-```{=html}
-<iframe width="560" height="315" src="https://www.youtube.com/embed/n8Z7v09zrl0?si=lqxFAx_z48YI2Q1p" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-```
+-   **Addressing Computational Intractability:** The classification of
+    scheduling problems based on complexity provides insights into
+    designing efficient scheduling algorithms. This involves not only
+    understanding the theoretical underpinnings of NP-hard problems but
+    also applying practical techniques for managing precedence
+    constraints and other factors that increase computational
+    complexity.
 
-
-```{python}
-def complexity_example(n):
-  f = n * math.log(n) + n**2 * 10**8 + n**3 / 1000
-  g = n**3
-  return f, g
-x = [x for x in range(1000000, 150000000, 100000)]
-f = [complexity_example(n)[0] for n in x]
-g = [complexity_example(n)[1] for n in x]
-f_over_g = [f[i]/g[i] for i in range(0, len(f))]
-
-# Create Plotly figure
-fig = make_subplots(specs=[[{"secondary_y": True}]])
-
-# Add traces
-fig.add_trace(go.Scatter(x=x, y=f, mode='lines', name='f'),
-    secondary_y=False,)
-fig.add_trace(go.Scatter(x=x, y=g, mode='lines', name='g'),
-    secondary_y=False,)
-fig.add_trace(go.Scatter(x=x, y=f_over_g, mode='lines', name='f / g',line=dict(dash='dash')),
-    secondary_y=True)
-
-# Add titles and labels
-fig.update_layout(title='Complexity',
-                  xaxis_title='n',
-                  yaxis_title='Value',
-                  legend_title='Function')
-
-# Show plot
-fig
-```
-
-
-
-- **Search Results Contextualized:** A review of literature and existing resources reveals various facets of scheduling theory, from time-dependent scheduling, which deals with variable job durations, to the mathematical formulations used to represent and solve scheduling problems. These resources illustrate the breadth of scheduling theory, including its application to optimizing finite sets of operations and the representation of processes in task networks.
-
-- **Addressing Computational Intractability:** The classification of scheduling problems based on complexity provides insights into designing efficient scheduling algorithms. This involves not only understanding the theoretical underpinnings of NP-hard problems but also applying practical techniques for managing precedence constraints and other factors that increase computational complexity.
-
-In conclusion, the complexity hierarchy is a critical consideration in scheduling theory, affecting both the theoretical exploration of scheduling problems and the practical development of algorithms. By leveraging dynamic programming and understanding the nuances of time and space complexity, researchers and practitioners can navigate the challenges posed by NP-hard problems, leading to more effective and efficient scheduling solutions.
+In conclusion, the complexity hierarchy is a critical consideration in
+scheduling theory, affecting both the theoretical exploration of
+scheduling problems and the practical development of algorithms. By
+leveraging dynamic programming and understanding the nuances of time and
+space complexity, researchers and practitioners can navigate the
+challenges posed by NP-hard problems, leading to more effective and
+efficient scheduling solutions.
 
 ### References:
 
-1. **Time-Dependent Scheduling:** [Springer Link](https://link.springer.com/chapter/10.1007/978-3-540-69446-5_4) - Discusses the intricacies of scheduling problems where job durations are influenced by their start times.
+1.  **Time-Dependent Scheduling:** [Springer
+    Link](https://link.springer.com/chapter/10.1007/978-3-540-69446-5_4) -
+    Discusses the intricacies of scheduling problems where job durations
+    are influenced by their start times.
 
-2. **Introduction to Scheduling Theory:** [NYU Stern](https://www.stern.nyu.edu/om/faculty/pinedo/scheduling/shakhlevich/handout01.pdf) - Provides an overview of scheduling theory, emphasizing the development of optimal schedules.
+2.  **Introduction to Scheduling Theory:** [NYU
+    Stern](https://www.stern.nyu.edu/om/faculty/pinedo/scheduling/shakhlevich/handout01.pdf) -
+    Provides an overview of scheduling theory, emphasizing the
+    development of optimal schedules.
 
-3. **Scheduling Theory Overview:** [Encyclopedia of Mathematics](https://encyclopediaofmath.org/wiki/Scheduling_theory) - A comprehensive examination of scheduling theory as a branch of applied mathematics focused on scheduling problem formulations and solutions.
+3.  **Scheduling Theory Overview:** [Encyclopedia of
+    Mathematics](https://encyclopediaofmath.org/wiki/Scheduling_theory) -
+    A comprehensive examination of scheduling theory as a branch of
+    applied mathematics focused on scheduling problem formulations and
+    solutions.
 
-4. **Scheduling Theory in Practice:** [ScienceDirect](https://www.sciencedirect.com/topics/computer-science/scheduling-theory) - Describes the process representation in scheduling theory, highlighting task network representations.
+4.  **Scheduling Theory in Practice:**
+    [ScienceDirect](https://www.sciencedirect.com/topics/computer-science/scheduling-theory) -
+    Describes the process representation in scheduling theory,
+    highlighting task network representations.
 
-5. **Complexity of Scheduling Under Precedence Constraints:** [JSTOR](https://www.jstor.org/stable/169889) - Discusses the increased computational complexity introduced by precedence constraints in scheduling problems.
+5.  **Complexity of Scheduling Under Precedence Constraints:**
+    [JSTOR](https://www.jstor.org/stable/169889) - Discusses the
+    increased computational complexity introduced by precedence
+    constraints in scheduling problems.
 
-6. **Introduction to Scheduling:** [Amazon](https://www.amazon.com/Introduction-Scheduling-Chapman-Computational-Science/dp/1138117722) - A resource providing insights into the complexities and methodologies of scheduling, including discussions on space and time complexity.
+6.  **Introduction to Scheduling:**
+    [Amazon](https://www.amazon.com/Introduction-Scheduling-Chapman-Computational-Science/dp/1138117722) -
+    A resource providing insights into the complexities and
+    methodologies of scheduling, including discussions on space and time
+    complexity.
 
-7. **Computation in Complex Systems (Spring 2022):** [Complexity Explorer](https://www.complexityexplorer.org/courses/140-computation-in-complex-systems-spring-2022) - This course offers an in-depth look into computational models and algorithms used in the analysis of complex systems, with relevance to understanding the computational complexity found in scheduling problems.
+7.  **Computation in Complex Systems (Spring 2022):** [Complexity
+    Explorer](https://www.complexityexplorer.org/courses/140-computation-in-complex-systems-spring-2022) -
+    This course offers an in-depth look into computational models and
+    algorithms used in the analysis of complex systems, with relevance
+    to understanding the computational complexity found in scheduling
+    problems.
+    
+
