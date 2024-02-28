@@ -90,8 +90,19 @@ div.csl-indent {
 
 <section id="obp" class="level2">
 <h2 class="anchored" data-anchor-id="obp">OBP:</h2>
-<p>The paper “Optimal outpatient appointment scheduling” by <span class="citation" data-cites="kaandorp2007optimal">Kaandorp and Koole (<a href="#ref-kaandorp2007optimal" role="doc-biblioref">2007</a>)</span> applies a local search procedure to solve the scheduling problem. This approach falls under the category of a <strong>greedy algorithm strategy</strong>. Greedy algorithms make locally optimal choices at each step with the hope of finding a global optimum, while dynamic programming solves subproblems recursively and reuses their solutions to avoid repeated calculations[2]. In this case, the local search procedure in the paper aims to converge to the optimal schedule based on various factors like expected waiting times of patients, idle time of the doctor, and tardiness as objectives[1].</p>
-<p>Citations:</p>
+<p>The paper “Optimal outpatient appointment scheduling” by <span class="citation" data-cites="kaandorp2007optimal">Kaandorp and Koole (<a href="#ref-kaandorp2007optimal" role="doc-biblioref">2007</a>)</span> applies a local search procedure to solve the scheduling problem. This approach falls under the category of a <strong>greedy algorithm strategy</strong>. Greedy algorithms make locally optimal choices at each step with the hope of finding a global optimum, while dynamic programming solves subproblems recursively and reuses their solutions to avoid repeated calculations. In this case, the local search procedure in the paper aims to converge to the optimal schedule based on various factors like expected waiting times of patients, idle time of the doctor, and tardiness as objectives.</p>
+<p>Generally greedy algorithms do not guarantee global optimums. However, because <span class="citation" data-cites="kaandorp2007optimal">Kaandorp and Koole (<a href="#ref-kaandorp2007optimal" role="doc-biblioref">2007</a>)</span> have proved that the objective function is multimodular, a local optimum must be also a global optimum.</p>
+<p>To do:<br>
+</p>
+<ul>
+<li>Establish the complexity (big O) of the strategy developed by <span class="citation" data-cites="kaandorp2007optimal">Kaandorp and Koole (<a href="#ref-kaandorp2007optimal" role="doc-biblioref">2007</a>)</span></li>
+</ul>
+<!-- -->
+<ul>
+<li><p>Establish recent developed strategies and their complexity</p></li>
+<li><p>Generate ideas for efficiency improvements</p>
+<p>Citations:</p></li>
+</ul>
 <ol>
 <li>
 <a href="https://link.springer.com/article/10.1007/s10729-007-9015-x" target="_blank">Optimal Outpatient Appointment Scheduling - Springer</a>
