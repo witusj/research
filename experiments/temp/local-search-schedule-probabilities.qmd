@@ -114,18 +114,6 @@ print(f'Zero arrays are: {zero_arrays(np.array([1, 0, 3]), 4)}')
 def calc_distr_limit(l):
     return int(max(l+4*l**0.5, 100))
   
-def weak_compositions(n, k):
-    if k == 1:
-        return [[n]]
-    compositions = []
-    for i in range(n + 1):
-        for composition in weak_compositions(n - i, k - 1):
-            compositions.append([i] + composition)
-    return compositions
-  
-print(f'Weak compositions are: {weak_compositions(2, 4)}')
-
-
 class TestConvolve(unittest.TestCase):
     
     def test_convolve(self):
@@ -149,7 +137,7 @@ def powerset(iterable):
     "powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"
     s = list(iterable)
     return [list(item) for item in chain.from_iterable(combinations(s, r) for r in range(len(s)+1))]
-  
+
 def get_v_star(t):
     # Create an initial vector 'u' of zeros with length 't'
     u = np.zeros(t, dtype=np.int64)
@@ -235,7 +223,6 @@ def distribute_patients(n_patients, n_timeslots):
 
     return distribution
 
-
 def plot_timeline(slots, title):
     # Create a figure
     fig = go.Figure()
@@ -272,8 +259,6 @@ def service_time_with_no_shows(s, q):
   
   s_adj = s * (1-q)
   s_adj[0] = s_adj[0] + q
-  print(s_adj)
-  
   return(s_adj)
 
 def add_lists(short_list, long_list):
@@ -328,7 +313,7 @@ $p^+_t(i)$ is equal to the convolution of the distribution of waiting times of t
 
 > Step K: $p^+_t(i) = w_{t(K-1)}(i)*s(i)$
 
-With $s(i)$ being the distribution of individual service times.
+With $s(i)$ being the distribution of individual service times. **In the examples below we model service times as a Poisson process, because we are calculating in discrete time units.**
 
 NB:
 
@@ -444,7 +429,7 @@ class Schedule:
       
     def local_search(self, omega=0.5):
         """
-        Generate for a given schedule a local search environment, establish for each schedule in the environment the lowest total waiting time, if a schedule with a lower waiting time is found, use this schedule to generate a new local environment and search this environment for lower waiting times. When a local environment contains no schedules with lower waiting stop searching.  
+        Generate for a given schedule a local search environment, establish for each schedule in the environment the lowest total waiting time, if a schedule with a lower waiting time is found, use this schedule to generate a new local environment and search this environment for lower waiting times. When a local environment contains no schedules with lower waiting times stop searching.  
         """
         
         # Calculate initial loss
@@ -479,7 +464,7 @@ class Schedule:
                 logging.info(f'Expected tardiness={exp_tard}')
                 test_loss = omega * test_wt / self.parameters['x'].sum() + (1 - omega) * exp_tard
                 logging.info(f'obj_value = {test_loss}')
-                # If a composition with a lower waiting time is found, store the system
+                # If a neighborhood with a lower waiting time is found, store the system
                 if(test_loss < lowest_loss):
                     lowest_loss = test_loss
                     store_optim['x'] = self.parameters['x'].copy()
@@ -577,81 +562,6 @@ class Schedule:
                 self.system['ew'] = store_optim['system']['ew']
                 break  # Exit the outer loop - the search is complete
           
-    def impute_compositions(self, s=0, k=2, omega=0.5):
-      """
-      Impute the compositions of patients in a given time interval and establish the schedule with the lowest total waiting time.
-      
-      Args:
-      s (int): An integer representing the starting state.
-      k (int): An integer representing the number of states from the starting state to include in the compositions.
-      """
-      logging.info(f'{datetime.datetime.now()} - Running impute_compositions() in state {self.state} with x = {self.parameters["x"]}')
-      # Select the subset from the schedule for the compositions. Truncate if subset falls outside of schedule's end.
-      t = min(len(self.parameters['x']), s+k)
-      k = t - s
-      c = self.parameters['x'][s:t]
-      n = c.sum()
-      # Calculate initial loss
-      test_wt = self.system["ew"].sum()
-      self.calculate_tardiness()
-      indices = np.arange(self.system['p_min'][-1].size) 
-      exp_tard = (indices * self.system['p_min'][-1]).sum()
-      lowest_loss = omega * test_wt / self.parameters['x'].sum() + (1 - omega) * exp_tard
-      store_optim = dict({ 'x' : self.parameters['x'].copy(), 'system' : copy.deepcopy(self.system), 'tot_wt' : test_wt})
-      # Generate compositions
-      compositions = weak_compositions(n, k)
-      logging.info(f'{datetime.datetime.now()} - Computing {len(compositions)} compositions')
-      # For all compositions calculate the waiting times
-      for comp in compositions:
-        # Insert composition in x
-        self.parameters['x'][s:t] = comp.copy()
-        # Set starting state
-        self.state = s
-        # Adjust the array for waiting time distributions to new x
-        self.system['w'][s:] = zero_arrays(self.parameters['x'][s:].copy(), len(self.parameters['s']))
-        # Recalculate distributions
-        # If start state is 0 reinitialize p_min, w and p_plus in state 0
-        if(self.state == 0):
-            self.system = dict({
-                'p_min': np.zeros((len(self.parameters['x']) + 1, len(self.parameters['s'])), dtype=np.float64),
-                'p_plus': np.zeros((len(self.parameters['x']), len(self.parameters['s'])), dtype=np.float64)
-            })
-            # Set the first element of p_min in the initial state to 1.
-            self.system['p_min'][0][0] = 1
-            # Initialize array of arrays for saving waiting times distributions per patient
-            self.system['w'] = zero_arrays(self.parameters['x'].copy(), len(self.parameters['s']))
-            if(self.parameters['x'][0] > 0): # Only calculate waiting times if there are patients scheduled in the state
-                     self.system['w'][0][0] = self.system['p_min'][0].copy()
-                     for i in range(1, self.parameters['x'][0]):
-                            self.system['w'][0][i] = np.convolve(self.system['w'][0][i-1], self.parameters['s'])[:(len(self.parameters['s']))]
-            self.system['p_plus'][0] = self.system['p_min'][0].copy() if self.parameters['x'][0] == 0 else np.convolve(self.system['w'][0][-1], self.parameters['s'])[:(len(self.parameters['s']))]
-            # Initialize array for saving total expected waiting times per state
-            self.system['ew'] = np.zeros(len(self.parameters['x']), dtype=np.float64)
-            # Set the initial state to 1.
-            self.state = 1
-        self.calculate_system_states(until=len(self.parameters['x']))
-        self.calculate_wait_times()
-        test_wt = self.system["ew"].sum()
-        self.calculate_tardiness()
-        indices = np.arange(self.system['p_min'][-1].size) 
-        exp_tard = (indices * self.system['p_min'][-1]).sum()
-        test_loss = omega * test_wt / self.parameters['x'].sum() + (1 - omega) * exp_tard
-        # If a composition with a lower waiting time is found, store the system
-        if(test_loss < lowest_loss):
-          lowest_loss = test_loss
-          store_optim['x'] = self.parameters['x'].copy()
-          newsystem = copy.deepcopy(self.system)
-          store_optim['system'] = newsystem
-          store_optim['tot_wt'] = test_wt
-          logging.info(f'{datetime.datetime.now()} - Found lower loss = {lowest_loss} with x = {store_optim["x"]} and system = {store_optim["system"]}')
-      logging.info(f'{datetime.datetime.now()} - Final result lowest loss = {lowest_loss} with x = {store_optim["x"]} and system = {store_optim["system"]}')
-      # Set the system to the stored optimal system
-      self.parameters['x'] = store_optim['x'].copy()
-      self.system['p_min'] = store_optim['system']['p_min']
-      self.system['p_plus'] = store_optim['system']['p_plus']
-      self.system['w'] = store_optim['system']['w']
-      self.system['ew'] = store_optim['system']['ew']
-        
     def calculate_tardiness(self):
       """
       Calculate the tardiness for the current system and add it as the last element to p_min - the distribution of work in interval t just before any patient has arrived. 
@@ -661,14 +571,6 @@ class Schedule:
       # logging.info(f'{datetime.datetime.now()} - calculating tardiness distribution:  {self.system["p_min"][-1]}')
       
     
-    def search_function(self, k=1, omega=0.5):
-      """
-      Slide over the schedule intervals and run inpute_compositions()
-      """
-      for i in range(0, len(self.parameters['x'] - k)):
-        self.impute_compositions(s=i, k=k, omega=omega)
-      
-      
     def calculate_wait_times(self):
       """
       Calculate the expected waiting time for each time step.
