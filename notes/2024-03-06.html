@@ -55,7 +55,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="2024-03-06_files/libs/clipboard/clipboard.min.js"></script>
@@ -108,8 +127,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="obp" class="level2">
 <h2 class="anchored" data-anchor-id="obp">OBP:</h2>
 <p>Calculating the number of solutions in the full neighborhood of the scheduling problem.</p>
-<p>The size of the full neighborhood is:</p>
-<p><span class="math display">\[\dbinom{N+T-1}{N}\]</span></p>
+<p>The size of the full solution space is:</p>
+<p><span class="math display">\[\dbinom{N+T-1}{N} = \frac{(N+T-1)!}{N!*(T-1)!}\]</span></p>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> full_nh(N, T):</span>
@@ -175,10 +194,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 28</code></pre>
 </div>
 </div>
-<p><span class="math display">\[\dbinom{N+T-1}{N} = \frac{(N+T-1)!}{N!*(T-1)!}\]</span></p>
+<p>What happens when N and T double?</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> [<span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> [<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> []</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(N)):</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    n, t<span class="op">=</span> [N[i], T[i]]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    s.append(full_nh(n, t))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">0</span>: <span class="bu">print</span>(<span class="ss">f'size = </span><span class="sc">{</span>s[i]<span class="sc">}</span><span class="ss"> , with N=</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss"> and T=</span><span class="sc">{</span>t<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>: <span class="bu">print</span>(<span class="ss">f'size = </span><span class="sc">{</span>s[i]<span class="sc">}</span><span class="ss"> (factor = </span><span class="sc">{</span><span class="bu">int</span>(s[i] <span class="op">/</span> s[i <span class="op">-</span> <span class="dv">1</span>])<span class="sc">}</span><span class="ss">, with N=</span><span class="sc">{</span>n<span class="sc">}</span><span class="ss"> and T=</span><span class="sc">{</span>t<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>size = 6 , with N=5 and T=2
+size = 286 (factor = 47, with N=10 and T=4
+size = 888030 (factor = 3105, with N=20 and T=8
+size = 11899700525790 (factor = 13400110, with N=40 and T=16</code></pre>
+</div>
+</div>
+<p>How does time complexity scales scale when N+T grows?</p>
+<p>We have <span class="math inline">\(\dbinom{N+T-1}{N}\)</span>. As <span class="math inline">\(N+T\)</span> is the larger factor it will determined the complexity.</p>
+<p><span class="math display">\[\dbinom{N+T}{N} = \frac{(N+T)!}{N!T!} = \frac{1}{T!} \frac{(N+T)!}{N!} = \]</span> <span class="math display">\[=\frac{1}{T!}((N+T)(N+T-1) .... (N+1)) = \frac{1}{T!}(N+T)^T(1(1-\frac{1}{N+T})(1-\frac{2}{N+T}) .... (1-\frac{T}{N+T}))\]</span></p>
+<p><span class="citation" data-cites="c_answer_2015">(<a href="#ref-c_answer_2015" role="doc-biblioref">C 2015</a>)</span></p>
+<p>The products <span class="math inline">\(T!\)</span> and <span class="math inline">\((N+T)^T\)</span> have the same number of terms. However as <span class="math inline">\(N+T &gt;&gt; T\)</span>, the size of the problem will grow with <span class="math inline">\(\mathcal{O}((N+T)^T)\)</span></p>
+<p>See</p>
+
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-c_answer_2015" class="csl-entry" role="listitem">
+C, Clement. 2015. <span>“Answer to "<span>Approximation</span> of Combination $ {n <span>\</span>Choose k} = <span>\</span><span>Theta</span> <span>\</span>Left( n<span>^</span>k <span>\</span>Right) $?".”</span> <em>Mathematics Stack Exchange</em>. <a href="https://math.stackexchange.com/a/1265529">https://math.stackexchange.com/a/1265529</a>.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

@@ -68,6 +68,18 @@ for i in range(len(N)):
     if i == 0: print(f'size = {s[i]} , with N={n} and T={t}')
     else: print(f'size = {s[i]} (factor = {int(s[i] / s[i - 1])}, with N={n} and T={t}')
 ```
-https://math.stackexchange.com/questions/1265519/approximation-of-combination-n-choose-k-theta-left-nk-right
+How does time complexity scales scale when N+T grows? 
+
+We have $\dbinom{N+T-1}{N}$. As $N+T$ is the larger factor it will determined the complexity. 
+
+$$\dbinom{N+T}{N} = \frac{(N+T)!}{N!T!} = \frac{1}{T!} \frac{(N+T)!}{N!} = $$
+$$=\frac{1}{T!}((N+T)(N+T-1) .... (N+1)) = \frac{1}{T!}(N+T)^T(1(1-\frac{1}{N+T})(1-\frac{2}{N+T}) .... (1-\frac{T}{N+T}))$$
+
+[@c_answer_2015]
+
+The products $T!$ and $(N+T)^T$ have the same number of terms. However as $N+T >> T$, the size of the problem will grow with $\mathcal{O}((N+T)^T)$
+
+Next calculate complexity reduction from local search algorithm.
+
 
 
