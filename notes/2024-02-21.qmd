@@ -39,7 +39,6 @@ algorithms.
 ```{=html}
 <iframe width="560" height="315" src="https://www.youtube.com/embed/3ifx3EOtSm8?si=nUJ6XhaJUk6zf5SX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 ```
-
 Insert: Eulerian vs Hamiltonian paths
 
 #### Stochastic Scheduling Problems
@@ -300,14 +299,14 @@ problem. Through dynamic programming, one can optimize the total weight
 of non-overlapping intervals, showcasing the technique's utility in
 formulating and solving scheduling issues.
 
-Dynamic programming is one of several strategies for polynomial time algorithms. Others are:
+Dynamic programming is one of several strategies for polynomial time
+algorithms. Others are:
 
-- Divide and conquer. Eg. mergesort.
+-   Divide and conquer. Eg. mergesort.
 
 ```{=html}
 <iframe width="560" height="315" src="https://www.youtube.com/embed/G-shHVNRlRE?si=LX7yFyekELgXqVbj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 ```
-
 ```{python}
 def merge_sort(arr):
     if len(arr) > 1:
@@ -361,13 +360,11 @@ merge_sort(arr)
 print("Sorted array is", arr)
 ```
 
-- Greedy algorithms (local searc)
+-   Greedy algorithms (local searc)
 
 ```{=html}
 <iframe width="560" height="315" src="https://www.youtube.com/embed/SOlVhxhBVKA?si=waF3xGs5dpl-kwyK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 ```
-
-
 #### Complexity Measurement and Its Importance
 
 The complexity of scheduling problems significantly influences the
@@ -600,5 +597,108 @@ efficient scheduling solutions.
     algorithms used in the analysis of complex systems, with relevance
     to understanding the computational complexity found in scheduling
     problems.
-    
 
+```{=html}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1SOcTqBkiy8?si=WTqwySO9LcWijQtj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+```
+To multiply two n-digit numbers using a recursive divide and conquer
+strategy, you can implement the Karatsuba algorithm. This algorithm is
+more efficient than the traditional grade-school algorithm for large
+numbers. It works by breaking down the large numbers into smaller parts,
+multiplying those parts, and then combining them to get the final
+result. Here's a simplified explanation and a Python code example:
+
+Given two n-digit numbers (x) and (y), you can represent them as:
+
+-   $x =10^{n/2} \cdot a + b$
+-   $y = 10^{n/2} \cdot c + d$
+
+Where (a) and (c) are the first half of the digits of (x) and (y), and
+(b) and (d) are the second half. The Karatsuba algorithm states that: -
+$x \cdot y = (10^{n} \cdot ac) + (10^{n/2} \cdot (ad + bc)) + bd$
+
+The clever part is how it reduces the number of multiplications. Instead
+of calculating (ac), (ad), (bc), and (bd) separately (which would be 4
+multiplications), it calculates $ac$, $bd$, and \$(a+b) \cdot (c+d) -
+ac - \$ (which only requires 3 multiplications).
+
+Here's how you might implement it in Python:
+
+``` python
+def karatsuba(x, y):
+    # Base case for recursion
+    if x < 10 or y < 10:
+        return x * y
+    
+    # Determine the size of the numbers.
+    n = max(len(str(x)), len(str(y)))
+    m = n // 2
+    
+    # Split the digit sequences in the middle.
+    a, b = divmod(x, 10**m)
+    c, d = divmod(y, 10**m)
+    
+    # 3 calls made to numbers approximately half the size
+    # 1. Compute ac
+    ac = karatsuba(a, c)
+    # 2. Compute bd
+    bd = karatsuba(b, d)
+    # 3. Compute (a+b) * (c+d) - ac - bd
+    ad_plus_bc = karatsuba(a + b, c + d) - ac - bd
+    
+    # Combine the results using the Karatsuba formula
+    return ac * 10**(2*m) + (ad_plus_bc * 10**m) + bd
+
+# Example usage
+x = 1234
+y = 5678
+result = karatsuba(x, y)
+print(f"The result of multiplying {x} and {y} is {result}")
+```
+
+This code takes two integers `x` and `y`, and recursively applies the
+Karatsuba algorithm to multiply them. The base case for recursion is
+when `x` or `y` is less than 10, at which point it simply returns the
+product of `x` and `y`. For larger numbers, it splits each number into
+two halves, recursively computes the products of the parts, and combines
+those products according to the Karatsuba formula.
+
+```{python}
+def grad_school_multiplication(x, y):
+    # Convert numbers to strings for easy manipulation
+    x_str, y_str = str(x), str(y)
+    # Reverse the strings to start multiplication from the least significant digit
+    x_str, y_str = x_str[::-1], y_str[::-1]
+    
+    # Initialize the result array to store multiplication results
+    result = [0] * (len(x_str) + len(y_str))
+    
+    # Loop through each digit in x
+    for i in range(len(x_str)):
+        # Loop through each digit in y
+        for j in range(len(y_str)):
+            # Multiply the current digits of x and y
+            product = int(x_str[i]) * int(y_str[j])
+            # Add the product to the result array at the correct position
+            result[i + j] += product
+            # Carry over if the result is more than 9 (e.g., 12 would add 2 to the current position and carry over 1 to the next)
+            result[i + j + 1] += result[i + j] // 10
+            result[i + j] %= 10
+    
+    # Remove leading zeros and convert the result back to a single number
+    while len(result) > 1 and result[-1] == 0:
+        result.pop()
+    
+    # Convert the result array back to a single integer
+    return int(''.join(map(str, result[::-1])))
+
+# Example usage
+x = 1234
+y = 5678
+result = grad_school_multiplication(x, y)
+print(f"The result of multiplying {x} and {y} using the grad school method is {result}")
+```
+
+```{python}
+# calculate times
+```

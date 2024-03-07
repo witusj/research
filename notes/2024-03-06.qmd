@@ -1,0 +1,73 @@
+---
+title: "2024-03-06"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## OBP:
+
+Calculating the number of solutions in the full neighborhood of the
+scheduling problem.
+
+The size of the full solution space is:
+
+$$\dbinom{N+T-1}{N} = \frac{(N+T-1)!}{N!*(T-1)!}$$
+
+```{python}
+import math
+def full_nh(N, T):
+  result = math.factorial(N + T - 1) / (math.factorial(N) * math.factorial(T - 1))
+  return int(result)
+
+def generate_words(N, T, current='', results=None):
+    if results is None:
+        results = []
+
+    # Base case: if the length of the current string is equal to the total length required
+    if len(current) == N + T - 1:
+        results.append(current)
+        return results
+
+    # If adding a point does not exceed the total points limit, add a point and recurse
+    if current.count('.') < N:
+        generate_words(N, T, current + '.', results)
+
+    # If adding a stick does not exceed the total sticks limit (T-1), add a stick and recurse
+    # Also ensure that we don't start with a stick or place multiple sticks consecutively
+    if current.count('|') < T - 1 and len(current) >= 0:
+        generate_words(N, T, current + '|', results)
+
+    return results, full_nh(N, T)
+
+# Example usage:
+N = 6
+T = 3
+words = generate_words(N, T)
+for word in words[0]:
+    print(word)
+print(words[1])
+```
+
+What happens when N and T double?
+
+```{python}
+N = [5, 10, 20, 40]
+T = [2, 4, 8, 16]
+s = []
+
+for i in range(len(N)):
+    n, t= [N[i], T[i]]
+    s.append(full_nh(n, t))
+    if i == 0: print(f'size = {s[i]} , with N={n} and T={t}')
+    else: print(f'size = {s[i]} (factor = {int(s[i] / s[i - 1])}, with N={n} and T={t}')
+```
+https://math.stackexchange.com/questions/1265519/approximation-of-combination-n-choose-k-theta-left-nk-right
+
+
