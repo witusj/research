@@ -70,14 +70,14 @@ for i in range(len(N)):
 ```
 How does time complexity scales scale when N+T grows? 
 
-We have $\dbinom{N+T-1}{N}$. As $N+T$ is the larger factor it will determined the complexity. 
+Starting with $\dbinom{N+T-1}{N}$ and ignoring constants we have:
 
 $$\dbinom{N+T}{N} = \frac{(N+T)!}{N!T!} = \frac{1}{T!} \frac{(N+T)!}{N!} = $$
 $$=\frac{1}{T!}((N+T)(N+T-1) .... (N+1)) = \frac{1}{T!}(N+T)^T(1(1-\frac{1}{N+T})(1-\frac{2}{N+T}) .... (1-\frac{T}{N+T}))$$
 
 [@c_answer_2015]
 
-The products $T!$ and $(N+T)^T$ have the same number of terms. However as $N+T >> T$, the size of the problem will grow with $\mathcal{O}((N+T)^T)$
+As $N + T$ increases the fractions with $N + T$ in the denominator will tend to zero. The products $T!$ and $(N+T)^T$ have the same number of terms. However as $N+T >> T$, the size of the problem will grow with $\mathcal{O}((N+T)^T)$
 
 Next calculate complexity reduction from local search algorithm.
 
