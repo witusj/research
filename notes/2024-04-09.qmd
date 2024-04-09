@@ -1,0 +1,33 @@
+---
+title: "2024-04-09"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## OBP:
+
+-   Added content to working paper (alpha).
+
+-   Saved overview PhD
+    [presentations](./docs/Program-PhD-Presentations2024.pdf){target="_blank"}
+    LNMB-conference. Particularly interesting:
+
+    **Judith Brugman** (Tilburg University): Large-scale Appointment
+    Scheduling via Robust Convex Optimization with Polyhedral
+    Uncertainty Sets\
+
+    -   
+        				
+
+        			
+
+        		
+
+        	
