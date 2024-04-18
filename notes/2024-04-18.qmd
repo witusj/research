@@ -21,7 +21,7 @@ $$\dbinom{N+T}{N}$$ $$= \frac{(N+T)!}{N!T!}$$ $$= \frac{1}{T!} \frac{(N+T)!}{N!}
 
 As $N + T$ increases the fractions with $N + T$ in the denominator will approach zero. Both $T!$ and $(N+T)^T$ are products with an equivalent count of factors. Nevertheless, when $N+T$ is significantly larger than $T$, the magnitude of the problem will expand with $\mathcal{O}((N+T)^T)$.
 
-@kaandorp_optimal_2007 proposed a local search algorithm to efficiently find an optimum. The search neighbourhood consists of all single-interval shifts starting from an initial schedule $x$. For each shifted schedule the loss is calculated. In case a shifted schedule resulted in a lower loss a new search neighbourhood was generated around this new optimal schedule. If a full neighbourhood was searched and no new optimum was found the current optimal schedule must be the global optimum.
+@kaandorp2007optimal proposed a local search algorithm to efficiently find an optimum. The search neighbourhood consists of all single-interval shifts starting from an initial schedule $x$. For each shifted schedule the loss is calculated. In case a shifted schedule resulted in a lower loss a new search neighbourhood was generated around this new optimal schedule. If a full neighbourhood was searched and no new optimum was found the current optimal schedule must be the global optimum.
 
 If you're (extremely) lucky the first chosen schedule is the optimal schedule and it will only take one neighbourhood test to confirm it. The number of neighbours in one search neighbourhood equals $2^T-2$.
 

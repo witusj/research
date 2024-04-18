@@ -21,7 +21,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="2024-04-18_files/libs/clipboard/clipboard.min.js"></script>
@@ -108,7 +128,7 @@ window.Quarto = {
 <p>With N patients and T timeslots the total number of possible schedules equals <span class="math inline">\(\dbinom{N+T-1}{N}\)</span>. Ignoring constants we have:</p>
 <p><span class="math display">\[\dbinom{N+T}{N}\]</span> <span class="math display">\[= \frac{(N+T)!}{N!T!}\]</span> <span class="math display">\[= \frac{1}{T!} \frac{(N+T)!}{N!} = \]</span> <span class="math display">\[=\frac{1}{T!}((N+T)(N+T-1) .... (N+1))\]</span> <span class="math display">\[= \frac{1}{T!}(N+T)^T(1(1-\frac{1}{N+T})(1-\frac{2}{N+T}) .... (1-\frac{T}{N+T}))\]</span></p>
 <p>As <span class="math inline">\(N + T\)</span> increases the fractions with <span class="math inline">\(N + T\)</span> in the denominator will approach zero. Both <span class="math inline">\(T!\)</span> and <span class="math inline">\((N+T)^T\)</span> are products with an equivalent count of factors. Nevertheless, when <span class="math inline">\(N+T\)</span> is significantly larger than <span class="math inline">\(T\)</span>, the magnitude of the problem will expand with <span class="math inline">\(\mathcal{O}((N+T)^T)\)</span>.</p>
-<p><span class="citation" data-cites="kaandorp_optimal_2007">(<a href="#ref-kaandorp_optimal_2007" role="doc-biblioref"><strong>kaandorp_optimal_2007?</strong></a>)</span> proposed a local search algorithm to efficiently find an optimum. The search neighbourhood consists of all single-interval shifts starting from an initial schedule <span class="math inline">\(x\)</span>. For each shifted schedule the loss is calculated. In case a shifted schedule resulted in a lower loss a new search neighbourhood was generated around this new optimal schedule. If a full neighbourhood was searched and no new optimum was found the current optimal schedule must be the global optimum.</p>
+<p><span class="citation" data-cites="kaandorp2007optimal">Kaandorp and Koole (<a href="#ref-kaandorp2007optimal" role="doc-biblioref">2007</a>)</span> proposed a local search algorithm to efficiently find an optimum. The search neighbourhood consists of all single-interval shifts starting from an initial schedule <span class="math inline">\(x\)</span>. For each shifted schedule the loss is calculated. In case a shifted schedule resulted in a lower loss a new search neighbourhood was generated around this new optimal schedule. If a full neighbourhood was searched and no new optimum was found the current optimal schedule must be the global optimum.</p>
 <p>If you’re (extremely) lucky the first chosen schedule is the optimal schedule and it will only take one neighbourhood test to confirm it. The number of neighbours in one search neighbourhood equals <span class="math inline">\(2^T-2\)</span>.</p>
 <p>If you’re (equally extremely) unlucky the optimum will be found after testing the last shifted schedule in the last neighbourhood. In that case you will have essentially tested the full solution set with size <span class="math inline">\(\dbinom{N+T-1}{N}\)</span>.</p>
 <p>An improved search method would converge faster to the global optimum by:</p>
@@ -122,10 +142,15 @@ window.Quarto = {
 <p>One candidate would be the Response Surface Methodology (RSM).</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=qNvDsvguwVykFs_r&amp;list=PLhnjkyiJB1LNFEV_mR1pMi4zHtIMnnoGr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
 <p>Instead of trying to find local optima in search neighbourhouds RSM tries to find the direction of the steepest decent and follows that line step by step. After each step a test is done to see whether it has lead to an improvement. When no improvement was made, it is assumed that the linear relationship does not hold any more and the search method is changed.</p>
+
 </section>
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-kaandorp2007optimal" class="csl-entry" role="listitem">
+Kaandorp, Guido C, and Ger Koole. 2007. <span>“Optimal Outpatient Appointment Scheduling.”</span> <em>Health Care Management Science</em> 10: 217–29.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
