@@ -1,0 +1,46 @@
+---
+title: "2024-04-18"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## OBP:
+
+# Complexity
+
+With N patients and T timeslots the total number of possible schedules equals $\dbinom{N+T-1}{N}$. Ignoring constants we have:
+
+$$\dbinom{N+T}{N}$$ $$= \frac{(N+T)!}{N!T!}$$ $$= \frac{1}{T!} \frac{(N+T)!}{N!} = $$ $$=\frac{1}{T!}((N+T)(N+T-1) .... (N+1))$$ $$= \frac{1}{T!}(N+T)^T(1(1-\frac{1}{N+T})(1-\frac{2}{N+T}) .... (1-\frac{T}{N+T}))$$
+
+As $N + T$ increases the fractions with $N + T$ in the denominator will approach zero. Both $T!$ and $(N+T)^T$ are products with an equivalent count of factors. Nevertheless, when $N+T$ is significantly larger than $T$, the magnitude of the problem will expand with $\mathcal{O}((N+T)^T)$.
+
+@kaandorp_optimal_2007 proposed a local search algorithm to efficiently find an optimum. The search neighbourhood consists of all single-interval shifts starting from an initial schedule $x$. For each shifted schedule the loss is calculated. In case a shifted schedule resulted in a lower loss a new search neighbourhood was generated around this new optimal schedule. If a full neighbourhood was searched and no new optimum was found the current optimal schedule must be the global optimum.
+
+If you're (extremely) lucky the first chosen schedule is the optimal schedule and it will only take one neighbourhood test to confirm it. The number of neighbours in one search neighbourhood equals $2^T-2$.
+
+If you're (equally extremely) unlucky the optimum will be found after testing the last shifted schedule in the last neighbourhood. In that case you will have essentially tested the full solution set with size $\dbinom{N+T-1}{N}$.
+
+An improved search method would converge faster to the global optimum by:
+
+- Using a smarter way to define a starter schedule, or
+- Decrease the size of search neighbourhoods, or
+- Limit the number of search neighbourhoods
+
+```{=html}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=qNvDsvguwVykFs_r&amp;list=PLhnjkyiJB1LNFEV_mR1pMi4zHtIMnnoGr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+```
+
+        				
+
+        			
+
+        		
+
+        	
