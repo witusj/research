@@ -6,9 +6,6 @@ format:
     include-in-header:
       - scripts.html
 bibliography: bibliography.bib
-editor: 
-  markdown: 
-    wrap: 72
 ---
 
 ## OBP:
@@ -35,13 +32,14 @@ An improved search method would converge faster to the global optimum by:
 
 ## Response Surface Methodology
 
-One candidate would be the Response Surface Methodology (RSM).
+One alternative search method might be the Response Surface Methodology (RSM). Compared to simple local search RSM could improve efficiency by limiting the number of search neighborhoods.
 
 ```{=html}
 <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=qNvDsvguwVykFs_r&amp;list=PLhnjkyiJB1LNFEV_mR1pMi4zHtIMnnoGr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
 
-Instead of trying to find local optima in search neighbourhouds RSM tries to find the direction of the steepest decent and follows that line step by step. After each step a test is done to see whether it has lead to an improvement. When no improvement was made, it is assumed that the linear relationship does not hold any more and the search method is changed.     				
+RSM is a statistical technique used for optimizing processes by identifying optimal conditions. Unlike methods that focus on exploring local optima within nearby regions, RSM seeks to find the direction of the steepest descent and follows this trajectory incrementally. After each step along this path, an evaluation is performed to determine if the change has resulted in an improvement. If no improvement is observed, it suggests that the underlying linear assumption may no longer be valid, prompting a shift to a different search strategy. This iterative process continues until optimal conditions are identified, making RSM effective for navigating complex variable interactions within a design space.
+
 
         			
 
