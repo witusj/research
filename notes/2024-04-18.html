@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -142,7 +176,331 @@ window.Quarto = {
 <p>One alternative search method might be the Response Surface Methodology (RSM). Compared to simple local search RSM could improve efficiency by limiting the number of search neighborhoods.</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=qNvDsvguwVykFs_r&amp;list=PLhnjkyiJB1LNFEV_mR1pMi4zHtIMnnoGr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
 <p>RSM is a statistical technique used for optimizing processes by identifying optimal conditions. Unlike methods that focus on exploring local optima within nearby regions, RSM seeks to find the direction of the steepest descent and follows this trajectory incrementally. After each step along this path, an evaluation is performed to determine if the change has resulted in an improvement. If no improvement is observed, it suggests that the underlying linear assumption may no longer be valid, prompting a shift to a different search strategy. This iterative process continues until optimal conditions are identified, making RSM effective for navigating complex variable interactions within a design space.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rsm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="r-code-for-lesson-3-analyzing-a-22-design-with-central-points" class="level3">
+<h3 class="anchored" data-anchor-id="r-code-for-lesson-3-analyzing-a-22-design-with-central-points">R Code for Lesson 3: Analyzing a 22 Design with Central Points</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>DoEOpt04 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x1 =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">x2 =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Time =</span> <span class="fu">c</span>(<span class="dv">30</span>,<span class="dv">30</span>,<span class="dv">40</span>,<span class="dv">40</span>,<span class="dv">35</span>,<span class="dv">35</span>,<span class="dv">35</span>,<span class="dv">35</span>,<span class="dv">35</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Temp =</span> <span class="fu">c</span>(<span class="dv">150</span>,<span class="dv">160</span>,<span class="dv">150</span>,<span class="dv">160</span>,<span class="dv">155</span>,<span class="dv">155</span>,<span class="dv">155</span>,<span class="dv">155</span>,<span class="dv">155</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Y =</span> <span class="fu">c</span>(<span class="fl">39.3</span>,<span class="dv">40</span>,<span class="fl">40.9</span>,<span class="fl">41.5</span>,<span class="fl">40.3</span>,<span class="fl">40.5</span>,<span class="fl">40.7</span>,<span class="fl">40.2</span>,<span class="fl">40.6</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                            )</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># file view</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(DoEOpt04)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   9 obs. of  5 variables:
+ $ x1  : num  -1 -1 1 1 0 0 0 0 0
+ $ x2  : num  -1 1 -1 1 0 0 0 0 0
+ $ Time: num  30 30 40 40 35 35 35 35 35
+ $ Temp: num  150 160 150 160 155 155 155 155 155
+ $ Y   : num  39.3 40 40.9 41.5 40.3 40.5 40.7 40.2 40.6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># setting the relationship between coded and natural variables</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>DoEOpt04 <span class="ot">&lt;-</span> <span class="fu">as.coded.data</span>(DoEOpt04, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>              x1 <span class="sc">~</span> (Time<span class="dv">-35</span>)<span class="sc">/</span><span class="dv">5</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>              x2 <span class="sc">~</span> (Temp<span class="dv">-155</span>)<span class="sc">/</span><span class="dv">5</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># regression model with coded variables</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">rsm</span>(Y <span class="sc">~</span> <span class="fu">FO</span>(x1,x2) <span class="sc">+</span> <span class="fu">TWI</span>(x1,x2), <span class="at">data =</span> DoEOpt04)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+rsm(formula = Y ~ FO(x1, x2) + TWI(x1, x2), data = DoEOpt04)
 
+             Estimate Std. Error  t value  Pr(&gt;|t|)    
+(Intercept) 40.444444   0.062311 649.0693 1.648e-13 ***
+x1           0.775000   0.093467   8.2917 0.0004166 ***
+x2           0.325000   0.093467   3.4772 0.0177127 *  
+x1:x2       -0.025000   0.093467  -0.2675 0.7997870    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Multiple R-squared:  0.9418,    Adjusted R-squared:  0.9069 
+F-statistic: 26.97 on 3 and 5 DF,  p-value: 0.00163
+
+Analysis of Variance Table
+
+Response: Y
+            Df  Sum Sq Mean Sq F value    Pr(&gt;F)
+FO(x1, x2)   2 2.82500 1.41250 40.4213 0.0008188
+TWI(x1, x2)  1 0.00250 0.00250  0.0715 0.7997870
+Residuals    5 0.17472 0.03494                  
+Lack of fit  1 0.00272 0.00272  0.0633 0.8137408
+Pure error   4 0.17200 0.04300                  
+
+Stationary point of response surface:
+x1 x2 
+13 31 
+
+Stationary point in original units:
+Time Temp 
+ 100  310 
+
+Eigenanalysis:
+eigen() decomposition
+$values
+[1]  0.0125 -0.0125
+
+$vectors
+         [,1]       [,2]
+x1 -0.7071068 -0.7071068
+x2  0.7071068 -0.7071068</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># contour plot</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">contour</span>(model, <span class="sc">~</span> x1<span class="sc">+</span>x2, </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">image =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlabs=</span><span class="fu">c</span>(<span class="st">"Time (min)"</span>, <span class="st">"Temperature (ºC)"</span>))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(DoEOpt04<span class="sc">$</span>Time,DoEOpt04<span class="sc">$</span>Temp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2024-04-18_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="r-code-for-lesson-5-designs-with-central-points-interpreting-a-lousy-fitting" class="level3">
+<h3 class="anchored" data-anchor-id="r-code-for-lesson-5-designs-with-central-points-interpreting-a-lousy-fitting">R Code for Lesson 5: Designs with Central Points – Interpreting a Lousy Fitting</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># building the data set </span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (run this code to build the DoEOpt05 data set before following the analysis)</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>DoEOpt05 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x1 =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">x2 =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Time =</span> <span class="fu">c</span>(<span class="dv">80</span>,<span class="dv">80</span>,<span class="dv">90</span>,<span class="dv">90</span>,<span class="dv">85</span>,<span class="dv">85</span>,<span class="dv">85</span>,<span class="dv">85</span>,<span class="dv">85</span>),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Temp =</span> <span class="fu">c</span>(<span class="dv">170</span>,<span class="dv">180</span>,<span class="dv">170</span>,<span class="dv">180</span>,<span class="dv">175</span>,<span class="dv">175</span>,<span class="dv">175</span>,<span class="dv">175</span>,<span class="dv">175</span>),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Y =</span> <span class="fu">c</span>(<span class="fl">76.5</span>,<span class="dv">77</span>,<span class="dv">78</span>,<span class="fl">79.5</span>,<span class="fl">79.9</span>,<span class="fl">80.3</span>,<span class="dv">80</span>,<span class="fl">79.7</span>,<span class="fl">79.8</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                            )</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># loading Response Surface Methodology package</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rsm)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># file view</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(DoEOpt05)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   9 obs. of  5 variables:
+ $ x1  : num  -1 -1 1 1 0 0 0 0 0
+ $ x2  : num  -1 1 -1 1 0 0 0 0 0
+ $ Time: num  80 80 90 90 85 85 85 85 85
+ $ Temp: num  170 180 170 180 175 175 175 175 175
+ $ Y   : num  76.5 77 78 79.5 79.9 80.3 80 79.7 79.8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>DoEOpt05 <span class="ot">&lt;-</span> <span class="fu">as.coded.data</span>(DoEOpt05, </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>              x1 <span class="sc">~</span> (Time<span class="dv">-85</span>)<span class="sc">/</span><span class="dv">5</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>              x2 <span class="sc">~</span> (Temp<span class="dv">-175</span>)<span class="sc">/</span><span class="dv">5</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># regression model with coded variables</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">rsm</span>(Y <span class="sc">~</span> <span class="fu">FO</span>(x1,x2) <span class="sc">+</span> <span class="fu">TWI</span>(x1,x2), <span class="at">data =</span> DoEOpt05)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+rsm(formula = Y ~ FO(x1, x2) + TWI(x1, x2), data = DoEOpt05)
+
+            Estimate Std. Error  t value  Pr(&gt;|t|)    
+(Intercept) 78.96667    0.49148 160.6702 1.772e-10 ***
+x1           1.00000    0.73722   1.3564    0.2330    
+x2           0.50000    0.73722   0.6782    0.5277    
+x1:x2        0.25000    0.73722   0.3391    0.7483    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Multiple R-squared:  0.3257,    Adjusted R-squared:  -0.07891 
+F-statistic: 0.805 on 3 and 5 DF,  p-value: 0.5426
+
+Analysis of Variance Table
+
+Response: Y
+            Df Sum Sq Mean Sq F value    Pr(&gt;F)
+FO(x1, x2)   2  5.000   2.500   1.150 0.3882680
+TWI(x1, x2)  1  0.250   0.250   0.115 0.7483056
+Residuals    5 10.870   2.174                  
+Lack of fit  1 10.658  10.658 201.094 0.0001436
+Pure error   4  0.212   0.053                  
+
+Stationary point of response surface:
+x1 x2 
+-2 -4 
+
+Stationary point in original units:
+Time Temp 
+  75  155 
+
+Eigenanalysis:
+eigen() decomposition
+$values
+[1]  0.125 -0.125
+
+$vectors
+        [,1]       [,2]
+x1 0.7071068 -0.7071068
+x2 0.7071068  0.7071068</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plots</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DoEOpt05<span class="sc">$</span>Time, DoEOpt05<span class="sc">$</span>Y, <span class="at">xlab =</span> <span class="st">"Time"</span>, <span class="at">ylab =</span> <span class="st">"Yield (%)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2024-04-18_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DoEOpt05<span class="sc">$</span>Temp, DoEOpt05<span class="sc">$</span>Y, <span class="at">xlab =</span> <span class="st">"Temperature"</span>, <span class="at">ylab =</span> <span class="st">"Yield (%)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2024-04-18_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">contour</span>(model, <span class="sc">~</span> x1<span class="sc">+</span>x2, </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">image =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlabs=</span><span class="fu">c</span>(<span class="st">"Time (min)"</span>, <span class="st">"Temperature (ºC)"</span>))</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(DoEOpt05<span class="sc">$</span>Time,DoEOpt05<span class="sc">$</span>Temp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2024-04-18_files/figure-html/unnamed-chunk-3-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="r-code-for-lesson-7-analyzing-a-central-composite-design-r-tutorial" class="level3">
+<h3 class="anchored" data-anchor-id="r-code-for-lesson-7-analyzing-a-central-composite-design-r-tutorial">R Code for Lesson 7: Analyzing a Central Composite Design – R tutorial</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># building the data set </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (run this code to build the DoEOpt05 data set before following the analysis)</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>DoEOpt06 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x1 =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">1.414</span>, <span class="sc">-</span><span class="fl">1.414</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">x2 =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">1.414</span>, <span class="sc">-</span><span class="fl">1.414</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Time =</span> <span class="fu">c</span>(<span class="dv">80</span>, <span class="dv">80</span>, <span class="dv">90</span>, <span class="dv">90</span>, <span class="dv">85</span>, <span class="dv">85</span>, <span class="dv">85</span>, <span class="dv">85</span>, <span class="dv">85</span>, <span class="fl">92.07</span>, <span class="fl">77.93</span>, <span class="dv">85</span>, <span class="dv">85</span>),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Temp =</span> <span class="fu">c</span>(<span class="dv">170</span>, <span class="dv">180</span>, <span class="dv">170</span>, <span class="dv">180</span>, <span class="dv">175</span>, <span class="dv">175</span>, <span class="dv">175</span>, <span class="dv">175</span>, <span class="dv">175</span>, <span class="dv">175</span>, <span class="dv">175</span>, <span class="fl">182.07</span>, <span class="fl">167.93</span>),</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>                          <span class="at">Y =</span> <span class="fu">c</span>(<span class="fl">76.5</span>, <span class="dv">77</span>, <span class="dv">78</span>, <span class="fl">79.5</span>, <span class="fl">79.9</span>, <span class="fl">80.3</span>, <span class="dv">80</span>, <span class="fl">79.7</span>, <span class="fl">79.8</span>, <span class="fl">78.4</span>, <span class="fl">75.6</span>, <span class="fl">78.5</span>, <span class="dv">77</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>                            )</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co"># loading Response Surface Methodology package</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rsm)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="co"># checking file structure</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(DoEOpt06)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   13 obs. of  5 variables:
+ $ x1  : num  -1 -1 1 1 0 ...
+ $ x2  : num  -1 1 -1 1 0 0 0 0 0 0 ...
+ $ Time: num  80 80 90 90 85 ...
+ $ Temp: num  170 180 170 180 175 175 175 175 175 175 ...
+ $ Y   : num  76.5 77 78 79.5 79.9 80.3 80 79.7 79.8 78.4 ...</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># setting the realtionship between the coded and the natural variables</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>DoEOpt06 <span class="ot">&lt;-</span> <span class="fu">as.coded.data</span>(DoEOpt06, </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>              x1 <span class="sc">~</span> (Time<span class="dv">-85</span>)<span class="sc">/</span><span class="dv">5</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>              x2 <span class="sc">~</span> (Temp<span class="dv">-175</span>)<span class="sc">/</span><span class="dv">5</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="do">###</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co"># regression model for the Yield</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>model_Y <span class="ot">&lt;-</span> <span class="fu">rsm</span>(Y <span class="sc">~</span> <span class="fu">SO</span>(x1,x2), <span class="at">data =</span> DoEOpt06)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>model_Y <span class="ot">&lt;-</span> <span class="fu">rsm</span>(Y <span class="sc">~</span> <span class="fu">FO</span>(x1,x2) <span class="sc">+</span> <span class="fu">TWI</span>(x1,x2) <span class="sc">+</span> <span class="fu">PQ</span>(x1,x2), <span class="at">data =</span> DoEOpt06)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_Y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+rsm(formula = Y ~ FO(x1, x2) + TWI(x1, x2) + PQ(x1, x2), data = DoEOpt06)
+
+             Estimate Std. Error  t value  Pr(&gt;|t|)    
+(Intercept) 79.939955   0.119089 671.2644 &lt; 2.2e-16 ***
+x1           0.995050   0.094155  10.5682 1.484e-05 ***
+x2           0.515203   0.094155   5.4719  0.000934 ***
+x1:x2        0.250000   0.133145   1.8777  0.102519    
+x1^2        -1.376449   0.100984 -13.6303 2.693e-06 ***
+x2^2        -1.001336   0.100984  -9.9158 2.262e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Multiple R-squared:  0.9827,    Adjusted R-squared:  0.9704 
+F-statistic: 79.67 on 5 and 7 DF,  p-value: 5.147e-06
+
+Analysis of Variance Table
+
+Response: Y
+            Df  Sum Sq Mean Sq  F value    Pr(&gt;F)
+FO(x1, x2)   2 10.0430  5.0215  70.8143 2.267e-05
+TWI(x1, x2)  1  0.2500  0.2500   3.5256    0.1025
+PQ(x1, x2)   2 17.9537  8.9769 126.5944 3.194e-06
+Residuals    7  0.4964  0.0709                   
+Lack of fit  3  0.2844  0.0948   1.7885    0.2886
+Pure error   4  0.2120  0.0530                   
+
+Stationary point of response surface:
+       x1        x2 
+0.3892304 0.3058466 
+
+Stationary point in original units:
+     Time      Temp 
+ 86.94615 176.52923 
+
+Eigenanalysis:
+eigen() decomposition
+$values
+[1] -0.9634986 -1.4142867
+
+$vectors
+         [,1]       [,2]
+x1 -0.2897174 -0.9571122
+x2 -0.9571122  0.2897174</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># contour and perspective plots</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">contour</span>(model_Y, x1<span class="sc">~</span>x2, <span class="at">image =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlabs=</span><span class="fu">c</span>(<span class="st">"Time (min)"</span>, <span class="st">"Temperature (ºC)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2024-04-18_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">persp</span>(model_Y, x1<span class="sc">~</span>x2, <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">50</span>), <span class="at">contours =</span> <span class="st">"colors"</span>,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">zlab =</span> <span class="st">"Yield (%)"</span>, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlabs=</span><span class="fu">c</span>(<span class="st">"Time (min)"</span>, <span class="st">"Temperature (ºC)"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2024-04-18_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predictig the Yield at the stationary point</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>max <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x1 =</span> <span class="fl">0.361</span>, <span class="at">x2 =</span> <span class="fl">0.257</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(model_Y, max)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       1 
+80.20925 </code></pre>
+</div>
+</div>
+
+</section>
 </section>
 </section>
 

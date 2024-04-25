@@ -40,6 +40,136 @@ One alternative search method might be the Response Surface Methodology (RSM). C
 
 RSM is a statistical technique used for optimizing processes by identifying optimal conditions. Unlike methods that focus on exploring local optima within nearby regions, RSM seeks to find the direction of the steepest descent and follows this trajectory incrementally. After each step along this path, an evaluation is performed to determine if the change has resulted in an improvement. If no improvement is observed, it suggests that the underlying linear assumption may no longer be valid, prompting a shift to a different search strategy. This iterative process continues until optimal conditions are identified, making RSM effective for navigating complex variable interactions within a design space.
 
+```{r}
+library(rsm)
+```
+
+### R Code for Lesson 3: Analyzing a 22 Design with Central Points
+
+```{r}
+DoEOpt04 <- data.frame(x1 = c(-1,-1,1,1,0,0,0,0,0),
+                          x2 = c(-1,1,-1,1,0,0,0,0,0),
+                          Time = c(30,30,40,40,35,35,35,35,35),
+                          Temp = c(150,160,150,160,155,155,155,155,155),
+                          Y = c(39.3,40,40.9,41.5,40.3,40.5,40.7,40.2,40.6)
+                            )
+
+# file view
+
+str(DoEOpt04)
+
+# setting the relationship between coded and natural variables
+
+DoEOpt04 <- as.coded.data(DoEOpt04, 
+              x1 ~ (Time-35)/5,
+              x2 ~ (Temp-155)/5)
+
+# regression model with coded variables
+
+model <- rsm(Y ~ FO(x1,x2) + TWI(x1,x2), data = DoEOpt04)
+summary(model)
+
+# contour plot
+
+contour(model, ~ x1+x2, 
+        image = TRUE, 
+        xlabs=c("Time (min)", "Temperature (ºC)"))
+points(DoEOpt04$Time,DoEOpt04$Temp)
+```
+
+### R Code for Lesson 5: Designs with Central Points – Interpreting a Lousy Fitting
+
+```{r}
+# building the data set 
+# (run this code to build the DoEOpt05 data set before following the analysis)
+
+DoEOpt05 <- data.frame(x1 = c(-1,-1,1,1,0,0,0,0,0),
+                          x2 = c(-1,1,-1,1,0,0,0,0,0),
+                          Time = c(80,80,90,90,85,85,85,85,85),
+                          Temp = c(170,180,170,180,175,175,175,175,175),
+                          Y = c(76.5,77,78,79.5,79.9,80.3,80,79.7,79.8)
+                            )
+
+# loading Response Surface Methodology package
+
+library(rsm)
+
+# file view
+
+str(DoEOpt05)
+
+DoEOpt05 <- as.coded.data(DoEOpt05, 
+              x1 ~ (Time-85)/5,
+              x2 ~ (Temp-175)/5)
+
+# regression model with coded variables
+
+model <- rsm(Y ~ FO(x1,x2) + TWI(x1,x2), data = DoEOpt05)
+summary(model)
+
+# plots
+
+plot(DoEOpt05$Time, DoEOpt05$Y, xlab = "Time", ylab = "Yield (%)")
+plot(DoEOpt05$Temp, DoEOpt05$Y, xlab = "Temperature", ylab = "Yield (%)")
+
+contour(model, ~ x1+x2, 
+        image = TRUE, 
+        xlabs=c("Time (min)", "Temperature (ºC)"))
+points(DoEOpt05$Time,DoEOpt05$Temp)
+```
+
+### R Code for Lesson 7: Analyzing a Central Composite Design – R tutorial
+
+```{r}
+# building the data set 
+# (run this code to build the DoEOpt05 data set before following the analysis)
+
+DoEOpt06 <- data.frame(x1 = c(-1, -1, 1, 1, 0, 0, 0, 0, 0, 1.414, -1.414, 0, 0),
+                          x2 = c(-1, 1, -1, 1, 0, 0, 0, 0, 0, 0, 0, 1.414, -1.414),
+                          Time = c(80, 80, 90, 90, 85, 85, 85, 85, 85, 92.07, 77.93, 85, 85),
+                          Temp = c(170, 180, 170, 180, 175, 175, 175, 175, 175, 175, 175, 182.07, 167.93),
+                          Y = c(76.5, 77, 78, 79.5, 79.9, 80.3, 80, 79.7, 79.8, 78.4, 75.6, 78.5, 77)
+                            )
+
+# loading Response Surface Methodology package
+
+library(rsm)
+
+# checking file structure
+
+str(DoEOpt06)
+
+# setting the realtionship between the coded and the natural variables
+
+DoEOpt06 <- as.coded.data(DoEOpt06, 
+              x1 ~ (Time-85)/5,
+              x2 ~ (Temp-175)/5)
+
+###
+##
+# regression model for the Yield
+
+model_Y <- rsm(Y ~ SO(x1,x2), data = DoEOpt06)
+
+model_Y <- rsm(Y ~ FO(x1,x2) + TWI(x1,x2) + PQ(x1,x2), data = DoEOpt06)
+summary(model_Y)
+
+# contour and perspective plots
+
+contour(model_Y, x1~x2, image = TRUE, 
+        xlabs=c("Time (min)", "Temperature (ºC)"))
+
+persp(model_Y, x1~x2, col = terrain.colors(50), contours = "colors",
+      zlab = "Yield (%)", 
+      xlabs=c("Time (min)", "Temperature (ºC)"))
+
+# predictig the Yield at the stationary point
+
+max <- data.frame(x1 = 0.361, x2 = 0.257)
+predict(model_Y, max)
+```
+
+
 
         			
 
