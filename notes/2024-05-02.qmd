@@ -70,7 +70,7 @@ model = GaussianProcessRegressor().fit(sample_points, objective_values)
 
 ```{python}
 #Plot sample points and objective values
-fig = px.scatter(x=sample_points[:, 0], y=sample_points[:, 1], color= objective_values, labels={'x': 'Integer Variable', 'y': 'Continuous Variable'}, title='Distribution of Sample Points in Design Space', color_continuous_scale='deep')
+fig = px.scatter(x=sample_points[:, 0], y=sample_points[:, 1], color= objective_values, labels={'x': 'Integer Variable', 'y': 'Continuous Variable', 'color': 'Objective values'}, title='Distribution of Sample Points in Design Space', color_continuous_scale='deep')
 
 fig.update_traces(marker=dict(size=12))
 
