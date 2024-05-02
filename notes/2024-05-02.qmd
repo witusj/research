@@ -102,14 +102,14 @@ fig.add_shape(
     type="rect",
     x0=trust_bounds[0][0], y0=trust_bounds[1][0], x1=trust_bounds[0][1], y1=trust_bounds[1][1],
     line=dict(
-        color="Red",
+        color="Tomato",
         width=2,
     ),
     #fillcolor="Red",
     #opacity=0.2
 )
 
-fig.add_trace(go.Scatter(x=[result.x[0]], y=[result.x[1]], mode='markers', marker=dict(color='red', size=14), name='Optimized Point', showlegend = False))
+fig.add_trace(go.Scatter(x=[result.x[0]], y=[result.x[1]], mode='markers', marker=dict(color='Tomato', size=14), name='Optimized Point', showlegend = False))
 
 fig.show()
 ```
@@ -135,14 +135,14 @@ fig.add_shape(
     type="rect",
     x0=trust_bounds[0][0], y0=trust_bounds[1][0], x1=trust_bounds[0][1], y1=trust_bounds[1][1],
     line=dict(
-        color="Blue",
+        color="DodgerBlue",
         width=2,
     ),
     #fillcolor="Blue",
     #opacity=0.2
 )
 
-fig.add_trace(go.Scatter(x=[result.x[0]], y=[result.x[1]], mode='markers', marker=dict(color='blue', size=14), name='Optimized Point', showlegend = False))
+fig.add_trace(go.Scatter(x=[result.x[0]], y=[result.x[1]], mode='markers', marker=dict(color='DodgerBlue', size=14), name='Optimized Point', showlegend = False))
 
 fig.show()
 ```
@@ -165,14 +165,14 @@ fig.add_shape(
     type="rect",
     x0=trust_bounds[0][0], y0=trust_bounds[1][0], x1=trust_bounds[0][1], y1=trust_bounds[1][1],
     line=dict(
-        color="Orange",
+        color="MediumSeaGreen",
         width=2,
     ),
     #fillcolor="Blue",
     #opacity=0.2
 )
 
-fig.add_trace(go.Scatter(x=[result.x[0]], y=[result.x[1]], mode='markers', marker=dict(color='orange', size=14), name='Optimized Point', showlegend = False))
+fig.add_trace(go.Scatter(x=[result.x[0]], y=[result.x[1]], mode='markers', marker=dict(color='MediumSeaGreen', size=14), name='Optimized Point', showlegend = False))
 
 fig.show()
 ```
