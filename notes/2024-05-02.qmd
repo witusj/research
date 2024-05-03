@@ -47,6 +47,7 @@ Define the bounds of your design variables and initialize them. For integer vari
 # Design variables: x1 (integer), x2 (continuous)
 bounds = [(1, 10), (0.0, 5.0)]
 initial_guess = [5, 2.5]
+no_samples = 20
 ```
 
 #### Step 3: Sampling and Surrogate Model Construction
@@ -60,14 +61,14 @@ from sklearn.gaussian_process import GaussianProcessRegressor
 
 # Generate sample points
 np.random.seed(0)
-sample_points = np.random.randint(low=1, high=11, size=(10, 1)) # Integer variable
-sample_points = np.hstack((sample_points, np.random.uniform(low=0, high=5, size=(10, 1)))) # Add continuous variable
+sample_points = np.random.randint(low=bounds[0][0], high=bounds[0][1]+1, size=(no_samples, 1)) # Integer variable
+sample_points = np.hstack((sample_points, np.random.uniform(low=bounds[1][0], high=bounds[1][1], size=(no_samples, 1)))) # Add continuous variable
 
 # Surrogate model
 objective_values = np.array([objective(x) for x in sample_points])
-
-print("Sample points:", sample_points, "\nObjective values:", objective_values)
 model = GaussianProcessRegressor().fit(sample_points, objective_values)
+
+model.score(sample_points, objective_values)
 ```
 
 ```{python}
@@ -90,8 +91,8 @@ Optimize the surrogate model within a trust region. Adjust the size and position
 from scipy.optimize import minimize
 
 # Trust region bounds
-trust_bounds = [(max(1, initial_guess[0]-2), min(10, initial_guess[0]+2)), 
-                (max(0.0, initial_guess[1]-1.0), min(5.0, initial_guess[1]+1.0))]
+trust_bounds = [(max(bounds[0][0], initial_guess[0]-2), min(bounds[0][1], initial_guess[0]+2)), 
+                (max(bounds[1][0], initial_guess[1]-1.0), min(bounds[1][1], initial_guess[1]+1.0))]
 
 # Minimize the surrogate model
 result = minimize(lambda x: model.predict(x.reshape(1, -1)), x0=initial_guess, bounds=trust_bounds)
@@ -125,8 +126,8 @@ Update the trust region and surrogate model based on the new information obtaine
 
 ```{python}
 # Example of updating the trust region and re-optimizing
-trust_bounds = [(max(1, result.x[0]-1), min(10, result.x[0]+1)), 
-                (max(0.0, result.x[1]-0.5), min(5.0, result.x[1]+0.5))]
+trust_bounds = [(max(bounds[0][0], result.x[0]-1), min(bounds[0][1], result.x[0]+1)), 
+                (max(bounds[1][0],result.x[1]-0.5), min(bounds[1][1], result.x[1]+0.5))]
 
 result = minimize(lambda x: model.predict(x.reshape(1, -1)), x0=result.x, bounds=trust_bounds)
 print("Updated optimized parameters:", result.x)
@@ -155,8 +156,8 @@ fig.show()
 
 ```{python}
 # Example of updating the trust region and re-optimizing
-trust_bounds = [(max(1, result.x[0]-1), min(10, result.x[0]+1)), 
-                (max(0.0, result.x[1]-0.5), min(5.0, result.x[1]+0.5))]
+trust_bounds = [(max(bounds[0][0], result.x[0]-1), min(bounds[0][1], result.x[0]+1)), 
+                (max(bounds[1][0],result.x[1]-0.5), min(bounds[1][1], result.x[1]+0.5))]
 
 result = minimize(lambda x: model.predict(x.reshape(1, -1)), x0=result.x, bounds=trust_bounds)
 print("Updated optimized parameters:", result.x)
@@ -180,6 +181,35 @@ fig.add_trace(go.Scatter(x=[result.x[0]], y=[result.x[1]], mode='markers', marke
 
 fig.show()
 ```
+
+```{python}
+# Example of updating the trust region and re-optimizing
+trust_bounds = [(max(bounds[0][0], result.x[0]-1), min(bounds[0][1], result.x[0]+1)), 
+                (max(bounds[1][0],result.x[1]-0.5), min(bounds[1][1], result.x[1]+0.5))]
+
+result = minimize(lambda x: model.predict(x.reshape(1, -1)), x0=result.x, bounds=trust_bounds)
+print("Updated optimized parameters:", result.x)
+```
+
+```{python}
+# Plot trust bounds                
+fig.add_shape(
+    # Rectangle reference to the axes
+    type="rect",
+    x0=trust_bounds[0][0], y0=trust_bounds[1][0], x1=trust_bounds[0][1], y1=trust_bounds[1][1],
+    line=dict(
+        color="Orange",
+        width=2,
+    ),
+    #fillcolor="Blue",
+    #opacity=0.2
+)
+
+fig.add_trace(go.Scatter(x=[result.x[0]], y=[result.x[1]], mode='markers', marker=dict(color='Orange', size=14), name='Optimized Point', showlegend = False))
+
+fig.show()
+```
+
 
 #### Conclusion
 
