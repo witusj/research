@@ -158,7 +158,7 @@ window.Quarto = {
 <p>Let’s simulate both to illustrate the differences:</p>
 <p><strong>1. Simulating a Markov Chain (Discrete Time) - Gambler’s Ruin Example:</strong></p>
 <p>Here we simulate a gambler who bets until they either reach $100 or lose all their money, starting with $50, betting $1 at a time with equal probabilities of winning or losing.</p>
-<div id="5204da9a" class="cell" data-execution_count="1">
+<div id="8fde4025" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -187,7 +187,7 @@ window.Quarto = {
 </div>
 <p><strong>2. Simulating a Continuous-Time Markov Chain (CTMC) - Simple Queue System:</strong></p>
 <p>We simulate a queue system where customers arrive according to a Poisson process (CTMC aspect), and each customer has a service time that is exponentially distributed.</p>
-<div id="072673d0" class="cell" data-execution_count="2">
+<div id="45759e80" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ctmc_queue_simulation(lam, mu, max_time):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    current_time <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    events <span class="op">=</span> []</span>
@@ -238,7 +238,7 @@ window.Quarto = {
 <p>A Continuous-Time Markov Chain (CTMC) is characterized by a set of states and the rates at which transitions occur between these states. The time that the process spends in each state is exponentially distributed, where the rate parameter is determined by the negative of the diagonal entries of the transition rate matrix <span class="math inline">\(Q\)</span>.</p>
 <p><strong>Python Example: Plot a Simple CTMC</strong></p>
 <p>This example demonstrates how to visualize the transition rate matrix <span class="math inline">\(Q\)</span> for a simple three-state CTMC:</p>
-<div id="eb0e3415" class="cell" data-execution_count="3">
+<div id="6f1495d4" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -297,7 +297,7 @@ Q = \begin{bmatrix}
   \end{bmatrix}
 \]</span> This matrix <span class="math inline">\(S\)</span> is derived from <span class="math inline">\(Q\)</span> by removing the rows and columns associated with the absorbing state, focusing only on the transitions between the transient states.</p>
 <p><strong>Python Visualization</strong></p>
-<div id="95203612" class="cell" data-execution_count="4">
+<div id="28563492" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -345,7 +345,7 @@ Q = \begin{bmatrix}
 </ul>
 <p><strong>Python Example: Calculate and Plot State Probabilities Over Time</strong></p>
 <p>Let’s enhance the previous Python example to make it clearer how these probabilities change over time and how to visualize and interpret the resulting matrix.</p>
-<div id="7b6810e4" class="cell" data-execution_count="5">
+<div id="62f04da2" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> expm</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -399,7 +399,7 @@ Q = \begin{bmatrix}
 <p>This step discusses several important special cases of phase-type distributions such as exponential, Erlang, hyperexponential, and Coxian distributions.</p>
 <p><strong>Python Example: Generate Data from an Erlang Distribution</strong></p>
 <p>Generate and visualize data from an Erlang distribution, which is a common model for aggregated exponential processes like service times in systems:</p>
-<div id="f0827c44" class="cell" data-execution_count="6">
+<div id="04937832" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -412,7 +412,7 @@ Q = \begin{bmatrix}
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-7-output-1.png" width="575" height="431" class="figure-img"></p>
+<p><img src="2024-05-03_files/figure-html/cell-7-output-1.png" width="566" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -424,7 +424,7 @@ Q = \begin{bmatrix}
 <p>Explore the application of phase-type distributions in scheduling based on the study by Kuiper et al.&nbsp;These distributions can model the time until the next event in a queue, which is crucial for optimizing scheduling systems.</p>
 <p><strong>Python Example: Simulate a Scheduling Scenario</strong></p>
 <p>Simulate interarrival times and service times in a simple scheduling model:</p>
-<div id="03c08f66" class="cell" data-execution_count="7">
+<div id="d8173b9e" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate interarrival and service times</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>interarrival_times <span class="op">=</span> np.random.exponential(scale<span class="op">=</span><span class="dv">2</span>, size<span class="op">=</span><span class="dv">100</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>service_times <span class="op">=</span> np.random.gamma(shape<span class="op">=</span><span class="dv">2</span>, scale<span class="op">=</span><span class="fl">1.5</span>, size<span class="op">=</span><span class="dv">100</span>)</span>
@@ -465,7 +465,7 @@ Q = \begin{bmatrix}
 <p>We’ll implement an example of fitting an Erlang distribution (a special case of phase-type distributions with identical phases) using both methods. The Erlang distribution is chosen for its relative simplicity while still capturing the essence of the process.</p>
 <p><strong>Generating Sample Data</strong></p>
 <p>First, we’ll generate some synthetic data that follows an Erlang distribution:</p>
-<div id="ab5be920" class="cell" data-execution_count="8">
+<div id="4f944ab9" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> erlang</span>
@@ -483,14 +483,14 @@ Q = \begin{bmatrix}
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-9-output-1.png" width="566" height="431" class="figure-img"></p>
+<p><img src="2024-05-03_files/figure-html/cell-9-output-1.png" width="567" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p><strong>Method of Moments</strong></p>
 <p>We’ll calculate the empirical mean and variance and use these to estimate the parameters of the Erlang distribution:</p>
-<div id="1483e4ae" class="cell" data-execution_count="9">
+<div id="3c579df2" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>empirical_mean <span class="op">=</span> np.mean(data)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>empirical_var <span class="op">=</span> np.var(data)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -510,19 +510,19 @@ Q = \begin{bmatrix}
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Estimated Shape (k): 3
-Estimated Rate (lambda): 0.5090518216313806</code></pre>
+Estimated Rate (lambda): 0.5053849940129117</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-10-output-2.png" width="579" height="431" class="figure-img"></p>
+<p><img src="2024-05-03_files/figure-html/cell-10-output-2.png" width="588" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p><strong>Maximum Likelihood Estimation</strong></p>
 <p>For MLE, we can use optimization routines available in libraries such as SciPy to find the best-fit parameters:</p>
-<div id="fc0416a7" class="cell" data-execution_count="10">
+<div id="09bb9a6c" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> gamma</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -549,13 +549,13 @@ Estimated Rate (lambda): 0.5090518216313806</code></pre>
 <span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
 <span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best Fit Shape: 2.6808882757583437
-Best Fit Scale: 2.1982684920631685</code></pre>
+<pre><code>Best Fit Shape: 3.346684468589085
+Best Fit Scale: 1.7737159739906647</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/Users/witoldtenhove/Library/Python/3.9/lib/python/site-packages/scipy/stats/_continuous_distns.py:3417: RuntimeWarning:
 
-The shape parameter of the erlang distribution has been given a non-integer value array(2.68088828).
+The shape parameter of the erlang distribution has been given a non-integer value array(3.34668447).
 </code></pre>
 </div>
 <div class="cell-output cell-output-display">
