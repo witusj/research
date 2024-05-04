@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -55,27 +55,7 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="2024-05-03_files/libs/clipboard/clipboard.min.js"></script>
@@ -93,33 +73,6 @@ div.csl-indent {
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -150,436 +103,260 @@ window.Quarto = {
   </div>
   
 
-
 </header>
 
-
-<p>This tutorial covers the core concepts from the article by <span class="citation" data-cites="https://doi.org/10.1111/deci.12517">Kuiper et al. (<a href="#ref-https://doi.org/10.1111/deci.12517" role="doc-biblioref">2023</a>)</span> in a structured and understandable way, suitable for students with a mathematical background. The Python code provided offers a practical illustration of how to implement these concepts in real-world scenarios.</p>
-<section id="introduction" class="level1">
-<h1>Introduction</h1>
-<p>Appointment scheduling in healthcare is crucial for managing the variability and unpredictability in service duration and patient arrivals. Effective scheduling strategies can significantly reduce waiting times for patients and idle times for healthcare providers, thereby improving service quality and cost-efficiency.</p>
-<p>This tutorial will guide you through a systematic approach for setting up appointment schedules using a novel strategy that handles these variabilities efficiently.</p>
-<section id="step-1-understanding-the-problem" class="level2">
-<h2 class="anchored" data-anchor-id="step-1-understanding-the-problem">Step 1: Understanding the Problem</h2>
-<p>The core of the scheduling problem involves dealing with the randomness of service times and patient attendance, such as no-shows and walk-ins. These factors introduce variability that the scheduling system must accommodate to optimize both the provider’s and the patients’ time.</p>
-<section id="python-example-basic-parameters-setup" class="level3">
-<h3 class="anchored" data-anchor-id="python-example-basic-parameters-setup">Python Example: Basic Parameters Setup</h3>
-<div id="27570ff9" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define basic parameters</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>mean_service_time <span class="op">=</span> <span class="dv">15</span>  <span class="co"># average service time in minutes</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>variance_service_time <span class="op">=</span> <span class="dv">5</span>  <span class="co"># variance of service time</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>no_show_probability <span class="op">=</span> <span class="fl">0.1</span>  <span class="co"># probability of a no-show</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>walk_in_probability <span class="op">=</span> <span class="fl">0.05</span>  <span class="co"># probability of a walk-in</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="phase-type-distributions-a-comprehensive-tutorial" class="level3">
+<h3 class="anchored" data-anchor-id="phase-type-distributions-a-comprehensive-tutorial"><strong>Phase-Type Distributions: A Comprehensive Tutorial</strong></h3>
+<section id="introduction" class="level4">
+<h4 class="anchored" data-anchor-id="introduction"><strong>Introduction</strong></h4>
+<p>Phase-type distributions are an important class of stochastic models derived from absorbing times in continuous-time Markov chains (CTMCs). These distributions are highly flexible, capable of approximating virtually any positive-valued distribution, and are particularly useful for modeling stochastic processes in various scientific and engineering fields.</p>
+</section>
+<section id="step-1-understanding-the-basics" class="level4">
+<h4 class="anchored" data-anchor-id="step-1-understanding-the-basics"><strong>Step 1: Understanding the Basics</strong></h4>
+<p><strong>Continuous-Time Markov Chains (CTMCs)</strong></p>
+<p>A Continuous-Time Markov Chain (CTMC) is characterized by a set of states and the rates at which transitions occur between these states. The time that the process spends in each state is exponentially distributed, where the rate parameter is determined by the negative of the diagonal entries of the transition rate matrix <span class="math inline">\(Q\)</span>.</p>
+<p><strong>Python Example: Plot a Simple CTMC</strong></p>
+<p>This example demonstrates how to visualize the transition rate matrix <span class="math inline">\(Q\)</span> for a simple three-state CTMC:</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the transition rate matrix for a 3-state CTMC</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> np.array([[<span class="op">-</span><span class="dv">1</span>, <span class="fl">0.7</span>, <span class="fl">0.3</span>], [<span class="fl">0.4</span>, <span class="op">-</span><span class="fl">1.2</span>, <span class="fl">0.8</span>], [<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="op">-</span><span class="dv">1</span>]])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>cax <span class="op">=</span> ax.matshow(Q, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>fig.colorbar(cax)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'CTMC Transition Rate Matrix Q'</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="2024-05-03_files/figure-html/cell-2-output-1.png" width="501" height="436"></p>
 </div>
+</div>
+<p>This matrix <span class="math inline">\(Q\)</span> includes rates for transitions between all states. The off-diagonal elements indicate the rates of moving from one state to another, while the diagonal elements, being negative, signify the rates of leaving each state.</p>
 </section>
-</section>
-<section id="step-2-the-scheduling-model" class="level2">
-<h2 class="anchored" data-anchor-id="step-2-the-scheduling-model">Step 2: The Scheduling Model</h2>
-<p>We utilize a phase-type distribution to approximate the service times, which simplifies the calculation of expected waiting and idle times. This approximation is both analytically tractable and accurate.</p>
-<p>Phase-type distributions are a versatile class of distributions used extensively in stochastic modeling, particularly in areas such as queueing theory, reliability engineering, and healthcare modeling. These distributions are defined as the distribution of the time until absorption in a Markov process with one absorbing state and one or more transient states. Essentially, they are the time it takes for a Markov process to reach an absorbing state starting from a transient state.</p>
-<section id="characteristics-of-phase-type-distributions" class="level3">
-<h3 class="anchored" data-anchor-id="characteristics-of-phase-type-distributions">Characteristics of Phase-Type Distributions</h3>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/oUwrCxqOQVU?si=4MyRUhJcmCZ8b3Bi" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
-<ol type="1">
-<li><strong>Flexibility</strong>: Phase-type distributions can approximate virtually any positive-valued distribution to an arbitrary level of accuracy.</li>
-<li><strong>Analytical Tractability</strong>: They often lead to simpler analytical forms for performance metrics in stochastic models, which can be particularly beneficial in complex systems like networks of queues or systems with server failures.</li>
-<li><strong>Composition</strong>: They are typically represented by a mixture or a convolution of exponential distributions, which are defined by a generator matrix of the underlying Markov process and an initial probability vector.</li>
-</ol>
-<p>Here’s a structured outline for a tutorial on Phase-Type Distributions suitable for an undergraduate student with math skills. The tutorial will be structured to first introduce the concept, delve into the characteristics and examples, and then demonstrate how to simulate and use these distributions with Python.</p>
-</section>
-<section id="tutorial-outline-understanding-phase-type-distributions" class="level3">
-<h3 class="anchored" data-anchor-id="tutorial-outline-understanding-phase-type-distributions">Tutorial Outline: Understanding Phase-Type Distributions</h3>
-<ol type="1">
-<li><strong>Introduction to Phase-Type Distributions</strong>
+<section id="step-2-mathematical-foundations-key-parameters-and-their-interpretations" class="level4">
+<h4 class="anchored" data-anchor-id="step-2-mathematical-foundations-key-parameters-and-their-interpretations"><strong>Step 2: Mathematical Foundations: Key Parameters and Their Interpretations</strong></h4>
+<p><strong>Subgenerator Matrix (S)</strong> The subgenerator matrix <span class="math inline">\(S\)</span> of a phase-type distribution is a key component that describes the rates at which transitions occur between the transient states of a continuous-time Markov chain (CTMC). It’s important to note that:</p>
 <ul>
-<li>Definition</li>
-<li>Importance in stochastic modeling</li>
-</ul></li>
-<li><strong>Mathematical Foundations</strong>
-<ul>
-<li>Subgenerator Matrix ()</li>
-<li>Initial Distribution ()</li>
-<li>Absorbing states and transient states</li>
-</ul></li>
-<li><strong>Characteristics of Phase-Type Distributions</strong>
-<ul>
-<li>Versatility and Flexibility</li>
-<li>Density Property</li>
-</ul></li>
-<li><strong>Special Cases of Phase-Type Distributions</strong>
-<ul>
-<li>Exponential Distribution</li>
-<li>Erlang Distribution</li>
-<li>Hyperexponential Distribution</li>
-</ul></li>
-<li><strong>Simulating Phase-Type Distributions with Python</strong>
-<ul>
-<li>Generating Exponential Distributions</li>
-<li>Generating Erlang Distributions</li>
-<li>Generating Hyperexponential Distributions</li>
-</ul></li>
-<li><strong>Applications in Real-world Scenarios</strong>
-<ul>
-<li>Queueing Theory</li>
-<li>Reliability Engineering</li>
-</ul></li>
-<li><strong>Conclusion</strong>
-<ul>
-<li>Recap of key points</li>
-<li>Further reading and resources</li>
-</ul></li>
-</ol>
-</section>
-<section id="detailed-tutorial" class="level3">
-<h3 class="anchored" data-anchor-id="detailed-tutorial">Detailed Tutorial</h3>
-<section id="introduction-to-phase-type-distributions" class="level4">
-<h4 class="anchored" data-anchor-id="introduction-to-phase-type-distributions">1. Introduction to Phase-Type Distributions</h4>
-<p>A <strong>phase-type distribution</strong> is used to describe the time it takes for a Markov chain to reach an absorbing state from a transient state. The Markov chain consists of one or more transient states and one absorbing state. The time spent in each transient state can be exponentially distributed, and the chain moves from one state to another based on probabilities defined by a transition rate matrix, known as the subgenerator matrix ().</p>
-</section>
-</section>
-<section id="example-a-simple-markov-model" class="level3">
-<h3 class="anchored" data-anchor-id="example-a-simple-markov-model">Example: A Simple Markov Model</h3>
-<p>Let’s consider a simple example where a system can be in one of three states before it fails (the absorbing state):</p>
-<ul>
-<li><strong>State 1 and State 2</strong>: These are transient states where the system is operational but in different modes of operation.</li>
-<li><strong>State 3</strong>: This is the absorbing state representing system failure.</li>
+<li>Each <strong>off-diagonal</strong> element <span class="math inline">\(S_{ij}\)</span> (where <span class="math inline">\(i \neq j\)</span>) in the matrix represents the transition rate from state <span class="math inline">\(i\)</span> to state <span class="math inline">\(j\)</span>. These values must be non-negative.</li>
+<li>Each <strong>diagonal</strong> element <span class="math inline">\(S_{ii}\)</span> is negative and its absolute value is the rate at which the process leaves state <span class="math inline">\(i\)</span>. Specifically, <span class="math inline">\(S_{ii}\)</span> is the negative of the sum of all the off-diagonal elements in row <span class="math inline">\(i\)</span>, which ensures that the total rate out of each state is accounted for.</li>
 </ul>
-<p>The transition rates between these states are defined in the subgenerator matrix (), and the initial probabilities of being in each state are given in vector ().</p>
-<section id="transition-rate-matrix-and-initial-distribution" class="level4">
-<h4 class="anchored" data-anchor-id="transition-rate-matrix-and-initial-distribution">Transition Rate Matrix (()) and Initial Distribution (()):</h4>
+<p>In phase-type distributions, the subgenerator matrix <span class="math inline">\(S\)</span> is derived from the transition rate matrix <span class="math inline">\(Q\)</span> of a CTMC by excluding any absorbing states. If <span class="math inline">\(Q\)</span> represents a system where all states are transient (i.e., no absorbing states), then <span class="math inline">\(S\)</span> is identical to <span class="math inline">\(Q\)</span>.</p>
+<p><strong>Initial Probability Vector (α)</strong> The initial probability vector <span class="math inline">\(\alpha\)</span> specifies the probabilities of starting in each transient state at time <span class="math inline">\(t = 0\)</span>. The elements of <span class="math inline">\(\alpha\)</span> should sum to 1, reflecting a complete probability distribution across the transient states.</p>
+<p><strong>Interpreting the Matrix of State Probabilities</strong></p>
+<p>When you calculate <span class="math inline">\(P(t) = e^{S \times t}\)</span> using the matrix exponential, you obtain a matrix where each element <span class="math inline">\(P_{ij}(t)\)</span> represents the probability of being in state <span class="math inline">\(j\)</span> at time <span class="math inline">\(t\)</span>, given that the process started in state <span class="math inline">\(i\)</span> at time <span class="math inline">\(0\)</span>. Here’s how to read and interpret this matrix:</p>
 <ul>
-<li>The matrix () could look like this for a system with three states (two transient and one absorbing):</li>
+<li><strong>Rows</strong> correspond to the initial states.</li>
+<li><strong>Columns</strong> correspond to the states at time <span class="math inline">\(t\)</span>.</li>
+<li>Each entry <span class="math inline">\(P_{ij}(t)\)</span> can be read as: “The probability that the system is in state <span class="math inline">\(j\)</span> at time <span class="math inline">\(t\)</span>, starting from state <span class="math inline">\(i\)</span> at time <span class="math inline">\(0\)</span>.”</li>
 </ul>
-[
-<span class="math display">\[\begin{bmatrix}
--0.5 &amp; 0.5 &amp; 0 \\
-0.3 &amp; -0.8 &amp; 0.5 \\
-0 &amp; 0 &amp; 0 \\
-\end{bmatrix}\]</span>
-<p>]</p>
-<ul>
-<li>( = [1, 0]) meaning the process starts from State 1.</li>
-</ul>
-<p>Here, the negative diagonal elements (-0.5) and (-0.8) in () represent the rate of leaving the current states, and the off-diagonal positive elements represent the rate of moving to the other state.</p>
-</section>
-</section>
-<section id="python-simulation-of-the-markov-process" class="level3">
-<h3 class="anchored" data-anchor-id="python-simulation-of-the-markov-process">Python Simulation of the Markov Process</h3>
-<p>We can simulate this Markov process to observe how long it takes on average to reach the absorbing state. We’ll use the <code>numpy</code> and <code>matplotlib</code> libraries for simulation and visualization.</p>
-<section id="python-code-for-the-simulation" class="level4">
-<h4 class="anchored" data-anchor-id="python-code-for-the-simulation">Python Code for the Simulation</h4>
-<div id="410ba7e3" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<p><strong>Python Example: Calculate and Plot State Probabilities Over Time</strong></p>
+<p>Let’s enhance the previous Python example to make it clearer how these probabilities change over time and how to visualize and interpret the resulting matrix.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> expm</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate_markov_process(S, alpha, num_steps<span class="op">=</span><span class="dv">1000</span>):</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    states <span class="op">=</span> [<span class="dv">0</span>]  <span class="co"># Start in state 0 as per alpha</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    times <span class="op">=</span> [<span class="dv">0</span>]  <span class="co"># List to record times</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    current_time <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="bu">len</span>(states) <span class="op">&lt;</span> num_steps <span class="op">+</span> <span class="dv">1</span>:</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        current_state <span class="op">=</span> states[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> current_state <span class="op">==</span> <span class="dv">2</span>:  <span class="co"># Check if state is absorbing</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        rate <span class="op">=</span> <span class="op">-</span>S[current_state, current_state]</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        time_to_next_state <span class="op">=</span> np.random.exponential(<span class="dv">1</span> <span class="op">/</span> rate)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        current_time <span class="op">+=</span> time_to_next_state</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        times.append(current_time)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate transition probabilities to next state</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        transition_probabilities <span class="op">=</span> S[current_state, :] <span class="op">/</span> rate</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        transition_probabilities <span class="op">=</span> np.clip(transition_probabilities, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        next_state <span class="op">=</span> np.random.choice([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>], p<span class="op">=</span>transition_probabilities)</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        states.append(next_state)</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> times, states</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Define S matrix</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> np.array([[<span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="dv">0</span>],</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>              [<span class="fl">0.3</span>, <span class="op">-</span><span class="fl">0.8</span>, <span class="fl">0.5</span>],</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]])</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial probability vector alpha</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">0</span>]</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate the Markov process</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>times, states <span class="op">=</span> simulate_markov_process(S, alpha, num_steps<span class="op">=</span><span class="dv">1000</span>)</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the results</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>plt.step(times, states, where<span class="op">=</span><span class="st">'post'</span>)</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time'</span>)</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'State'</span>)</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Markov Process Simulation - Time Until Absorption'</span>)</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>plt.yticks([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>], [<span class="st">'State 1'</span>, <span class="st">'State 2'</span>, <span class="st">'Absorbing State'</span>])</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the subgenerator matrix for a CTMC with 3 transient states</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> Q</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Time point for state probability calculation</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the matrix exponential of S * t to get state probabilities at time t</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>P_t <span class="op">=</span> expm(S <span class="op">*</span> t)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a heatmap to visualize the state probabilities</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>cax <span class="op">=</span> ax.matshow(P_t, cmap<span class="op">=</span><span class="st">'Reds'</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>fig.colorbar(cax)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Set labels for readability</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'State at Time t'</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Initial State'</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f'State Probabilities at Time t=</span><span class="sc">{</span>t<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>ax.set_xticks(<span class="bu">range</span>(<span class="bu">len</span>(P_t)))</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(<span class="bu">range</span>(<span class="bu">len</span>(P_t)))</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>ax.set_xticklabels([<span class="ss">f'State </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(P_t))])</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels([<span class="ss">f'State </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(P_t))])</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-3-output-1.png" width="897" height="523" class="figure-img"></p>
-</figure>
+<p><img src="2024-05-03_files/figure-html/cell-3-output-1.png" width="548" height="454"></p>
 </div>
 </div>
-</div>
-</section>
-</section>
-<section id="explanation-of-the-code" class="level3">
-<h3 class="anchored" data-anchor-id="explanation-of-the-code">Explanation of the Code</h3>
-<ol type="1">
-<li><strong>Simulation Function</strong>: This function simulates the Markov process based on the subgenerator matrix () and the initial state distribution (). It uses exponential distributions to determine the time spent in each state before transitioning to the next.</li>
-<li><strong>Plotting</strong>: The <code>matplotlib</code> library is used to visualize how the state changes over time and how long it takes to reach the absorbing state.</li>
-</ol>
-<p>This example helps illustrate how a phase-type distribution can model real-world processes by simulating the time until</p>
-<p>an event (like system failure) occurs, considering various operational states and transition rates between them.</p>
-<section id="mathematical-foundations" class="level4">
-<h4 class="anchored" data-anchor-id="mathematical-foundations">2. Mathematical Foundations</h4>
+<p><strong>Explanation of the Output:</strong></p>
 <ul>
-<li><strong>Subgenerator Matrix ()</strong>: Governs transitions between states; non-diagonal elements are non-negative (rates), diagonal elements ensure row sums are non-positive.</li>
-<li><strong>Initial Distribution ()</strong>: Probability vector for starting states.</li>
-<li><strong>States</strong>: Distinction between absorbing and transient states.</li>
+<li>Each row in the heatmap represents a different starting state.</li>
+<li>Each column represents a state at time <span class="math inline">\(t\)</span>.</li>
+<li>The color intensity in each cell shows the probability of being in a state at time <span class="math inline">\(t\)</span> from a specific starting state. Darker colors might indicate higher probabilities.</li>
 </ul>
+<p>Understanding these transitions and how to visualize them helps in analyzing the behavior of Markovian models in real-world scenarios, such as predicting customer behavior in queues, modeling chemical processes, or even financial models predicting credit transitions.</p>
 </section>
-<section id="characteristics-of-phase-type-distributions-1" class="level4">
-<h4 class="anchored" data-anchor-id="characteristics-of-phase-type-distributions-1">3. Characteristics of Phase-Type Distributions</h4>
-<ul>
-<li><strong>Versatility and Flexibility</strong>: Can model virtually any positive-valued distribution.</li>
-<li><strong>Density Property</strong>: They are dense in the field of all positive-valued distributions, meaning they can approximate any such distribution arbitrarily closely.</li>
-</ul>
-</section>
-<section id="special-cases-of-phase-type-distributions" class="level4">
-<h4 class="anchored" data-anchor-id="special-cases-of-phase-type-distributions">4. Special Cases of Phase-Type Distributions</h4>
-<ul>
-<li><strong>Exponential Distribution</strong>: Represents the simplest case with a single transient state.</li>
-<li><strong>Erlang Distribution</strong>: Represents the time taken for exactly (k) events to occur in a Poisson process.</li>
-<li><strong>Hyperexponential Distribution</strong>: Suitable for modeling processes with multiple exponential phases that are not necessarily sequential.</li>
-</ul>
-</section>
-<section id="simulating-phase-type-distributions-with-python" class="level4">
-<h4 class="anchored" data-anchor-id="simulating-phase-type-distributions-with-python">5. Simulating Phase-Type Distributions with Python</h4>
-<ul>
-<li><strong>Generating Exponential Distributions</strong>:</li>
-</ul>
-<div id="91b0f97a" class="cell" data-execution_count="3">
+<section id="step-3-types-of-phase-type-distributions" class="level4">
+<h4 class="anchored" data-anchor-id="step-3-types-of-phase-type-distributions"><strong>Step 3: Types of Phase-Type Distributions</strong></h4>
+<p><strong>Special Cases and Their Uses</strong></p>
+<p>This step discusses several important special cases of phase-type distributions such as exponential, Erlang, hyperexponential, and Coxian distributions.</p>
+<p><strong>Python Example: Generate Data from an Erlang Distribution</strong></p>
+<p>Generate and visualize data from an Erlang distribution, which is a common model for aggregated exponential processes like service times in systems:</p>
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate exponential data</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> exponential_data(rate, size<span class="op">=</span><span class="dv">1000</span>):</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.random.exponential(<span class="dv">1</span><span class="op">/</span>rate, size)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> exponential_data(<span class="fl">1.5</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">30</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Exponential Distribution'</span>)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time'</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Frequency'</span>)</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate data from an Erlang distribution with shape=3 and scale=1</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.gamma(shape<span class="op">=</span><span class="dv">3</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">40</span>, color<span class="op">=</span><span class="st">'purple'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Histogram of Erlang Distributed Data'</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-4-output-1.png" width="593" height="449" class="figure-img"></p>
-</figure>
+<p><img src="2024-05-03_files/figure-html/cell-4-output-1.png" width="566" height="431"></p>
 </div>
 </div>
-</div>
-<ul>
-<li><strong>Generating Erlang Distributions</strong>:</li>
-</ul>
-<div id="34af3fa1" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate Erlang distribution</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> erlang_distribution(k, rate, size<span class="op">=</span><span class="dv">1000</span>):</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.random.gamma(shape<span class="op">=</span>k, scale<span class="op">=</span><span class="dv">1</span><span class="op">/</span>rate, size<span class="op">=</span>size)</span>
+</section>
+<section id="step-4-applying-phase-type-distributions" class="level4">
+<h4 class="anchored" data-anchor-id="step-4-applying-phase-type-distributions"><strong>Step 4: Applying Phase-Type Distributions</strong></h4>
+<p><strong>Real-World Application: Scheduling Problem</strong></p>
+<p>Explore the application of phase-type distributions in scheduling based on the study by Kuiper et al.&nbsp;These distributions can model the time until the next event in a queue, which is crucial for optimizing scheduling systems.</p>
+<p><strong>Python Example: Simulate a Scheduling Scenario</strong></p>
+<p>Simulate interarrival times and service times in a simple scheduling model:</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate interarrival and service times</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>interarrival_times <span class="op">=</span> np.random.exponential(scale<span class="op">=</span><span class="dv">2</span>, size<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>service_times <span class="op">=</span> np.random.gamma(shape<span class="op">=</span><span class="dv">2</span>, scale<span class="op">=</span><span class="fl">1.5</span>, size<span class="op">=</span><span class="dv">100</span>)</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> erlang_distribution(<span class="dv">3</span>, <span class="fl">1.5</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">30</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Erlang Distribution'</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time'</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Frequency'</span>)</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.hist(interarrival_times, bins<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">'blue'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Interarrival Times'</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>plt.hist(service_times, bins<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">'red'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Service Times'</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-5-output-1.png" width="593" height="449" class="figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<ul>
-<li><strong>Generating Hyperexponential Distributions</strong>:</li>
-</ul>
-<div id="061c10e7" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hyperexponential_distribution(rates, probs, size<span class="op">=</span><span class="dv">1000</span>):</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    components <span class="op">=</span> np.random.choice(<span class="bu">len</span>(rates), size<span class="op">=</span>size, p<span class="op">=</span>probs)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.array([np.random.exponential(<span class="dv">1</span><span class="op">/</span>rates[i]) <span class="cf">for</span> i <span class="kw">in</span> components])</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> hyperexponential_distribution([<span class="fl">1.5</span>, <span class="dv">3</span>], [<span class="fl">0.4</span>, <span class="fl">0.6</span>])</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">30</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Hyperexponential Distribution'</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time'</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Frequency'</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-6-output-1.png" width="593" height="449" class="figure-img"></p>
-</figure>
-</div>
+<p><img src="2024-05-03_files/figure-html/cell-5-output-1.png" width="938" height="505"></p>
 </div>
 </div>
 </section>
-<section id="applications-in-real-world-scenarios" class="level4">
-<h4 class="anchored" data-anchor-id="applications-in-real-world-scenarios">6. Applications in Real-world Scenarios</h4>
-<ul>
-<li><strong>Queueing Theory</strong>: Managing customer service systems.</li>
-<li><strong>Reliability Engineering</strong>: Estimating lifetimes of systems and components.</li>
-</ul>
+<section id="step-5-fitting-data-to-phase-type-distributions" class="level4">
+<h4 class="anchored" data-anchor-id="step-5-fitting-data-to-phase-type-distributions"><strong>Step 5: Fitting Data to Phase-Type Distributions</strong></h4>
+<section id="introduction-to-fitting" class="level5">
+<h5 class="anchored" data-anchor-id="introduction-to-fitting"><strong>Introduction to Fitting</strong></h5>
+<p>Fitting phase-type distributions to data involves finding the parameters of a model (like the transition matrix and the initial distribution vector) that best describe observed data. This can be particularly challenging due to the complexity of the calculations involved, but it’s a critical skill for applying these distributions in practice.</p>
 </section>
-<section id="conclusion" class="level4">
-<h4 class="anchored" data-anchor-id="conclusion">7. Conclusion</h4>
-<ul>
-<li><strong>Recap of key points</strong>: Summarize the versatility and applications of phase-type distributions.</li>
-<li><strong>Further reading and resources</strong>: Provide links to more detailed texts and research articles.</li>
-</ul>
-<p>This tutorial format will help undergraduate students grasp the concept of phase-type distributions effectively,</p>
-</section>
-</section>
-<section id="common-examples" class="level3">
-<h3 class="anchored" data-anchor-id="common-examples">Common Examples</h3>
+<section id="theoretical-background" class="level5">
+<h5 class="anchored" data-anchor-id="theoretical-background"><strong>Theoretical Background</strong></h5>
+<p>There are primarily two methods for fitting data to phase-type distributions:</p>
 <ol type="1">
-<li><p><strong>Exponential Distribution</strong>: The simplest phase-type distribution, where there is only one transient state that leads to an absorbing state after an exponentially distributed time. It is often used to model the time between events in a Poisson process.</p></li>
-<li><p><strong>Erlang Distribution</strong>: A sum of (k) independent exponential distributions with the same rate (), which is a special case of a phase-type distribution with (k) stages. This can model multiple processes that must occur sequentially, each taking an exponentially distributed time.</p></li>
-<li><p><strong>Hypexponential Distribution</strong>: A mixture of exponential distributions, which can model processes where there are several different ‘paths’ each with its own exponential time characteristic, but only one path is taken (chosen according to some probability).</p></li>
+<li><p><strong>Maximum Likelihood Estimation (MLE):</strong> This method estimates parameters that maximize the likelihood of the data given the model. MLE is powerful but computationally intensive, especially for large datasets or models with many parameters.</p></li>
+<li><p><strong>Method of Moments (MoM):</strong> This approach involves matching the theoretical moments of the distribution (like mean and variance) to the empirical moments of the data. It’s usually simpler and faster than MLE but might be less accurate.</p></li>
 </ol>
 </section>
-<section id="example-erlang-and-hypexponential-distributions" class="level3">
-<h3 class="anchored" data-anchor-id="example-erlang-and-hypexponential-distributions">Example: Erlang and Hypexponential Distributions</h3>
-<p>Let’s illustrate these concepts with Python code examples. We’ll use the <code>numpy</code> and <code>scipy</code> libraries for generating random numbers and plotting.</p>
-<section id="python-code" class="level4">
-<h4 class="anchored" data-anchor-id="python-code">Python Code</h4>
-<div id="eab4c4c6" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> expon</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to generate Erlang distribution data</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> erlang_distribution(k, lambda_, size<span class="op">=</span><span class="dv">1000</span>):</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>(np.random.exponential(<span class="dv">1</span><span class="op">/</span>lambda_, (size, k)), axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to generate Hypexponential distribution data</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hypexponential_distribution(rates, probabilities, size<span class="op">=</span><span class="dv">1000</span>):</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="bu">len</span>(rates) <span class="op">==</span> <span class="bu">len</span>(probabilities) <span class="kw">and</span> np.isclose(np.<span class="bu">sum</span>(probabilities), <span class="dv">1</span>)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    choices <span class="op">=</span> np.random.choice(<span class="bu">len</span>(rates), size<span class="op">=</span>size, p<span class="op">=</span>probabilities)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.random.exponential(<span class="dv">1</span> <span class="op">/</span> np.array(rates)[choices], size<span class="op">=</span>size)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> <span class="dv">3</span>  <span class="co"># Number of stages for Erlang</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>lambda_ <span class="op">=</span> <span class="fl">1.5</span>  <span class="co"># Rate parameter for both distributions</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>hyp_rates <span class="op">=</span> [<span class="fl">1.0</span>, <span class="fl">2.0</span>]  <span class="co"># Different rates for Hypexponential</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>hyp_probs <span class="op">=</span> [<span class="fl">0.5</span>, <span class="fl">0.5</span>]  <span class="co"># Probabilities for choosing each rate</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate data</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>erlang_data <span class="op">=</span> erlang_distribution(k, lambda_)</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>hypexponential_data <span class="op">=</span> hypexponential_distribution(hyp_rates, hyp_probs)</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>plt.hist(erlang_data, bins<span class="op">=</span><span class="dv">30</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, label<span class="op">=</span><span class="st">'Erlang Distribution'</span>)</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>plt.hist(hypexponential_data, bins<span class="op">=</span><span class="dv">30</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, label<span class="op">=</span><span class="st">'Hypexponential Distribution'</span>)</span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Comparison of Erlang and Hypexponential Distributions'</span>)</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time'</span>)</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Frequency'</span>)</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="python-implementation" class="level5">
+<h5 class="anchored" data-anchor-id="python-implementation"><strong>Python Implementation</strong></h5>
+<p>We’ll implement an example of fitting an Erlang distribution (a special case of phase-type distributions with identical phases) using both methods. The Erlang distribution is chosen for its relative simplicity while still capturing the essence of the process.</p>
+<p><strong>Generating Sample Data</strong></p>
+<p>First, we’ll generate some synthetic data that follows an Erlang distribution:</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> erlang</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate synthetic data</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>shape <span class="op">=</span> <span class="dv">3</span>  <span class="co"># Number of phases in series</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>scale <span class="op">=</span> <span class="dv">2</span>  <span class="co"># Rate parameter</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>size <span class="op">=</span> <span class="dv">500</span>  <span class="co"># Number of data points</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.gamma(shape, scale, size)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">30</span>, color<span class="op">=</span><span class="st">'blue'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Histogram of Generated Erlang Distribution Data"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-7-output-1.png" width="816" height="523" class="figure-img"></p>
-</figure>
+<p><img src="2024-05-03_files/figure-html/cell-6-output-1.png" width="566" height="431"></p>
 </div>
 </div>
-</div>
-</section>
-<section id="explanation" class="level4">
-<h4 class="anchored" data-anchor-id="explanation">Explanation</h4>
-<ul>
-<li><strong>Erlang Distribution</strong>: This is generated by summing (k) exponential variables. It models scenarios where (k) independent events each take exponentially distributed times with the same rate ().</li>
-<li><strong>Hypexponential Distribution</strong>: Generated by choosing one of several exponential distributions based on a set of probabilities. It models scenarios with multiple potential phases, each exponentially distributed but with different rates.</li>
-</ul>
-<p>These distributions and their Python implementations showcase how phase-type distributions can be used to model various real-world processes where times until events are crucial. They offer great flexibility and analytical tractability, making them powerful tools in stochastic modeling.</p>
-<div id="7dbc1d2c" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the phase-type distribution parameters</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> phase_type_distribution(mean, variance):</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Placeholder for actual phase-type distribution calculation</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Typically, this would involve more complex statistical modeling</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.random.gamma(shape<span class="op">=</span>mean<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> variance, scale<span class="op">=</span>variance <span class="op">/</span> mean, size<span class="op">=</span><span class="dv">1000</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate service times</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>service_times <span class="op">=</span> phase_type_distribution(mean_service_time, variance_service_time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-</section>
-</section>
-<section id="step-3-incorporating-variability" class="level2">
-<h2 class="anchored" data-anchor-id="step-3-incorporating-variability">Step 3: Incorporating Variability</h2>
-<p>Adjust the model to include variability due to no-shows and walk-ins. This adjustment is crucial for realistic scheduling that accommodates daily operational uncertainties.</p>
-<section id="python-example-adjusting-for-no-shows-and-walk-ins" class="level3">
-<h3 class="anchored" data-anchor-id="python-example-adjusting-for-no-shows-and-walk-ins">Python Example: Adjusting for No-shows and Walk-ins</h3>
-<div id="019a3436" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> adjust_for_variability(service_times, no_show_prob, walk_in_prob):</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Apply no-show probability</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    service_times <span class="op">=</span> service_times <span class="op">*</span> np.random.binomial(<span class="dv">1</span>, <span class="dv">1</span> <span class="op">-</span> no_show_prob, size<span class="op">=</span>service_times.shape)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Simulate walk-ins by adding extra service times</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    walk_ins <span class="op">=</span> phase_type_distribution(mean_service_time, variance_service_time)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    walk_in_occurrences <span class="op">=</span> np.random.binomial(<span class="dv">1</span>, walk_in_prob, size<span class="op">=</span>service_times.shape)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    adjusted_service_times <span class="op">=</span> np.where(walk_in_occurrences, service_times <span class="op">+</span> walk_ins, service_times)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> adjusted_service_times</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust service times for variability</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>adjusted_service_times <span class="op">=</span> adjust_for_variability(service_times, no_show_probability, walk_in_probability)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-</section>
-<section id="step-4-optimization-and-scheduling" class="level2">
-<h2 class="anchored" data-anchor-id="step-4-optimization-and-scheduling">Step 4: Optimization and Scheduling</h2>
-<p>Finally, the adjusted service times are used to generate an optimal schedule that balances waiting and idle times according to a chosen objective function. This function aims to minimize a weighted sum of these times.</p>
-<section id="python-example-optimization-using-scipy" class="level3">
-<h3 class="anchored" data-anchor-id="python-example-optimization-using-scipy">Python Example: Optimization Using Scipy</h3>
-<div id="20d03f25" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the objective function to minimize total time</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> objective(x):</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># This is a simplification; in practice, you would use the adjusted service times</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    waiting_time <span class="op">=</span> <span class="bu">sum</span>(x)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    idle_time <span class="op">=</span> <span class="bu">len</span>(x) <span class="op">*</span> mean_service_time <span class="op">-</span> waiting_time</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> waiting_time <span class="op">*</span> <span class="fl">0.5</span> <span class="op">+</span> idle_time <span class="op">*</span> <span class="fl">0.5</span>  <span class="co"># Example weights</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial guess for the optimization</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>initial_guess <span class="op">=</span> np.full((<span class="dv">10</span>,), mean_service_time)  <span class="co"># Assume 10 appointments</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform the optimization</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> minimize(objective, initial_guess, method<span class="op">=</span><span class="st">'SLSQP'</span>)</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Optimized schedule:"</span>, result.x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Method of Moments</strong></p>
+<p>We’ll calculate the empirical mean and variance and use these to estimate the parameters of the Erlang distribution:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>empirical_mean <span class="op">=</span> np.mean(data)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>empirical_var <span class="op">=</span> np.var(data)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Erlang k (shape) estimated as (mean^2 / variance)</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>estimated_k <span class="op">=</span> <span class="bu">round</span>(empirical_mean<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> empirical_var)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>estimated_lambda <span class="op">=</span> estimated_k <span class="op">/</span> empirical_mean</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Estimated Shape (k): </span><span class="sc">{</span>estimated_k<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Estimated Rate (lambda): </span><span class="sc">{</span>estimated_lambda<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot to compare</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="bu">max</span>(data), <span class="dv">100</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">30</span>, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data Histogram'</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>plt.plot(x, erlang.pdf(x, a<span class="op">=</span>estimated_k, scale<span class="op">=</span><span class="dv">1</span><span class="op">/</span>estimated_lambda), <span class="st">'r-'</span>, label<span class="op">=</span><span class="st">'Fitted Erlang PDF'</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Erlang Fitting Using Method of Moments"</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Optimized schedule: [15. 15. 15. 15. 15. 15. 15. 15. 15. 15.]</code></pre>
+<pre><code>Estimated Shape (k): 3
+Estimated Rate (lambda): 0.5080901323414554</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2024-05-03_files/figure-html/cell-7-output-2.png" width="579" height="431"></p>
 </div>
 </div>
-</section>
-</section>
-</section>
-<section id="conclusion-1" class="level1">
-<h1>Conclusion</h1>
-<p>By applying these steps, healthcare facilities can create flexible and robust appointment schedules that effectively manage the inherent variability in healthcare operations, improving both efficiency and patient satisfaction.</p>
+<p><strong>Maximum Likelihood Estimation</strong></p>
+<p>For MLE, we can use optimization routines available in libraries such as SciPy to find the best-fit parameters:</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> gamma</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the negative log-likelihood function for the Gamma distribution</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neg_log_likelihood(params, data):</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    shape, scale <span class="op">=</span> params</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>np.<span class="bu">sum</span>(gamma.logpdf(data, a<span class="op">=</span>shape, scale<span class="op">=</span>scale))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial guesses for shape and scale</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>initial_guess <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Minimize the negative log-likelihood</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> minimize(neg_log_likelihood, initial_guess, args<span class="op">=</span>(data,), bounds<span class="op">=</span>((<span class="dv">1</span>, <span class="va">None</span>), (<span class="fl">0.1</span>, <span class="va">None</span>)))</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>best_fit_shape, best_fit_scale <span class="op">=</span> result.x</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best Fit Shape: </span><span class="sc">{</span>best_fit_shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best Fit Scale: </span><span class="sc">{</span>best_fit_scale<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the results</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">30</span>, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data Histogram'</span>)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>plt.plot(x, erlang.pdf(x, a<span class="op">=</span>best_fit_shape, scale<span class="op">=</span><span class="dv">1</span><span class="op">/</span>best_fit_scale), <span class="st">'g-'</span>, label<span class="op">=</span><span class="st">'MLE Fitted Erlang PDF'</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Erlang Fitting Using MLE"</span>)</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Best Fit Shape: 2.9105498625754405
+Best Fit Scale: 2.028641499355219</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/3q/brsqfl1d30q9_6wmp4ny98jm0000gn/T/ipykernel_20512/2986217968.py:22: RuntimeWarning:
 
+The shape parameter of the erlang distribution has been given a non-integer value array(2.91054986).
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="2024-05-03_files/figure-html/cell-8-output-3.png" width="571" height="431"></p>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level5">
+<h5 class="anchored" data-anchor-id="conclusion"><strong>Conclusion</strong></h5>
+<p>These examples demonstrate two primary methods for fitting phase-type distributions to empirical data. The choice of method depends on the specific requirements and constraints of the application, such as the need for accuracy versus computational efficiency.</p>
+<p>This step effectively bridges theoretical knowledge and practical application, providing students with tools to apply phase-type distributions in real-world scenarios, enhancing both their understanding and skill set.</p>
+</section>
+</section>
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-https://doi.org/10.1111/deci.12517" class="csl-entry" role="listitem">
-Kuiper, Alex, Michel Mandjes, Jeroen de Mast, and Ruben Brokkelkamp. 2023. <span>“A Flexible and Optimal Approach for Appointment Scheduling in Healthcare.”</span> <em>Decision Sciences</em> 54 (1): 85–100. https://doi.org/<a href="https://doi.org/10.1111/deci.12517">https://doi.org/10.1111/deci.12517</a>.
-</div>
-</div></section></div></main>
+</main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -660,27 +437,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+  function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
+      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -690,17 +450,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start',
+      placement: 'bottom-start'
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -712,130 +463,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
-          }
-        }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
-        }
-        return container.innerHTML
-      } else {
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(note);
-        }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
-    }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
-          }
-        } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
-            if (note !== null) {
-              const html = processXRef(id, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
-          });
-        }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
+      return note.innerHTML;
     });
   }
       let selectedAnnoteEl;
@@ -879,7 +507,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
-            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -905,32 +532,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -991,7 +592,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-
 
 
 
