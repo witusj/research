@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -74,6 +74,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 </head>
 
 <body class="fullcontent">
@@ -103,7 +130,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <section id="phase-type-distributions-a-comprehensive-tutorial" class="level3">
 <h3 class="anchored" data-anchor-id="phase-type-distributions-a-comprehensive-tutorial"><strong>Phase-Type Distributions: A Comprehensive Tutorial</strong></h3>
@@ -117,7 +146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>A Continuous-Time Markov Chain (CTMC) is characterized by a set of states and the rates at which transitions occur between these states. The time that the process spends in each state is exponentially distributed, where the rate parameter is determined by the negative of the diagonal entries of the transition rate matrix <span class="math inline">\(Q\)</span>.</p>
 <p><strong>Python Example: Plot a Simple CTMC</strong></p>
 <p>This example demonstrates how to visualize the transition rate matrix <span class="math inline">\(Q\)</span> for a simple three-state CTMC:</p>
-<div class="cell" data-execution_count="1">
+<div id="f0589a86" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -130,7 +159,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'CTMC Transition Rate Matrix Q'</span>)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2024-05-03_files/figure-html/cell-2-output-1.png" width="501" height="436"></p>
+<div>
+<figure class="figure">
+<p><img src="2024-05-03_files/figure-html/cell-2-output-1.png" width="501" height="436" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>This matrix <span class="math inline">\(Q\)</span> includes rates for transitions between all states. The off-diagonal elements indicate the rates of moving from one state to another, while the diagonal elements, being negative, signify the rates of leaving each state.</p>
@@ -174,7 +207,7 @@ Q = \begin{bmatrix}
   \end{bmatrix}
 \]</span> This matrix <span class="math inline">\(S\)</span> is derived from <span class="math inline">\(Q\)</span> by removing the rows and columns associated with the absorbing state, focusing only on the transitions between the transient states.</p>
 <p><strong>Python Visualization</strong></p>
-<div class="cell" data-execution_count="2">
+<div id="c1c796b8" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -202,7 +235,11 @@ Q = \begin{bmatrix}
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2024-05-03_files/figure-html/cell-3-output-1.png" width="799" height="389"></p>
+<div>
+<figure class="figure">
+<p><img src="2024-05-03_files/figure-html/cell-3-output-1.png" width="799" height="389" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>This code provides a visual differentiation between the complete transition rate matrix <span class="math inline">\(Q\)</span> and the subgenerator matrix <span class="math inline">\(S\)</span>, highlighting their specific roles in modeling phase-type distributions within CTMCs.</p>
@@ -217,7 +254,7 @@ Q = \begin{bmatrix}
 </ul>
 <p><strong>Python Example: Calculate and Plot State Probabilities Over Time</strong></p>
 <p>Let’s enhance the previous Python example to make it clearer how these probabilities change over time and how to visualize and interpret the resulting matrix.</p>
-<div class="cell" data-execution_count="3">
+<div id="b55f88a7" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> expm</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -250,7 +287,11 @@ Q = \begin{bmatrix}
 <span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2024-05-03_files/figure-html/cell-4-output-1.png" width="548" height="454"></p>
+<div>
+<figure class="figure">
+<p><img src="2024-05-03_files/figure-html/cell-4-output-1.png" width="548" height="454" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p><strong>Explanation of the Output:</strong></p>
@@ -267,7 +308,7 @@ Q = \begin{bmatrix}
 <p>This step discusses several important special cases of phase-type distributions such as exponential, Erlang, hyperexponential, and Coxian distributions.</p>
 <p><strong>Python Example: Generate Data from an Erlang Distribution</strong></p>
 <p>Generate and visualize data from an Erlang distribution, which is a common model for aggregated exponential processes like service times in systems:</p>
-<div class="cell" data-execution_count="4">
+<div id="e1a5c382" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -278,7 +319,11 @@ Q = \begin{bmatrix}
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Histogram of Erlang Distributed Data'</span>)</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2024-05-03_files/figure-html/cell-5-output-1.png" width="566" height="431"></p>
+<div>
+<figure class="figure">
+<p><img src="2024-05-03_files/figure-html/cell-5-output-1.png" width="566" height="431" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -288,7 +333,7 @@ Q = \begin{bmatrix}
 <p>Explore the application of phase-type distributions in scheduling based on the study by Kuiper et al.&nbsp;These distributions can model the time until the next event in a queue, which is crucial for optimizing scheduling systems.</p>
 <p><strong>Python Example: Simulate a Scheduling Scenario</strong></p>
 <p>Simulate interarrival times and service times in a simple scheduling model:</p>
-<div class="cell" data-execution_count="5">
+<div id="922a0f06" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate interarrival and service times</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>interarrival_times <span class="op">=</span> np.random.exponential(scale<span class="op">=</span><span class="dv">2</span>, size<span class="op">=</span><span class="dv">100</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>service_times <span class="op">=</span> np.random.gamma(shape<span class="op">=</span><span class="dv">2</span>, scale<span class="op">=</span><span class="fl">1.5</span>, size<span class="op">=</span><span class="dv">100</span>)</span>
@@ -302,7 +347,11 @@ Q = \begin{bmatrix}
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Service Times'</span>)</span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2024-05-03_files/figure-html/cell-6-output-1.png" width="938" height="505"></p>
+<div>
+<figure class="figure">
+<p><img src="2024-05-03_files/figure-html/cell-6-output-1.png" width="951" height="505" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -325,7 +374,7 @@ Q = \begin{bmatrix}
 <p>We’ll implement an example of fitting an Erlang distribution (a special case of phase-type distributions with identical phases) using both methods. The Erlang distribution is chosen for its relative simplicity while still capturing the essence of the process.</p>
 <p><strong>Generating Sample Data</strong></p>
 <p>First, we’ll generate some synthetic data that follows an Erlang distribution:</p>
-<div class="cell" data-execution_count="6">
+<div id="7b25970f" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> erlang</span>
@@ -341,12 +390,16 @@ Q = \begin{bmatrix}
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Histogram of Generated Erlang Distribution Data"</span>)</span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2024-05-03_files/figure-html/cell-7-output-1.png" width="566" height="431"></p>
+<div>
+<figure class="figure">
+<p><img src="2024-05-03_files/figure-html/cell-7-output-1.png" width="566" height="431" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p><strong>Method of Moments</strong></p>
 <p>We’ll calculate the empirical mean and variance and use these to estimate the parameters of the Erlang distribution:</p>
-<div class="cell" data-execution_count="7">
+<div id="3e317523" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>empirical_mean <span class="op">=</span> np.mean(data)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>empirical_var <span class="op">=</span> np.var(data)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -366,15 +419,19 @@ Q = \begin{bmatrix}
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Estimated Shape (k): 3
-Estimated Rate (lambda): 0.5035568267412807</code></pre>
+Estimated Rate (lambda): 0.49758242187607193</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="2024-05-03_files/figure-html/cell-8-output-2.png" width="579" height="431"></p>
+<div>
+<figure class="figure">
+<p><img src="2024-05-03_files/figure-html/cell-8-output-2.png" width="579" height="431" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p><strong>Maximum Likelihood Estimation</strong></p>
 <p>For MLE, we can use optimization routines available in libraries such as SciPy to find the best-fit parameters:</p>
-<div class="cell" data-execution_count="8">
+<div id="086c8921" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> gamma</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -401,17 +458,21 @@ Estimated Rate (lambda): 0.5035568267412807</code></pre>
 <span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
 <span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best Fit Shape: 2.7468891415704477
-Best Fit Scale: 2.1688638627069645</code></pre>
+<pre><code>Best Fit Shape: 3.1051980706416096
+Best Fit Scale: 1.9416320841926284</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/3q/brsqfl1d30q9_6wmp4ny98jm0000gn/T/ipykernel_21269/2986217968.py:22: RuntimeWarning:
+<pre><code>/Users/witoldtenhove/Library/Python/3.9/lib/python/site-packages/scipy/stats/_continuous_distns.py:3417: RuntimeWarning:
 
-The shape parameter of the erlang distribution has been given a non-integer value array(2.74688914).
+The shape parameter of the erlang distribution has been given a non-integer value array(3.10519807).
 </code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="2024-05-03_files/figure-html/cell-9-output-3.png" width="571" height="431"></p>
+<div>
+<figure class="figure">
+<p><img src="2024-05-03_files/figure-html/cell-9-output-3.png" width="571" height="431" class="figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -504,10 +565,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -517,8 +595,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -530,7 +617,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -574,6 +784,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -599,6 +810,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -659,6 +896,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
