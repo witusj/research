@@ -49,7 +49,79 @@ The subgenerator matrix $S$ of a phase-type distribution is a key component that
 - Each **off-diagonal** element $S_{ij}$ (where $i \neq j$) in the matrix represents the transition rate from state $i$ to state $j$. These values must be non-negative.
 - Each **diagonal** element $S_{ii}$ is negative and its absolute value is the rate at which the process leaves state $i$. Specifically, $S_{ii}$ is the negative of the sum of all the off-diagonal elements in row $i$, which ensures that the total rate out of each state is accounted for.
 
-In phase-type distributions, the subgenerator matrix $S$ is derived from the transition rate matrix $Q$ of a CTMC by excluding any absorbing states. If $Q$ represents a system where all states are transient (i.e., no absorbing states), then $S$ is identical to $Q$.
+In the context of phase-type distributions, the transition rate matrix $Q$ and the subgenerator matrix $S$ are closely related but serve slightly different roles depending on the structure of the Markov model you are working with. Here's how they connect:
+
+**Relationship Between $Q$ and $S$**
+
+**1. Continuous-Time Markov Chains (CTMCs):**
+
+- In the general setup of CTMCs, the matrix $Q$ (often referred to as the generator matrix) defines the rates at which transitions occur between all states in the model. This includes both transient states and any absorbing states.
+- The diagonal elements of $Q$ are negative and represent the rate at which the process leaves a state. Each diagonal entry is the negative sum of the off-diagonal elements in its row, which ensures the total rate of leaving each state is properly accounted for.
+
+**2. Subgenerator Matrix $S$ in Phase-Type Distributions:**
+
+- When dealing with phase-type distributions specifically, $S$ refers to the part of the generator matrix $Q$ that deals only with the transient states. It is a submatrix of $Q$ if you exclude any rows and columns corresponding to absorbing states.
+- In a typical phase-type distribution setup, there is at least one absorbing state (often representing the termination of the process, like the completion of a task or death in a survival model). The subgenerator matrix $S$ excludes this absorbing behavior, focusing only on transitions between non-absorbing, i.e., transient states.
+
+**Practical Example**
+
+To illustrate, if you have a CTMC with three states where the third state is absorbing, the generator matrix $Q$ and the subgenerator matrix $S$ could look like this:
+
+- **Generator Matrix $Q$:**
+
+  $$
+  Q = \begin{bmatrix}
+  -\lambda_1 & \lambda_{12} & \lambda_{13} \\
+  \lambda_{21} & -\lambda_2 & \lambda_{23} \\
+  0 & 0 & 0
+  \end{bmatrix}
+  $$
+  Here, $\lambda_{13}$ and $\lambda_{23}$ might represent transition rates to an absorbing state, and the last row being all zeros represents the absorbing state (no transitions out).
+
+- **Subgenerator Matrix $S$:**
+
+ $$
+  S = \begin{bmatrix}
+  -\lambda_1 & \lambda_{12} \\
+  \lambda_{21} & -\lambda_2
+  \end{bmatrix}
+ $$
+  This matrix $S$ is derived from $Q$ by removing the rows and columns associated with the absorbing state, focusing only on the transitions between the transient states.
+
+**Python Visualization**
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define the full generator matrix for a 3-state CTMC with the third state absorbing
+Q = np.array([
+    [-1, 0.7, 0.3],
+    [0.4, -1.2, 0.8],
+    [0, 0, 0]
+])
+
+# Define the subgenerator matrix S (only transient states)
+S = Q[:2, :2]  # Exclude the third row and column
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+
+# Plot Q
+cax1 = ax1.matshow(Q, cmap='viridis')
+fig.colorbar(cax1, ax=ax1)
+ax1.set_title('CTMC Transition Rate Matrix Q')
+
+# Plot S
+cax2 = ax2.matshow(S, cmap='viridis')
+fig.colorbar(cax2, ax=ax2)
+ax2.set_title('Subgenerator Matrix S')
+
+plt.show()
+```
+
+This code provides a visual differentiation between the complete transition rate matrix $Q$ and the subgenerator matrix $S$, highlighting their specific roles in modeling phase-type distributions within CTMCs.
+
+If $Q$ represents a system where all states are transient (i.e., no absorbing states), then $S$ is identical to $Q$.
 
 
 **Initial Probability Vector (α)**
@@ -71,6 +143,9 @@ Let’s enhance the previous Python example to make it clearer how these probabi
 from scipy.linalg import expm
 import matplotlib.pyplot as plt
 import numpy as np
+
+# Define the transition rate matrix for a 3-state CTMC
+Q = np.array([[-1, 0.7, 0.3], [0.4, -1.2, 0.8], [0.5, 0.5, -1]])
 
 # Define the subgenerator matrix for a CTMC with 3 transient states
 S = Q
