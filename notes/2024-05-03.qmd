@@ -118,6 +118,7 @@ These examples highlight the core differences in how discrete Markov chains and 
 #### **Step 2: Mathematical Foundations: Key Parameters and Their Interpretations**
 
 **Continuous-Time Markov Chain (Q)**
+
 A Continuous-Time Markov Chain (CTMC) is characterized by a set of states and the rates at which transitions occur between these states. The time that the process spends in each state is exponentially distributed, where the rate parameter is determined by the negative of the diagonal entries of the transition rate matrix $Q$.
 
 **Python Example: Plot a Simple CTMC**
@@ -141,6 +142,7 @@ plt.show()
 This matrix $Q$ includes rates for transitions between all states. The off-diagonal elements indicate the rates of moving from one state to another, while the diagonal elements, being negative, signify the rates of leaving each state.
 
 **Subgenerator Matrix (S)**
+
 The subgenerator matrix $S$ of a phase-type distribution is a key component that describes the rates at which transitions occur between the transient states of a continuous-time Markov chain (CTMC). It’s important to note that:
 
 - Each **off-diagonal** element $S_{ij}$ (where $i \neq j$) in the matrix represents the transition rate from state $i$ to state $j$. These values must be non-negative.
@@ -222,6 +224,7 @@ If $Q$ represents a system where all states are transient (i.e., no absorbing st
 
 
 **Initial Probability Vector (α)**
+
 The initial probability vector $\alpha$ specifies the probabilities of starting in each transient state at time $t = 0$. The elements of $\alpha$ should sum to 1, reflecting a complete probability distribution across the transient states.
 
 **Interpreting the Matrix of State Probabilities**
