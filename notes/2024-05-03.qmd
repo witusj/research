@@ -29,7 +29,7 @@ Phase-type distributions are an important class of stochastic models derived fro
 
 To explain the relationship between Markov chains and Continuous-Time Markov Chains (CTMCs) to a student with undergraduate math skills, let's delve into definitions, distinctions, and practical coding examples. Both concepts fall under the umbrella of stochastic processes, which are essentially collections of random variables representing a process observed over time.
 
-### Definitions
+**Definitions**
 
 **Markov Chains:**
 - A Markov Chain is a stochastic process involving a sequence of possible events in which the probability of each event depends only on the state attained in the previous event.
@@ -39,11 +39,12 @@ To explain the relationship between Markov chains and Continuous-Time Markov Cha
 - A CTMC is a type of Markov Chain where the time between transitions is continuous. That is, transitions can occur at any time rather than at fixed discrete times.
 - The state space can be discrete (e.g., system is either up or down), but the timing of transitions follows a continuous probability distribution, typically an exponential distribution.
 
-### Key Differences
+**Key Differences**
+
 - **Timing of Transitions**: In standard Markov Chains, transitions occur at fixed discrete times (e.g., steps in a board game), whereas in CTMCs, transitions occur continuously over time (e.g., radioactive decay).
 - **Mathematical Representation**: Markov Chains often use a transition matrix to represent probabilities of moving from one state to another in one time step. CTMCs use a rate matrix (or generator matrix) where off-diagonal elements represent the rate of transitioning from one state to another and diagonal elements are calculated such that each row sums to zero.
 
-### Practical Examples
+**Practical Example**
 
 Let’s simulate both to illustrate the differences:
 
@@ -108,7 +109,7 @@ plt.legend()
 plt.show()
 ```
 
-### Explanation
+**Explanation**
 
 - The **Gambler's Ruin** simulation represents a Markov chain with discrete steps, where each step is a gamble resulting in either winning or losing $1.
 - The **Queue System** uses CTMC where the time until the next event (arrival or service completion) is continuous, modelled by exponential distributions.

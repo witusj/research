@@ -146,26 +146,19 @@ window.Quarto = {
 <p><strong>Markov Chains and Continuous-Time Markov Chains (CTMCs)</strong></p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/WT6jI8UgROI?si=PIt4foc41A4xMNPv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
 <p>To explain the relationship between Markov chains and Continuous-Time Markov Chains (CTMCs) to a student with undergraduate math skills, let’s delve into definitions, distinctions, and practical coding examples. Both concepts fall under the umbrella of stochastic processes, which are essentially collections of random variables representing a process observed over time.</p>
-</section>
-</section>
-<section id="definitions" class="level3">
-<h3 class="anchored" data-anchor-id="definitions">Definitions</h3>
+<p><strong>Definitions</strong></p>
 <p><strong>Markov Chains:</strong> - A Markov Chain is a stochastic process involving a sequence of possible events in which the probability of each event depends only on the state attained in the previous event. - It is discrete both in time and state. This means the changes (transitions) occur at fixed discrete time points and the state space (set of all possible states) is discrete.</p>
 <p><strong>Continuous-Time Markov Chains (CTMCs):</strong> - A CTMC is a type of Markov Chain where the time between transitions is continuous. That is, transitions can occur at any time rather than at fixed discrete times. - The state space can be discrete (e.g., system is either up or down), but the timing of transitions follows a continuous probability distribution, typically an exponential distribution.</p>
-</section>
-<section id="key-differences" class="level3">
-<h3 class="anchored" data-anchor-id="key-differences">Key Differences</h3>
+<p><strong>Key Differences</strong></p>
 <ul>
 <li><strong>Timing of Transitions</strong>: In standard Markov Chains, transitions occur at fixed discrete times (e.g., steps in a board game), whereas in CTMCs, transitions occur continuously over time (e.g., radioactive decay).</li>
 <li><strong>Mathematical Representation</strong>: Markov Chains often use a transition matrix to represent probabilities of moving from one state to another in one time step. CTMCs use a rate matrix (or generator matrix) where off-diagonal elements represent the rate of transitioning from one state to another and diagonal elements are calculated such that each row sums to zero.</li>
 </ul>
-</section>
-<section id="practical-examples" class="level3">
-<h3 class="anchored" data-anchor-id="practical-examples">Practical Examples</h3>
+<p><strong>Practical Example</strong></p>
 <p>Let’s simulate both to illustrate the differences:</p>
 <p><strong>1. Simulating a Markov Chain (Discrete Time) - Gambler’s Ruin Example:</strong></p>
 <p>Here we simulate a gambler who bets until they either reach $100 or lose all their money, starting with $50, betting $1 at a time with equal probabilities of winning or losing.</p>
-<div id="d7dd5114" class="cell" data-execution_count="1">
+<div id="5204da9a" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -194,7 +187,7 @@ window.Quarto = {
 </div>
 <p><strong>2. Simulating a Continuous-Time Markov Chain (CTMC) - Simple Queue System:</strong></p>
 <p>We simulate a queue system where customers arrive according to a Poisson process (CTMC aspect), and each customer has a service time that is exponentially distributed.</p>
-<div id="a9b2eb24" class="cell" data-execution_count="2">
+<div id="072673d0" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ctmc_queue_simulation(lam, mu, max_time):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    current_time <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    events <span class="op">=</span> []</span>
@@ -232,21 +225,20 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section>
-<section id="explanation" class="level3">
-<h3 class="anchored" data-anchor-id="explanation">Explanation</h3>
+<p><strong>Explanation</strong></p>
 <ul>
 <li>The <strong>Gambler’s Ruin</strong> simulation represents a Markov chain with discrete steps, where each step is a gamble resulting in either winning or losing $1.</li>
 <li>The <strong>Queue System</strong> uses CTMC where the time until the next event (arrival or service completion) is continuous, modelled by exponential distributions.</li>
 </ul>
 <p>These examples highlight the core differences in how discrete Markov chains and CTMCs are used to model and simulate real-world processes. Each method has applications suited to different types of problems, emphasizing the need to choose the right model based on the nature of the time intervals involved in the process</p>
+</section>
 <section id="step-2-mathematical-foundations-key-parameters-and-their-interpretations" class="level4">
 <h4 class="anchored" data-anchor-id="step-2-mathematical-foundations-key-parameters-and-their-interpretations"><strong>Step 2: Mathematical Foundations: Key Parameters and Their Interpretations</strong></h4>
 <p><strong>Continuous-Time Markov Chain (Q)</strong></p>
 <p>A Continuous-Time Markov Chain (CTMC) is characterized by a set of states and the rates at which transitions occur between these states. The time that the process spends in each state is exponentially distributed, where the rate parameter is determined by the negative of the diagonal entries of the transition rate matrix <span class="math inline">\(Q\)</span>.</p>
 <p><strong>Python Example: Plot a Simple CTMC</strong></p>
 <p>This example demonstrates how to visualize the transition rate matrix <span class="math inline">\(Q\)</span> for a simple three-state CTMC:</p>
-<div id="ec4fbe7a" class="cell" data-execution_count="3">
+<div id="eb0e3415" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -305,7 +297,7 @@ Q = \begin{bmatrix}
   \end{bmatrix}
 \]</span> This matrix <span class="math inline">\(S\)</span> is derived from <span class="math inline">\(Q\)</span> by removing the rows and columns associated with the absorbing state, focusing only on the transitions between the transient states.</p>
 <p><strong>Python Visualization</strong></p>
-<div id="20f498f5" class="cell" data-execution_count="4">
+<div id="95203612" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -353,7 +345,7 @@ Q = \begin{bmatrix}
 </ul>
 <p><strong>Python Example: Calculate and Plot State Probabilities Over Time</strong></p>
 <p>Let’s enhance the previous Python example to make it clearer how these probabilities change over time and how to visualize and interpret the resulting matrix.</p>
-<div id="7fbc1751" class="cell" data-execution_count="5">
+<div id="7b6810e4" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> expm</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -407,7 +399,7 @@ Q = \begin{bmatrix}
 <p>This step discusses several important special cases of phase-type distributions such as exponential, Erlang, hyperexponential, and Coxian distributions.</p>
 <p><strong>Python Example: Generate Data from an Erlang Distribution</strong></p>
 <p>Generate and visualize data from an Erlang distribution, which is a common model for aggregated exponential processes like service times in systems:</p>
-<div id="14286d1f" class="cell" data-execution_count="6">
+<div id="f0827c44" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -420,7 +412,7 @@ Q = \begin{bmatrix}
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-7-output-1.png" width="566" height="431" class="figure-img"></p>
+<p><img src="2024-05-03_files/figure-html/cell-7-output-1.png" width="575" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -432,7 +424,7 @@ Q = \begin{bmatrix}
 <p>Explore the application of phase-type distributions in scheduling based on the study by Kuiper et al.&nbsp;These distributions can model the time until the next event in a queue, which is crucial for optimizing scheduling systems.</p>
 <p><strong>Python Example: Simulate a Scheduling Scenario</strong></p>
 <p>Simulate interarrival times and service times in a simple scheduling model:</p>
-<div id="a5e59d86" class="cell" data-execution_count="7">
+<div id="03c08f66" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate interarrival and service times</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>interarrival_times <span class="op">=</span> np.random.exponential(scale<span class="op">=</span><span class="dv">2</span>, size<span class="op">=</span><span class="dv">100</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>service_times <span class="op">=</span> np.random.gamma(shape<span class="op">=</span><span class="dv">2</span>, scale<span class="op">=</span><span class="fl">1.5</span>, size<span class="op">=</span><span class="dv">100</span>)</span>
@@ -473,7 +465,7 @@ Q = \begin{bmatrix}
 <p>We’ll implement an example of fitting an Erlang distribution (a special case of phase-type distributions with identical phases) using both methods. The Erlang distribution is chosen for its relative simplicity while still capturing the essence of the process.</p>
 <p><strong>Generating Sample Data</strong></p>
 <p>First, we’ll generate some synthetic data that follows an Erlang distribution:</p>
-<div id="d1de6399" class="cell" data-execution_count="8">
+<div id="ab5be920" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> erlang</span>
@@ -491,14 +483,14 @@ Q = \begin{bmatrix}
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-9-output-1.png" width="574" height="431" class="figure-img"></p>
+<p><img src="2024-05-03_files/figure-html/cell-9-output-1.png" width="566" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p><strong>Method of Moments</strong></p>
 <p>We’ll calculate the empirical mean and variance and use these to estimate the parameters of the Erlang distribution:</p>
-<div id="9b94e42d" class="cell" data-execution_count="9">
+<div id="1483e4ae" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>empirical_mean <span class="op">=</span> np.mean(data)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>empirical_var <span class="op">=</span> np.var(data)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -518,19 +510,19 @@ Q = \begin{bmatrix}
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Estimated Shape (k): 3
-Estimated Rate (lambda): 0.5037506905983797</code></pre>
+Estimated Rate (lambda): 0.5090518216313806</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-10-output-2.png" width="586" height="431" class="figure-img"></p>
+<p><img src="2024-05-03_files/figure-html/cell-10-output-2.png" width="579" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p><strong>Maximum Likelihood Estimation</strong></p>
 <p>For MLE, we can use optimization routines available in libraries such as SciPy to find the best-fit parameters:</p>
-<div id="80b27a4b" class="cell" data-execution_count="10">
+<div id="fc0416a7" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> gamma</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -557,19 +549,19 @@ Estimated Rate (lambda): 0.5037506905983797</code></pre>
 <span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
 <span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best Fit Shape: 3.0273222229711454
-Best Fit Scale: 1.9672017149259864</code></pre>
+<pre><code>Best Fit Shape: 2.6808882757583437
+Best Fit Scale: 2.1982684920631685</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/Users/witoldtenhove/Library/Python/3.9/lib/python/site-packages/scipy/stats/_continuous_distns.py:3417: RuntimeWarning:
 
-The shape parameter of the erlang distribution has been given a non-integer value array(3.02732222).
+The shape parameter of the erlang distribution has been given a non-integer value array(2.68088828).
 </code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-11-output-3.png" width="578" height="431" class="figure-img"></p>
+<p><img src="2024-05-03_files/figure-html/cell-11-output-3.png" width="571" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
