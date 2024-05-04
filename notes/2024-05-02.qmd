@@ -13,8 +13,6 @@ bibliography: bibliography.bib
 ```{=html}
 <iframe width="560" height="315" src="https://www.youtube.com/embed/zBXPBAuX-Us?si=X-lbkaziMQg3UMGm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
-
-
 ### Tutorial: Using the Multipoint Approximation Method (MAM) for Mixed Integer-Continuous Optimization Problems
 
 From: @liu2016implementation
@@ -22,10 +20,10 @@ From: @liu2016implementation
 The Multipoint Approximation Method (MAM) is a robust technique for solving mixed integer-continuous optimization problems where some variables are integers and others are continuous. This tutorial aims to explain MAM step-by-step, supplemented by Python code examples to help you implement the method.
 
 #### Step 1: Problem Formulation
+
 Start by clearly defining the optimization problem including the objective function to minimize or maximize, and any constraints.
 
-**Example:**
-Minimize the weight of a structure subject to stress constraints.
+**Example:** Minimize the weight of a structure subject to stress constraints.
 
 ```{python}
 import numpy as np
@@ -40,37 +38,42 @@ def constraint(x):
 ```
 
 #### Step 2: Initial Setup
+
 Define the bounds of your design variables and initialize them. For integer variables, ensure they can only take integer values.
 
 **Example:**
+
 ```{python}
 # Design variables: x1 (integer), x2 (continuous)
 bounds = [(1, 10), (0.0, 5.0)]
 initial_guess = [5, 2.5]
+no_samples = 20
 ```
 
 #### Step 3: Sampling and Surrogate Model Construction
+
 Generate a sample of design points considering the discrete nature of some variables. Construct surrogate models (metamodels) to approximate the objective and constraint functions.
 
 **Example:**
+
 ```{python}
 from sklearn.gaussian_process import GaussianProcessRegressor
 
 # Generate sample points
 np.random.seed(0)
-sample_points = np.random.randint(low=1, high=11, size=(10, 1)) # Integer variable
-sample_points = np.hstack((sample_points, np.random.uniform(low=0, high=5, size=(10, 1)))) # Add continuous variable
+sample_points = np.random.randint(low=bounds[0][0], high=bounds[0][1]+1, size=(no_samples, 1)) # Integer variable
+sample_points = np.hstack((sample_points, np.random.uniform(low=bounds[1][0], high=bounds[1][1], size=(no_samples, 1)))) # Add continuous variable
 
 # Surrogate model
 objective_values = np.array([objective(x) for x in sample_points])
-
-print("Sample points:", sample_points, "\nObjective values:", objective_values)
 model = GaussianProcessRegressor().fit(sample_points, objective_values)
+
+model.score(sample_points, objective_values)
 ```
 
 ```{python}
 #Plot sample points and objective values
-fig = px.scatter(x=sample_points[:, 0], y=sample_points[:, 1], color= objective_values, labels={'x': 'Integer Variable', 'y': 'Continuous Variable', 'color': 'Objective values'}, title='Distribution of Sample Points in Design Space', color_continuous_scale='deep')
+fig = px.scatter(x=sample_points[:, 0], y=sample_points[:, 1], color= objective_values, labels={'x': 'Integer Variable', 'y': 'Continuous Variable', 'color': 'Objective values'}, title='Distribution of Sample Points in Design Space', color_continuous_scale='haline')
 
 fig.update_traces(marker=dict(size=12))
 
@@ -78,17 +81,18 @@ fig.update_traces(marker=dict(size=12))
 fig.show()
 ```
 
-
 #### Step 4: Optimization Using Surrogate Model
+
 Optimize the surrogate model within a trust region. Adjust the size and position of the trust region based on the model's accuracy and the optimization results.
 
 **Example:**
+
 ```{python}
 from scipy.optimize import minimize
 
 # Trust region bounds
-trust_bounds = [(max(1, initial_guess[0]-2), min(10, initial_guess[0]+2)), 
-                (max(0.0, initial_guess[1]-1.0), min(5.0, initial_guess[1]+1.0))]
+trust_bounds = [(max(bounds[0][0], initial_guess[0]-2), min(bounds[0][1], initial_guess[0]+2)), 
+                (max(bounds[1][0], initial_guess[1]-1.0), min(bounds[1][1], initial_guess[1]+1.0))]
 
 # Minimize the surrogate model
 result = minimize(lambda x: model.predict(x.reshape(1, -1)), x0=initial_guess, bounds=trust_bounds)
@@ -114,20 +118,21 @@ fig.add_trace(go.Scatter(x=[result.x[0]], y=[result.x[1]], mode='markers', marke
 fig.show()
 ```
 
-
 #### Step 5: Update and Iterate
+
 Update the trust region and surrogate model based on the new information obtained. Repeat the optimization until convergence criteria are met.
 
 **Example:**
 
 ```{python}
 # Example of updating the trust region and re-optimizing
-trust_bounds = [(max(1, result.x[0]-1), min(10, result.x[0]+1)), 
-                (max(0.0, result.x[1]-0.5), min(5.0, result.x[1]+0.5))]
+trust_bounds = [(max(bounds[0][0], result.x[0]-1), min(bounds[0][1], result.x[0]+1)), 
+                (max(bounds[1][0],result.x[1]-0.5), min(bounds[1][1], result.x[1]+0.5))]
 
 result = minimize(lambda x: model.predict(x.reshape(1, -1)), x0=result.x, bounds=trust_bounds)
 print("Updated optimized parameters:", result.x)
 ```
+
 ```{python}
 # Plot trust bounds                
 fig.add_shape(
@@ -151,8 +156,8 @@ fig.show()
 
 ```{python}
 # Example of updating the trust region and re-optimizing
-trust_bounds = [(max(1, result.x[0]-1), min(10, result.x[0]+1)), 
-                (max(0.0, result.x[1]-0.5), min(5.0, result.x[1]+0.5))]
+trust_bounds = [(max(bounds[0][0], result.x[0]-1), min(bounds[0][1], result.x[0]+1)), 
+                (max(bounds[1][0],result.x[1]-0.5), min(bounds[1][1], result.x[1]+0.5))]
 
 result = minimize(lambda x: model.predict(x.reshape(1, -1)), x0=result.x, bounds=trust_bounds)
 print("Updated optimized parameters:", result.x)
@@ -177,5 +182,35 @@ fig.add_trace(go.Scatter(x=[result.x[0]], y=[result.x[1]], mode='markers', marke
 fig.show()
 ```
 
+```{python}
+# Example of updating the trust region and re-optimizing
+trust_bounds = [(max(bounds[0][0], result.x[0]-1), min(bounds[0][1], result.x[0]+1)), 
+                (max(bounds[1][0],result.x[1]-0.5), min(bounds[1][1], result.x[1]+0.5))]
+
+result = minimize(lambda x: model.predict(x.reshape(1, -1)), x0=result.x, bounds=trust_bounds)
+print("Updated optimized parameters:", result.x)
+```
+
+```{python}
+# Plot trust bounds                
+fig.add_shape(
+    # Rectangle reference to the axes
+    type="rect",
+    x0=trust_bounds[0][0], y0=trust_bounds[1][0], x1=trust_bounds[0][1], y1=trust_bounds[1][1],
+    line=dict(
+        color="Orange",
+        width=2,
+    ),
+    #fillcolor="Blue",
+    #opacity=0.2
+)
+
+fig.add_trace(go.Scatter(x=[result.x[0]], y=[result.x[1]], mode='markers', marker=dict(color='Orange', size=14), name='Optimized Point', showlegend = False))
+
+fig.show()
+```
+
+
 #### Conclusion
+
 The Multipoint Approximation Method (MAM) is a powerful technique for handling optimization problems involving both discrete and continuous variables. It uses surrogate models to approximate the objective and constraints, reducing the computational cost of evaluations. Iterative trust region adjustments ensure that the optimization converges effectively. This method is particularly useful in engineering design where the evaluation of the objective function and constraints can be computationally expensive.
