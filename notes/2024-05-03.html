@@ -136,40 +136,136 @@ window.Quarto = {
 
 <section id="phase-type-distributions-a-comprehensive-tutorial" class="level3">
 <h3 class="anchored" data-anchor-id="phase-type-distributions-a-comprehensive-tutorial"><strong>Phase-Type Distributions: A Comprehensive Tutorial</strong></h3>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oUwrCxqOQVU?si=io1i4-aMIs6bSdNk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
 <section id="introduction" class="level4">
 <h4 class="anchored" data-anchor-id="introduction"><strong>Introduction</strong></h4>
 <p>Phase-type distributions are an important class of stochastic models derived from absorbing times in continuous-time Markov chains (CTMCs). These distributions are highly flexible, capable of approximating virtually any positive-valued distribution, and are particularly useful for modeling stochastic processes in various scientific and engineering fields.</p>
 </section>
 <section id="step-1-understanding-the-basics" class="level4">
 <h4 class="anchored" data-anchor-id="step-1-understanding-the-basics"><strong>Step 1: Understanding the Basics</strong></h4>
-<p><strong>Continuous-Time Markov Chains (CTMCs)</strong></p>
-<p>A Continuous-Time Markov Chain (CTMC) is characterized by a set of states and the rates at which transitions occur between these states. The time that the process spends in each state is exponentially distributed, where the rate parameter is determined by the negative of the diagonal entries of the transition rate matrix <span class="math inline">\(Q\)</span>.</p>
-<p><strong>Python Example: Plot a Simple CTMC</strong></p>
-<p>This example demonstrates how to visualize the transition rate matrix <span class="math inline">\(Q\)</span> for a simple three-state CTMC:</p>
-<div id="f0589a86" class="cell" data-execution_count="1">
+<p><strong>Markov Chains and Continuous-Time Markov Chains (CTMCs)</strong></p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/WT6jI8UgROI?si=PIt4foc41A4xMNPv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
+<p>To explain the relationship between Markov chains and Continuous-Time Markov Chains (CTMCs) to a student with undergraduate math skills, let’s delve into definitions, distinctions, and practical coding examples. Both concepts fall under the umbrella of stochastic processes, which are essentially collections of random variables representing a process observed over time.</p>
+</section>
+</section>
+<section id="definitions" class="level3">
+<h3 class="anchored" data-anchor-id="definitions">Definitions</h3>
+<p><strong>Markov Chains:</strong> - A Markov Chain is a stochastic process involving a sequence of possible events in which the probability of each event depends only on the state attained in the previous event. - It is discrete both in time and state. This means the changes (transitions) occur at fixed discrete time points and the state space (set of all possible states) is discrete.</p>
+<p><strong>Continuous-Time Markov Chains (CTMCs):</strong> - A CTMC is a type of Markov Chain where the time between transitions is continuous. That is, transitions can occur at any time rather than at fixed discrete times. - The state space can be discrete (e.g., system is either up or down), but the timing of transitions follows a continuous probability distribution, typically an exponential distribution.</p>
+</section>
+<section id="key-differences" class="level3">
+<h3 class="anchored" data-anchor-id="key-differences">Key Differences</h3>
+<ul>
+<li><strong>Timing of Transitions</strong>: In standard Markov Chains, transitions occur at fixed discrete times (e.g., steps in a board game), whereas in CTMCs, transitions occur continuously over time (e.g., radioactive decay).</li>
+<li><strong>Mathematical Representation</strong>: Markov Chains often use a transition matrix to represent probabilities of moving from one state to another in one time step. CTMCs use a rate matrix (or generator matrix) where off-diagonal elements represent the rate of transitioning from one state to another and diagonal elements are calculated such that each row sums to zero.</li>
+</ul>
+</section>
+<section id="practical-examples" class="level3">
+<h3 class="anchored" data-anchor-id="practical-examples">Practical Examples</h3>
+<p>Let’s simulate both to illustrate the differences:</p>
+<p><strong>1. Simulating a Markov Chain (Discrete Time) - Gambler’s Ruin Example:</strong></p>
+<p>Here we simulate a gambler who bets until they either reach $100 or lose all their money, starting with $50, betting $1 at a time with equal probabilities of winning or losing.</p>
+<div id="9655323f" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the transition rate matrix for a 3-state CTMC</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> np.array([[<span class="op">-</span><span class="dv">1</span>, <span class="fl">0.7</span>, <span class="fl">0.3</span>], [<span class="fl">0.4</span>, <span class="op">-</span><span class="fl">1.2</span>, <span class="fl">0.8</span>], [<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="op">-</span><span class="dv">1</span>]])</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>cax <span class="op">=</span> ax.matshow(Q, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>fig.colorbar(cax)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'CTMC Transition Rate Matrix Q'</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gamblers_ruin():</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    funds <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    goal <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="dv">0</span> <span class="op">&lt;</span> funds <span class="op">&lt;</span> goal:</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        funds <span class="op">+=</span> np.random.choice([<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>])  <span class="co"># Gambler wins or loses $1</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> funds</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Run simulation and plot results</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> [gamblers_ruin() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1000</span>)]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>plt.hist(results, bins<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">100</span>], edgecolor<span class="op">=</span><span class="st">'black'</span>, align<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">100</span>])</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Final Amount ($)'</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Frequency'</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Gambler</span><span class="ch">\'</span><span class="st">s Ruin Simulation Results'</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-2-output-1.png" width="501" height="436" class="figure-img"></p>
+<p><img src="2024-05-03_files/figure-html/cell-2-output-1.png" width="606" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>2. Simulating a Continuous-Time Markov Chain (CTMC) - Simple Queue System:</strong></p>
+<p>We simulate a queue system where customers arrive according to a Poisson process (CTMC aspect), and each customer has a service time that is exponentially distributed.</p>
+<div id="09b34fbf" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ctmc_queue_simulation(lam, mu, max_time):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    current_time <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    events <span class="op">=</span> []</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Start with no customers</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> current_time <span class="op">&lt;</span> max_time:</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        wait_time <span class="op">=</span> np.random.exponential(<span class="dv">1</span><span class="op">/</span>lam)  <span class="co"># Time until next customer arrives</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        current_time <span class="op">+=</span> wait_time</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> current_time <span class="op">&gt;=</span> max_time:</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        service_time <span class="op">=</span> np.random.exponential(<span class="dv">1</span><span class="op">/</span>mu)  <span class="co"># Service time for the customer</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        events.append((current_time, service_time))</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> events</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters: arrival rate (lam), service rate (mu), and simulation time</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>lam, mu, max_time <span class="op">=</span> <span class="dv">1</span>, <span class="fl">0.5</span>, <span class="dv">50</span>  <span class="co"># Customers per unit time, service rate, total simulation time</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>events <span class="op">=</span> ctmc_queue_simulation(lam, mu, max_time)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting arrivals and service completions</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>times, durations <span class="op">=</span> <span class="bu">zip</span>(<span class="op">*</span>events)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>completion_times <span class="op">=</span> [x <span class="op">+</span> y <span class="cf">for</span> x, y <span class="kw">in</span> <span class="bu">zip</span>(times, durations)]</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>plt.step(times, <span class="bu">range</span>(<span class="bu">len</span>(times)), label<span class="op">=</span><span class="st">'Arrivals'</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>plt.step(completion_times, <span class="bu">range</span>(<span class="bu">len</span>(times)), label<span class="op">=</span><span class="st">'Completions'</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Time'</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Number of Customers'</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Queue Simulation Using CTMC'</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2024-05-03_files/figure-html/cell-3-output-1.png" width="585" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="explanation" class="level3">
+<h3 class="anchored" data-anchor-id="explanation">Explanation</h3>
+<ul>
+<li>The <strong>Gambler’s Ruin</strong> simulation represents a Markov chain with discrete steps, where each step is a gamble resulting in either winning or losing $1.</li>
+<li>The <strong>Queue System</strong> uses CTMC where the time until the next event (arrival or service completion) is continuous, modelled by exponential distributions.</li>
+</ul>
+<p>These examples highlight the core differences in how discrete Markov chains and CTMCs are used to model and simulate real-world processes. Each method has applications suited to different types of problems, emphasizing the need to choose the right model based on the nature of the time intervals involved in the process</p>
+<section id="step-2-mathematical-foundations-key-parameters-and-their-interpretations" class="level4">
+<h4 class="anchored" data-anchor-id="step-2-mathematical-foundations-key-parameters-and-their-interpretations"><strong>Step 2: Mathematical Foundations: Key Parameters and Their Interpretations</strong></h4>
+<p><strong>Continuous-Time Markov Chain (Q)</strong> A Continuous-Time Markov Chain (CTMC) is characterized by a set of states and the rates at which transitions occur between these states. The time that the process spends in each state is exponentially distributed, where the rate parameter is determined by the negative of the diagonal entries of the transition rate matrix <span class="math inline">\(Q\)</span>.</p>
+<p><strong>Python Example: Plot a Simple CTMC</strong></p>
+<p>This example demonstrates how to visualize the transition rate matrix <span class="math inline">\(Q\)</span> for a simple three-state CTMC:</p>
+<div id="f8897f29" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the transition rate matrix for a 3-state CTMC</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> np.array([[<span class="op">-</span><span class="dv">1</span>, <span class="fl">0.7</span>, <span class="fl">0.3</span>], [<span class="fl">0.4</span>, <span class="op">-</span><span class="fl">1.2</span>, <span class="fl">0.8</span>], [<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="op">-</span><span class="dv">1</span>]])</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>cax <span class="op">=</span> ax.matshow(Q, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>fig.colorbar(cax)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'CTMC Transition Rate Matrix Q'</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2024-05-03_files/figure-html/cell-4-output-1.png" width="501" height="436" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>This matrix <span class="math inline">\(Q\)</span> includes rates for transitions between all states. The off-diagonal elements indicate the rates of moving from one state to another, while the diagonal elements, being negative, signify the rates of leaving each state.</p>
-</section>
-<section id="step-2-mathematical-foundations-key-parameters-and-their-interpretations" class="level4">
-<h4 class="anchored" data-anchor-id="step-2-mathematical-foundations-key-parameters-and-their-interpretations"><strong>Step 2: Mathematical Foundations: Key Parameters and Their Interpretations</strong></h4>
 <p><strong>Subgenerator Matrix (S)</strong> The subgenerator matrix <span class="math inline">\(S\)</span> of a phase-type distribution is a key component that describes the rates at which transitions occur between the transient states of a continuous-time Markov chain (CTMC). It’s important to note that:</p>
 <ul>
 <li>Each <strong>off-diagonal</strong> element <span class="math inline">\(S_{ij}\)</span> (where <span class="math inline">\(i \neq j\)</span>) in the matrix represents the transition rate from state <span class="math inline">\(i\)</span> to state <span class="math inline">\(j\)</span>. These values must be non-negative.</li>
@@ -207,37 +303,37 @@ Q = \begin{bmatrix}
   \end{bmatrix}
 \]</span> This matrix <span class="math inline">\(S\)</span> is derived from <span class="math inline">\(Q\)</span> by removing the rows and columns associated with the absorbing state, focusing only on the transitions between the transient states.</p>
 <p><strong>Python Visualization</strong></p>
-<div id="c1c796b8" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the full generator matrix for a 3-state CTMC with the third state absorbing</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> np.array([</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    [<span class="op">-</span><span class="dv">1</span>, <span class="fl">0.7</span>, <span class="fl">0.3</span>],</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.4</span>, <span class="op">-</span><span class="fl">1.2</span>, <span class="fl">0.8</span>],</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>])</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the subgenerator matrix S (only transient states)</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> Q[:<span class="dv">2</span>, :<span class="dv">2</span>]  <span class="co"># Exclude the third row and column</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Q</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>cax1 <span class="op">=</span> ax1.matshow(Q, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>fig.colorbar(cax1, ax<span class="op">=</span>ax1)</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">'CTMC Transition Rate Matrix Q'</span>)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot S</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>cax2 <span class="op">=</span> ax2.matshow(S, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>fig.colorbar(cax2, ax<span class="op">=</span>ax2)</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">'Subgenerator Matrix S'</span>)</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7b7a0910" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the full generator matrix for a 3-state CTMC with the third state absorbing</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> np.array([</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    [<span class="op">-</span><span class="dv">1</span>, <span class="fl">0.7</span>, <span class="fl">0.3</span>],</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.4</span>, <span class="op">-</span><span class="fl">1.2</span>, <span class="fl">0.8</span>],</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>]</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the subgenerator matrix S (only transient states)</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> Q[:<span class="dv">2</span>, :<span class="dv">2</span>]  <span class="co"># Exclude the third row and column</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Q</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>cax1 <span class="op">=</span> ax1.matshow(Q, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>fig.colorbar(cax1, ax<span class="op">=</span>ax1)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>ax1.set_title(<span class="st">'CTMC Transition Rate Matrix Q'</span>)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot S</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>cax2 <span class="op">=</span> ax2.matshow(S, cmap<span class="op">=</span><span class="st">'viridis'</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>fig.colorbar(cax2, ax<span class="op">=</span>ax2)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>ax2.set_title(<span class="st">'Subgenerator Matrix S'</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-3-output-1.png" width="799" height="389" class="figure-img"></p>
+<p><img src="2024-05-03_files/figure-html/cell-5-output-1.png" width="799" height="389" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -254,42 +350,42 @@ Q = \begin{bmatrix}
 </ul>
 <p><strong>Python Example: Calculate and Plot State Probabilities Over Time</strong></p>
 <p>Let’s enhance the previous Python example to make it clearer how these probabilities change over time and how to visualize and interpret the resulting matrix.</p>
-<div id="b55f88a7" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> expm</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the transition rate matrix for a 3-state CTMC</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> np.array([[<span class="op">-</span><span class="dv">1</span>, <span class="fl">0.7</span>, <span class="fl">0.3</span>], [<span class="fl">0.4</span>, <span class="op">-</span><span class="fl">1.2</span>, <span class="fl">0.8</span>], [<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="op">-</span><span class="dv">1</span>]])</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the subgenerator matrix for a CTMC with 3 transient states</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> Q</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Time point for state probability calculation</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="dv">5</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the matrix exponential of S * t to get state probabilities at time t</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>P_t <span class="op">=</span> expm(S <span class="op">*</span> t)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a heatmap to visualize the state probabilities</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>cax <span class="op">=</span> ax.matshow(P_t, cmap<span class="op">=</span><span class="st">'Reds'</span>)</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>fig.colorbar(cax)</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Set labels for readability</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'State at Time t'</span>)</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Initial State'</span>)</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f'State Probabilities at Time t=</span><span class="sc">{</span>t<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>ax.set_xticks(<span class="bu">range</span>(<span class="bu">len</span>(P_t)))</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(<span class="bu">range</span>(<span class="bu">len</span>(P_t)))</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>ax.set_xticklabels([<span class="ss">f'State </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(P_t))])</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels([<span class="ss">f'State </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(P_t))])</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="48237e0d" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> expm</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the transition rate matrix for a 3-state CTMC</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> np.array([[<span class="op">-</span><span class="dv">1</span>, <span class="fl">0.7</span>, <span class="fl">0.3</span>], [<span class="fl">0.4</span>, <span class="op">-</span><span class="fl">1.2</span>, <span class="fl">0.8</span>], [<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="op">-</span><span class="dv">1</span>]])</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the subgenerator matrix for a CTMC with 3 transient states</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> Q</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Time point for state probability calculation</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute the matrix exponential of S * t to get state probabilities at time t</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>P_t <span class="op">=</span> expm(S <span class="op">*</span> t)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a heatmap to visualize the state probabilities</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>cax <span class="op">=</span> ax.matshow(P_t, cmap<span class="op">=</span><span class="st">'Reds'</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>fig.colorbar(cax)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Set labels for readability</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'State at Time t'</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'Initial State'</span>)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f'State Probabilities at Time t=</span><span class="sc">{</span>t<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>ax.set_xticks(<span class="bu">range</span>(<span class="bu">len</span>(P_t)))</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(<span class="bu">range</span>(<span class="bu">len</span>(P_t)))</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>ax.set_xticklabels([<span class="ss">f'State </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(P_t))])</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels([<span class="ss">f'State </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(P_t))])</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-4-output-1.png" width="548" height="454" class="figure-img"></p>
+<p><img src="2024-05-03_files/figure-html/cell-6-output-1.png" width="548" height="454" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -308,20 +404,20 @@ Q = \begin{bmatrix}
 <p>This step discusses several important special cases of phase-type distributions such as exponential, Erlang, hyperexponential, and Coxian distributions.</p>
 <p><strong>Python Example: Generate Data from an Erlang Distribution</strong></p>
 <p>Generate and visualize data from an Erlang distribution, which is a common model for aggregated exponential processes like service times in systems:</p>
-<div id="e1a5c382" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate data from an Erlang distribution with shape=3 and scale=1</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.gamma(shape<span class="op">=</span><span class="dv">3</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span><span class="dv">1000</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">40</span>, color<span class="op">=</span><span class="st">'purple'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Histogram of Erlang Distributed Data'</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="49290443" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate data from an Erlang distribution with shape=3 and scale=1</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.gamma(shape<span class="op">=</span><span class="dv">3</span>, scale<span class="op">=</span><span class="dv">1</span>, size<span class="op">=</span><span class="dv">1000</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">40</span>, color<span class="op">=</span><span class="st">'purple'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Histogram of Erlang Distributed Data'</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-5-output-1.png" width="566" height="431" class="figure-img"></p>
+<p><img src="2024-05-03_files/figure-html/cell-7-output-1.png" width="566" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -333,23 +429,23 @@ Q = \begin{bmatrix}
 <p>Explore the application of phase-type distributions in scheduling based on the study by Kuiper et al.&nbsp;These distributions can model the time until the next event in a queue, which is crucial for optimizing scheduling systems.</p>
 <p><strong>Python Example: Simulate a Scheduling Scenario</strong></p>
 <p>Simulate interarrival times and service times in a simple scheduling model:</p>
-<div id="922a0f06" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate interarrival and service times</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>interarrival_times <span class="op">=</span> np.random.exponential(scale<span class="op">=</span><span class="dv">2</span>, size<span class="op">=</span><span class="dv">100</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>service_times <span class="op">=</span> np.random.gamma(shape<span class="op">=</span><span class="dv">2</span>, scale<span class="op">=</span><span class="fl">1.5</span>, size<span class="op">=</span><span class="dv">100</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.hist(interarrival_times, bins<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">'blue'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Interarrival Times'</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>plt.hist(service_times, bins<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">'red'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Service Times'</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="41ba2e2c" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate interarrival and service times</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>interarrival_times <span class="op">=</span> np.random.exponential(scale<span class="op">=</span><span class="dv">2</span>, size<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>service_times <span class="op">=</span> np.random.gamma(shape<span class="op">=</span><span class="dv">2</span>, scale<span class="op">=</span><span class="fl">1.5</span>, size<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>plt.hist(interarrival_times, bins<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">'blue'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Interarrival Times'</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>plt.subplot(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>plt.hist(service_times, bins<span class="op">=</span><span class="dv">20</span>, color<span class="op">=</span><span class="st">'red'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Service Times'</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-6-output-1.png" width="951" height="505" class="figure-img"></p>
+<p><img src="2024-05-03_files/figure-html/cell-8-output-1.png" width="951" height="505" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -374,103 +470,103 @@ Q = \begin{bmatrix}
 <p>We’ll implement an example of fitting an Erlang distribution (a special case of phase-type distributions with identical phases) using both methods. The Erlang distribution is chosen for its relative simplicity while still capturing the essence of the process.</p>
 <p><strong>Generating Sample Data</strong></p>
 <p>First, we’ll generate some synthetic data that follows an Erlang distribution:</p>
-<div id="7b25970f" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> erlang</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate synthetic data</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>shape <span class="op">=</span> <span class="dv">3</span>  <span class="co"># Number of phases in series</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>scale <span class="op">=</span> <span class="dv">2</span>  <span class="co"># Rate parameter</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>size <span class="op">=</span> <span class="dv">500</span>  <span class="co"># Number of data points</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.gamma(shape, scale, size)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">30</span>, color<span class="op">=</span><span class="st">'blue'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Histogram of Generated Erlang Distribution Data"</span>)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="232939b7" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> erlang</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate synthetic data</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>shape <span class="op">=</span> <span class="dv">3</span>  <span class="co"># Number of phases in series</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>scale <span class="op">=</span> <span class="dv">2</span>  <span class="co"># Rate parameter</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>size <span class="op">=</span> <span class="dv">500</span>  <span class="co"># Number of data points</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> np.random.gamma(shape, scale, size)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">30</span>, color<span class="op">=</span><span class="st">'blue'</span>, alpha<span class="op">=</span><span class="fl">0.75</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Histogram of Generated Erlang Distribution Data"</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-7-output-1.png" width="566" height="431" class="figure-img"></p>
+<p><img src="2024-05-03_files/figure-html/cell-9-output-1.png" width="566" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p><strong>Method of Moments</strong></p>
 <p>We’ll calculate the empirical mean and variance and use these to estimate the parameters of the Erlang distribution:</p>
-<div id="3e317523" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>empirical_mean <span class="op">=</span> np.mean(data)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>empirical_var <span class="op">=</span> np.var(data)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Erlang k (shape) estimated as (mean^2 / variance)</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>estimated_k <span class="op">=</span> <span class="bu">round</span>(empirical_mean<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> empirical_var)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>estimated_lambda <span class="op">=</span> estimated_k <span class="op">/</span> empirical_mean</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Estimated Shape (k): </span><span class="sc">{</span>estimated_k<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Estimated Rate (lambda): </span><span class="sc">{</span>estimated_lambda<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot to compare</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="bu">max</span>(data), <span class="dv">100</span>)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">30</span>, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data Histogram'</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>plt.plot(x, erlang.pdf(x, a<span class="op">=</span>estimated_k, scale<span class="op">=</span><span class="dv">1</span><span class="op">/</span>estimated_lambda), <span class="st">'r-'</span>, label<span class="op">=</span><span class="st">'Fitted Erlang PDF'</span>)</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Erlang Fitting Using Method of Moments"</span>)</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="309a58e0" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>empirical_mean <span class="op">=</span> np.mean(data)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>empirical_var <span class="op">=</span> np.var(data)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Erlang k (shape) estimated as (mean^2 / variance)</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>estimated_k <span class="op">=</span> <span class="bu">round</span>(empirical_mean<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> empirical_var)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>estimated_lambda <span class="op">=</span> estimated_k <span class="op">/</span> empirical_mean</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Estimated Shape (k): </span><span class="sc">{</span>estimated_k<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Estimated Rate (lambda): </span><span class="sc">{</span>estimated_lambda<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot to compare</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="bu">max</span>(data), <span class="dv">100</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">30</span>, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data Histogram'</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>plt.plot(x, erlang.pdf(x, a<span class="op">=</span>estimated_k, scale<span class="op">=</span><span class="dv">1</span><span class="op">/</span>estimated_lambda), <span class="st">'r-'</span>, label<span class="op">=</span><span class="st">'Fitted Erlang PDF'</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Erlang Fitting Using Method of Moments"</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Estimated Shape (k): 3
-Estimated Rate (lambda): 0.49758242187607193</code></pre>
+Estimated Rate (lambda): 0.4811218445310684</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-8-output-2.png" width="579" height="431" class="figure-img"></p>
+<p><img src="2024-05-03_files/figure-html/cell-10-output-2.png" width="579" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p><strong>Maximum Likelihood Estimation</strong></p>
 <p>For MLE, we can use optimization routines available in libraries such as SciPy to find the best-fit parameters:</p>
-<div id="086c8921" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> gamma</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the negative log-likelihood function for the Gamma distribution</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neg_log_likelihood(params, data):</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    shape, scale <span class="op">=</span> params</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>np.<span class="bu">sum</span>(gamma.logpdf(data, a<span class="op">=</span>shape, scale<span class="op">=</span>scale))</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial guesses for shape and scale</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>initial_guess <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">1</span>]</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Minimize the negative log-likelihood</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> minimize(neg_log_likelihood, initial_guess, args<span class="op">=</span>(data,), bounds<span class="op">=</span>((<span class="dv">1</span>, <span class="va">None</span>), (<span class="fl">0.1</span>, <span class="va">None</span>)))</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>best_fit_shape, best_fit_scale <span class="op">=</span> result.x</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best Fit Shape: </span><span class="sc">{</span>best_fit_shape<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best Fit Scale: </span><span class="sc">{</span>best_fit_scale<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the results</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">30</span>, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data Histogram'</span>)</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>plt.plot(x, erlang.pdf(x, a<span class="op">=</span>best_fit_shape, scale<span class="op">=</span><span class="dv">1</span><span class="op">/</span>best_fit_scale), <span class="st">'g-'</span>, label<span class="op">=</span><span class="st">'MLE Fitted Erlang PDF'</span>)</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Erlang Fitting Using MLE"</span>)</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cc74e15d" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> gamma</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the negative log-likelihood function for the Gamma distribution</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neg_log_likelihood(params, data):</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    shape, scale <span class="op">=</span> params</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>np.<span class="bu">sum</span>(gamma.logpdf(data, a<span class="op">=</span>shape, scale<span class="op">=</span>scale))</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial guesses for shape and scale</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>initial_guess <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">1</span>]</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Minimize the negative log-likelihood</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> minimize(neg_log_likelihood, initial_guess, args<span class="op">=</span>(data,), bounds<span class="op">=</span>((<span class="dv">1</span>, <span class="va">None</span>), (<span class="fl">0.1</span>, <span class="va">None</span>)))</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>best_fit_shape, best_fit_scale <span class="op">=</span> result.x</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best Fit Shape: </span><span class="sc">{</span>best_fit_shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best Fit Scale: </span><span class="sc">{</span>best_fit_scale<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Plotting the results</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>plt.hist(data, bins<span class="op">=</span><span class="dv">30</span>, density<span class="op">=</span><span class="va">True</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Data Histogram'</span>)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>plt.plot(x, erlang.pdf(x, a<span class="op">=</span>best_fit_shape, scale<span class="op">=</span><span class="dv">1</span><span class="op">/</span>best_fit_scale), <span class="st">'g-'</span>, label<span class="op">=</span><span class="st">'MLE Fitted Erlang PDF'</span>)</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Erlang Fitting Using MLE"</span>)</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Best Fit Shape: 3.1051980706416096
-Best Fit Scale: 1.9416320841926284</code></pre>
+<pre><code>Best Fit Shape: 3.0153156568284474
+Best Fit Scale: 2.0679181266875135</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/Users/witoldtenhove/Library/Python/3.9/lib/python/site-packages/scipy/stats/_continuous_distns.py:3417: RuntimeWarning:
 
-The shape parameter of the erlang distribution has been given a non-integer value array(3.10519807).
+The shape parameter of the erlang distribution has been given a non-integer value array(3.01531566).
 </code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="2024-05-03_files/figure-html/cell-9-output-3.png" width="571" height="431" class="figure-img"></p>
+<p><img src="2024-05-03_files/figure-html/cell-11-output-3.png" width="571" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>

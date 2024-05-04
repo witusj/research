@@ -10,14 +10,114 @@ bibliography: bibliography.bib
 
 ### **Phase-Type Distributions: A Comprehensive Tutorial**
 
+```{=html}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/oUwrCxqOQVU?si=io1i4-aMIs6bSdNk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+```
+
+
 #### **Introduction**
 
 Phase-type distributions are an important class of stochastic models derived from absorbing times in continuous-time Markov chains (CTMCs). These distributions are highly flexible, capable of approximating virtually any positive-valued distribution, and are particularly useful for modeling stochastic processes in various scientific and engineering fields.
 
 #### **Step 1: Understanding the Basics**
 
-**Continuous-Time Markov Chains (CTMCs)**
+**Markov Chains and Continuous-Time Markov Chains (CTMCs)**
 
+```{=html}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/WT6jI8UgROI?si=PIt4foc41A4xMNPv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+```
+
+To explain the relationship between Markov chains and Continuous-Time Markov Chains (CTMCs) to a student with undergraduate math skills, let's delve into definitions, distinctions, and practical coding examples. Both concepts fall under the umbrella of stochastic processes, which are essentially collections of random variables representing a process observed over time.
+
+### Definitions
+
+**Markov Chains:**
+- A Markov Chain is a stochastic process involving a sequence of possible events in which the probability of each event depends only on the state attained in the previous event.
+- It is discrete both in time and state. This means the changes (transitions) occur at fixed discrete time points and the state space (set of all possible states) is discrete.
+
+**Continuous-Time Markov Chains (CTMCs):**
+- A CTMC is a type of Markov Chain where the time between transitions is continuous. That is, transitions can occur at any time rather than at fixed discrete times.
+- The state space can be discrete (e.g., system is either up or down), but the timing of transitions follows a continuous probability distribution, typically an exponential distribution.
+
+### Key Differences
+- **Timing of Transitions**: In standard Markov Chains, transitions occur at fixed discrete times (e.g., steps in a board game), whereas in CTMCs, transitions occur continuously over time (e.g., radioactive decay).
+- **Mathematical Representation**: Markov Chains often use a transition matrix to represent probabilities of moving from one state to another in one time step. CTMCs use a rate matrix (or generator matrix) where off-diagonal elements represent the rate of transitioning from one state to another and diagonal elements are calculated such that each row sums to zero.
+
+### Practical Examples
+
+Let’s simulate both to illustrate the differences:
+
+**1. Simulating a Markov Chain (Discrete Time) - Gambler's Ruin Example:**
+
+Here we simulate a gambler who bets until they either reach $100 or lose all their money, starting with $50, betting $1 at a time with equal probabilities of winning or losing.
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def gamblers_ruin():
+    funds = 50
+    goal = 100
+    while 0 < funds < goal:
+        funds += np.random.choice([-1, 1])  # Gambler wins or loses $1
+    return funds
+
+# Run simulation and plot results
+results = [gamblers_ruin() for _ in range(1000)]
+plt.hist(results, bins=[0, 50, 100], edgecolor='black', align='left')
+plt.xticks([0, 50, 100])
+plt.xlabel('Final Amount ($)')
+plt.ylabel('Frequency')
+plt.title('Gambler\'s Ruin Simulation Results')
+plt.show()
+```
+
+**2. Simulating a Continuous-Time Markov Chain (CTMC) - Simple Queue System:**
+
+We simulate a queue system where customers arrive according to a Poisson process (CTMC aspect), and each customer has a service time that is exponentially distributed.
+
+```{python}
+def ctmc_queue_simulation(lam, mu, max_time):
+    current_time = 0
+    events = []
+
+    # Start with no customers
+    while current_time < max_time:
+        wait_time = np.random.exponential(1/lam)  # Time until next customer arrives
+        current_time += wait_time
+        if current_time >= max_time:
+            break
+        service_time = np.random.exponential(1/mu)  # Service time for the customer
+        events.append((current_time, service_time))
+    
+    return events
+
+# Parameters: arrival rate (lam), service rate (mu), and simulation time
+lam, mu, max_time = 1, 0.5, 50  # Customers per unit time, service rate, total simulation time
+events = ctmc_queue_simulation(lam, mu, max_time)
+
+# Plotting arrivals and service completions
+times, durations = zip(*events)
+completion_times = [x + y for x, y in zip(times, durations)]
+plt.step(times, range(len(times)), label='Arrivals')
+plt.step(completion_times, range(len(times)), label='Completions')
+plt.xlabel('Time')
+plt.ylabel('Number of Customers')
+plt.title('Queue Simulation Using CTMC')
+plt.legend()
+plt.show()
+```
+
+### Explanation
+
+- The **Gambler's Ruin** simulation represents a Markov chain with discrete steps, where each step is a gamble resulting in either winning or losing $1.
+- The **Queue System** uses CTMC where the time until the next event (arrival or service completion) is continuous, modelled by exponential distributions.
+
+These examples highlight the core differences in how discrete Markov chains and CTMCs are used to model and simulate real-world processes. Each method has applications suited to different types of problems, emphasizing the need to choose the right model based on the nature of the time intervals involved in the process
+
+#### **Step 2: Mathematical Foundations: Key Parameters and Their Interpretations**
+
+**Continuous-Time Markov Chain (Q)**
 A Continuous-Time Markov Chain (CTMC) is characterized by a set of states and the rates at which transitions occur between these states. The time that the process spends in each state is exponentially distributed, where the rate parameter is determined by the negative of the diagonal entries of the transition rate matrix $Q$.
 
 **Python Example: Plot a Simple CTMC**
@@ -39,9 +139,6 @@ plt.show()
 ```
 
 This matrix $Q$ includes rates for transitions between all states. The off-diagonal elements indicate the rates of moving from one state to another, while the diagonal elements, being negative, signify the rates of leaving each state.
-
-
-#### **Step 2: Mathematical Foundations: Key Parameters and Their Interpretations**
 
 **Subgenerator Matrix (S)**
 The subgenerator matrix $S$ of a phase-type distribution is a key component that describes the rates at which transitions occur between the transient states of a continuous-time Markov chain (CTMC). It’s important to note that:
@@ -167,8 +264,8 @@ ax.set_ylabel('Initial State')
 ax.set_title(f'State Probabilities at Time t={t}')
 ax.set_xticks(range(len(P_t)))
 ax.set_yticks(range(len(P_t)))
-ax.set_xticklabels([f'State {i+1}' for i in range(len(P_t))])
-ax.set_yticklabels([f'State {i+1}' for i in range(len(P_t))])
+ax.set_xticklabels([f'State {i}' for i in range(len(P_t))])
+ax.set_yticklabels([f'State {i}' for i in range(len(P_t))])
 
 plt.show()
 ```
