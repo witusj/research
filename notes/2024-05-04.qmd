@@ -16,7 +16,11 @@ Read @https://doi.org/10.1111/deci.12517
 <iframe width="560" height="315" src="https://www.youtube.com/embed/oUwrCxqOQVU?si=io1i4-aMIs6bSdNk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
 
-![](/pdfs/tutorial1.pdf){width=800px height=500px}
+```{=html}
+<iframe src="https://drive.google.com/file/d/1HcoqplpsC2tTzyqtResMdXpHAwR9FtrA/preview" width="80%" height="500px"></iframe>
+```
+
+[Slides](https://drive.google.com/file/d/1HcoqplpsC2tTzyqtResMdXpHAwR9FtrA/view?usp=sharing){target="_blank"}
 
 ## Tutorial on Phase-Type Distributions
 
