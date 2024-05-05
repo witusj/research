@@ -16,624 +16,103 @@ Read @https://doi.org/10.1111/deci.12517
 <iframe width="560" height="315" src="https://www.youtube.com/embed/oUwrCxqOQVU?si=io1i4-aMIs6bSdNk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
 
+![](/pdfs/tutorial1.pdf){width=800px height=500px}
 
-#### **Introduction**
+## Tutorial on Phase-Type Distributions
 
-Phase-type distributions are an important class of stochastic models derived from absorbing times in continuous-time Markov chains (CTMCs). These distributions are highly flexible, capable of approximating virtually any positive-valued distribution, and are particularly useful for modeling stochastic processes in various scientific and engineering fields.
+### Chapter 1: Introduction to Phase-Type (PH) Distributions
 
-#### **Step 1: Understanding the Basics**
+Phase-Type distributions are an essential tool in stochastic modeling, allowing for the representation of a vast array of processes. They are defined by a continuous-time Markov chain (CTMC) that includes one absorbing state, making them flexible for modeling time until absorption in systems.
 
-**Markov Chains and Continuous-Time Markov Chains (CTMCs)**
+#### Python Example: CTMC Visualization
 
-```{=html}
-<iframe width="560" height="315" src="https://www.youtube.com/embed/WT6jI8UgROI?si=PIt4foc41A4xMNPv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-```
-
-To explain the relationship between Markov chains and Continuous-Time Markov Chains (CTMCs) to a student with undergraduate math skills, let's delve into definitions, distinctions, and practical coding examples. Both concepts fall under the umbrella of stochastic processes, which are essentially collections of random variables representing a process observed over time.
-
-**Definitions**
-
-**Markov Chains:**
-- A Markov Chain is a stochastic process involving a sequence of possible events in which the probability of each event depends only on the state attained in the previous event.
-- It is discrete both in time and state. This means the changes (transitions) occur at fixed discrete time points and the state space (set of all possible states) is discrete.
-
-**Continuous-Time Markov Chains (CTMCs):**
-- A CTMC is a type of Markov Chain where the time between transitions is continuous. That is, transitions can occur at any time rather than at fixed discrete times.
-- The state space can be discrete (e.g., system is either up or down), but the timing of transitions follows a continuous probability distribution, typically an exponential distribution.
-
-**Key Differences**
-
-- **Timing of Transitions**: In standard Markov Chains, transitions occur at fixed discrete times (e.g., steps in a board game), whereas in CTMCs, transitions occur continuously over time (e.g., radioactive decay).
-- **Mathematical Representation**: Markov Chains often use a transition matrix to represent probabilities of moving from one state to another in one time step. CTMCs use a rate matrix (or generator matrix) where off-diagonal elements represent the rate of transitioning from one state to another and diagonal elements are calculated such that each row sums to zero.
-
-**Practical Example**
-
-Let’s simulate both to illustrate the differences:
-
-**1. Simulating a Markov Chain (Discrete Time) - Gambler's Ruin Example:**
-
-Here we simulate a gambler who bets until they either reach $100 or lose all their money, starting with $50, betting $1 at a time with equal probabilities of winning or losing.
+We'll start by visualizing a simple CTMC that can be represented as a Phase-Type distribution. Here's how you can set up a basic model in Python using the Plotly library:
 
 ```{python}
 import numpy as np
 import plotly.graph_objects as go
 
-def gamblers_ruin():
-    funds = 50
-    goal = 100
-    while 0 < funds < goal:
-        funds += np.random.choice([-1, 1])  # Gambler wins or loses $1
-    return funds
-
-# Run simulation
-results = [gamblers_ruin() for _ in range(1000)]
-
-# Count outcomes
-zeros = sum(1 for x in results if x == 0)
-fifties = sum(1 for x in results if x == 50)
-hundreds = sum(1 for x in results if x == 100)
-
-# Plot using Plotly
-fig = go.Figure(go.Bar(
-    x=['$0', '$50', '$100'], 
-    y=[zeros, fifties, hundreds],
-    marker_color=['red', 'blue', 'green']
-))
-
-fig.update_layout(
-    title="Gambler's Ruin Simulation Results",
-    xaxis_title="Final Amount ($)",
-    yaxis_title="Frequency",
-    template="plotly_white"
-)
-
-fig.show()
-
-```
-
-**2. Simulating a Continuous-Time Markov Chain (CTMC) - Simple Queue System:**
-
-We simulate a queue system where customers arrive according to a Poisson process (CTMC aspect), and each customer has a service time that is exponentially distributed.
-
-```{python}
-def ctmc_queue_simulation(lam, mu, max_time):
-    current_time = 0
-    events = []
-
-    # Start with no customers
-    while current_time < max_time:
-        wait_time = np.random.exponential(1/lam)  # Time until next customer arrives
-        current_time += wait_time
-        if current_time >= max_time:
-            break
-        service_time = np.random.exponential(1/mu)  # Service time for the customer
-        events.append((current_time, service_time))
-    
-    return events
-
-# Parameters: arrival rate (lam), service rate (mu), and simulation time
-lam, mu, max_time = 1, 0.5, 50  # Customers per unit time, service rate, total simulation time
-events = ctmc_queue_simulation(lam, mu, max_time)
-
-# Extracting times and service completions
-times, durations = zip(*events)
-completion_times = [x + y for x, y in zip(times, durations)]
-
-# Creating Plotly figure
-fig = go.Figure()
-
-# Adding arrival times step plot
-fig.add_trace(go.Scatter(
-    x=times,
-    y=list(range(len(times))),
-    mode='lines+markers',
-    name='Arrivals',
-    line=dict(shape='hv')  # Horizontal-Vertical step
-))
-
-# Adding completion times step plot
-fig.add_trace(go.Scatter(
-    x=completion_times,
-    y=list(range(len(times))),
-    mode='lines+markers',
-    name='Completions',
-    line=dict(shape='hv')  # Horizontal-Vertical step
-))
-
-# Updating layout
-fig.update_layout(
-    title='Queue Simulation Using CTMC',
-    xaxis_title='Time',
-    yaxis_title='Number of Customers',
-    template='plotly_white'
-)
-
-fig.show()
-```
-
-**Explanation**
-
-- The **Gambler's Ruin** simulation represents a Markov chain with discrete steps, where each step is a gamble resulting in either winning or losing $1.
-- The **Queue System** uses CTMC where the time until the next event (arrival or service completion) is continuous, modelled by exponential distributions.
-
-These examples highlight the core differences in how discrete Markov chains and CTMCs are used to model and simulate real-world processes. Each method has applications suited to different types of problems, emphasizing the need to choose the right model based on the nature of the time intervals involved in the process
-
-#### **Step 2: Mathematical Foundations: Key Parameters and Their Interpretations**
-
-**Continuous-Time Markov Chain (Q)**
-
-A Continuous-Time Markov Chain (CTMC) is characterized by a set of states and the rates at which transitions occur between these states. The time that the process spends in each state is exponentially distributed, where the rate parameter is determined by the negative of the diagonal entries of the transition rate matrix $Q$.
-
-**Python Example: Plot a Simple CTMC**
-
-This example demonstrates how to visualize the transition rate matrix $Q$ for a simple three-state CTMC:
-
-```{python}
-import numpy as np
-import plotly.graph_objects as go
-
-# Define the transition rate matrix for a 3-state CTMC
-Q = np.array([[-1, 0.7, 0.3], [0.4, -1.2, 0.8], [0.5, 0.5, -1]])
-
-# Create a heatmap using Plotly
-fig = go.Figure(data=go.Heatmap(
-    z=Q,
-    x=['State 1', 'State 2', 'State 3'],  # Label states for clarity
-    y=['State 1', 'State 2', 'State 3'],
-    colorscale='Viridis'  # Color scale similar to matplotlib's 'viridis'
-))
-
-# Update layout for better visualization
-fig.update_layout(
-    title='CTMC Transition Rate Matrix Q',
-    xaxis_title='To State',
-    yaxis_title='From State',
-    xaxis=dict(tickmode='array', tickvals=[0, 1, 2]),
-    yaxis=dict(tickmode='array', tickvals=[0, 1, 2])
-)
-
-fig.show()
-```
-
-This matrix $Q$ includes rates for transitions between all states. The off-diagonal elements indicate the rates of moving from one state to another, while the diagonal elements, being negative, signify the rates of leaving each state.
-
-**Subgenerator Matrix (S)**
-
-The subgenerator matrix $S$ of a phase-type distribution is a key component that describes the rates at which transitions occur between the transient states of a continuous-time Markov chain (CTMC). It’s important to note that:
-
-- Each **off-diagonal** element $S_{ij}$ (where $i \neq j$) in the matrix represents the transition rate from state $i$ to state $j$. These values must be non-negative.
-- Each **diagonal** element $S_{ii}$ is negative and its absolute value is the rate at which the process leaves state $i$. Specifically, $S_{ii}$ is the negative of the sum of all the off-diagonal elements in row $i$, which ensures that the total rate out of each state is accounted for.
-
-In the context of phase-type distributions, the transition rate matrix $Q$ and the subgenerator matrix $S$ are closely related but serve slightly different roles depending on the structure of the Markov model you are working with. Here's how they connect:
-
-**Relationship Between $Q$ and $S$**
-
-**1. Continuous-Time Markov Chains (CTMCs):**
-
-- In the general setup of CTMCs, the matrix $Q$ (often referred to as the generator matrix) defines the rates at which transitions occur between all states in the model. This includes both transient states and any absorbing states.
-- The diagonal elements of $Q$ are negative and represent the rate at which the process leaves a state. Each diagonal entry is the negative sum of the off-diagonal elements in its row, which ensures the total rate of leaving each state is properly accounted for.
-
-**2. Subgenerator Matrix $S$ in Phase-Type Distributions:**
-
-- When dealing with phase-type distributions specifically, $S$ refers to the part of the generator matrix $Q$ that deals only with the transient states. It is a submatrix of $Q$ if you exclude any rows and columns corresponding to absorbing states.
-- In a typical phase-type distribution setup, there is at least one absorbing state (often representing the termination of the process, like the completion of a task or death in a survival model). The subgenerator matrix $S$ excludes this absorbing behavior, focusing only on transitions between non-absorbing, i.e., transient states.
-
-**Practical Example**
-
-To illustrate, if you have a CTMC with three states where the third state is absorbing, the generator matrix $Q$ and the subgenerator matrix $S$ could look like this:
-
-- **Generator Matrix $Q$:**
-
-  $$
-  Q = \begin{bmatrix}
-  -\lambda_1 & \lambda_{12} & \lambda_{13} \\
-  \lambda_{21} & -\lambda_2 & \lambda_{23} \\
-  0 & 0 & 0
-  \end{bmatrix}
-  $$
-  Here, $\lambda_{13}$ and $\lambda_{23}$ might represent transition rates to an absorbing state, and the last row being all zeros represents the absorbing state (no transitions out).
-
-- **Subgenerator Matrix $S$:**
-
- $$
-  S = \begin{bmatrix}
-  -\lambda_1 & \lambda_{12} \\
-  \lambda_{21} & -\lambda_2
-  \end{bmatrix}
- $$
-  This matrix $S$ is derived from $Q$ by removing the rows and columns associated with the absorbing state, focusing only on the transitions between the transient states.
-
-**Python Visualization**
-
-```{python}
-# Define the full generator matrix for a 3-state CTMC with the third state absorbing
-Q = np.array([
-    [-1, 0.7, 0.3],
-    [0.4, -1.2, 0.8],
-    [0, 0, 0]
+# Define the states and transition rates
+states = ['1', '2', '3', 'Absorbing']
+rate_matrix = np.array([
+    [-4, 4, 0, 0],
+    [4, -7, 2, 1],
+    [2, 3, -5, 0],
+    [0, 0, 0, 0]
 ])
 
-# Define the subgenerator matrix S (only transient states)
-S = Q[:2, :2]  # Exclude the third row and column
+# Create a heatmap for the transition rate matrix
+fig = go.Figure(data=go.Heatmap(
+        z=rate_matrix,
+        x=states,
+        y=states,
+        hoverongaps = False,
+        colorscale='Viridis'))
 
-# Create two heatmaps in a single figure
-fig = go.Figure()
-
-# Add heatmap for Q
-fig.add_trace(
-    go.Heatmap(
-        z=Q,
-        x=['State 1', 'State 2', 'State 3'],
-        y=['State 1', 'State 2', 'State 3'],
-        colorscale='Viridis',
-        name='Full Generator Matrix Q',
-        showscale=False
-    )
-)
-
-# Add heatmap for S
-fig.add_trace(
-    go.Heatmap(
-        z=S,
-        x=['State 1', 'State 2'],
-        y=['State 1', 'State 2'],
-        colorscale='Viridis',
-        name='Subgenerator Matrix S',
-        xaxis='x2',
-        yaxis='y2',
-        showscale=False
-    )
-)
-
-# Update layout for a side-by-side view
 fig.update_layout(
-    title='CTMC Transition Rate Matrix Q and Subgenerator Matrix S',
-    grid=dict(columns=2, rows=1),  # Setting the grid for side-by-side layout
-    xaxis=dict(title='To State', domain=[0, 0.40]),  # Domain specifies the fraction of the layout for this subplot
-    yaxis=dict(title='From State'),
-    xaxis2=dict(title='To State', domain=[0.57, 1]),  # Domain specifies the fraction of the layout for this subplot
-    yaxis2=dict(title='From State', anchor='x2')  # Anchor aligns this axis with the x2 axis
+    title='CTMC Transition Rate Matrix',
+    xaxis_title='To State',
+    yaxis_title='From State'
 )
 
 fig.show()
 ```
 
-This code provides a visual differentiation between the complete transition rate matrix $Q$ and the subgenerator matrix $S$, highlighting their specific roles in modeling phase-type distributions within CTMCs.
+### Chapter 2: Transient Analysis in CTMCs
 
-If $Q$ represents a system where all states are transient (i.e., no absorbing states), then $S$ is identical to $Q$.
+Transient analysis involves calculating state probabilities over time, which is crucial for understanding system dynamics before reaching absorption.
 
+#### Python Example: Computing Transient Probabilities
 
-**Initial Probability Vector (α)**
-
-The initial probability vector $\alpha$ specifies the probabilities of starting in each transient state at time $t = 0$. The elements of $\alpha$ should sum to 1, reflecting a complete probability distribution across the transient states.
-
-**Interpreting the Matrix of State Probabilities**
-
-When you calculate $P(t) = e^{S \times t}$ using the matrix exponential, you obtain a matrix where each element $P_{ij}(t)$ represents the probability of being in state $j$ at time $t$, given that the process started in state $i$ at time $0$. Here’s how to read and interpret this matrix:
-
-- **Rows** correspond to the initial states.
-- **Columns** correspond to the states at time $t$.
-- Each entry $P_{ij}(t)$ can be read as: "The probability that the system is in state $j$ at time $t$, starting from state $i$ at time $0$."
-
-**Python Example: Calculate and Plot State Probabilities Over Time**
-
-Let’s enhance the previous Python example to make it clearer how these probabilities change over time and how to visualize and interpret the resulting matrix.
+Let's calculate and plot the transient probabilities for our CTMC model using Python:
 
 ```{python}
 from scipy.linalg import expm
-
-# Define the transition rate matrix for a 3-state CTMC
-Q = np.array([[-1, 0.7, 0.3], [0.4, -1.2, 0.8], [0.5, 0.5, -1]])
-
-# Define the subgenerator matrix for a CTMC with 3 transient states
-S = Q
-
-# Time point for state probability calculation
-t = 5
-
-# Compute the matrix exponential of S * t to get state probabilities at time t
-P_t = expm(S * t)
-P_t
-
-# Create a Plotly heatmap to visualize the state probabilities
-fig = go.Figure(data=go.Heatmap(
-    z=P_t,
-    x=[f'State {i}' for i in range(len(P_t))],
-    y=[f'State {i}' for i in range(len(P_t))],
-    colorscale='Reds'
-))
-
-# Update layout for better visualization
-fig.update_layout(
-    title=f'State Probabilities at Time t={t}',
-    xaxis_title='State at Time t',
-    yaxis_title='Initial State',
-    xaxis=dict(tickmode='array', tickvals=list(range(len(P_t)))),
-    yaxis=dict(tickmode='array', tickvals=list(range(len(P_t))))
-)
-
-fig.show()
-
-```
-
-**Explanation of the Output:**
-
-- Each row in the heatmap represents a different starting state.
-- Each column represents a state at time $t$.
-- The color intensity in each cell shows the probability of being in a state at time $t$ from a specific starting state. Darker colors might indicate higher probabilities.
-
-Understanding these transitions and how to visualize them helps in analyzing the behavior of Markovian models in real-world scenarios, such as predicting customer behavior in queues, modeling chemical processes, or even financial models predicting credit transitions.
-
-#### **Step 3: Types of Phase-Type Distributions**
-
-**Special Cases and Their Uses**
-
-This step discusses several important special cases of phase-type distributions such as exponential, Erlang, hyperexponential, and Coxian distributions.
-
-**Python Example: Generate Data from an Erlang Distribution**
-
-Generate and visualize data from an Erlang distribution, which is a common model for aggregated exponential processes like service times in systems:
-
-```{python}
-# Generate data from an Erlang distribution with shape=3 and scale=1
-data = np.random.gamma(shape=3, scale=1, size=1000)
-
-# Create a histogram using Plotly
-fig = go.Figure(data=go.Histogram(
-    x=data,
-    nbinsx=40,  # Number of bins
-    marker_color='purple',  # Color of the histogram
-    opacity=0.7  # Transparency of the histogram
-))
-
-# Update layout for better visualization
-fig.update_layout(
-    title='Histogram of Erlang Distributed Data',
-    xaxis_title='Data Values',
-    yaxis_title='Frequency',
-    template='plotly_white'
-)
-
-fig.show()
-```
-
-#### **Step 4: Applying Phase-Type Distributions**
-
-**Real-World Application: Scheduling Problem**
-
-Explore the application of phase-type distributions in scheduling based on the study by Kuiper et al. These distributions can model the time until the next event in a queue, which is crucial for optimizing scheduling systems.
-
-**Python Example: Simulate a Scheduling Scenario**
-
-Simulate interarrival times and service times in a simple scheduling model:
-
-```{python}
-import numpy as np
 import plotly.graph_objects as go
 
-# Simulate interarrival and service times
-interarrival_times = np.random.exponential(scale=2, size=100)
-service_times = np.random.gamma(shape=2, scale=1.5, size=100)
+# Initial state probabilities
+pi_0 = np.array([0.9, 0.0, 0.1, 0.0])
 
-# Create a Plotly figure
+# Time points to evaluate
+times = np.linspace(0, 3, 100)
+probabilities = np.array([pi_0.dot(expm(rate_matrix * t)) for t in times])
+
+# Plotting
 fig = go.Figure()
+for i, state in enumerate(states):
+    fig.add_trace(go.Scatter(x=times, y=probabilities[:, i], mode='lines', name=f'State {state}'))
 
-# Add histogram for interarrival times
-fig.add_trace(go.Histogram(
-    x=interarrival_times,
-    nbinsx=20,  # Number of bins
-    marker_color='blue',  # Color of the histogram bars
-    opacity=0.7,  # Transparency of the histogram bars
-    name='Interarrival Times'  # Legend name
-))
-
-# Add histogram for service times
-fig.add_trace(go.Histogram(
-    x=service_times,
-    nbinsx=20,  # Number of bins
-    marker_color='red',  # Color of the histogram bars
-    opacity=0.7,  # Transparency of the histogram bars
-    name='Service Times'  # Legend name
-))
-
-# Update the layout to display the histograms side by side
 fig.update_layout(
-    title='Histograms of Interarrival and Service Times',
-    xaxis=dict(
-        domain=[0, 0.45],  # Domain for the first subplot
-        title='Time'
-    ),
-    xaxis2=dict(
-        domain=[0.55, 1],  # Domain for the second subplot, with space for separation
-        title='Time'
-    ),
-    yaxis_title='Frequency',
-    bargap=0.2,  # Gap between bars of adjacent location coordinates
-    template='plotly_white'
+    title='Transient Probabilities Over Time',
+    xaxis_title='Time',
+    yaxis_title='Probability',
+    legend_title='State'
 )
-
-# Show the figure
 fig.show()
-
 ```
 
-#### **Step 5: Fitting Data to Phase-Type Distributions**
+### Chapter 3: Understanding Absorption in PH Distributions
 
-##### **Introduction to Fitting**
+A fundamental property of PH distributions is the time until the process is absorbed into the terminal state. This concept is critical for applications like network traffic modeling and job completion times in queueing networks.
 
-Fitting phase-type distributions to data involves finding the parameters of a model (like the transition matrix and the initial distribution vector) that best describe observed data. This can be particularly challenging due to the complexity of the calculations involved, but it's a critical skill for applying these distributions in practice.
+#### Python Example: Plotting Absorption Probabilities
 
-##### **Theoretical Background**
-
-There are primarily two methods for fitting data to phase-type distributions:
-
-1.  **Maximum Likelihood Estimation (MLE):** This method estimates parameters that maximize the likelihood of the data given the model. MLE is powerful but computationally intensive, especially for large datasets or models with many parameters.
-
-2.  **Method of Moments (MoM):** This approach involves matching the theoretical moments of the distribution (like mean and variance) to the empirical moments of the data. It's usually simpler and faster than MLE but might be less accurate.
-
-##### **Python Implementation**
-
-We'll implement an example of fitting an Erlang distribution (a special case of phase-type distributions with identical phases) using both methods. The Erlang distribution is chosen for its relative simplicity while still capturing the essence of the process.
-
-**Generating Sample Data**
-
-First, we'll generate some synthetic data that follows an Erlang distribution:
+We will visualize the probability of being absorbed over time:
 
 ```{python}
-from scipy.stats import erlang
+# Modify the previous probabilities calculation for only the absorbing state
+absorption_probabilities = np.array([pi_0.dot(expm(rate_matrix * t))[-1] for t in times])
 
-# Generate synthetic data
-shape = 3  # Number of phases in series
-scale = 2  # Rate parameter
-size = 500  # Number of data points
-
-data = np.random.gamma(shape, scale, size)
-
-# Create a histogram using Plotly
-fig = go.Figure(data=go.Histogram(
-    x=data,
-    nbinsx=30,  # Number of bins
-    marker_color='blue',  # Color of the histogram
-    opacity=0.75  # Transparency of the histogram
-))
-
-# Update layout for better visualization
-fig.update_layout(
-    title="Histogram of Generated Erlang Distribution Data",
-    xaxis_title="Data Values",
-    yaxis_title="Frequency",
-    template='plotly_white'
-)
-
-fig.show()
-
-```
-
-**Method of Moments**
-
-We'll calculate the empirical mean and variance and use these to estimate the parameters of the Erlang distribution:
-
-```{python}
-# Simulate synthetic data
-shape = 3  # Original number of phases in series
-scale = 2  # Original rate parameter
-size = 500  # Number of data points
-data = np.random.gamma(shape, scale, size)
-
-# Calculate empirical mean and variance
-empirical_mean = np.mean(data)
-empirical_var = np.var(data)
-
-# Estimate Erlang k (shape) as (mean^2 / variance)
-estimated_k = round(empirical_mean**2 / empirical_var)
-estimated_lambda = estimated_k / empirical_mean
-
-print(f"Estimated Shape (k): {estimated_k}")
-print(f"Estimated Rate (lambda): {estimated_lambda}")
-
-# Generate x values for the PDF plot
-x = np.linspace(0, max(data), 100)
-
-# Create the figure for both histogram and PDF line
+# Plotting
 fig = go.Figure()
+fig.add_trace(go.Scatter(x=times, y=absorption_probabilities, mode='lines', name='Absorption Probability'))
 
-# Add histogram for the data
-fig.add_trace(go.Histogram(
-    x=data,
-    nbinsx=30,  # Number of bins
-    marker_color='blue',  # Color of the histogram
-    opacity=0.5,  # Transparency of the histogram
-    name='Data Histogram',  # Legend name
-    histnorm='probability'  # Normalize the histogram
-))
-
-# Add line plot for the estimated Erlang PDF
-fig.add_trace(go.Scatter(
-    x=x,
-    y=erlang.pdf(x, a=estimated_k, scale=1/estimated_lambda),
-    mode='lines',
-    line_color='red',
-    name='Fitted Erlang PDF'
-))
-
-# Update the layout for better visualization
 fig.update_layout(
-    title="Erlang Fitting Using Method of Moments",
-    xaxis_title="Data Values",
-    yaxis_title="Probability Density",
-    legend_title="Legend",
-    template='plotly_white'
+    title='Probability of Absorption Over Time',
+    xaxis_title='Time',
+    yaxis_title='Probability'
 )
-
 fig.show()
-
 ```
 
-**Maximum Likelihood Estimation**
-
-For MLE, we can use optimization routines available in libraries such as SciPy to find the best-fit parameters:
-
-```{python}
-from scipy.optimize import minimize
-from scipy.stats import gamma
-
-# Assuming 'data' is already generated and available
-# Define the negative log-likelihood function for the Gamma distribution
-def neg_log_likelihood(params, data):
-    shape, scale = params
-    return -np.sum(gamma.logpdf(data, a=shape, scale=scale))
-
-# Initial guesses for shape and scale
-initial_guess = [1, 1]
-
-# Minimize the negative log-likelihood
-result = minimize(neg_log_likelihood, initial_guess, args=(data,), bounds=((1, None), (0.1, None)))
-
-best_fit_shape, best_fit_scale = result.x
-
-print(f"Best Fit Shape: {best_fit_shape}")
-print(f"Best Fit Scale: {best_fit_scale}")
-
-# Generate x values for the PDF plot
-x = np.linspace(0, max(data), 100)
-
-# Create the figure for both histogram and PDF line
-fig = go.Figure()
-
-# Add histogram for the data
-fig.add_trace(go.Histogram(
-    x=data,
-    nbinsx=30,  # Number of bins
-    marker_color='blue',  # Color of the histogram bars
-    opacity=0.5,  # Transparency of the histogram bars
-    name='Data Histogram',  # Legend name
-    histnorm='probability'  # Normalize the histogram
-))
-
-# Add line plot for the MLE fitted Erlang PDF
-fig.add_trace(go.Scatter(
-    x=x,
-    y=erlang.pdf(x, a=int(best_fit_shape), scale=1/best_fit_scale),
-    mode='lines',
-    line_color='green',
-    name='MLE Fitted Erlang PDF'
-))
-
-# Update the layout for better visualization
-fig.update_layout(
-    title="Erlang Fitting Using MLE",
-    xaxis_title="Data Values",
-    yaxis_title="Probability Density",
-    legend_title="Legend",
-    template='plotly_white',
-)
-
-fig.show()
-
-```
-
-##### **Conclusion**
-
-These examples demonstrate two primary methods for fitting phase-type distributions to empirical data. The choice of method depends on the specific requirements and constraints of the application, such as the need for accuracy versus computational efficiency.
-
-This step effectively bridges theoretical knowledge and practical application, providing students with tools to apply phase-type distributions in real-world scenarios, enhancing both their understanding and skill set.
+This tutorial is designed to provide an introductory overview. For a deeper dive into each concept, including more complex models and their applications, please refer to detailed academic resources or specific case studies in your field of interest.
