@@ -12,7 +12,7 @@ bibliography: bibliography.bib
 
 Afspraken:
 
--   We gaan verder kijken naar Simolation Optimization methodes
+-   We gaan verder kijken naar Simulation Optimization methodes
 -   Wellicht icm Gradient Boosting, mogelijk ML-toepassingen
 -   Start met artikel van @homem2022simulation
     -   Onderzoeken wat de stand van zaken is mbt SO en Appointment Scheduling
