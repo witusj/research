@@ -19,3 +19,214 @@ Afspraken:
     -   Waarom is de het probleem dat besproken wordt in @homem2022simulation non-convex?
     -   Aanmaken van Overleaf document voor samenwerking.
     -   Literatuurnotities maken.
+```{python}
+import random
+import plotly.graph_objs as go
+import csv
+```
+    
+    
+```{python}
+import random
+
+# Cost parameters
+c_w = 1  # waiting cost
+c_I = 10  # idle cost
+c_o = 15  # overtime cost
+
+# Service time distribution
+service_time_min = 2.5
+service_time_max = 7.5
+
+# Clinic end time
+T = 12
+
+def simulate_schedule(schedule):
+    total_waiting_cost = 0
+    total_idle_cost = 0
+    total_overtime_cost = 0
+    
+    current_time = 0
+    for i, appointment in enumerate(schedule):
+        # Ensure that the current appointment does not start before the current time
+        if current_time < appointment:
+            idle_time = appointment - current_time
+            total_idle_cost += idle_time * c_I
+            current_time = appointment
+        
+        # Determine the service time for the current patient
+        service_time = random.uniform(service_time_min, service_time_max)
+        
+        # Calculate waiting time cost if the patient arrives before current_time
+        waiting_time = current_time - appointment
+        if waiting_time > 0:
+            total_waiting_cost += waiting_time * c_w
+        
+        # Update the current time after servicing the current patient
+        current_time += service_time
+    
+    # Calculate overtime cost if the last appointment exceeds the clinic end time
+    overtime = max(0, current_time - T)
+    total_overtime_cost = overtime * c_o
+    
+    # Calculate the total cost
+    total_cost = total_waiting_cost + total_idle_cost + total_overtime_cost
+    return total_cost
+
+# Example schedule
+schedule = [0, 4, 8]  # assuming three patients scheduled at these times
+
+# Run the simulation and print the objective value (total cost)
+random.seed(42)  # set seed for reproducibility
+total_cost = simulate_schedule(schedule)
+print(f"Total cost of the given schedule is: {total_cost}")
+
+```
+
+```{python}
+# Generate random schedules and their objective values
+num_schedules = 10000
+
+schedules_results = []
+
+for _ in range(num_schedules):
+    # Generate a random schedule with three patients
+    x_1 = random.uniform(0, T)
+    x_2 = random.uniform(x_1, T)
+    schedule = [0, x_1, x_2]
+    
+    total_cost = simulate_schedule(schedule)
+    schedules_results.append((x_1, x_2, total_cost))
+
+# Extract data for plotting
+x_1_values, x_2_values, costs = zip(*schedules_results)
+
+# Create a 3D scatter plot using Plotly
+scatter = go.Scatter3d(
+    x=x_1_values,
+    y=x_2_values,
+    z=costs,
+    mode='markers',
+    marker=dict(size=2, color=costs, colorscale='Viridis', opacity=0.8)
+)
+
+layout = go.Layout(
+    title='3D Plot of x_1, x_2, and Objective Values',
+    scene=dict(
+        xaxis_title='x_1',
+        yaxis_title='x_2',
+        zaxis_title='Objective Value'
+    )
+)
+
+fig = go.Figure(data=[scatter], layout=layout)
+fig.show()
+```
+
+```{python}
+# Cost parameters
+c_w = 1  # waiting cost
+c_I = 10  # idle cost
+c_o = 15  # overtime cost
+
+# Service time distribution
+service_time_min = 2.5
+service_time_max = 7.5
+
+# Clinic end time
+T = 12
+
+# Define a no-show probability function based on time of day
+def no_show_probability(time_of_day, T):
+    # Linear function as an example: Probability increases with time
+    return 0.2 + 0.6 * (time_of_day / T)  # example function
+
+# Update the simulation function to include no-show consideration
+def simulate_schedule_w_no_shows(schedule):
+    total_waiting_cost = 0
+    total_idle_cost = 0
+    total_overtime_cost = 0
+    
+    current_time = 0
+    for appointment in schedule:
+        # Calculate the no-show probability for this appointment time
+        no_show_prob = no_show_probability(appointment, T)
+        shows_up = random.random() >= no_show_prob
+        
+        if shows_up:
+            # Patient shows up, update the idle time and service time
+            if current_time < appointment:
+                idle_time = appointment - current_time
+                total_idle_cost += idle_time * c_I
+                current_time = appointment
+            
+            service_time = random.uniform(service_time_min, service_time_max)
+            
+            waiting_time = current_time - appointment
+            if waiting_time > 0:
+                total_waiting_cost += waiting_time * c_w
+            
+            current_time += service_time
+        else:
+            # Patient doesn't show up, count the idle time from the last service to the appointment time
+            if current_time < appointment:
+                idle_time = appointment - current_time
+                total_idle_cost += idle_time * c_I
+                current_time = appointment
+    
+    overtime = max(0, current_time - T)
+    total_overtime_cost = overtime * c_o
+    
+    total_cost = total_waiting_cost + total_idle_cost + total_overtime_cost
+    return total_cost
+
+
+# Example schedule
+schedule = [0, 4, 8]  # assuming three patients scheduled at these times
+
+# Run the simulation and print the objective value (total cost)
+random.seed(42)  # set seed for reproducibility
+total_cost = simulate_schedule(schedule)
+print(f"Total cost of the given schedule is: {total_cost}")
+```
+
+```{python}
+# Generate random schedules and their objective values
+num_schedules = 10000
+
+schedules_results = []
+
+for _ in range(num_schedules):
+    # Generate a random schedule with three patients
+    x_1 = random.uniform(0, T)
+    x_2 = random.uniform(x_1, T)
+    schedule = [0, x_1, x_2]
+    
+    total_cost = simulate_schedule_w_no_shows(schedule)
+    schedules_results.append((x_1, x_2, total_cost))
+
+# Extract data for plotting
+x_1_values, x_2_values, costs = zip(*schedules_results)
+
+# Create a 3D scatter plot using Plotly
+scatter = go.Scatter3d(
+    x=x_1_values,
+    y=x_2_values,
+    z=costs,
+    mode='markers',
+    marker=dict(size=2, color=costs, colorscale='Viridis', opacity=0.8)
+)
+
+layout = go.Layout(
+    title='3D Plot of x_1, x_2, and Objective Values',
+    scene=dict(
+        xaxis_title='x_1',
+        yaxis_title='x_2',
+        zaxis_title='Objective Value'
+    )
+)
+
+fig = go.Figure(data=[scatter], layout=layout)
+fig.show()
+```
+
