@@ -13,19 +13,64 @@ bibliography: bibliography.bib
 Afspraken:
 
 -   We gaan verder kijken naar Simulation Optimization methodes
+
 -   Wellicht icm Gradient Boosting, mogelijk ML-toepassingen
+
 -   Start met artikel van @homem2022simulation
+
     -   Onderzoeken wat de stand van zaken is mbt SO en Appointment Scheduling
     -   Waarom is de het probleem dat besproken wordt in @homem2022simulation non-convex?
     -   Aanmaken van Overleaf document voor samenwerking.
     -   Literatuurnotities maken.
+
+# Code examples
+
+This code simulates the cost of a clinic's schedule based on different cost factors related to patient waiting time, physician idle time, and clinic overtime. The scheduling process aims to minimize these costs by analyzing how different appointment times affect them.
+
+## Cost Parameters
+
+We define three cost parameters:
+
+-   `c_w`: The cost of waiting time (1 per time unit).
+-   `c_I`: The cost of physician idle time (10 per time unit).
+-   `c_o`: The cost of overtime beyond regular clinic hours (15 per time unit).
+
+## Service Time Distribution
+
+Service time, or the time taken to treat a patient, is simulated with a uniform distribution between 2.5 and 7.5 time units (`service_time_min` and `service_time_max`).
+
+## Clinic End Time
+
+The clinic ends its daily operations after 12 time units (`T`), beyond which overtime charges apply.
+
+## Simulation Function
+
+The `simulate_schedule()` function calculates the total cost for a given appointment schedule.
+
+1.  **Initialization**:
+    -   Initializes total cost variables to zero for waiting, idle, and overtime costs.
+    -   Sets the starting `current_time` to zero.
+2.  **Cost Calculation**:
+    -   For each appointment in the schedule:
+        -   If the physician is idle (i.e., the appointment is scheduled after `current_time`), idle costs are added.
+        -   The patient's service time is drawn randomly between the specified minimum and maximum bounds.
+        -   If the patient waited before seeing the physician, waiting costs are calculated.
+        -   `current_time` is updated based on service time.
+3.  **Overtime Calculation**:
+    -   If the last appointment exceeds the clinic's end time, overtime costs are calculated.
+4.  **Total Cost Calculation**:
+    -   The function returns the sum of waiting, idle, and overtime costs.
+
+### Example Schedule
+
+The provided `schedule = [0, 4, 8]` simulates three patient appointments at times 0, 4, and 8 time units. By setting the random seed for reproducibility (`random.seed(42)`), the function is executed to calculate the total cost for this specific schedule.
+
 ```{python}
 import random
 import plotly.graph_objs as go
 import csv
 ```
-    
-    
+
 ```{python}
 import random
 
@@ -45,7 +90,7 @@ def simulate_schedule(schedule):
     total_waiting_cost = 0
     total_idle_cost = 0
     total_overtime_cost = 0
-    
+
     current_time = 0
     for i, appointment in enumerate(schedule):
         # Ensure that the current appointment does not start before the current time
@@ -54,13 +99,13 @@ def simulate_schedule(schedule):
             total_idle_cost += idle_time * c_I
             current_time = appointment
         
-        # Determine the service time for the current patient
-        service_time = random.uniform(service_time_min, service_time_max)
-        
         # Calculate waiting time cost if the patient arrives before current_time
         waiting_time = current_time - appointment
         if waiting_time > 0:
             total_waiting_cost += waiting_time * c_w
+        
+        # Determine the service time for the current patient
+        service_time = random.uniform(service_time_min, service_time_max)
         
         # Update the current time after servicing the current patient
         current_time += service_time
@@ -83,20 +128,63 @@ print(f"Total cost of the given schedule is: {total_cost}")
 
 ```
 
+The updated simulation function below, named `simulate_schedule_w_no_shows()`, extends the simulation's complexity and realism. Here’s a breakdown of the differences and how the new elements work:
+
+### Main Differences
+
+1. **No-Show Consideration**:
+   - The updated code introduces the concept of no-shows, where patients may not appear for their scheduled appointment. This is a crucial addition for modeling more realistic healthcare environments where no-shows can significantly impact operational costs and scheduling efficiency.
+
+2. **No-Show Probability Function**:
+   - A function `no_show_probability(appointment, T)` is presumed to exist, which calculates the likelihood of a patient not showing up based on the appointment time and perhaps other factors like clinic closing time `T`. This function is not shown in the snippet but is essential for determining if a patient attends their appointment.
+
+3. **Random Attendance Check**:
+   - For each appointment, a random check against the no-show probability determines whether the patient shows up (`shows_up`). This introduces randomness into the simulation, reflecting the uncertain nature of patient attendance.
+
+4. **Handling No-Shows in the Simulation**:
+   - If a patient does not show up, the function now accounts for the idle time until the next appointment or until the same appointment time without the need to service the patient, updating `current_time` appropriately. This differs from the original simulation, where every patient was assumed to show up, and service time was always added to `current_time`.
+
+### Updated Functionality in the Code
+
+- **Idle Time Calculation**:
+  - In both scenarios (whether the patient shows up or not), if `current_time` is less than the appointment time, idle time is calculated. This ensures the clinic’s resource utilization is adjusted for gaps between actual service times and scheduled appointment times.
+
+- **Service Time and Waiting Time**:
+  - These are now calculated only if the patient shows up. If the patient arrives and the `current_time` is already past their scheduled time, the waiting time cost is added, which penalizes delays in service relative to the appointment time.
+
+- **Total Cost Calculation**:
+  - The formula for total cost remains the sum of waiting, idle, and overtime costs. However, these costs could now be affected differently since some appointments might result in no service being rendered due to no-shows.
+
+### Example and Output
+
+The example uses the original `simulate_schedule(schedule)` instead of the updated `simulate_schedule_w_no_shows(schedule)`, which could be a typographical error in the example. To test the new functionality, one should replace `simulate_schedule(schedule)` with `simulate_schedule_w_no_shows(schedule)` to incorporate the no-show logic.
+
 ```{python}
 # Generate random schedules and their objective values
 num_schedules = 10000
 
+schedules = []
+
 schedules_results = []
 
+# Create random schedules
 for _ in range(num_schedules):
     # Generate a random schedule with three patients
     x_1 = random.uniform(0, T)
     x_2 = random.uniform(x_1, T)
     schedule = [0, x_1, x_2]
+    schedules.append(schedule)
     
-    total_cost = simulate_schedule(schedule)
-    schedules_results.append((x_1, x_2, total_cost))
+# For each schedule, simulate a number of times and calculate the average total cost
+for schedule in schedules:
+    i = 1000
+    schedule_costs = []
+    while i > 0:
+      total_cost = simulate_schedule(schedule)
+      schedule_costs.append(total_cost)
+      i -= 1
+    avg_cost = sum(schedule_costs) / len(schedule_costs)
+    schedules_results.append((schedule[1], schedule[2], avg_cost))
 
 # Extract data for plotting
 x_1_values, x_2_values, costs = zip(*schedules_results)
@@ -160,13 +248,17 @@ def simulate_schedule_w_no_shows(schedule):
                 total_idle_cost += idle_time * c_I
                 current_time = appointment
             
-            service_time = random.uniform(service_time_min, service_time_max)
-            
+            # Calculate waiting time cost if the patient arrives before current_time
             waiting_time = current_time - appointment
             if waiting_time > 0:
                 total_waiting_cost += waiting_time * c_w
             
+            # Determine the service time for the current patient
+            service_time = random.uniform(service_time_min, service_time_max)
+            
+            # Determine the service time for the current patient
             current_time += service_time
+            
         else:
             # Patient doesn't show up, count the idle time from the last service to the appointment time
             if current_time < appointment:
@@ -186,24 +278,36 @@ schedule = [0, 4, 8]  # assuming three patients scheduled at these times
 
 # Run the simulation and print the objective value (total cost)
 random.seed(42)  # set seed for reproducibility
-total_cost = simulate_schedule(schedule)
+total_cost = simulate_schedule_w_no_shows(schedule)
 print(f"Total cost of the given schedule is: {total_cost}")
 ```
 
 ```{python}
-# Generate random schedules and their objective values
+# Generate random schedules and their objective values (with nop-shows)
 num_schedules = 10000
+
+schedules = []
 
 schedules_results = []
 
+# Create random schedules
 for _ in range(num_schedules):
     # Generate a random schedule with three patients
     x_1 = random.uniform(0, T)
     x_2 = random.uniform(x_1, T)
     schedule = [0, x_1, x_2]
+    schedules.append(schedule)
     
-    total_cost = simulate_schedule_w_no_shows(schedule)
-    schedules_results.append((x_1, x_2, total_cost))
+# For each schedule, simulate a number of times and calculate the average total cost
+for schedule in schedules:
+    i = 1000
+    schedule_costs = []
+    while i > 0:
+      total_cost = simulate_schedule_w_no_shows(schedule)
+      schedule_costs.append(total_cost)
+      i -= 1
+    avg_cost = sum(schedule_costs) / len(schedule_costs)
+    schedules_results.append((schedule[1], schedule[2], avg_cost))
 
 # Extract data for plotting
 x_1_values, x_2_values, costs = zip(*schedules_results)
@@ -218,7 +322,7 @@ scatter = go.Scatter3d(
 )
 
 layout = go.Layout(
-    title='3D Plot of x_1, x_2, and Objective Values',
+    title='3D Plot of x_1, x_2, and Objective Values (with No-Shows)',
     scene=dict(
         xaxis_title='x_1',
         yaxis_title='x_2',
@@ -229,4 +333,3 @@ layout = go.Layout(
 fig = go.Figure(data=[scatter], layout=layout)
 fig.show()
 ```
-
