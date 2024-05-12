@@ -12,16 +12,19 @@ bibliography: bibliography.bib
 
 Afspraken:
 
--   We gaan verder kijken naar Simulation Optimization methodes
+We gaan verder kijken naar Simulation Optimization methodes
 
 -   Wellicht icm Gradient Boosting, mogelijk ML-toepassingen
 
 -   Start met artikel van @homem2022simulation
 
-    -   Onderzoeken wat de stand van zaken is mbt SO en Appointment Scheduling
-    -   Waarom is de het probleem dat besproken wordt in @homem2022simulation non-convex?
-    -   Aanmaken van Overleaf document voor samenwerking.
-    -   Literatuurnotities maken.
+-   Onderzoeken wat de stand van zaken is mbt SO en Appointment Scheduling
+
+-   Waarom is de het probleem dat besproken wordt in @homem2022simulation non-convex?
+
+-   Aanmaken van Overleaf document voor samenwerking.
+
+-   Literatuurnotities maken.
 
 # Code examples
 
@@ -132,28 +135,23 @@ The updated simulation function below, named `simulate_schedule_w_no_shows()`, e
 
 ### Main Differences
 
-1. **No-Show Consideration**:
-   - The updated code introduces the concept of no-shows, where patients may not appear for their scheduled appointment. This is a crucial addition for modeling more realistic healthcare environments where no-shows can significantly impact operational costs and scheduling efficiency.
-
-2. **No-Show Probability Function**:
-   - A function `no_show_probability(appointment, T)` is presumed to exist, which calculates the likelihood of a patient not showing up based on the appointment time and perhaps other factors like clinic closing time `T`. This function is not shown in the snippet but is essential for determining if a patient attends their appointment.
-
-3. **Random Attendance Check**:
-   - For each appointment, a random check against the no-show probability determines whether the patient shows up (`shows_up`). This introduces randomness into the simulation, reflecting the uncertain nature of patient attendance.
-
-4. **Handling No-Shows in the Simulation**:
-   - If a patient does not show up, the function now accounts for the idle time until the next appointment or until the same appointment time without the need to service the patient, updating `current_time` appropriately. This differs from the original simulation, where every patient was assumed to show up, and service time was always added to `current_time`.
+1.  **No-Show Consideration**:
+    -   The updated code introduces the concept of no-shows, where patients may not appear for their scheduled appointment. This is a crucial addition for modeling more realistic healthcare environments where no-shows can significantly impact operational costs and scheduling efficiency.
+2.  **No-Show Probability Function**:
+    -   A function `no_show_probability(appointment, T)` is presumed to exist, which calculates the likelihood of a patient not showing up based on the appointment time and perhaps other factors like clinic closing time `T`. This function is not shown in the snippet but is essential for determining if a patient attends their appointment.
+3.  **Random Attendance Check**:
+    -   For each appointment, a random check against the no-show probability determines whether the patient shows up (`shows_up`). This introduces randomness into the simulation, reflecting the uncertain nature of patient attendance.
+4.  **Handling No-Shows in the Simulation**:
+    -   If a patient does not show up, the function now accounts for the idle time until the next appointment or until the same appointment time without the need to service the patient, updating `current_time` appropriately. This differs from the original simulation, where every patient was assumed to show up, and service time was always added to `current_time`.
 
 ### Updated Functionality in the Code
 
-- **Idle Time Calculation**:
-  - In both scenarios (whether the patient shows up or not), if `current_time` is less than the appointment time, idle time is calculated. This ensures the clinic’s resource utilization is adjusted for gaps between actual service times and scheduled appointment times.
-
-- **Service Time and Waiting Time**:
-  - These are now calculated only if the patient shows up. If the patient arrives and the `current_time` is already past their scheduled time, the waiting time cost is added, which penalizes delays in service relative to the appointment time.
-
-- **Total Cost Calculation**:
-  - The formula for total cost remains the sum of waiting, idle, and overtime costs. However, these costs could now be affected differently since some appointments might result in no service being rendered due to no-shows.
+-   **Idle Time Calculation**:
+    -   In both scenarios (whether the patient shows up or not), if `current_time` is less than the appointment time, idle time is calculated. This ensures the clinic’s resource utilization is adjusted for gaps between actual service times and scheduled appointment times.
+-   **Service Time and Waiting Time**:
+    -   These are now calculated only if the patient shows up. If the patient arrives and the `current_time` is already past their scheduled time, the waiting time cost is added, which penalizes delays in service relative to the appointment time.
+-   **Total Cost Calculation**:
+    -   The formula for total cost remains the sum of waiting, idle, and overtime costs. However, these costs could now be affected differently since some appointments might result in no service being rendered due to no-shows.
 
 ### Example and Output
 

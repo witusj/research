@@ -1,0 +1,364 @@
+---
+title: "2024-05-06"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+---
+
+## OBP:
+
+Afspraken:
+
+-   [ ] We gaan verder kijken naar Simulation Optimization methodes
+
+-   [ ] Wellicht icm Gradient Boosting, mogelijk ML-toepassingen
+
+-   [ ] Onderzoeken wat de stand van zaken is mbt SO en Appointment Scheduling
+
+-   [ ] Start met artikel van @homem2022simulation
+
+-   [ ] Waarom zou het probleem dat besproken wordt in @homem2022simulation non-convex zijn?
+
+-   [ ] Aanmaken van Overleaf document voor samenwerking.
+
+-   [ ] Literatuurnotities maken.
+
+
+## Lipschitz functions
+
+### Step 1: Understanding Continuity
+
+Before diving into Lipschitz functions, it's essential to understand continuity. A function is continuous if small changes in the input result in small changes in the output. We can represent this in Python using a simple continuous function like a linear function.
+```{python}
+import numpy as np
+import plotly.graph_objs as go
+```
+
+```{python}
+def f(x):
+    return 2*x + 1  # Example of a linear function
+
+# Test for continuity
+x1 = 2
+x2 = 2.1
+y1 = f(x1)
+y2 = f(x2)
+
+print("Function values:")
+print("f({}) = {}".format(x1, y1))
+print("f({}) = {}".format(x2, y2))
+
+# Calculate the difference in function values
+difference = abs(y2 - y1)
+print("Difference:", difference)
+```
+
+This code demonstrates how small changes in the input (from 2 to 2.1) result in small changes in the output of the function. 
+
+### Step 2: Introduction to Lipschitz Continuity
+
+A Lipschitz continuous function is a special type of continuous function that satisfies a particular condition. It's named after the mathematician Rudolf Lipschitz.
+
+A function $f(x)$ is Lipschitz continuous if there exists a constant $L$ such that for all $x_1$ and $x_2$ in the domain of $f$, the absolute difference between the function values is bounded by $L$ times the absolute difference between the inputs.
+
+Mathematically, it can be written as:
+$$|f(x_1) - f(x_2)| \leq L \cdot |x_1 - x_2|$$
+
+Python example using a Lipschitz function:
+
+```{python}
+def lipschitz_function(x):
+    return 2*x + 1  # Example of a Lipschitz function
+
+# Define Lipschitz constant
+L = 2  # We'll choose an arbitrary Lipschitz constant
+
+# Test for Lipschitz continuity
+x1 = 2
+x2 = 3
+y1 = lipschitz_function(x1)
+y2 = lipschitz_function(x2)
+
+# Calculate the difference in function values
+difference_in_values = abs(y2 - y1)
+
+# Calculate Lipschitz condition
+difference_in_inputs = abs(x2 - x1)
+lipschitz_condition = L * difference_in_inputs
+
+print("Difference in function values:", difference_in_values)
+print("Lipschitz condition:", lipschitz_condition)
+print("Is Lipschitz condition satisfied?", difference_in_values <= lipschitz_condition)
+```
+
+This code demonstrates that for a Lipschitz function, the difference in function values is bounded by the Lipschitz constant times the difference in inputs.
+
+```{python}
+
+# Generate x values
+x_values = np.linspace(-5, 5, 100)
+
+# Calculate function values
+y_values = lipschitz_function(x_values)
+
+# Calculate Lipschitz condition
+lipschitz_condition = L * np.abs(x_values - x_values[0])
+
+# Calculate the left side of the Lipschitz condition
+left_side_condition = np.abs(np.diff(y_values))
+
+# Create traces for the function plot, Lipschitz condition, and left side of the Lipschitz condition
+function_trace = go.Scatter(x=x_values, y=y_values, mode='lines', name='Lipschitz Function')
+condition_trace = go.Scatter(x=x_values, y=lipschitz_condition, mode='lines', name='Lipschitz Condition',
+                             line=dict(dash='dash'))
+left_side_condition_trace = go.Scatter(x=x_values[:-1], y=left_side_condition, mode='lines', name='Left Side of Condition',
+                                       line=dict(color='red', dash='dot'))
+
+# Create layout
+layout = go.Layout(title='Visualization of a Lipschitz Function',
+                   xaxis=dict(title='x'),
+                   yaxis=dict(title='f(x)'),
+                   )
+
+# Create figure
+fig = go.Figure(data=[function_trace, condition_trace, left_side_condition_trace], layout=layout)
+
+# Display the plot
+fig.show()
+```
+
+
+### Step 3: Understanding the Implications
+
+Understanding Lipschitz continuity is important in various fields, including optimization, differential equations, and machine learning. It provides a guarantee about how "well-behaved" a function is and can help in proving convergence properties of algorithms and stability of solutions.
+
+By grasping this concept, one can better understand the behavior of functions in different contexts and make informed decisions in problem-solving scenarios.
+
+This code will generate a plot of the Lipschitz function $f(x) = 2x + 1$ along with its Lipschitz condition, which is a linear function representing the Lipschitz constant times the absolute difference between $x$ and a reference point $x_0$. This visualization helps to understand how Lipschitz continuity imposes a bound on the rate at which the function can change as its input varies.
+
+You're absolutely right! Let's include the visualization of the difference between the y-values corresponding to different x-values. This will help to visually confirm that the Lipschitz condition $$|f(x_1) - f(x_2)| \leq L \cdot |x_1 - x_2|$$ holds true.
+
+```{python}
+
+# Define Lipschitz polynomial function (quadratic)
+def lipschitz_function(x):
+    return (x**2 + 5)**0.5
+
+# Define Lipschitz constant
+L = 2
+
+# Generate x values
+x_values = np.linspace(-5, 5, 100)
+
+# Calculate function values
+y_values = lipschitz_function(x_values)
+
+# Calculate the difference in y-values
+y_diff = np.abs(np.diff(y_values))
+
+# Calculate Lipschitz condition
+lipschitz_condition = L * np.abs(x_values[1] - x_values[0])
+
+# Create traces for the function plot, difference in y-values, and Lipschitz condition
+function_trace = go.Scatter(x=x_values, y=y_values, mode='lines', name='Lipschitz Polynomial Function')
+difference_trace = go.Scatter(x=x_values[:-1], y=y_diff, mode='lines', name='Difference in y-values',
+                              line=dict(color='red', dash='dot'))
+condition_trace = go.Scatter(x=x_values, y=lipschitz_condition*np.ones_like(x_values), mode='lines',
+                             name='Lipschitz Condition', line=dict(dash='dash'))
+
+# Create layout
+layout = go.Layout(title='Visualization of a Lipschitz Polynomial Function',
+                   xaxis=dict(title='x'),
+                   yaxis=dict(title='f(x)'),
+                   )
+
+# Create figure
+fig = go.Figure(data=[function_trace, difference_trace, condition_trace], layout=layout)
+
+# Display the plot
+fig.show()
+```
+
+From: @zacharias2020multimodularity
+
+To explain minimizing a multimodular function over nonnegative integer vectors via submodular set-function minimization over ring families to someone with undergraduate math skills, let's break down the process step by step:
+
+Step 1: Understanding Multimodular Functions
+A multimodular function is a function that can be decomposed into a sum of modular functions, where each modular function depends on a subset of variables. In other words, it's a function that exhibits modularity in its structure.
+
+Step 2: Understanding Submodular Set-Functions
+A submodular set-function is a function defined on sets, where adding an element to a smaller set gives a larger increase in the function value compared to adding the same element to a larger set. In other words, it captures the concept of diminishing returns - as the set gets larger, the marginal increase in the function value decreases.
+
+Step 3: Relationship between Multimodular Functions and Submodular Set-Functions
+The minimization of a multimodular function over nonnegative integer vectors can be reformulated as the minimization of a submodular set-function over certain families of sets, known as ring families.
+
+Step 4: Ring Families
+A ring family is a family of sets with specific properties that facilitate the minimization of submodular set-functions. These properties include closure under intersection and difference operations.
+
+Step 5: Minimization Algorithm
+To minimize the submodular set-function over the ring family, one can use specialized algorithms such as the greedy algorithm or the Lovász extension. These algorithms iteratively select elements to include in the set based on their marginal contributions to the function value until a stopping criterion is met.
+
+Now, let's illustrate this process with a Python code example:
+
+```{python}
+import numpy as np
+
+# Example of a multimodular function
+def multimodular_function(x):
+    return np.sum(np.abs(x))  # Example of a multimodular function
+
+# Example of a submodular set-function (can be any submodular function)
+def submodular_function(S):
+    return len(S)  # Example of a submodular set-function
+
+# Example of a ring family (can be any collection of sets with specific properties)
+ring_family = [{1, 2}, {2, 3}, {3, 4}, {1, 4}]  # Example of a ring family
+
+# Minimization of submodular set-function over ring family
+def minimize_submodular_function(ring_family, submodular_function):
+    min_value = float('inf')
+    min_set = None
+    for S in ring_family:
+        value = submodular_function(S)
+        print(value)
+        if value < min_value:
+            min_value = value
+            min_set = S
+    return min_set
+
+# Example usage
+min_set = minimize_submodular_function(ring_family, submodular_function)
+print("Minimized set:", min_set)
+```
+
+In this example, we have defined an example of a multimodular function (`multimodular_function`) and a submodular set-function (`submodular_function`). We also have a ring family (`ring_family`). The `minimize_submodular_function` function takes the ring family and the submodular function as inputs and returns the set that minimizes the submodular function over the ring family.
+
+This Python code illustrates the process of minimizing a multimodular function over nonnegative integer vectors via submodular set-function minimization over ring families.
+
+Sure! Let's create a detailed tutorial that explains the process of minimizing a multimodular function over nonnegative integer vectors via submodular set-function minimization over ring families using both undergraduate-level math concepts and Python code examples.
+
+
+**Tutorial: Minimizing a Multimodular Function via Submodular Set-Function Minimization**
+
+**1. Introduction**
+
+In this tutorial, we'll explore how to minimize a multimodular function over nonnegative integer vectors by leveraging the concept of submodular set-functions and ring families. We'll start by understanding the underlying mathematical concepts and then demonstrate their application through Python code examples.
+
+**2. Understanding Multimodular Functions**
+
+A multimodular function is a function that can be decomposed into a sum of modular functions. Each modular function depends on a subset of variables. Mathematically, a multimodular function $f(x)$ can be expressed as:
+
+$$f(x) = f_1(x_1) + f_2(x_2) + \ldots + f_n(x_n)$$
+
+where $x_1, x_2, \ldots, x_n$ are subsets of the vector $x$, and $f_1, f_2, \ldots, f_n$ are modular functions corresponding to these subsets.
+
+A typical example of a multimodular function is a polynomial function where each term represents a modular function. Let's consider the following polynomial function:
+
+$f(x) = x_1^2 + 2x_2 + x_3$
+
+Here, we can decompose \( f(x) \) into three modular functions:
+
+$f_1(x_1) = x_1^2$
+$f_2(x_2) = 2x_2$
+$f_3(x_3) = x_3$
+
+Let's illustrate this with a Python code example:
+
+```{python}
+# Example of a true multimodular function
+def multimodular_function(x):
+    # Decompose the function into modular components
+    f1 = x[0]**2
+    f2 = 2 * x[1]
+    f3 = x[2]
+    # Sum up the modular components
+    return f1 + f2 + f3
+
+# Test the multimodular function
+x_example = [1, -2, 3]
+result = multimodular_function(x_example)
+print("Multimodular function result:", result)
+```
+
+In this code example, the `multimodular_function` takes a vector `x` as input and decomposes it into three modular components, each representing a subset of variables in the function. Then, it sums up these modular components to compute the value of the multimodular function. This illustrates a true multimodular function, as it can be decomposed into a sum of modular functions.
+
+**3. Understanding Submodular Set-Functions**
+
+A submodular set-function is a function defined over sets, where adding an element to a smaller set results in a larger increase in the function value compared to adding the same element to a larger set. Mathematically, a set-function $f: 2^V \rightarrow \mathbb{R}$ is submodular if for any sets $A \subseteq B \subseteq V$ and any element $e \in V$ such that $e \notin B$, the following inequality holds:
+
+$$f(A \cup \{e\}) - f(A) \geq f(B \cup \{e\}) - f(B)$$
+
+Let's see a Python example of a submodular function:
+
+```{python}
+# Example of a submodular set-function (set coverage function)
+def submodular_function(S):
+    return len(set(S))
+
+# Test the submodular function
+set_example = [1, 2, 3]
+result = submodular_function(set_example)
+print("Submodular function result:", result)
+```
+
+**4. Relationship between Multimodular Functions and Submodular Set-Functions**
+
+The minimization of a multimodular function over nonnegative integer vectors can be reformulated as the minimization of a submodular set-function over certain families of sets, known as ring families.
+
+For example, we can relate the multimodular function to a submodular set-function by transforming the input vector into a set of absolute values of its elements:
+
+```{python}
+# Example of relating multimodular function to submodular set-function
+def relate_multimodular_to_submodular(x):
+    return set(abs(xi) for xi in x)
+
+# Test relating multimodular function to submodular set-function
+x_example = [1, -2, 3]
+result = relate_multimodular_to_submodular(x_example)
+print("Related set from multimodular function:", result)
+```
+
+**5. Ring Families**
+
+A ring family is a family of sets with specific properties that facilitate the minimization of submodular set-functions. These properties include closure under intersection and difference operations.
+
+For example, we can define a simple ring family as a list of sets:
+
+```{python}
+# Example of defining a ring family
+ring_family = [{1, 2}, {2, 3}, {3, 4}, {1, 4}]  # Example of a ring family
+
+# Test the ring family
+print("Ring family:", ring_family)
+```
+
+**6. Minimization Algorithm**
+
+To minimize the submodular set-function over the ring family, we can use specialized algorithms such as the greedy algorithm or the Lovász extension. These algorithms iteratively select elements to include in the set based on their marginal contributions to the function value until a stopping criterion is met.
+
+Let's see an example of minimizing a submodular function over a ring family using Python:
+
+```{python}
+# Example of minimizing submodular function over ring family
+def minimize_submodular_function(ring_family, submodular_function):
+    min_value = float('inf')
+    min_set = None
+    for S in ring_family:
+        value = submodular_function(S)
+        print(value)
+        if value < min_value:
+            min_value = value
+            min_set = S
+    return min_set
+
+# Test minimizing submodular function over ring family
+min_set = minimize_submodular_function(ring_family, submodular_function)
+print("Minimized set over ring family:", min_set)
+```
+
+**7. Conclusion**
+
+In this tutorial, we've explored the concept of minimizing a multimodular function via submodular set-function minimization over ring families. We've covered the underlying mathematical concepts and provided Python code examples to illustrate each step of the process. By leveraging these techniques, you can tackle optimization problems involving multimodular functions efficiently.
