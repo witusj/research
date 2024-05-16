@@ -35,6 +35,7 @@ Before diving into Lipschitz functions, it's essential to understand continuity.
 ```{python}
 import numpy as np
 import plotly.graph_objs as go
+import networkx as nx
 ```
 
 ```{python}
@@ -257,13 +258,13 @@ where $x_1, x_2, \ldots, x_n$ are subsets of the vector $x$, and $f_1, f_2, \ldo
 
 A typical example of a multimodular function is a polynomial function where each term represents a modular function. Let's consider the following polynomial function:
 
-$f(x) = x_1^2 + 2x_2 + x_3$
+$$f(x) = x_1^2 + 2x_2 + x_3$$
 
-Here, we can decompose \( f(x) \) into three modular functions:
+Here, we can decompose $f(x)$ into three modular functions:
 
-$f_1(x_1) = x_1^2$
-$f_2(x_2) = 2x_2$
-$f_3(x_3) = x_3$
+$$f_1(x_1) = x_1^2$$
+$$f_2(x_2) = 2x_2$$
+$$f_3(x_3) = x_3$$
 
 Let's illustrate this with a Python code example:
 
@@ -362,3 +363,109 @@ print("Minimized set over ring family:", min_set)
 **7. Conclusion**
 
 In this tutorial, we've explored the concept of minimizing a multimodular function via submodular set-function minimization over ring families. We've covered the underlying mathematical concepts and provided Python code examples to illustrate each step of the process. By leveraging these techniques, you can tackle optimization problems involving multimodular functions efficiently.
+
+Sure, I'll break down the explanation of submodular set functions using Python code examples into a set of logical steps.
+
+Step 1: Understanding Set Functions
+A set function is a function that maps a set to a real number. In Python, we can define a set function as a function that takes a set as input and returns a real number.
+
+```{python}
+def set_function(S):
+    # Compute the value of the set function for the set S
+    # and return the result
+    pass
+```
+
+Step 2: Defining a Submodular Set Function
+A submodular set function is a set function that satisfies the diminishing returns property. This property states that for any two sets A and B, where A is a subset of B, and for any element x not in B, the increment in the function value by adding x to A is greater than or equal to the increment in the function value by adding x to B.
+
+Mathematically, a set function f is submodular if:
+
+$$
+f(A ∪ {x}) - f(A) ≥ f(B ∪ {x}) - f(B)
+$$
+
+for all sets $A, B$, and element $x$, where $A ⊆ B$ and $x \notin B$.
+
+In Python, we can define a submodular set function as follows:
+
+```{python}
+def submodular_function(S):
+    # Define the submodular function here
+    # Ensure that it satisfies the diminishing returns property
+    pass
+```
+
+Step 3: Checking the Submodularity Property
+To verify that a set function is submodular, we need to check the diminishing returns property for all possible sets $A, B$, and element $x$. This can be done using nested loops in Python.
+
+```{python}
+def is_submodular(func):
+    # Define the ground set V
+    V = set(range(5))  # Example ground set {0, 1, 2, 3, 4}
+
+    # Check the submodularity property for all possible sets A, B, and x
+    for A_tuple in powerset(V):
+        A = set(A_tuple)
+        for B_tuple in powerset(V):
+            B = set(B_tuple)
+            if A.issubset(B):
+                for x in V - B:
+                    if func(A.union({x})) - func(A) < func(B.union({x})) - func(B):
+                        return False
+
+    return True
+
+def powerset(S):
+    # Generate the power set of a set S
+    from itertools import chain, combinations
+    return chain.from_iterable(combinations(S, r) for r in range(len(S)+1))
+```
+
+In this example, `is_submodular` checks the submodularity property for a given set function `func` by iterating over all possible sets $A, B$, and $x$. If the diminishing returns property is violated for any combination of $A, B$, and $x$, the function returns `False`. Otherwise, it returns `True`, indicating that the function is submodular.
+
+The `powerset` function generates the power set of a given set, which is the set of all possible subsets of that set.
+
+Step 4: Examples of Submodular Set Functions
+Here are a few examples of submodular set functions in Python:
+
+```{python}
+# Modular function (linear function)
+def modular_function(S):
+    return sum(S)
+
+# Coverage function
+def coverage_function(S, ground_set):
+    return len(set.union(*(ground_set[i] for i in S)))
+
+# Graph cut function
+def graph_cut_function(S, graph):
+    cut = 0
+    for u in S:
+        for v in graph.nodes - S:
+            if graph.has_edge(u, v):
+                cut += 1
+    return cut
+```
+
+The `modular_function` is a simple sum of the elements in the set, which is a submodular function. The `coverage_function` computes the size of the union of subsets from a given ground set, which is also submodular. The `graph_cut_function` counts the number of edges between the set S and its complement in a given graph, which is a submodular function as well.
+
+You can verify that these functions are submodular by calling the `is_submodular` function with each of them as an argument.
+
+```{python}
+# Verify submodularity for the example functions
+print("Modular function is submodular:", is_submodular(modular_function))
+
+# Define a ground set for the coverage function
+ground_set = [{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 0}]
+
+#print("Coverage function is submodular:", is_submodular(lambda S: coverage_function(S, ground_set)))
+
+# For the graph cut function, we need to define a graph
+
+graph = nx.Graph()
+graph.add_nodes_from(range(5))
+graph.add_edges_from([(0, 1), (1, 2), (2, 3), (3, 4), (4, 0)])
+print("Graph cut function is submodular:", is_submodular(lambda S: graph_cut_function(S, graph)))
+```
+

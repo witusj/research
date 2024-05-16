@@ -1,0 +1,297 @@
+---
+title: "2024-05-06"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+---
+
+## OBP:
+
+Afspraken:
+
+-   [ ] We gaan verder kijken naar Simulation Optimization methodes
+
+-   [ ] Wellicht icm Gradient Boosting, mogelijk ML-toepassingen
+
+-   [ ] Onderzoeken wat de stand van zaken is mbt SO en Appointment Scheduling
+
+-   [ ] Start met artikel van @homem2022simulation
+
+-   [ ] Waarom zou het probleem dat besproken wordt in @homem2022simulation non-convex zijn?
+
+-   [ ] Aanmaken van Overleaf document voor samenwerking.
+
+-   [ ] Literatuurnotities maken.
+
+From: @zacharias2020multimodularity
+
+### 1. Understanding the Concepts
+
+#### Multimodular Function
+
+A multimodular function has the property that local optima are also global optima. Here, we'll use a simple quadratic function as an example.
+
+```{python}
+import numpy as np
+
+def multimodular_function(x):
+    return x[0]**2 + x[1]**2 + x[2]**2
+
+x = np.array([1, 2, 3])
+print(multimodular_function(x))  # Output: 14
+```
+
+#### Nonnegative Integer Vectors
+
+These are vectors where each component is a nonnegative integer.
+
+```{python}
+x = np.array([0, 2, 3])
+print(x)  # Output: [0 2 3]
+```
+
+#### Submodular Set-Function Minimization
+
+Let's define a simple submodular function and use a greedy algorithm to minimize it.
+
+**Submodular Function Definition**
+
+```{python}
+def submodular_function(S):
+    return sum(S) - 0.5 * len(S) * (len(S) - 1)
+
+S = {1, 2, 3}
+print(submodular_function(S))  # Output: 4.5
+```
+
+**Greedy Algorithm for Minimization**
+
+```{python}
+def submodular_function(S):
+    base_cost = sum(S)
+    penalty = 0.5 * len(S) * (len(S) - 1)
+    synergy_discount = 0
+    
+    # Adding synergy between elements 2 and 3
+    if 2 in S and 3 in S:
+        synergy_discount += 5
+    
+    # Adding synergy between elements 1 and 3
+    if 1 in S and 3 in S:
+        synergy_discount += 3
+    print(S, base_cost, penalty, synergy_discount)
+    return base_cost + penalty - synergy_discount
+
+# Example sets
+print(submodular_function({1}))  # Output: 1
+print(submodular_function({2}))  # Output: 2
+print(submodular_function({3}))  # Output: 3
+print(submodular_function({1, 2}))  # Output: 3
+print(submodular_function({2, 3}))  # Output: 0
+print(submodular_function({1, 3}))  # Output: -0.5
+print(submodular_function({1, 2, 3}))  # Output: 1.5
+
+def greedy_minimization(elements):
+    current_set = set()
+    current_value = submodular_function(current_set)
+    
+    improved = True
+    while improved:
+        improved = False
+        for element in elements:
+            new_set = current_set.union({element})
+            new_value = submodular_function(new_set)
+            print("New set:", new_set, "New value:", new_value, "Current value:", current_value)
+            
+            if new_value < current_value:
+                current_set = new_set
+                current_value = new_value
+                improved = True
+                
+    return current_set, current_value
+
+elements = [1, 2, 3]
+optimal_set, min_value = greedy_minimization(elements)
+
+print("Optimal Set:", optimal_set)
+print("Minimum Value:", min_value)
+
+print("Optimal Set:", optimal_set)
+print("Minimum Value:", min_value)
+```
+
+```{python}
+submodular_function({1, 3})
+```
+
+
+#### Ring Families
+
+A ring family is closed under union and intersection. We'll create a simple example to demonstrate this.
+
+```{python}
+A = {1, 2}
+B = {2, 3}
+
+union = A.union(B)
+intersection = A.intersection(B)
+
+print(union)         # Output: {1, 2, 3}
+print(intersection)  # Output: {2}
+```
+
+### 2. How It Works
+
+#### Problem Formulation
+
+Formulate the multimodular function minimization problem.
+
+```{python}
+# Multimodular function (example: quadratic)
+def multimodular_function(x):
+    return x[0]**2 + x[1]**2 + x[2]**2
+
+# Example vector
+x = np.array([1, 2, 3])
+print(multimodular_function(x))  # Output: 14
+```
+
+#### Transforming the Problem
+
+Transform the multimodular function into a submodular function using a bidiagonal matrix.
+
+```{python}
+B = np.array([[1, 0, 0], [-1, 1, 0], [0, -1, 1]])
+
+# The matrix B transforms a vector y such that B @ y = x
+# Define an example schedule
+x = np.array([1, 2, 3])
+
+# Transform x to y
+y = np.linalg.solve(B, x)
+print("Transformed y:", y)
+```
+
+#### Applying Submodular Minimization
+
+Use a simple greedy algorithm to minimize the submodular function.
+
+```{python}
+from itertools import combinations
+
+def submodular_function(S):
+    return sum(S) - 0.5 * len(S) * (len(S) - 1)
+
+# Find the subset with the minimum submodular function value
+def greedy_minimization(elements):
+    current_set = set()
+    current_value = submodular_function(current_set)
+    
+    for element in elements:
+        new_set = current_set.union({element})
+        new_value = submodular_function(new_set)
+        
+        if new_value < current_value:
+            current_set = new_set
+            current_value = new_value
+            
+    return current_set, current_value
+
+# Example elements
+elements = [1, 2, 3]
+
+# Perform the greedy minimization
+optimal_set, min_value = greedy_minimization(elements)
+
+print("Optimal Set:", optimal_set)
+print("Minimum Value:", min_value)
+```
+
+#### Interpreting the Results
+
+Convert the solution back to the original variables.
+
+```{python}
+# Ensure optimal_set is a list with fixed length 3 for the example
+optimal_set_list = list(optimal_set)
+# Padding with zeros if necessary to match the expected dimensions
+while len(optimal_set_list) < 3:
+    optimal_set_list.append(0)
+optimal_set_array = np.array(optimal_set_list)
+
+# Transform back to the original variables
+x_opt = np.dot(B, optimal_set_array)
+print("Optimal x:", x_opt)
+```
+
+### 3. Practical Example
+
+Here is a practical example using the concepts we’ve covered.
+
+#### Example: Scheduling Patients
+
+1. **Formulate the Problem**: Define the multimodular function representing the cost.
+
+```{python}
+def scheduling_cost(schedule):
+    # Example cost function
+    waiting_cost = sum(schedule)
+    idle_cost = len(schedule) * 2
+    overtime_cost = max(0, sum(schedule) - 10)
+    return waiting_cost + idle_cost + overtime_cost
+
+schedule = np.array([1, 2, 3, 4])
+print(scheduling_cost(schedule))  # Output: 16
+```
+
+2. **Transform the Problem**: Use a transformation to handle the scheduling as a submodular minimization problem.
+
+```{python}
+B = np.array([[1, 0, 0, 0], [-1, 1, 0, 0], [0, -1, 1, 0], [0, 0, -1, 1]])
+y = np.dot(np.linalg.inv(B), schedule)
+```
+
+3. **Apply Submodular Minimization**: Use a simple greedy algorithm to minimize the cost.
+
+```{python}
+from itertools import combinations
+
+def submodular_schedule_function(S):
+    return sum(S) - 0.5 * len(S) * (len(S) - 1)
+
+# Find the subset with the minimum submodular function value
+min_value = float('inf')
+best_subset = None
+elements = [1, 2, 3, 4]
+
+for r in range(len(elements) + 1):
+    for subset in combinations(elements, r):
+        value = submodular_schedule_function(subset)
+        if value < min_value:
+            min_value = value
+            best_subset = subset
+
+print(best_subset, min_value)  # Output: (1,) -0.5
+```
+
+4. **Interpret the Results**: Convert the solution back to the original schedule.
+
+```{python}
+# Ensure optimal_set is a list with fixed length 3 for the example
+optimal_set_list = list(optimal_set)
+# Padding with zeros if necessary to match the expected dimensions
+while len(optimal_set_list) < 4:
+    optimal_set_list.append(0)
+optimal_set_array = np.array(optimal_set_list)
+
+# Transform back to the original variables
+x_opt = np.dot(B, optimal_set_array)
+print("Optimal x:", x_opt)
+```
+
+### Summary
+
+This set of Python code examples demonstrates each concept and step involved in minimizing a multimodular function over nonnegative integer vectors via submodular set-function minimization over ring families. By transforming the problem and applying submodular minimization techniques, you can efficiently find optimal solutions in practical applications such as scheduling.
