@@ -143,7 +143,7 @@ div.csl-indent {
 <section id="multimodular-function" class="level4">
 <h4 class="anchored" data-anchor-id="multimodular-function">Multimodular Function</h4>
 <p>A multimodular function has the property that local optima are also global optima. Here, we’ll use a simple quadratic function as an example.</p>
-<div id="3c3da05c" class="cell" data-execution_count="1">
+<div id="21229fa0" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> multimodular_function(x):</span>
@@ -159,7 +159,7 @@ div.csl-indent {
 <section id="nonnegative-integer-vectors" class="level4">
 <h4 class="anchored" data-anchor-id="nonnegative-integer-vectors">Nonnegative Integer Vectors</h4>
 <p>These are vectors where each component is a nonnegative integer.</p>
-<div id="53d6c30b" class="cell" data-execution_count="2">
+<div id="77b2bd3f" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)  <span class="co"># Output: [0 2 3]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -171,7 +171,7 @@ div.csl-indent {
 <h4 class="anchored" data-anchor-id="submodular-set-function-minimization">Submodular Set-Function Minimization</h4>
 <p>Let’s define a simple submodular function and use a greedy algorithm to minimize it.</p>
 <p><strong>Submodular Function Definition</strong></p>
-<div id="eb66abff" class="cell" data-execution_count="3">
+<div id="e8a7d2ef" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> submodular_function(S):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(S) <span class="op">-</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="bu">len</span>(S) <span class="op">*</span> (<span class="bu">len</span>(S) <span class="op">-</span> <span class="dv">1</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -182,7 +182,7 @@ div.csl-indent {
 </div>
 </div>
 <p><strong>Greedy Algorithm for Minimization</strong></p>
-<div id="4fde9aa6" class="cell" data-execution_count="4">
+<div id="7d4551dd" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> submodular_function(S):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    base_cost <span class="op">=</span> <span class="bu">sum</span>(S)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    penalty <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="bu">len</span>(S) <span class="op">*</span> (<span class="bu">len</span>(S) <span class="op">-</span> <span class="dv">1</span>)</span>
@@ -262,7 +262,7 @@ Optimal Set: set()
 Minimum Value: 0.0</code></pre>
 </div>
 </div>
-<div id="c66c4601" class="cell" data-execution_count="5">
+<div id="884978b5" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>submodular_function({<span class="dv">1</span>, <span class="dv">3</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>{1, 3} 4 1.0 3</code></pre>
@@ -275,7 +275,7 @@ Minimum Value: 0.0</code></pre>
 <section id="ring-families" class="level4">
 <h4 class="anchored" data-anchor-id="ring-families">Ring Families</h4>
 <p>A ring family is closed under union and intersection. We’ll create a simple example to demonstrate this.</p>
-<div id="078c44f3" class="cell" data-execution_count="6">
+<div id="f3b6b0da" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> {<span class="dv">1</span>, <span class="dv">2</span>}</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> {<span class="dv">2</span>, <span class="dv">3</span>}</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -296,7 +296,7 @@ Minimum Value: 0.0</code></pre>
 <section id="problem-formulation" class="level4">
 <h4 class="anchored" data-anchor-id="problem-formulation">Problem Formulation</h4>
 <p>Formulate the multimodular function minimization problem.</p>
-<div id="8f09db31" class="cell" data-execution_count="7">
+<div id="5064ccb8" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Multimodular function (example: quadratic)</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> multimodular_function(x):</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> x[<span class="dv">2</span>]<span class="op">**</span><span class="dv">2</span></span>
@@ -312,7 +312,7 @@ Minimum Value: 0.0</code></pre>
 <section id="transforming-the-problem" class="level4">
 <h4 class="anchored" data-anchor-id="transforming-the-problem">Transforming the Problem</h4>
 <p>Transform the multimodular function into a submodular function using a bidiagonal matrix.</p>
-<div id="e962490c" class="cell" data-execution_count="8">
+<div id="b703ec22" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>]])</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># The matrix B transforms a vector y such that B @ y = x</span></span>
@@ -330,7 +330,7 @@ Minimum Value: 0.0</code></pre>
 <section id="applying-submodular-minimization" class="level4">
 <h4 class="anchored" data-anchor-id="applying-submodular-minimization">Applying Submodular Minimization</h4>
 <p>Use a simple greedy algorithm to minimize the submodular function.</p>
-<div id="34d7e774" class="cell" data-execution_count="9">
+<div id="c1947376" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> combinations</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> submodular_function(S):</span>
@@ -368,7 +368,7 @@ Minimum Value: 0.0</code></pre>
 <section id="interpreting-the-results" class="level4">
 <h4 class="anchored" data-anchor-id="interpreting-the-results">Interpreting the Results</h4>
 <p>Convert the solution back to the original variables.</p>
-<div id="af88465d" class="cell" data-execution_count="10">
+<div id="9ddc8834" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure optimal_set is a list with fixed length 3 for the example</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>optimal_set_list <span class="op">=</span> <span class="bu">list</span>(optimal_set)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Padding with zeros if necessary to match the expected dimensions</span></span>
@@ -393,7 +393,7 @@ Minimum Value: 0.0</code></pre>
 <ol type="1">
 <li><strong>Formulate the Problem</strong>: Define the multimodular function representing the cost.</li>
 </ol>
-<div id="5d25c967" class="cell" data-execution_count="11">
+<div id="7e1dc913" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> scheduling_cost(schedule):</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Example cost function</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    waiting_cost <span class="op">=</span> <span class="bu">sum</span>(schedule)</span>
@@ -410,14 +410,14 @@ Minimum Value: 0.0</code></pre>
 <ol start="2" type="1">
 <li><strong>Transform the Problem</strong>: Use a transformation to handle the scheduling as a submodular minimization problem.</li>
 </ol>
-<div id="14c7788f" class="cell" data-execution_count="12">
+<div id="57b0fe7b" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>]])</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.dot(np.linalg.inv(B), schedule)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" type="1">
 <li><strong>Apply Submodular Minimization</strong>: Use a simple greedy algorithm to minimize the cost.</li>
 </ol>
-<div id="d325c66a" class="cell" data-execution_count="13">
+<div id="faa37c1b" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> combinations</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> submodular_schedule_function(S):</span>
@@ -443,7 +443,7 @@ Minimum Value: 0.0</code></pre>
 <ol start="4" type="1">
 <li><strong>Interpret the Results</strong>: Convert the solution back to the original schedule.</li>
 </ol>
-<div id="cbae5356" class="cell" data-execution_count="14">
+<div id="672496cc" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure optimal_set is a list with fixed length 3 for the example</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>optimal_set_list <span class="op">=</span> <span class="bu">list</span>(optimal_set)</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Padding with zeros if necessary to match the expected dimensions</span></span>
@@ -463,11 +463,227 @@ Minimum Value: 0.0</code></pre>
 <section id="summary" class="level3">
 <h3 class="anchored" data-anchor-id="summary">Summary</h3>
 <p>This set of Python code examples demonstrates each concept and step involved in minimizing a multimodular function over nonnegative integer vectors via submodular set-function minimization over ring families. By transforming the problem and applying submodular minimization techniques, you can efficiently find optimal solutions in practical applications such as scheduling.</p>
+</section>
+<section id="simulation-optimization" class="level3">
+<h3 class="anchored" data-anchor-id="simulation-optimization">Simulation Optimization</h3>
+<p>From: <span class="citation" data-cites="simoptgithub">Eckman et al. (<a href="#ref-simoptgithub" role="doc-biblioref">2023</a>)</span></p>
+<section id="setup" class="level4">
+<h4 class="anchored" data-anchor-id="setup">Setup</h4>
+<div id="ab3d198e" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> simopt</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> simopt <span class="im">import</span> models, solvers, experiment_base</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="27b8fbfe" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>myexperiment <span class="op">=</span> simopt.experiment_base.ProblemSolver(<span class="st">"RNDSRCH"</span>, <span class="st">"CNTNEWS-1"</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>myexperiment.run(n_macroreps<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Running macroreplication 1 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Running macroreplication 2 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Running macroreplication 3 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Running macroreplication 4 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Running macroreplication 5 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Running macroreplication 6 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Running macroreplication 7 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Running macroreplication 8 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Running macroreplication 9 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Running macroreplication 10 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.</code></pre>
+</div>
+</div>
+<div id="d9574a54" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>myexperiment.post_replicate(n_postreps<span class="op">=</span><span class="dv">200</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>simopt.experiment_base.post_normalize([myexperiment], n_postreps_init_opt<span class="op">=</span><span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Postreplicating macroreplication 1 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Postreplicating macroreplication 2 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Postreplicating macroreplication 3 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Postreplicating macroreplication 4 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Postreplicating macroreplication 5 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Postreplicating macroreplication 6 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Postreplicating macroreplication 7 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Postreplicating macroreplication 8 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Postreplicating macroreplication 9 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Postreplicating macroreplication 10 of 10 of Solver RNDSRCH on Problem CNTNEWS-1.
+Postnormalizing on Problem CNTNEWS-1.
+Finding f(x*)...
+    ...using best postreplicated solution as proxy for x*.</code></pre>
+</div>
+</div>
+<div id="7cd749d5" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#A .txt file called RNDSRCH_on_CNTNEWS-1_experiment_results.txt will be saved in a folder called experiments/logs</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>myexperiment.log_experiment_results()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="57e6e7df" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>simopt.experiment_base.plot_progress_curves(experiments<span class="op">=</span>[myexperiment], plot_type<span class="op">=</span><span class="st">"mean"</span>, normalize<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2024-05-16_files/figure-html/cell-20-output-1.png" width="619" height="503" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="tutorial-on-applying-simulation-optimization-to-appointment-scheduling-using-python" class="level3">
+<h3 class="anchored" data-anchor-id="tutorial-on-applying-simulation-optimization-to-appointment-scheduling-using-python">Tutorial on Applying Simulation Optimization to Appointment Scheduling Using Python</h3>
+<p>In this tutorial, we will explore how to apply simulation optimization to appointment scheduling. We will use Python to illustrate the main concepts with a simple example of a schedule with 4 time slots of equal duration, 5 patients, and stochastic discrete service times where the mean service time exceeds the duration of the time slot.</p>
+</section>
+<section id="step-1-define-the-problem" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-define-the-problem">Step 1: Define the Problem</h3>
+<p>Our goal is to create an appointment schedule that minimizes the total cost, which is a combination of patient waiting time, doctor idle time, and potential overtime.</p>
+</section>
+<section id="step-2-set-up-the-environment" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-set-up-the-environment">Step 2: Set Up the Environment</h3>
+<p>First, we need to set up our Python environment. We will use the <code>numpy</code> and <code>simpy</code> libraries for simulations and the <code>scipy.optimize</code> for optimization.</p>
+<div id="1fedb7b9" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> simpy</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-3-define-the-simulation-model" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-define-the-simulation-model">Step 3: Define the Simulation Model</h3>
+<p>We will create a simulation model that mimics the operation of an appointment schedule. Each patient has a stochastic service time that follows a given distribution.</p>
+<div id="784f5a7f" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> AppointmentSimulation:</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, env, num_slots, service_times):</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.env <span class="op">=</span> env</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.num_slots <span class="op">=</span> num_slots</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.service_times <span class="op">=</span> service_times</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.waiting_times <span class="op">=</span> []</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.idle_times <span class="op">=</span> []</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.overtime <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.doctor <span class="op">=</span> simpy.Resource(env, capacity<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> patient(<span class="va">self</span>, patient_id, appointment_time):</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">yield</span> <span class="va">self</span>.env.timeout(<span class="bu">max</span>(<span class="dv">0</span>, appointment_time <span class="op">-</span> <span class="va">self</span>.env.now))  <span class="co"># Wait until appointment time</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> <span class="va">self</span>.doctor.request() <span class="im">as</span> request:</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">yield</span> request</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>            start_time <span class="op">=</span> <span class="va">self</span>.env.now</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>            service_time <span class="op">=</span> <span class="va">self</span>.service_times[patient_id]</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">yield</span> <span class="va">self</span>.env.timeout(service_time)</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>            end_time <span class="op">=</span> <span class="va">self</span>.env.now</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.waiting_times.append(start_time <span class="op">-</span> appointment_time)</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> start_time <span class="op">&gt;</span> appointment_time:</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.idle_times.append(<span class="dv">0</span>)</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.idle_times.append(appointment_time <span class="op">-</span> start_time)</span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.overtime <span class="op">=</span> <span class="bu">max</span>(<span class="dv">0</span>, end_time <span class="op">-</span> <span class="va">self</span>.num_slots)</span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> run(<span class="va">self</span>, schedule):</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(schedule)):</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.env.process(<span class="va">self</span>.patient(i, schedule[i]))</span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.env.run()</span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> objective_function(schedule, service_times, num_slots):</span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a>    env <span class="op">=</span> simpy.Environment()</span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a>    sim <span class="op">=</span> AppointmentSimulation(env, num_slots, service_times)</span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a>    sim.run(schedule)</span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a>    total_waiting_time <span class="op">=</span> np.<span class="bu">sum</span>(sim.waiting_times)</span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>    total_idle_time <span class="op">=</span> np.<span class="bu">sum</span>(sim.idle_times)</span>
+<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a>    total_overtime <span class="op">=</span> sim.overtime</span>
+<span id="cb37-38"><a href="#cb37-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> total_waiting_time <span class="op">+</span> total_idle_time <span class="op">+</span> total_overtime</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-4-generate-service-times" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-generate-service-times">Step 4: Generate Service Times</h3>
+<p>Generate the service times for each patient using a discrete stochastic distribution where the mean exceeds the time slot duration.</p>
+<div id="d199cc3f" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">0</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>mean_service_time <span class="op">=</span> <span class="dv">15</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>num_patients <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>service_times <span class="op">=</span> np.random.poisson(mean_service_time, num_patients)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Service times:"</span>, service_times)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Service times: [15 16 14 14 25]</code></pre>
+</div>
+</div>
+</section>
+<section id="step-5-define-the-optimization-problem" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-define-the-optimization-problem">Step 5: Define the Optimization Problem</h3>
+<p>We need to find the optimal appointment times that minimize the total cost function. We will use a simple local search algorithm for this purpose. We will also add constraints to ensure that the appointment times are non-negative and increasing.</p>
+<div id="ce04cf39" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> constraint(schedule):</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.diff(schedule).<span class="bu">min</span>()</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>initial_schedule <span class="op">=</span> np.arange(<span class="dv">0</span>, num_patients <span class="op">*</span> <span class="dv">10</span>, <span class="dv">10</span>)  <span class="co"># Initial schedule: every 10 minutes</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>num_slots <span class="op">=</span> <span class="dv">40</span>  <span class="co"># 4 time slots of 10 minutes each</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>constraints <span class="op">=</span> ({<span class="st">'type'</span>: <span class="st">'ineq'</span>, <span class="st">'fun'</span>: constraint})</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> minimize(objective_function, initial_schedule, args<span class="op">=</span>(service_times, num_slots), method<span class="op">=</span><span class="st">'SLSQP'</span>, constraints<span class="op">=</span>constraints, options<span class="op">=</span>{<span class="st">'disp'</span>: <span class="va">True</span>})</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>optimal_schedule <span class="op">=</span> result.x</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Optimal schedule:"</span>, optimal_schedule)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Optimization terminated successfully    (Exit mode 0)
+            Current function value: 44.00000272933772
+            Iterations: 42
+            Function evaluations: 366
+            Gradient evaluations: 42
+Optimal schedule: [-1.40258245e-07  1.50000007e+01  3.10000009e+01  4.50000009e+01
+  5.90000026e+01]</code></pre>
+</div>
+</div>
+</section>
+<section id="step-6-analyze-the-results" class="level3">
+<h3 class="anchored" data-anchor-id="step-6-analyze-the-results">Step 6: Analyze the Results</h3>
+<p>Finally, we analyze the results to understand the optimal schedule and the corresponding costs.</p>
+<div id="9d9102e1" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>env <span class="op">=</span> simpy.Environment()</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> AppointmentSimulation(env, num_slots, service_times)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>sim.run(optimal_schedule)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Optimal Schedule:"</span>, optimal_schedule)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Waiting Times:"</span>, sim.waiting_times)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Idle Times:"</span>, sim.idle_times)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Overtime:"</span>, sim.overtime)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Total Cost:"</span>, objective_function(optimal_schedule, service_times, num_slots))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Optimal Schedule: [-1.40258245e-07  1.50000007e+01  3.10000009e+01  4.50000009e+01
+  5.90000026e+01]
+Waiting Times: [1.4025824481993313e-07, 0.0, 0.0, 3.783960522696361e-08, 0.0]
+Idle Times: [0, 0.0, 0.0, 0, 0.0]
+Overtime: 44.000002551239874
+Total Cost: 44.00000272933772</code></pre>
+</div>
+</div>
+<p>By ensuring the appointment times are non-negative and increasing, we can avoid the negative delay error and obtain a feasible schedule. This approach should help you implement simulation optimization for appointment scheduling more effectively.</p>
+<section id="step-6-analyze-the-results-1" class="level4">
+<h4 class="anchored" data-anchor-id="step-6-analyze-the-results-1">Step 6: Analyze the Results</h4>
+<p>Finally, we analyze the results to understand the optimal schedule and the corresponding costs.</p>
+<div id="65a3ff59" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>env <span class="op">=</span> simpy.Environment()</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>sim <span class="op">=</span> AppointmentSimulation(env, num_slots, service_times)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>sim.run(optimal_schedule)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Optimal Schedule:"</span>, optimal_schedule)</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Waiting Times:"</span>, sim.waiting_times)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Idle Times:"</span>, sim.idle_times)</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Overtime:"</span>, sim.overtime)</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Total Cost:"</span>, objective_function(optimal_schedule, service_times, num_slots))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Optimal Schedule: [-1.40258245e-07  1.50000007e+01  3.10000009e+01  4.50000009e+01
+  5.90000026e+01]
+Waiting Times: [1.4025824481993313e-07, 0.0, 0.0, 3.783960522696361e-08, 0.0]
+Idle Times: [0, 0.0, 0.0, 0, 0.0]
+Overtime: 44.000002551239874
+Total Cost: 44.00000272933772</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion">Conclusion</h3>
+<p>By following this tutorial, we demonstrated how to apply simulation optimization to appointment scheduling using Python. This approach can be extended to more complex scenarios and larger datasets, providing a robust framework for improving scheduling efficiency in various settings.</p>
 
 </section>
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-simoptgithub" class="csl-entry" role="listitem">
+Eckman, D. J., S. G. Henderson, S. Shashaani, and R. Pasupathy. 2023. <span>“<span>SimOpt</span>.”</span> <em>GitHub Repository</em>. <a href="https://github.com/simopt-admin/simopt" class="uri">https://github.com/simopt-admin/simopt</a>; GitHub.
+</div>
 <div id="ref-homem2022simulation" class="csl-entry" role="listitem">
 Homem-de-Mello, Tito, Qingxia Kong, and Rodrigo Godoy-Barba. 2022. <span>“A Simulation Optimization Approach for the Appointment Scheduling Problem with Decision-Dependent Uncertainties.”</span> <em>INFORMS Journal on Computing</em> 34 (5): 2845–65.
 </div>
