@@ -1,0 +1,175 @@
+---
+title: "2024-05-06"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+jupyter: python3
+---
+
+## OBP:
+
+Afspraken:
+
+-   [ ] We gaan verder kijken naar Simulation Optimization methodes
+
+-   [ ] Wellicht icm Gradient Boosting, mogelijk ML-toepassingen
+
+-   [ ] Onderzoeken wat de stand van zaken is mbt SO en Appointment Scheduling
+
+-   [ ] Start met artikel van @homem2022simulation
+
+-   [ ] Waarom zou het probleem dat besproken wordt in @homem2022simulation non-convex zijn?
+
+-   [ ] Aanmaken van Overleaf document voor samenwerking.
+
+-   [ ] Literatuurnotities maken.
+
+From: @dieleman2023neural
+
+The paper "A Neural Network Approach to Performance Analysis of Tandem Lines" by Heidergott et al. discusses developing and optimizing a neural network (NN) for approximating the throughput of finite-buffer multi-server tandem lines. These lines vary in service rates, number of stations, buffers, and servers. The key contributions of the paper include integrating biased analytical queuing knowledge into the NN training process to improve its performance and applying the trained NN for optimization tasks in production systems.
+
+### Key Concepts and Elements:
+
+1.  **Tandem Queuing Networks**:
+    -   **Definition**: These are series of queues where each station consists of multiple servers and finite buffers. Jobs arriving at the first station follow a Poisson process and are served exponentially.
+    -   **Challenge**: Due to finite buffers, exact analytical solutions for throughput are not available, making numerical approaches necessary.
+2.  **Neural Network Metamodeller**:
+    -   **Purpose**: Serve as a fast approximation tool for evaluating and optimizing the performance of tandem lines.
+    -   **Training Data**: Generated using a Discrete Event Simulator (DES) implemented in Python, simulating various configurations of tandem lines.
+    -   **Analytical Knowledge Integration**: Incorporates queuing theory results (though biased) to improve training effectiveness and prediction accuracy.
+3.  **Analytical Features**:
+    -   **Infinite Buffer Queues (M/M/Si/∞)**: Provide exact solutions for performance measures like expected queue length and idle probability.
+    -   **Finite Buffer Queues (M/M/Si/Ki)**: Use adjusted arrival rates to account for blocking and derive performance measures approximately.
+    -   **Effective Throughput (γi)**: Calculated iteratively to capture the system's flow dynamics under blocking conditions.
+4.  **Training Methodology**:
+    -   **Steps**:
+        1.  Define the scope of tandem lines.
+        2.  Generate training, validation, and test data.
+        3.  Train an ensemble of NNs.
+        4.  Use the ensemble for optimization.
+    -   **NN Architectures**: Simple feed-forward networks with one or two hidden layers.
+5.  **Performance Evaluation Metrics**:
+    -   **Mean Squared Error (MSE)**, **Mean Absolute Error (MAE)**, and **Relative Absolute Error (RAE)**: Used to assess NN performance.
+6.  **Optimization Applications**:
+    -   **Buffer Allocation Problem (BAP)**: Optimize buffer placements to maximize throughput.
+    -   **Service Rate Optimization**: Adjust service rates to balance throughput and energy consumption.
+
+### Python Illustration:
+
+Here is an illustration of some key concepts and numerical methods using Python code:
+
+```{python}
+import numpy as np
+import math
+import plotly.graph_objects as go
+
+# Define parameters for a tandem line (units: jobs per second)
+lambda_arrival = 1.5  # Arrival rate (jobs per second)
+mu_service = [2.0, 2.5, 2.0]  # Service rates for three stations (jobs per second)
+buffers = [3, 4, 2]  # Buffer capacities for three stations (number of jobs)
+servers = [2, 1, 1]  # Number of servers at each station
+
+# Calculate effective throughput for each station (units: jobs per second)
+def effective_throughput(lambda_arrival, mu_service, buffers, servers):
+    I = len(mu_service)  # Number of stations
+    gamma = np.zeros(I)
+    gamma[0] = lambda_arrival
+    
+    for i in range(1, I):
+        Ki = servers[i] + buffers[i]
+        sum1 = sum([(gamma[i-1] / mu_service[i-1])**x / math.factorial(x) for x in range(servers[i-1])])
+        sum2 = (1 / math.factorial(servers[i-1])) * sum([(gamma[i-1] / mu_service[i-1])**x / servers[i-1]**(x - servers[i-1]) for x in range(servers[i-1], Ki + 1)])
+        blocking_prob = (gamma[i-1] / mu_service[i-1])**Ki / (math.factorial(servers[i-1]) * servers[i-1]**(Ki - servers[i-1]) * (sum1 + sum2))
+        
+        gamma[i] = gamma[i-1] * (1 - blocking_prob)
+    
+    return gamma
+
+gamma = effective_throughput(lambda_arrival, mu_service, buffers, servers)
+print("Effective Throughput (jobs per second): ", gamma)
+
+# Create a bar plot using Plotly
+fig = go.Figure()
+
+fig.add_trace(go.Bar(
+    x=[f'Station {i+1}' for i in range(len(gamma))],
+    y=gamma,
+    name='Effective Throughput',
+    marker_color='blue'
+))
+
+fig.update_layout(
+    title='Effective Throughput at Each Station',
+    xaxis_title='Station',
+    yaxis_title='Effective Throughput (jobs per second)',
+    bargap=0.2
+)
+
+fig.show()
+
+```
+
+### Explanation:
+
+-   **Effective Throughput Calculation**: The function `effective_throughput` calculates the effective throughput for each station in a tandem line considering blocking probabilities.
+-   **Visualization**: A bar plot visualizes the effective throughput at each station, demonstrating the system's performance dynamics.
+
+The paper demonstrates that integrating analytical knowledge into neural network training significantly enhances the model's accuracy, making it a powerful tool for performance evaluation and optimization in complex queuing systems.
+
+### Algorithm Description
+
+The algorithm provided in the image calculates the effective throughput $\gamma_i$ for each station $i$ in a tandem queue. The calculation is based on the arrival rate $\lambda$, service rates $\mu_i$, buffer capacities $C_i$, and the number of servers $S_i$.
+
+The formula for $\gamma_i$ is:
+
+$$
+\gamma_i = \gamma_{i-1} \left( 1 - \left( \frac{\gamma_{i-1}}{\mu_i} \right)^{K_i} \frac{1}{S_i!} \frac{1}{S_i^{K_i - S_i}} \left[ \sum_{x=0}^{S_i-1} \left( \frac{\gamma_{i-1}}{\mu_i} \right)^x \frac{1}{x!} + \frac{1}{S_i!} \sum_{x=S_i}^{K_i} \frac{1}{S_i^{x-S_i}} \left( \frac{\gamma_{i-1}}{\mu_i} \right)^x \right]^{-1} \right)
+$$
+
+Where: $\gamma_0 = \lambda$
+
+### Python Function `effective_throughput`
+
+The `effective_throughput` function in Python implements this formula. Let's revisit and align the function with the algorithm in the image:
+
+### Explanation:
+
+1.  **Initialization**:
+
+``` python
+   gamma[0] = lambda_arrival
+```
+
+2.  **Loop through each station**:
+
+``` python
+   for i in range(1, I):
+       Ki = servers[i] + buffers[i]
+```
+
+3.  **Calculate the sums**:
+    -   **First Sum (**$x$ from 0 to $S_i-1$):
+
+        ``` python
+        sum1 = sum([(gamma[i-1] / mu_service[i-1])**x / math.factorial(x) for x in range(servers[i-1])])
+        ```
+
+    -   **Second Sum (**$x$ from $S_i$ to $K_i$):
+
+        ``` python
+        sum2 = (1 / math.factorial(servers[i-1])) * sum([(gamma[i-1] / mu_service[i-1])**x / servers[i-1]**(x - servers[i-1]) for x in range(servers[i-1], Ki + 1)])
+        ```
+4.  **Calculate Blocking Probability**:
+
+``` python
+   blocking_prob = (gamma[i-1] / mu_service[i-1])**Ki / (math.factorial(servers[i-1]) * servers[i-1]**(Ki - servers[i-1]) * (sum1 + sum2))
+```
+
+5.  **Update Effective Throughput for Station** $i$:
+
+``` python
+   gamma[i] = gamma[i-1] * (1 - blocking_prob)
+```
