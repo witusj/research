@@ -1,0 +1,125 @@
+---
+title: "2024-05-30"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+jupyter: python3
+editor: 
+  markdown: 
+    wrap: sentence
+---
+
+## OBP:
+
+Afspraken:
+
+-   [ ] We gaan verder kijken naar Simulation Optimization methodes
+
+-   [ ] Wellicht icm Gradient Boosting, mogelijk ML-toepassingen
+
+-   [ ] Onderzoeken wat de stand van zaken is mbt SO en Appointment Scheduling
+
+-   [ ] Start met artikel van @homem2022simulation
+
+-   [ ] Waarom zou het probleem dat besproken wordt in @homem2022simulation non-convex zijn?
+
+-   [x] Aanmaken van Overleaf document voor samenwerking.
+
+-   [ ] Literatuurnotities maken.
+
+-   [ ] Problem description uitwerken in Overleaf.
+
+| Paper | Problem aspects   | Distribution | Solution approach |
+|-------|-------------------|--------------|-------------------|
+| \[1\] | No_shows \[ x \], | Exp          | RSM               |
+|       |                   |              |                   |
+|       |                   |              |                   |
+
+From: @kaandorp2007optimal
+
+
+To explain part (A) of the Proof of Theorem A.4 from pages 13, 14, and 15 of the provided document to someone with undergraduate math and stat skills, we will break it down step-by-step and illustrate each step with Python code where applicable. This part of the proof deals with showing that certain scheduling functions are multimodular. 
+
+### Understanding Multimodularity
+A function \( f: \mathbb{Z}^m \to \mathbb{R} \) is called multimodular if for all \( x \in \mathbb{Z}^m \) and \( v, w \in V \) with \( v \neq w \), the following inequality holds:
+\[ f(x + v) + f(x + w) \leq f(x) + f(x + v + w) \]
+
+In this context, \( V \) is a set of vectors defined by the specific problem, often involving moves from one time slot to another in a scheduling problem.
+
+### Problem Setup
+We need to show that the waiting time function \( W(x) \), the idle time function \( I(x) \), and the tardiness function \( L(x) \) are multimodular. 
+
+### Step-by-Step Explanation
+
+#### Step 1: Definitions and Initial Setup
+Let's consider a set of schedules and the effect of moving patients between time slots. The schedules are represented as vectors in \( \mathbb{Z}^m \). 
+
+We'll define four schedules:
+1. \( x \)
+2. \( x + u_i \)
+3. \( x + u_j \)
+4. \( x + u_i + u_j \)
+
+Here, \( u_i \) and \( u_j \) represent moves that alter the schedule.
+
+#### Step 2: Case Analysis
+The proof involves analyzing different cases of how patients might flow through the system. For Case A, it is assumed that the queue empties between time \( i \) and \( j-1 \).
+
+#### Step 3: Equating Paths
+In Case A, paths of schedules (A1) and (A3) are the same until time \( j-1 \). Similarly, paths of schedules (A2) and (A4) are the same until time \( j-1 \). From this time onwards, paths are identical.
+
+#### Step 4: Calculating Total Waiting Time
+We denote total waiting times as follows:
+- \( a_1 \) for schedule (A1) until time \( j-1 \)
+- \( a_2 \) for schedule (A2) until time \( j-1 \)
+- \( b_1 \) for schedules (A1) and (A2) after time \( j-1 \)
+- \( b_2 \) for schedules (A3) and (A4) after time \( j-1 \)
+
+From these, we establish the equality:
+\[ a_2 + b_1 + a_1 + b_2 = a_1 + b_1 + a_2 + b_2 \]
+
+This equality shows that the waiting times are multimodular in this specific case.
+
+### Python Code Illustration
+
+We'll illustrate the concept with Python code. The code will simulate simple queue management and waiting time calculations for the schedules.
+
+```{python}
+class Schedule:
+    def __init__(self, patients):
+        self.patients = patients  # list of patients scheduled at each time slot
+
+def calculate_waiting_time(schedule):
+    total_waiting_time = 0
+    queue = 0
+    for t, patients in enumerate(schedule.patients):
+        print("t =", t, ", Patients:", patients)
+        total_waiting_time += queue
+        print("Total waiting time:", total_waiting_time)
+        queue += patients - 1  # one patient is treated, rest wait
+        print("Queue:", queue)
+        if queue < 0:
+            queue = 0
+    return total_waiting_time
+
+# Initial schedules
+x = Schedule([2, 1, 1, 0, 0, 1, 1])
+x_ui = Schedule([2, 2, 0, 0, 0, 1, 1])
+x_uj = Schedule([2, 1, 1, 0, 1, 0, 1])
+x_ui_uj = Schedule([2, 2, 0, 0, 1, 0, 1])
+
+# Calculate waiting times
+W_x = calculate_waiting_time(x)
+W_x_ui = calculate_waiting_time(x_ui)
+W_x_uj = calculate_waiting_time(x_uj)
+W_x_ui_uj = calculate_waiting_time(x_ui_uj)
+
+# Check multimodularity
+multimodular_check = W_x_ui + W_x_uj <= W_x + W_x_ui_uj
+print("Is the waiting time function multimodular?", multimodular_check)
+```
+
+This code sets up four schedules, calculates their waiting times, and checks if the waiting time function satisfies the multimodular condition.
