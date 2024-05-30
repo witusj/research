@@ -32,60 +32,108 @@ Afspraken:
 
 -   [ ] Problem description uitwerken in Overleaf.
 
-| Paper | Problem aspects   | Distribution | Solution approach |
-|-------|-------------------|--------------|-------------------|
-| \[1\] | No_shows \[ x \], | Exp          | RSM               |
-|       |                   |              |                   |
-|       |                   |              |                   |
+
+```{python}
+#| column: screen-inset-shaded
+
+
+import json
+import plotly.graph_objects as go
+
+# Read the JSON data from the file
+with open('methods.json', 'r') as file:
+    data = json.load(file)
+
+# Extracting the data for the table
+headers = ["Title", "Authors", "Publication Year", "Time Slots", "Schedule Format", "Service Time", "No-Shows Assumed", "Emergency Patients Assumed", "Punctuality Assumed", "Waiting Time", "Idle Time", "Overtime", "Solution Approach"]
+rows = []
+
+for article in data:
+    row = [
+        article["Title"],
+        article["Authors"],
+        article["Year"],
+        article["Modeling Approach"]["time slots"],
+        article["Modeling Approach"]["schedule format"],
+        article["Modeling Approach"]["service time"],
+        article["Modeling Approach"]["no-shows assumed"],
+        article["Modeling Approach"]["emergency patients assumed"],
+        article["Modeling Approach"]["punctuality assumed"],
+        article["Modeling Approach"]["objective function elements"]["waiting time"],
+        article["Modeling Approach"]["objective function elements"]["idle time"],
+        article["Modeling Approach"]["objective function elements"]["overtime"],
+        article["Solution approach"]
+    ]
+    rows.append(row)
+
+# Create the table
+fig = go.Figure(data=[go.Table(
+    header=dict(values=headers,
+                fill_color='paleturquoise',
+                align='left'),
+    cells=dict(values=list(zip(*rows)),
+               fill_color='lavender',
+               align='left'))
+])
+fig.update_layout(height=1600)
+fig.show()
+```
+
+------------------------------------------------------------------------
 
 From: @kaandorp2007optimal
 
-
-To explain part (A) of the Proof of Theorem A.4 from pages 13, 14, and 15 of the provided document to someone with undergraduate math and stat skills, we will break it down step-by-step and illustrate each step with Python code where applicable. This part of the proof deals with showing that certain scheduling functions are multimodular. 
+To explain part (A) of the Proof of Theorem A.4 from pages 13, 14, and 15 of the provided document to someone with undergraduate math and stat skills, we will break it down step-by-step and illustrate each step with Python code where applicable.
+This part of the proof deals with showing that certain scheduling functions are multimodular.
 
 ### Understanding Multimodularity
-A function \( f: \mathbb{Z}^m \to \mathbb{R} \) is called multimodular if for all \( x \in \mathbb{Z}^m \) and \( v, w \in V \) with \( v \neq w \), the following inequality holds:
-\[ f(x + v) + f(x + w) \leq f(x) + f(x + v + w) \]
 
-In this context, \( V \) is a set of vectors defined by the specific problem, often involving moves from one time slot to another in a scheduling problem.
+A function $f: \mathbb{Z}^m \to \mathbb{R}$ is called multimodular if for all $x \in \mathbb{Z}^m$ and $v, w \in V$ with $v \neq w$, the following inequality holds: $$f(x + v) + f(x + w) \leq f(x) + f(x + v + w)$$
+
+In this context, $V$ is a set of vectors defined by the specific problem, often involving moves from one time slot to another in a scheduling problem.
 
 ### Problem Setup
-We need to show that the waiting time function \( W(x) \), the idle time function \( I(x) \), and the tardiness function \( L(x) \) are multimodular. 
+
+We need to show that the waiting time function $W(x)$, the idle time function $I(x)$, and the tardiness function $L(x)$ are multimodular.
 
 ### Step-by-Step Explanation
 
 #### Step 1: Definitions and Initial Setup
-Let's consider a set of schedules and the effect of moving patients between time slots. The schedules are represented as vectors in \( \mathbb{Z}^m \). 
 
-We'll define four schedules:
-1. \( x \)
-2. \( x + u_i \)
-3. \( x + u_j \)
-4. \( x + u_i + u_j \)
+Let's consider a set of schedules and the effect of moving patients between time slots.
+The schedules are represented as vectors in $\mathbb{Z}^m$.
 
-Here, \( u_i \) and \( u_j \) represent moves that alter the schedule.
+We'll define four schedules: 1.
+$x$ 2.
+$x + u_i$ 3.
+$x + u_j$ 4.
+$x + u_i + u_j$
+
+Here, $u_i$ and $u_j$ represent moves that alter the schedule.
 
 #### Step 2: Case Analysis
-The proof involves analyzing different cases of how patients might flow through the system. For Case A, it is assumed that the queue empties between time \( i \) and \( j-1 \).
+
+The proof involves analyzing different cases of how patients might flow through the system.
+For Case A, it is assumed that the queue empties between time $i$ and $j-1$.
 
 #### Step 3: Equating Paths
-In Case A, paths of schedules (A1) and (A3) are the same until time \( j-1 \). Similarly, paths of schedules (A2) and (A4) are the same until time \( j-1 \). From this time onwards, paths are identical.
+
+In Case A, paths of schedules (A1) and (A3) are the same until time $j-1$.
+Similarly, paths of schedules (A2) and (A4) are the same until time $j-1$.
+From this time onwards, paths are identical.
 
 #### Step 4: Calculating Total Waiting Time
-We denote total waiting times as follows:
-- \( a_1 \) for schedule (A1) until time \( j-1 \)
-- \( a_2 \) for schedule (A2) until time \( j-1 \)
-- \( b_1 \) for schedules (A1) and (A2) after time \( j-1 \)
-- \( b_2 \) for schedules (A3) and (A4) after time \( j-1 \)
 
-From these, we establish the equality:
-\[ a_2 + b_1 + a_1 + b_2 = a_1 + b_1 + a_2 + b_2 \]
+We denote total waiting times as follows: - $a_1$ for schedule (A1) until time $j-1$ - $a_2$ for schedule (A2) until time $j-1$ - $b_1$ for schedules (A1) and (A2) after time $j-1$ - $b_2$ for schedules (A3) and (A4) after time $j-1$
+
+From these, we establish the equality: $$a_2 + b_1 + a_1 + b_2 = a_1 + b_1 + a_2 + b_2$$
 
 This equality shows that the waiting times are multimodular in this specific case.
 
 ### Python Code Illustration
 
-We'll illustrate the concept with Python code. The code will simulate simple queue management and waiting time calculations for the schedules.
+We'll illustrate the concept with Python code.
+The code will simulate simple queue management and waiting time calculations for the schedules.
 
 ```{python}
 class Schedule:

@@ -1,0 +1,135 @@
+[
+    {
+        "Title": "Optimal outpatient appointment scheduling",
+        "Authors": "Guido C. Kaandorp, Ger Koole",
+        "Year": 2007,
+        "Modeling Approach": {
+            "time slots": "fixed",
+            "schedule format": "number of patients per time slot",
+            "service time": "exponential distribution",
+            "no-shows assumed": "yes",
+            "emergency patients assumed": "no",
+            "punctuality assumed": "yes",
+            "objective function elements": {
+                "waiting time": "yes",
+                "idle time": "yes",
+                "overtime": "yes"
+            }
+        },
+        "Solution approach": "Local search method"
+    },
+    {
+        "Title": "Improving Performance in Outpatient Appointment Services with a Simulation Optimization Approach",
+        "Authors": "Kenneth J. Klassen, Reena Yoogalingam",
+        "Year": 2009,
+        "Modeling Approach": {
+            "time slots": "no",
+            "schedule format": "appointment time, integer",
+            "service time": "lognormal distribution",
+            "no-shows assumed": "yes",
+            "emergency patients assumed": "no",
+            "punctuality assumed": "yes",
+            "objective function elements": {
+                "waiting time": "yes",
+                "idle time": "yes",
+                "overtime": "yes"
+            }
+        },
+        "Solution approach": "Simulation optimization using scatter search and tabu search"
+    },
+    {
+        "Title": "Appointment Scheduling Using Optimisation via Simulation",
+        "Authors": "Paulien Koeleman, Ger Koole",
+        "Year": 2012,
+        "Modeling Approach": {
+            "time slots": "fixed",
+            "schedule format": "number of patients per time slot",
+            "service time": "exponential distribution",
+            "no-shows assumed": "yes",
+            "emergency patients assumed": "no",
+            "punctuality assumed": "yes",
+            "objective function elements": {
+                "waiting time": "yes",
+                "idle time": "no",
+                "overtime": "yes"
+            }
+        },
+        "Solution approach": "Optimization via simulation using random local search"
+    },
+    {
+        "Title": "Optimal outpatient appointment scheduling with emergency arrivals and general service times",
+        "Authors": "Paulien M. Koeleman, Ger M. Koole",
+        "Year": 2012,
+        "Modeling Approach": {
+            "time slots": "fixed",
+            "schedule format": "number of patients per time slot",
+            "service time": "general distribution",
+            "no-shows assumed": "yes",
+            "emergency patients assumed": "yes",
+            "punctuality assumed": "yes",
+            "objective function elements": {
+                "waiting time": "yes",
+                "idle time": "yes",
+                "overtime": "yes"
+            }
+        },
+        "Solution approach": "Local search algorithm utilizing multimodularity"
+    },
+    {
+        "Title": "A Simulation Optimization Approach for Appointment Scheduling Problem with Decision-Dependent Uncertainties",
+        "Authors": "Tito Homem-De-Mello, Qingxia Kong, Rodrigo Godoy Barba",
+        "Year": 2022,
+        "Modeling Approach": {
+            "time slots": "no",
+            "schedule format": "time interval, continuous, no overbooking",
+            "service time": "lognormal distribution",
+            "no-shows assumed": "yes, decision-dependent",
+            "emergency patients assumed": "no",
+            "punctuality assumed": "yes",
+            "objective function elements": {
+                "waiting time": "yes",
+                "idle time": "yes",
+                "overtime": "yes"
+            }
+        },
+        "Solution approach": "Projected Gradient Path method integrated with Stochastic Trust-Region Response-Surface Method"
+    },
+    {
+        "Title": "Multimodularity in the Stochastic Appointment Scheduling Problem with Discrete Arrival Epochs",
+        "Authors": "Christos Zacharias, Tallys Yunes",
+        "Year": 2020,
+        "Modeling Approach": {
+            "time slots": "fixed",
+            "schedule format": "number of patients per time slot",
+            "service time": "general distribution",
+            "no-shows assumed": "yes",
+            "emergency patients assumed": "yes",
+            "punctuality assumed": "no",
+            "objective function elements": {
+                "waiting time": "yes",
+                "idle time": "yes",
+                "overtime": "yes"
+            }
+        },
+        "Solution approach": "Multimodular function minimization using discrete optimization techniques"
+    },
+    {
+        "Title": "A flexible and optimal approach for appointment scheduling in healthcare",
+        "Authors": "Alex Kuiper, Michel Mandjes, Jeroen de Mast, Ruben Brokkelkamp",
+        "Year": 2023,
+        "Modeling Approach": {
+            "time slots": "variable",
+            "schedule format": "appointment time, integer",
+            "service time": "general distribution",
+            "no-shows assumed": "yes",
+            "emergency patients assumed": "yes",
+            "punctuality assumed": "yes",
+            "objective function elements": {
+                "waiting time": "yes",
+                "idle time": "yes",
+                "overtime": "yes"
+            }
+        },
+        "Solution approach": "Phase-type approximation, optimization using cubic Hermite spline interpolation"
+    }
+]

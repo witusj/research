@@ -1,0 +1,25 @@
+[
+    {
+        "Title": "string",
+        "Authors": "string",
+        "Year": "number",
+        "Modeling Approach": {
+            "time slots": ["fixed", "variable", "no"],
+            "schedule format": [
+                "number of patients per time slot",
+                "appointment time, integer",
+                "time interval, continuous, no overbooking"
+            ],
+            "service time": ["exponential distribution", "lognormal distribution", "general distribution"],
+            "no-shows assumed": ["yes", "no", "yes, decision-dependent"],
+            "emergency patients assumed": ["yes", "no"],
+            "punctuality assumed": ["yes", "no"],
+            "objective function elements": {
+                "waiting time": ["yes", "no"],
+                "idle time": ["yes", "no"],
+                "overtime": ["yes", "no"]
+            }
+        },
+        "Solution approach": "string"
+    }
+]
