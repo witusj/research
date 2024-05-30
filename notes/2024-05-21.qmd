@@ -23,7 +23,7 @@ Afspraken:
 
 -   [ ] Waarom zou het probleem dat besproken wordt in @homem2022simulation non-convex zijn?
 
--   [ ] Aanmaken van Overleaf document voor samenwerking.
+-   [x] Aanmaken van Overleaf document voor samenwerking.
 
 -   [ ] Literatuurnotities maken.
 
@@ -82,7 +82,7 @@ def effective_throughput(lambda_arrival, mu_service, buffers, servers):
         Ki = servers[i] + buffers[i]
         sum1 = sum([(gamma[i-1] / mu_service[i-1])**x / math.factorial(x) for x in range(servers[i-1])])
         sum2 = (1 / math.factorial(servers[i-1])) * sum([(gamma[i-1] / mu_service[i-1])**x / servers[i-1]**(x - servers[i-1]) for x in range(servers[i-1], Ki + 1)])
-        blocking_prob = (gamma[i-1] / mu_service[i-1])**Ki / (math.factorial(servers[i-1]) * servers[i-1]**(Ki - servers[i-1]) * (sum1 + sum2))
+        blocking_prob = (gamma[i-1] / mu_service[i-1])**Ki / (math.factorial(servers[i-1]) * servers[i-1]**(Ki - servers[i-1]) / (sum1 + sum2))
         
         gamma[i] = gamma[i-1] * (1 - blocking_prob)
     
@@ -133,7 +133,7 @@ Where: $\gamma_0 = \lambda$
 
 ### Python Function `effective_throughput`
 
-The `effective_throughput` function in Python implements this formula. Let's revisit and align the function with the algorithm in the image:
+The `effective_throughput` function in Python implements this formula. Let's revisit and compare the function with the algorithm:
 
 ### Explanation:
 
@@ -165,7 +165,7 @@ The `effective_throughput` function in Python implements this formula. Let's rev
 4.  **Calculate Blocking Probability**:
 
 ``` python
-   blocking_prob = (gamma[i-1] / mu_service[i-1])**Ki / (math.factorial(servers[i-1]) * servers[i-1]**(Ki - servers[i-1]) * (sum1 + sum2))
+   blocking_prob = (gamma[i-1] / mu_service[i-1])**Ki / (math.factorial(servers[i-1]) * servers[i-1]**(Ki - servers[i-1]) / (sum1 + sum2))
 ```
 
 5.  **Update Effective Throughput for Station** $i$:

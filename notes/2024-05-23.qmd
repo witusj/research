@@ -1,0 +1,226 @@
+---
+title: "2024-05-06"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+jupyter: python3
+editor: 
+  markdown: 
+    wrap: sentence
+---
+
+## OBP:
+
+Afspraken:
+
+-   [ ] We gaan verder kijken naar Simulation Optimization methodes
+
+-   [ ] Wellicht icm Gradient Boosting, mogelijk ML-toepassingen
+
+-   [ ] Onderzoeken wat de stand van zaken is mbt SO en Appointment Scheduling
+
+-   [ ] Start met artikel van @homem2022simulation
+
+-   [ ] Waarom zou het probleem dat besproken wordt in @homem2022simulation non-convex zijn?
+
+-   [x] Aanmaken van Overleaf document voor samenwerking.
+
+-   [ ] Literatuurnotities maken.
+
+-   [ ] Problem description uitwerken in Overleaf.
+
+| Paper | Problem aspects    | Distribution | Solution approach |
+|-------|--------------------|--------------|-------------------|
+| \[1\] | No_shows \[ x \],  | Exp          | RSM               |
+|       |                    |              |                   |
+|       |                    |              |                   |
+
+From: @dieleman2023neural
+
+The provided passage describes the structure and behavior of a tandem queue system and uses specific queuing notation.
+Let's break down each component to clarify its meaning:
+
+### Key Components:
+
+1.  **Arrival Process**:
+    -   **Poisson Process with Rate** $\lambda$:
+        -   A Poisson process is a statistical process that models random events occurring independently over time. In this context, jobs arrive at the first station at a rate $\lambda$. This means that, on average, $\lambda$ jobs arrive per unit time.
+    -   **Jobs Lost if No Space**:
+        -   If a job arrives and there is no available space at station 1, the job is lost. This implies a loss system, where jobs that cannot be immediately processed are discarded rather than queued.
+2.  **Service Times**:
+    -   **Exponential Distribution with Rate** $\mu_i$:
+        -   Service times at each station $i$ follow an exponential distribution with rate $\mu_i$. This means that the time to service a job is exponentially distributed, and $\mu_i$ represents the average service rate of each server at station $i$.
+3.  **Queuing Notation (**$\cdot/M/S_i/K_i$):
+    -   $\cdot/M/S_i/K_i$: This is a standard notation for describing a specific type of queue:
+        -   $\cdot$: The arrival process, which in this case is a Poisson process.
+        -   **M**: The service times are exponentially distributed (Markovian or memoryless property).
+        -   $S_i$: The number of servers at station $i$.
+        -   $K_i$: The total capacity of the system at station $i$, which is the sum of the number of servers $S_i$ and the buffer capacity $C_i$. Thus, $K_i = S_i + C_i$.
+
+### Example Breakdown:
+
+For station $i$, the queue is described as $\cdot/M/S_i/K_i$, where $K_i = S_i + C_i$.
+This means: - Jobs arrive according to a Poisson process.
+- There are $S_i$ servers at the station.
+- Each server has an exponential service time with rate $\mu_i$.
+- The total capacity (number of jobs that can be present, including those in service and in the buffer) is $K_i$.
+
+### Explanation with an Example:
+
+If the first station has: - Arrival rate $\lambda = 1.5$ jobs per second.
+- 2 servers ($S_1 = 2$).
+- Buffer capacity of 3 ($C_1 = 3$).
+
+Then, the queue at the first station can be described as: $$
+\cdot/M/2/5
+$$ where $K_1 = 2 + 3 = 5$.
+
+This means that: - Jobs arrive at an average rate of 1.5 jobs per second.
+- There are 2 servers, each serving jobs with an exponentially distributed service time.
+- The station can hold up to 5 jobs in total (2 being serviced and 3 in the buffer).
+
+### Implications:
+
+-   **Blocking**: If the buffer is full (i.e., 3 jobs are waiting and 2 jobs are being serviced), any new arriving jobs will be lost.
+-   **Service Dynamics**: Jobs are serviced by available servers. If both servers are busy, arriving jobs join the buffer queue until a server becomes free.
+
+### Python Code Example for Simulation:
+
+Here is an example of a discrete event simulation for the described system using Python and SimPy:
+
+```{python}
+import simpy
+import numpy as np
+
+# Parameters
+lambda_arrival = 1.5  # Arrival rate (jobs per second)
+mu_service = 2.0  # Service rate (jobs per second per server)
+servers = 2  # Number of servers
+buffer_capacity = 3  # Buffer capacity (number of jobs that can wait)
+serviced = 0 # Counter for jobs serviced
+lost = 0 # Counter for jobs lost
+arrival_t = 0
+
+def arrival(env, server):
+    global lost
+    global arrival_t
+    while True:
+        # Time until next job arrives
+        t = np.random.exponential(1 / lambda_arrival)
+        arrival_t += t
+        print("Job arrival at time ",  arrival_t)
+        yield env.timeout(t)
+        print("Queue is at ", len(server.queue))
+        if len(server.queue) < buffer_capacity:
+            env.process(service(env, server))
+        else:
+            lost += 1
+            print("Job lost at time", env.now)
+
+def service(env, server):
+    global serviced
+    with server.request() as req:
+        yield req
+        yield env.timeout(np.random.exponential(1 / mu_service))
+        serviced += 1
+        print("Job serviced at time", env.now)
+
+# Simulation environment
+env = simpy.Environment()
+server = simpy.Resource(env, capacity=servers)
+
+# Start the arrival process
+env.process(arrival(env, server))
+
+# Run the simulation for a specified time
+env.run(until=100)
+
+print("Simulation completed with", serviced, "jobs serviced and", lost, "jobs lost.")
+```
+
+### Explanation of the Simulation Code:
+
+-   **Arrival Process**: Jobs arrive according to an exponential inter-arrival time based on the Poisson process.
+-   **Service Process**: Jobs are serviced by servers with exponentially distributed service times.
+-   **Buffer Management**: If the buffer is full, arriving jobs are lost.
+
+This simulation mimics the behavior described in the passage and helps illustrate the queuing dynamics of the system.
+
+To generalize the provided simulation code to handle a tandem line with multiple stations, servers, buffers, and configurable arrival and service rates, we need to extend the functionality accordingly.
+Here is the generalized version:
+
+```{python}
+class TandemQueueSystem:
+    def __init__(self, env, num_stations, arrival_rate, service_rates, num_servers, buffer_capacities):
+        self.env = env
+        self.num_stations = num_stations
+        self.arrival_rate = arrival_rate
+        self.service_rates = service_rates
+        self.num_servers = num_servers
+        self.buffer_capacities = buffer_capacities
+        self.serviced = [0] * num_stations
+        self.lost = [0] * num_stations
+        self.stations = [simpy.Resource(env, capacity=num_servers[i]) for i in range(num_stations)]
+
+    def arrival(self):
+        while True:
+            interarrival_time = np.random.exponential(1 / self.arrival_rate)
+            yield self.env.timeout(interarrival_time)
+            print(f"Job arrival at time {self.env.now:.4f} with interarrival time {interarrival_time:.4f}")
+            self.env.process(self.process_job(0))
+
+    def process_job(self, station_index):
+        if station_index < self.num_stations:
+            print(f"Station {station_index} has queue capacity of {self.buffer_capacities[station_index]}  current queue length {len(self.stations[station_index].queue)}")
+            if len(self.stations[station_index].queue) < self.buffer_capacities[station_index]:
+                with self.stations[station_index].request() as req:
+                    yield req
+                    service_time = np.random.exponential(1 / self.service_rates[station_index])
+                    yield self.env.timeout(service_time)
+                    self.serviced[station_index] += 1
+                    print(f"Job serviced at station {station_index + 1} at time {self.env.now:.4f}")
+                    self.env.process(self.process_job(station_index + 1))
+            else:
+                self.lost[station_index] += 1
+                print(f"Job lost at station {station_index + 1} at time {self.env.now:.4f}")
+
+def simulate_tandem_queue(num_stations, arrival_rate, service_rates, num_servers, buffer_capacities, simulation_time):
+    env = simpy.Environment()
+    system = TandemQueueSystem(env, num_stations, arrival_rate, service_rates, num_servers, buffer_capacities)
+    env.process(system.arrival())
+    env.run(until=simulation_time)
+    print("Simulation completed.")
+    for i in range(num_stations):
+        print(f"Station {i + 1}: {system.serviced[i]} jobs serviced, {system.lost[i]} jobs lost.")
+
+# Parameters
+num_stations = 3
+arrival_rate = 1.5
+service_rates = [2.0, 1.8, 1.6]
+num_servers = [2, 2, 1]
+buffer_capacities = [1, 1, 2]
+simulation_time = 100
+
+simulate_tandem_queue(num_stations, arrival_rate, service_rates, num_servers, buffer_capacities, simulation_time)
+
+```
+
+### Explanation:
+
+1.  **TandemQueueSystem Class**:
+    -   **Initialization**: Sets up the number of stations, arrival rate, service rates, number of servers, and buffer capacities. Initializes counters for serviced and lost jobs.
+    -   **arrival()**: Generates job arrivals based on an exponential distribution with the given arrival rate.
+    -   **process_job()**: Manages job processing at each station, including checking buffer capacity and either servicing the job or marking it as lost.
+    -   **service()**: Simulates the service process for each job, including moving the job to the next station if applicable.
+2.  **simulate_tandem_queue Function**:
+    -   Initializes the simulation environment and the tandem queue system.
+    -   Starts the arrival process and runs the simulation for the specified time.
+    -   Prints the results of the simulation for each station.
+3.  **Parameters**:
+    -   Define the number of stations, arrival rate, service rates, number of servers per station, buffer capacities, and the simulation duration.
+    -   Call the `simulate_tandem_queue` function with these parameters to run the simulation.
+
+This setup allows you to easily configure and simulate a tandem line with multiple stations, each with customizable servers, buffers, arrival rates, and service rates.
