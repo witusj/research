@@ -9,3 +9,5 @@ docs/
 !wps/wps.tex
 /.luarc.json
 myenv/
+.env
+

@@ -131,5 +131,101 @@
             }
         },
         "Solution approach": "Phase-type approximation, optimization using cubic Hermite spline interpolation"
+    },
+    {
+        "Title": "Managing Appointment-Based Services in the Presence of Walk-in Customers",
+        "Authors": "Shan Wang, Nan Liu, Guohua Wan",
+        "Year": 2020,
+        "Modeling Approach": {
+            "time slots": ["fixed"],
+            "schedule format": ["number of patients per time slot"],
+            "service time": ["deterministic (exactly one appointment slot)"],
+            "no-shows assumed": ["yes"],
+            "emergency patients assumed": ["no"],
+            "punctuality assumed": ["yes"],
+            "objective function elements": {
+                "waiting time": ["yes"],
+                "idle time": ["no"],
+                "overtime": ["yes"]
+            }
+        },
+        "Solution approach": "Two-stage stochastic optimization model with a sample path representation of the problem. The optimization problem is solved using a combination of structural properties of the objective function and efficient solution algorithms."
+        },
+        {
+        "Title": "Appointment Scheduling with No-Shows and Overbooking",
+        "Authors": "Christos Zacharias, Michael Pinedo",
+        "Year": 2013,
+        "Modeling Approach": {
+            "time slots": ["fixed"],
+            "schedule format": ["appointment time, integer"],
+            "service time": ["deterministic service times"],
+            "no-shows assumed": ["yes"],
+            "emergency patients assumed": ["no"],
+            "punctuality assumed": ["no"],
+            "objective function elements": {
+                "waiting time": ["yes"],
+                "idle time": ["yes"],
+                "overtime": ["yes"]
+            }
+        },
+        "Solution approach": "Static and sequential scheduling with overbooking to compensate for no-shows, characterized by structural properties and a new sequencing rule for the optimal offline schedules, and a heuristic solution for the online scheduling problem."
+},
+{
+    "Title": "A Computational Approach to Optimized Appointment Scheduling",
+    "Authors": "Alex Kuiper, Benjamin Kemper, Michel Mandjes",
+    "Year": 2015,
+    "Modeling Approach": {
+        "time slots": ["fixed"],
+        "schedule format": ["number of patients per time slot"],
+        "service time": ["phase-type distribution"],
+        "no-shows assumed": ["no"],
+        "emergency patients assumed": ["no"],
+        "punctuality assumed": ["yes"],
+        "objective function elements": {
+            "waiting time": ["yes"],
+            "idle time": ["yes"],
+            "overtime": ["no"]
+        }
+    },
+    "Solution approach": "Simultaneous and sequential optimization approaches using phase-type distribution approximations and a utility function incorporating both waiting and idle times."
+},
+    {
+        "Title": "Integer Programming Approaches for Appointment Scheduling with Random No-Shows and Service Durations",
+        "Authors": "Ruiwei Jiang, Siqian Shen, Yiling Zhang",
+        "Year": 2017,
+        "Modeling Approach": {
+            "time slots": "fixed",
+            "schedule format": "appointment time, integer",
+            "service time": "general distribution",
+            "no-shows assumed": "yes",
+            "emergency patients assumed": "no",
+            "punctuality assumed": "yes",
+            "objective function elements": {
+                "waiting time": "yes",
+                "idle time": "yes",
+                "overtime": "yes"
+            }
+        },
+        "Solution approach": "Mixed-integer nonlinear programming (MINLP) with decomposition algorithms and valid inequalities"
+    },
+    {
+        "Title": "Appointment Overbooking in Health Care Clinics to Improve Patient Service and Clinic Performance",
+        "Authors": "Linda R. LaGanga, Stephen R. Lawrence",
+        "Year": 2012,
+        "Modeling Approach": {
+            "time slots": "fixed",
+            "schedule format": "appointment time, integer",
+            "service time": "deterministic",
+            "no-shows assumed": "yes",
+            "emergency patients assumed": "no",
+            "punctuality assumed": "yes",
+            "objective function elements": {
+                "waiting time": "yes",
+                "idle time": "yes",
+                "overtime": "yes"
+            }
+        },
+        "Solution approach": "Analytic optimization with overbooking model and heuristic solution procedure"
     }
+
 ]

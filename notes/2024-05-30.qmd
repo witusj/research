@@ -40,15 +40,21 @@ Afspraken:
 import json
 import plotly.graph_objects as go
 
+import json
+import plotly.graph_objects as go
+
 # Read the JSON data from the file
 with open('methods.json', 'r') as file:
     data = json.load(file)
+
+# Sort the data by the "Year" field
+sorted_data = sorted(data, key=lambda x: x["Year"])
 
 # Extracting the data for the table
 headers = ["Title", "Authors", "Publication Year", "Time Slots", "Schedule Format", "Service Time", "No-Shows Assumed", "Emergency Patients Assumed", "Punctuality Assumed", "Waiting Time", "Idle Time", "Overtime", "Solution Approach"]
 rows = []
 
-for article in data:
+for article in sorted_data:
     row = [
         article["Title"],
         article["Authors"],
@@ -77,6 +83,7 @@ fig = go.Figure(data=[go.Table(
 ])
 fig.update_layout(height=1600)
 fig.show()
+
 ```
 
 ------------------------------------------------------------------------

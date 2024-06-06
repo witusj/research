@@ -1,0 +1,483 @@
+---
+title: "2024-06-02"
+author: "Witek ten Hove"
+format:
+  html:
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+jupyter: python3
+editor: 
+  markdown: 
+    wrap: sentence
+---
+
+## OBP:
+
+Afspraken:
+
+-   [ ] We gaan verder kijken naar Simulation Optimization methodes
+
+-   [ ] Wellicht icm Gradient Boosting, mogelijk ML-toepassingen
+
+-   [ ] Onderzoeken wat de stand van zaken is mbt SO en Appointment Scheduling
+
+-   [ ] Start met artikel van @homem2022simulation
+
+-   [ ] Waarom zou het probleem dat besproken wordt in @homem2022simulation non-convex zijn?
+
+-   [x] Aanmaken van Overleaf document voor samenwerking.
+
+-   [ ] Literatuurnotities maken.
+
+-   [ ] Problem description uitwerken in Overleaf.
+
+
+
+```{python}
+import PyPDF2
+import re
+import nltk
+import numpy as np
+import gensim.downloader as api
+from sklearn.metrics.pairwise import cosine_similarity
+from nltk.corpus import stopwords
+import ssl
+import os
+import plotly.express as px
+import ollama
+from openai import OpenAI
+from dotenv import load_dotenv
+import spacy
+
+load_dotenv()  # take environment variables from .env.
+client = OpenAI()
+
+# Load spaCy model
+nlp = spacy.load("en_core_web_sm")
+
+# Get the current working directory
+current_directory = os.getcwd()
+```
+
+```{python}
+# Get the current working directory
+current_directory = os.getcwd()
+
+# Ensure stopwords are downloaded
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+
+nltk.download('stopwords')
+
+stop_words = set(stopwords.words('english'))
+
+# Function to extract text from a PDF file
+def extract_text_from_pdf(pdf_path):
+    with open(pdf_path, 'rb') as file:
+        pdf_reader = PyPDF2.PdfReader(file)
+        text = ""
+        for page in pdf_reader.pages:
+            text += page.extract_text()
+    return text
+
+# Function to preprocess text
+def preprocess_text(text):
+    text = re.sub(r'\s+', ' ', text)
+    text = re.sub(r'\W', ' ', text)
+    text = text.lower()
+    words = text.split()
+    words = [word for word in words if word not in stop_words]
+    return ' '.join(words)
+
+# Load pre-trained word2vec model
+word2vec_model = api.load('word2vec-google-news-300')
+
+# Function to compute document vector
+def get_document_vector(text, model):
+    words = text.split()
+    word_vectors = [model[word] for word in words if word in model]
+    if len(word_vectors) == 0:
+        return np.zeros((300,))
+    document_vector = np.mean(word_vectors, axis=0)
+    return document_vector
+
+# Function to truncate filename to the first 25 characters
+def truncate_filename(filename):
+    return filename[:35]
+
+# Specify the folder containing PDF files
+pdf_folder = os.path.join(current_directory, 'papers')  # Adjust folder name if necessary
+
+# Get list of all PDF files in the folder
+pdf_files = [f for f in os.listdir(pdf_folder) if f.endswith('.pdf')]
+
+# Truncate filenames for labeling
+labels = [truncate_filename(f) for f in pdf_files]
+
+# Extract, preprocess text, and compute document vectors
+document_vectors = []
+for pdf_file in pdf_files:
+    pdf_path = os.path.join(pdf_folder, pdf_file)
+    try:
+        text = extract_text_from_pdf(pdf_path)
+        preprocessed_text = preprocess_text(text)
+        document_vector = get_document_vector(preprocessed_text, word2vec_model)
+        document_vectors.append(document_vector)
+    except FileNotFoundError:
+        print(f"File not found: {pdf_path}")
+    except Exception as e:
+        print(f"An error occurred processing {pdf_path}: {e}")
+
+# Convert document_vectors to a 2D array
+document_vectors = np.array(document_vectors)
+
+# Ensure the document vectors array is not empty and has the correct shape
+if document_vectors.size == 0 or document_vectors.ndim != 2:
+    raise ValueError("Document vectors are empty or not in the correct shape.")
+
+# Compute cosine similarity between document vectors
+similarity_matrix = cosine_similarity(document_vectors)
+
+# Ensure the diagonal values are exactly 1
+np.fill_diagonal(similarity_matrix, 1)
+
+# Display similarity matrix
+print("Similarity matrix:")
+print(similarity_matrix)
+```
+
+```{python}
+# Create a heatmap for the similarity matrix using plotly express
+# Create a heatmap for the similarity matrix using plotly express
+fig = px.imshow(similarity_matrix,
+                labels=dict(x="PDF Files", y="PDF Files", color="Similarity"),
+                x=labels,
+                y=labels,
+                color_continuous_scale='Viridis',
+                text_auto=True)
+fig.update_layout(title="Document Similarity Heatmap")
+fig.show()
+```
+
+## Using Ollama for extracting solution methods
+
+See <a href="https://github.com/ollama/ollama-python" target="_blank">here</a> for running Ollama. 
+
+### Test
+
+```{python}
+stream = ollama.chat(
+    model='llama3',
+    messages=[{'role': 'user', 'content': 'Tell me a joke.'}],
+    stream=True,
+)
+
+for chunk in stream:
+  print(chunk['message']['content'], end='', flush=True)
+```
+
+### Real
+
+```{python}
+
+# Get the current working directory
+current_directory = os.getcwd()
+
+# Ensure stopwords are downloaded
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    pass
+else:
+    ssl._create_default_https_context = _create_unverified_https_context
+
+nltk.download('stopwords')
+
+stop_words = set(stopwords.words('english'))
+
+# Function to extract text from a PDF file
+def extract_text_from_pdf(pdf_path):
+    with open(pdf_path, 'rb') as file:
+        pdf_reader = PyPDF2.PdfReader(file)
+        text = ""
+        for page in pdf_reader.pages:
+            text += page.extract_text()
+    return text
+
+# Function to preprocess text
+def preprocess_text(text):
+    text = re.sub(r'\s+', ' ', text)
+    text = re.sub(r'\W', ' ', text)
+    text = text.lower()
+    words = text.split()
+    words = [word for word in words if word not in stop_words]
+    return ' '.join(words)
+
+# Function to use LLM to extract solution approach
+def extract_solution_approach(text):
+    prompt = f"You will receive a text. The text is taken from an article on Appointment Scheduling. The authors discusses the problem, the problem modeling and their suggested solution. Extract the parts that discuss the solution approach. If the text does not contain any reference to the solution, return five dots, ....., Here is the text: \n\n{text}."
+    stream = ollama.chat(
+        model='llama3',
+        messages=[
+                {"role": "system", "content": "You are a academic researcher specializing in Operations Research."},
+                {"role": "user", "content": prompt}
+            ],
+        stream=True,
+    )
+    solution_approach = ""
+    for chunk in stream:
+        solution_approach += chunk['message']['content']
+    return solution_approach
+
+# Load pre-trained word2vec model
+word2vec_model = api.load('word2vec-google-news-300')
+
+# Function to compute document vector
+def get_document_vector(text, model):
+    words = text.split()
+    word_vectors = [model[word] for word in words if word in model]
+    if len(word_vectors) == 0:
+        return np.zeros((300,))
+    document_vector = np.mean(word_vectors, axis=0)
+    return document_vector
+
+# Function to truncate filename to the first 25 characters
+def truncate_filename(filename):
+    return filename[:25]
+
+# Specify the folder containing PDF files
+pdf_folder = os.path.join(current_directory, 'papers')  # Adjust folder name if necessary
+
+# Get list of all PDF files in the folder
+pdf_files = [f for f in os.listdir(pdf_folder) if f.endswith('.pdf')]
+
+# Truncate filenames for labeling
+labels = [truncate_filename(f) for f in pdf_files]
+
+# Extract, preprocess text, and compute document vectors for solution approaches
+document_vectors = []
+solution_approaches = []
+for pdf_file in pdf_files:
+    pdf_path = os.path.join(pdf_folder, pdf_file)
+    try:
+        text = extract_text_from_pdf(pdf_path)
+        print("Extracting solution approach for", pdf_file)
+        solution_approach = extract_solution_approach(text)
+        print("Finished extracting solution approach")
+        solution_approaches.append(solution_approach)
+        preprocessed_text = preprocess_text(solution_approach)
+        document_vector = get_document_vector(preprocessed_text, word2vec_model)
+        document_vectors.append(document_vector)
+    except FileNotFoundError:
+        print(f"File not found: {pdf_path}")
+    except Exception as e:
+        print(f"An error occurred processing {pdf_path}: {e}")
+
+# Show solution approaches
+for text in solution_approaches: print(pdf_file, "\n", text, "\n")
+
+# Convert document_vectors to a 2D array
+document_vectors = np.array(document_vectors)
+
+# Ensure the document vectors array is not empty and has the correct shape
+if document_vectors.size == 0 or document_vectors.ndim != 2:
+    raise ValueError("Document vectors are empty or not in the correct shape.")
+
+# Compute cosine similarity between document vectors
+similarity_matrix = cosine_similarity(document_vectors)
+
+# Ensure the diagonal values are exactly 1
+np.fill_diagonal(similarity_matrix, 1)
+
+# Display similarity matrix
+print("Similarity matrix:")
+print(similarity_matrix)
+```
+
+```{python}
+# Create a heatmap for the similarity matrix using plotly express
+fig = px.imshow(similarity_matrix,
+                labels=dict(x="PDF Files", y="PDF Files", color="Similarity"),
+                x=labels,
+                y=labels,
+                color_continuous_scale='Viridis',
+                text_auto=True)
+fig.update_layout(title="Document Similarity Heatmap")
+fig.show()
+```
+### Testing with Openai
+
+```{python}
+response = client.chat.completions.create(
+  model="gpt-3.5-turbo",
+  messages=[
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Who won the world series in 2020?"},
+    {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
+    {"role": "user", "content": "Where was it played?"}
+  ]
+)
+
+response.choices[0].message.content
+```
+
+```{python}
+import openai
+from text_chunker import TextChunker
+
+# Function to extract text about a particular topic from a chunk
+def extract_topic_from_chunk(chunk, topic):
+    prompt = f"Extract all text about {topic} from the following text:\n\n{chunk}"
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=1000
+    )
+    return response.choices[0].message.content
+
+# Function to process the entire text
+def extract_topic_from_text(text, topic):
+    chunker = TextChunker(maxlen=40)  # Set maxlen to 8192 tokens
+    extracted_texts = []
+
+    for chunk in chunker.chunk(text):
+        extracted_text = extract_topic_from_chunk(chunk, topic)
+        extracted_texts.append(extracted_text)
+
+    return "\n".join(extracted_texts)
+
+# Example usage
+large_text = """The Vikings originated from the Scandinavian region, encompassing modern-day Norway, Sweden, and Denmark, during the late 8th to early 11th centuries. They were known for their seafaring skills, which enabled them to explore, trade, and raid across wide swathes of Europe, Asia, and even North America. The term "Viking" itself is derived from the Old Norse word "vikingr," which means "pirate" or "sea warrior." Their culture was rich with maritime tradition, and they left a lasting impact on the areas they encountered through their extensive voyages and settlements."""
+topic = "vikings"
+
+extracted_text = extract_topic_from_text(large_text, topic)
+print(extracted_text)
+```
+
+
+
+```{python}
+# Function to extract text from a PDF file
+def extract_text_from_pdf(pdf_path):
+    with open(pdf_path, 'rb') as file:
+        pdf_reader = PyPDF2.PdfReader(file)
+        text = ""
+        for page in pdf_reader.pages:
+            text += page.extract_text()
+    return text
+
+# Function to preprocess text using spaCy
+def preprocess_text(text):
+    doc = nlp(text)
+    words = [token.lemma_ for token in doc if not token.is_stop and not token.is_punct and not token.is_space]
+    return ' '.join(words)
+
+# Function to split text into chunks
+def split_text(text, max_tokens):
+    chunker = TextChunker(maxlen=max_tokens)
+    return chunker.chunk(text)
+
+# Function to use GPT-4 to extract solution approach
+def extract_solution_approach(text):
+    solution_approach = ""
+    for chunk in split_text(text, 4000):
+        prompt = f"You will receive a text. The text is taken from an article on Appointment Scheduling. The authors discusses the problem, the problem modeling and their suggested solution. Extract the parts that discuss the solution approach. If the text does not contain any reference to the solution, return five dots, ....., Here is the text: \n\n{chunk}."
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a academic researcher specializing in Operations Research."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0,
+            max_tokens=1000
+        )
+        solution_approach += response.choices[0].message.content
+    return solution_approach
+
+# Load pre-trained word2vec model
+word2vec_model = api.load('word2vec-google-news-300')
+
+# Function to compute document vector
+def get_document_vector(text, model):
+    words = text.split()
+    word_vectors = [model[word] for word in words if word in model]
+    if len(word_vectors) == 0:
+        return np.zeros((300,))
+    document_vector = np.mean(word_vectors, axis=0)
+    return document_vector
+
+# Function to truncate filename to the first 25 characters
+def truncate_filename(filename):
+    return filename[:25]
+
+# Specify the folder containing PDF files
+pdf_folder = os.path.join(current_directory, 'papers')  # Adjust folder name if necessary
+
+# Get list of all PDF files in the folder
+pdf_files = [f for f in os.listdir(pdf_folder) if f.endswith('.pdf')]
+
+# Truncate filenames for labeling
+labels = [truncate_filename(f) for f in pdf_files]
+
+# Extract, preprocess text, and compute document vectors for solution approaches
+document_vectors = []
+solution_approaches = []
+for pdf_file in pdf_files:
+    pdf_path = os.path.join(pdf_folder, pdf_file)
+    try:
+        text = extract_text_from_pdf(pdf_path)
+        print("Extracting solution approach for", pdf_file)
+        solution_approach = extract_solution_approach(text)
+        print("Finished extracting solution approach")
+        solution_approaches.append(solution_approach)
+        preprocessed_text = preprocess_text(solution_approach)
+        document_vector = get_document_vector(preprocessed_text, word2vec_model)
+        if document_vector.shape == (300,):  # Ensure document vector is the correct shape
+            document_vectors.append(document_vector)
+    except FileNotFoundError:
+        print(f"File not found: {pdf_path}")
+    except Exception as e:
+        print(f"An error occurred processing {pdf_path}: {e}")
+
+# Show solution approaches
+for pdf_file, text in zip(pdf_files, solution_approaches):
+    print(pdf_file, "\n", text, "\n")
+
+# Convert document_vectors to a 2D array
+document_vectors = np.array(document_vectors)
+
+# Ensure the document vectors array is not empty and has the correct shape
+if document_vectors.size == 0 or document_vectors.ndim != 2:
+    raise ValueError("Document vectors are empty or not in the correct shape.")
+
+# Compute cosine similarity between document vectors
+similarity_matrix = cosine_similarity(document_vectors)
+
+# Ensure the diagonal values are exactly 1
+np.fill_diagonal(similarity_matrix, 1)
+
+# Display similarity matrix
+print("Similarity matrix:")
+print(similarity_matrix)
+```
+
+```{python}
+# Create a heatmap for the similarity matrix using plotly express
+fig = px.imshow(similarity_matrix,
+                labels=dict(x="PDF Files", y="PDF Files", color="Similarity"),
+                x=labels,
+                y=labels,
+                color_continuous_scale='Viridis',
+                text_auto=True)
+fig.update_layout(title="Document Similarity Heatmap")
+fig.show()
+```
+
