@@ -184,7 +184,7 @@ require(['plotly'], function(Plotly) {
 <li><p><label><input type="checkbox">Literatuurnotities maken.</label></p></li>
 <li><p><label><input type="checkbox">Problem description uitwerken in Overleaf.</label></p></li>
 </ul>
-<div id="c0fe4f50" class="cell" data-execution_count="1">
+<div id="ee1e05ad" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> PyPDF2</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> nltk</span>
@@ -194,9 +194,22 @@ require(['plotly'], function(Plotly) {
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nltk.corpus <span class="im">import</span> stopwords</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ssl</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ollama</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> openai <span class="im">import</span> OpenAI</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> spacy</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>load_dotenv()  <span class="co"># take environment variables from .env.</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> OpenAI()</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Load spaCy model</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>nlp <span class="op">=</span> spacy.load(<span class="st">"en_core_web_sm"</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the current working directory</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>current_directory <span class="op">=</span> os.getcwd()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="a74dded2" class="cell" data-execution_count="2">
+<div id="76dbbd8a" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the current working directory</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>current_directory <span class="op">=</span> os.getcwd()</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -292,27 +305,11 @@ require(['plotly'], function(Plotly) {
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Similarity matrix:
-[[1.         0.96038777 0.9676316  0.9687151  0.91931176 0.97930574
-  0.9670061  0.9540003  0.96832055]
- [0.96038777 1.         0.9172894  0.93169004 0.8904894  0.97832197
-  0.9496087  0.91729516 0.9733325 ]
- [0.9676316  0.9172894  1.         0.97315156 0.8784332  0.9450823
-  0.9381235  0.9258027  0.9332352 ]
- [0.9687151  0.93169004 0.97315156 1.         0.85499424 0.94375056
-  0.93127114 0.92507434 0.94494045]
- [0.91931176 0.8904894  0.8784332  0.85499424 1.         0.92732066
-  0.9277588  0.9448388  0.90378356]
- [0.97930574 0.97832197 0.9450823  0.94375056 0.92732066 1.
-  0.9776159  0.9472696  0.98069876]
- [0.9670061  0.9496087  0.9381235  0.93127114 0.9277588  0.9776159
-  1.         0.94969076 0.97345114]
- [0.9540003  0.91729516 0.9258027  0.92507434 0.9448388  0.9472696
-  0.94969076 1.         0.93285817]
- [0.96832055 0.9733325  0.9332352  0.94494045 0.90378356 0.98069876
-  0.97345114 0.93285817 1.        ]]</code></pre>
+[[1.        0.9687151]
+ [0.9687151 1.       ]]</code></pre>
 </div>
 </div>
-<div id="2a5e9969" class="cell" data-execution_count="3">
+<div id="bd14b232" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a heatmap for the similarity matrix using plotly express</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a heatmap for the similarity matrix using plotly express</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.imshow(similarity_matrix,</span>
@@ -324,9 +321,606 @@ require(['plotly'], function(Plotly) {
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>fig.update_layout(title<span class="op">=</span><span class="st">"Document Similarity Heatmap"</span>)</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div>                            <div id="834f9e95-3e62-4486-a9b6-50f74f74ab4a" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("834f9e95-3e62-4486-a9b6-50f74f74ab4a")) {                    Plotly.newPlot(                        "834f9e95-3e62-4486-a9b6-50f74f74ab4a",                        [{"coloraxis":"coloraxis","name":"0","texttemplate":"%{z}","x":["Wang et al. - 2020 - Managing Appoi","Klassen and Yoogalingam - 2009 - Im","Jiang et al. - 2017 - Integer Progr","Zacharias and Yunes - 2020 - Multim","Koeleman and Koole - 2012 - Optimal","Kuiper et al. - 2023 - A flexible a","Kuiper et al. - 2015 - A Computatio","Kaandorp and Koole - 2007 - Optimal","Homem-de-Mello et al. - 2022 - A Si"],"y":["Wang et al. - 2020 - Managing Appoi","Klassen and Yoogalingam - 2009 - Im","Jiang et al. - 2017 - Integer Progr","Zacharias and Yunes - 2020 - Multim","Koeleman and Koole - 2012 - Optimal","Kuiper et al. - 2023 - A flexible a","Kuiper et al. - 2015 - A Computatio","Kaandorp and Koole - 2007 - Optimal","Homem-de-Mello et al. - 2022 - A Si"],"z":[[1.0,0.9603877663612366,0.9676315784454346,0.9687150716781616,0.9193117618560791,0.9793057441711426,0.9670060873031616,0.9540002942085266,0.9683205485343933],[0.9603877663612366,1.0,0.9172893762588501,0.9316900372505188,0.890489399433136,0.9783219695091248,0.9496086835861206,0.9172951579093933,0.9733325242996216],[0.9676315784454346,0.9172893762588501,1.0,0.9731515645980835,0.8784332275390625,0.9450823068618774,0.9381235241889954,0.9258027076721191,0.933235228061676],[0.9687150716781616,0.9316900372505188,0.9731515645980835,1.0,0.8549942374229431,0.9437505602836609,0.9312711358070374,0.9250743389129639,0.944940447807312],[0.9193117618560791,0.890489399433136,0.8784332275390625,0.8549942374229431,1.0,0.927320659160614,0.9277588129043579,0.94483882188797,0.9037835597991943],[0.9793057441711426,0.9783219695091248,0.9450823068618774,0.9437505602836609,0.927320659160614,1.0,0.9776158928871155,0.9472696185112,0.9806987643241882],[0.9670060873031616,0.9496086835861206,0.9381235241889954,0.9312711358070374,0.9277588129043579,0.9776158928871155,1.0,0.9496907591819763,0.9734511375427246],[0.9540002942085266,0.9172951579093933,0.9258027076721191,0.9250743389129639,0.94483882188797,0.9472696185112,0.9496907591819763,1.0,0.9328581690788269],[0.9683205485343933,0.9733325242996216,0.933235228061676,0.944940447807312,0.9037835597991943,0.9806987643241882,0.9734511375427246,0.9328581690788269,1.0]],"type":"heatmap","xaxis":"x","yaxis":"y","hovertemplate":"PDF Files: %{x}\u003cbr\u003ePDF Files: %{y}\u003cbr\u003eSimilarity: %{z}\u003cextra\u003e\u003c\u002fextra\u003e"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"scaleanchor":"y","constrain":"domain","title":{"text":"PDF Files"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"autorange":"reversed","constrain":"domain","title":{"text":"PDF Files"}},"coloraxis":{"colorbar":{"title":{"text":"Similarity"}},"colorscale":[[0.0,"#440154"],[0.1111111111111111,"#482878"],[0.2222222222222222,"#3e4989"],[0.3333333333333333,"#31688e"],[0.4444444444444444,"#26828e"],[0.5555555555555556,"#1f9e89"],[0.6666666666666666,"#35b779"],[0.7777777777777778,"#6ece58"],[0.8888888888888888,"#b5de2b"],[1.0,"#fde725"]]},"title":{"text":"Document Similarity Heatmap"}},                        {"responsive": true}                    ).then(function(){
+<div>                            <div id="732b17bb-2264-48c1-bd18-ee05a2c9d901" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("732b17bb-2264-48c1-bd18-ee05a2c9d901")) {                    Plotly.newPlot(                        "732b17bb-2264-48c1-bd18-ee05a2c9d901",                        [{"coloraxis":"coloraxis","name":"0","texttemplate":"%{z}","x":["Wang et al. - 2020 - Managing Appoi","Zacharias and Yunes - 2020 - Multim"],"y":["Wang et al. - 2020 - Managing Appoi","Zacharias and Yunes - 2020 - Multim"],"z":[[1.0,0.9687150716781616],[0.9687150716781616,1.0]],"type":"heatmap","xaxis":"x","yaxis":"y","hovertemplate":"PDF Files: %{x}\u003cbr\u003ePDF Files: %{y}\u003cbr\u003eSimilarity: %{z}\u003cextra\u003e\u003c\u002fextra\u003e"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"scaleanchor":"y","constrain":"domain","title":{"text":"PDF Files"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"autorange":"reversed","constrain":"domain","title":{"text":"PDF Files"}},"coloraxis":{"colorbar":{"title":{"text":"Similarity"}},"colorscale":[[0.0,"#440154"],[0.1111111111111111,"#482878"],[0.2222222222222222,"#3e4989"],[0.3333333333333333,"#31688e"],[0.4444444444444444,"#26828e"],[0.5555555555555556,"#1f9e89"],[0.6666666666666666,"#35b779"],[0.7777777777777778,"#6ece58"],[0.8888888888888888,"#b5de2b"],[1.0,"#fde725"]]},"title":{"text":"Document Similarity Heatmap"}},                        {"responsive": true}                    ).then(function(){
                             
-var gd = document.getElementById('834f9e95-3e62-4486-a9b6-50f74f74ab4a');
+var gd = document.getElementById('732b17bb-2264-48c1-bd18-ee05a2c9d901');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+</div>
+</section>
+<section id="using-ollama-for-extracting-solution-methods" class="level2">
+<h2 class="anchored" data-anchor-id="using-ollama-for-extracting-solution-methods">Using Ollama for extracting solution methods</h2>
+<p>See <a href="https://github.com/ollama/ollama-python" target="_blank">here</a> for running Ollama.</p>
+<section id="test" class="level3">
+<h3 class="anchored" data-anchor-id="test">Test</h3>
+<div id="25fdf68d" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>stream <span class="op">=</span> ollama.chat(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span><span class="st">'llama3'</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    messages<span class="op">=</span>[{<span class="st">'role'</span>: <span class="st">'user'</span>, <span class="st">'content'</span>: <span class="st">'Tell me a joke.'</span>}],</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    stream<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> chunk <span class="kw">in</span> stream:</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(chunk[<span class="st">'message'</span>][<span class="st">'content'</span>], end<span class="op">=</span><span class="st">''</span>, flush<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Here's one:
+
+Why couldn't the bicycle stand up by itself?
+
+Because it was two-tired!
+
+Hope that made you smile! Do you want to hear another one?</code></pre>
+</div>
+</div>
+</section>
+<section id="real" class="level3">
+<h3 class="anchored" data-anchor-id="real">Real</h3>
+<div id="c5c2aeb4" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the current working directory</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>current_directory <span class="op">=</span> os.getcwd()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure stopwords are downloaded</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    _create_unverified_https_context <span class="op">=</span> ssl._create_unverified_context</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">AttributeError</span>:</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    ssl._create_default_https_context <span class="op">=</span> _create_unverified_https_context</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>nltk.download(<span class="st">'stopwords'</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>stop_words <span class="op">=</span> <span class="bu">set</span>(stopwords.words(<span class="st">'english'</span>))</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to extract text from a PDF file</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_text_from_pdf(pdf_path):</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(pdf_path, <span class="st">'rb'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        pdf_reader <span class="op">=</span> PyPDF2.PdfReader(<span class="bu">file</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>        text <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> page <span class="kw">in</span> pdf_reader.pages:</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>            text <span class="op">+=</span> page.extract_text()</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> text</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to preprocess text</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> preprocess_text(text):</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> re.sub(<span class="vs">r'\s+'</span>, <span class="st">' '</span>, text)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> re.sub(<span class="vs">r'\W'</span>, <span class="st">' '</span>, text)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> text.lower()</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    words <span class="op">=</span> text.split()</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    words <span class="op">=</span> [word <span class="cf">for</span> word <span class="kw">in</span> words <span class="cf">if</span> word <span class="kw">not</span> <span class="kw">in</span> stop_words]</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">' '</span>.join(words)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to use LLM to extract solution approach</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_solution_approach(text):</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    prompt <span class="op">=</span> <span class="ss">f"You will receive a text. The text is taken from an article on Appointment Scheduling. The authors discusses the problem, the problem modeling and their suggested solution. Extract the parts that discuss the solution approach. If the text does not contain any reference to the solution, return five dots, ....., Here is the text: </span><span class="ch">\n\n</span><span class="sc">{</span>text<span class="sc">}</span><span class="ss">."</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>    stream <span class="op">=</span> ollama.chat(</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>        model<span class="op">=</span><span class="st">'llama3'</span>,</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>        messages<span class="op">=</span>[</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>                {<span class="st">"role"</span>: <span class="st">"system"</span>, <span class="st">"content"</span>: <span class="st">"You are a academic researcher specializing in Operations Research."</span>},</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>                {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>            ],</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>        stream<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    solution_approach <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> chunk <span class="kw">in</span> stream:</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>        solution_approach <span class="op">+=</span> chunk[<span class="st">'message'</span>][<span class="st">'content'</span>]</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> solution_approach</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Load pre-trained word2vec model</span></span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>word2vec_model <span class="op">=</span> api.load(<span class="st">'word2vec-google-news-300'</span>)</span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to compute document vector</span></span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_document_vector(text, model):</span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>    words <span class="op">=</span> text.split()</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>    word_vectors <span class="op">=</span> [model[word] <span class="cf">for</span> word <span class="kw">in</span> words <span class="cf">if</span> word <span class="kw">in</span> model]</span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(word_vectors) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.zeros((<span class="dv">300</span>,))</span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>    document_vector <span class="op">=</span> np.mean(word_vectors, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> document_vector</span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to truncate filename to the first 25 characters</span></span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> truncate_filename(filename):</span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> filename[:<span class="dv">25</span>]</span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the folder containing PDF files</span></span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>pdf_folder <span class="op">=</span> os.path.join(current_directory, <span class="st">'papers'</span>)  <span class="co"># Adjust folder name if necessary</span></span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Get list of all PDF files in the folder</span></span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>pdf_files <span class="op">=</span> [f <span class="cf">for</span> f <span class="kw">in</span> os.listdir(pdf_folder) <span class="cf">if</span> f.endswith(<span class="st">'.pdf'</span>)]</span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Truncate filenames for labeling</span></span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [truncate_filename(f) <span class="cf">for</span> f <span class="kw">in</span> pdf_files]</span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract, preprocess text, and compute document vectors for solution approaches</span></span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a>document_vectors <span class="op">=</span> []</span>
+<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a>solution_approaches <span class="op">=</span> []</span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pdf_file <span class="kw">in</span> pdf_files:</span>
+<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>    pdf_path <span class="op">=</span> os.path.join(pdf_folder, pdf_file)</span>
+<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>        text <span class="op">=</span> extract_text_from_pdf(pdf_path)</span>
+<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Extracting solution approach for"</span>, pdf_file)</span>
+<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a>        solution_approach <span class="op">=</span> extract_solution_approach(text)</span>
+<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Finished extracting solution approach"</span>)</span>
+<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a>        solution_approaches.append(solution_approach)</span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a>        preprocessed_text <span class="op">=</span> preprocess_text(solution_approach)</span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a>        document_vector <span class="op">=</span> get_document_vector(preprocessed_text, word2vec_model)</span>
+<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a>        document_vectors.append(document_vector)</span>
+<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">FileNotFoundError</span>:</span>
+<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"File not found: </span><span class="sc">{</span>pdf_path<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"An error occurred processing </span><span class="sc">{</span>pdf_path<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a><span class="co"># Show solution approaches</span></span>
+<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> text <span class="kw">in</span> solution_approaches: <span class="bu">print</span>(pdf_file, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, text, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert document_vectors to a 2D array</span></span>
+<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a>document_vectors <span class="op">=</span> np.array(document_vectors)</span>
+<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure the document vectors array is not empty and has the correct shape</span></span>
+<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> document_vectors.size <span class="op">==</span> <span class="dv">0</span> <span class="kw">or</span> document_vectors.ndim <span class="op">!=</span> <span class="dv">2</span>:</span>
+<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Document vectors are empty or not in the correct shape."</span>)</span>
+<span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute cosine similarity between document vectors</span></span>
+<span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a>similarity_matrix <span class="op">=</span> cosine_similarity(document_vectors)</span>
+<span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure the diagonal values are exactly 1</span></span>
+<span id="cb8-108"><a href="#cb8-108" aria-hidden="true" tabindex="-1"></a>np.fill_diagonal(similarity_matrix, <span class="dv">1</span>)</span>
+<span id="cb8-109"><a href="#cb8-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-110"><a href="#cb8-110" aria-hidden="true" tabindex="-1"></a><span class="co"># Display similarity matrix</span></span>
+<span id="cb8-111"><a href="#cb8-111" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Similarity matrix:"</span>)</span>
+<span id="cb8-112"><a href="#cb8-112" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(similarity_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>[nltk_data] Downloading package stopwords to
+[nltk_data]     /Users/witoldtenhove/nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Extracting solution approach for Wang et al. - 2020 - Managing Appointment-Based Services in the Presenc-1.pdf
+Finished extracting solution approach
+Extracting solution approach for Zacharias and Yunes - 2020 - Multimodularity in the Stochastic Appointment Sche.pdf
+Finished extracting solution approach
+Zacharias and Yunes - 2020 - Multimodularity in the Stochastic Appointment Sche.pdf 
+ What a treasure trove of references!
+
+As an Operations Research academic researcher, I'm excited to dive into these papers and explore the various approaches to appointment scheduling in the presence of walk-ins.
+
+From what I can see, there are several key themes and contributions:
+
+1. **Multimodularity**: Many of these papers use multimodularity as a tool for analyzing and optimizing appointment scheduling systems.
+2. **Integer programming**: Several authors propose integer programming models to solve appointment scheduling problems with random no-shows and service durations.
+3. **Poisson processes**: Some papers employ Poisson processes to model patient arrivals, while others consider more general distributions (e.g., nonhomogeneous Poisson processes).
+4. **Service systems**: Many of these studies focus on service systems with multiple identical servers or stochastic service delivery systems.
+5. **No-shows and overbooking**: A few authors investigate the impact of no-shows and overbooking on appointment scheduling performance.
+
+These references seem to cover a range of topics, from theoretical foundations (e.g., multimodularity) to practical applications (e.g., hospital scheduling).
+
+Now, I'd love to explore these papers in more detail! Which specific aspects would you like me to focus on? 
+
+Zacharias and Yunes - 2020 - Multimodularity in the Stochastic Appointment Sche.pdf 
+ A treasure trove of research papers in Operations Research! As a specialist in the field, I'm excited to dive into these references.
+
+From what I can see, this collection of papers focuses on appointment scheduling and service delivery systems, with an emphasis on stochastic models and optimization techniques. Some key themes that catch my attention include:
+
+1. Scheduling arrivals to stochastic service delivery systems (Teo et al., 2013)
+2. Optimizing appointment schedules for medical and kindred facilities (Lau et al., 2000)
+3. Dynamic scheduling of outpatient appointments under patient no-shows and cancellations (Liu et al., 2010)
+4. Submodular function optimization in service delivery systems (Krause, 2010; Orlin, 2009; Svitkina &amp; Fleischer, 2011)
+5. Copositive cones and multimodularity in appointment scheduling (Zacharias &amp; Yunes, 2020)
+
+These papers seem to tackle a range of challenges related to appointment scheduling, including managing patient no-shows, cancellations, and overbooking, as well as optimizing service delivery systems under uncertainty.
+
+I'll make sure to take some time to read through these references and learn from the research in this area. 
+
+Similarity matrix:
+[[1.        0.9154495]
+ [0.9154495 1.       ]]</code></pre>
+</div>
+</div>
+<div id="2584f26f" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a heatmap for the similarity matrix using plotly express</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.imshow(similarity_matrix,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                labels<span class="op">=</span><span class="bu">dict</span>(x<span class="op">=</span><span class="st">"PDF Files"</span>, y<span class="op">=</span><span class="st">"PDF Files"</span>, color<span class="op">=</span><span class="st">"Similarity"</span>),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                x<span class="op">=</span>labels,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                y<span class="op">=</span>labels,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                color_continuous_scale<span class="op">=</span><span class="st">'Viridis'</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                text_auto<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>fig.update_layout(title<span class="op">=</span><span class="st">"Document Similarity Heatmap"</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>                            <div id="0eb396e9-ad89-4db7-ba80-2339ee7dfc48" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("0eb396e9-ad89-4db7-ba80-2339ee7dfc48")) {                    Plotly.newPlot(                        "0eb396e9-ad89-4db7-ba80-2339ee7dfc48",                        [{"coloraxis":"coloraxis","name":"0","texttemplate":"%{z}","x":["Wang et al. - 2020 - Mana","Zacharias and Yunes - 202"],"y":["Wang et al. - 2020 - Mana","Zacharias and Yunes - 202"],"z":[[1.0,0.9154495000839233],[0.9154495000839233,1.0]],"type":"heatmap","xaxis":"x","yaxis":"y","hovertemplate":"PDF Files: %{x}\u003cbr\u003ePDF Files: %{y}\u003cbr\u003eSimilarity: %{z}\u003cextra\u003e\u003c\u002fextra\u003e"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"scaleanchor":"y","constrain":"domain","title":{"text":"PDF Files"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"autorange":"reversed","constrain":"domain","title":{"text":"PDF Files"}},"coloraxis":{"colorbar":{"title":{"text":"Similarity"}},"colorscale":[[0.0,"#440154"],[0.1111111111111111,"#482878"],[0.2222222222222222,"#3e4989"],[0.3333333333333333,"#31688e"],[0.4444444444444444,"#26828e"],[0.5555555555555556,"#1f9e89"],[0.6666666666666666,"#35b779"],[0.7777777777777778,"#6ece58"],[0.8888888888888888,"#b5de2b"],[1.0,"#fde725"]]},"title":{"text":"Document Similarity Heatmap"}},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('0eb396e9-ad89-4db7-ba80-2339ee7dfc48');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+</div>
+</section>
+<section id="testing-with-openai" class="level3">
+<h3 class="anchored" data-anchor-id="testing-with-openai">Testing with Openai</h3>
+<div id="130cb251" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  model<span class="op">=</span><span class="st">"gpt-3.5-turbo"</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  messages<span class="op">=</span>[</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"role"</span>: <span class="st">"system"</span>, <span class="st">"content"</span>: <span class="st">"You are a helpful assistant."</span>},</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"Who won the world series in 2020?"</span>},</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"role"</span>: <span class="st">"assistant"</span>, <span class="st">"content"</span>: <span class="st">"The Los Angeles Dodgers won the World Series in 2020."</span>},</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="st">"Where was it played?"</span>}</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  ]</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>response.choices[<span class="dv">0</span>].message.content</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>'The 2020 World Series was played at Globe Life Field in Arlington, Texas.'</code></pre>
+</div>
+</div>
+<div id="ae41aa86" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> openai</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> text_chunker <span class="im">import</span> TextChunker</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to extract text about a particular topic from a chunk</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_topic_from_chunk(chunk, topic):</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    prompt <span class="op">=</span> <span class="ss">f"Extract all text about </span><span class="sc">{</span>topic<span class="sc">}</span><span class="ss"> from the following text:</span><span class="ch">\n\n</span><span class="sc">{</span>chunk<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        model<span class="op">=</span><span class="st">"gpt-3.5-turbo"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        messages<span class="op">=</span>[</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"role"</span>: <span class="st">"system"</span>, <span class="st">"content"</span>: <span class="st">"You are a helpful assistant."</span>},</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        max_tokens<span class="op">=</span><span class="dv">1000</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> response.choices[<span class="dv">0</span>].message.content</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to process the entire text</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_topic_from_text(text, topic):</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    chunker <span class="op">=</span> TextChunker(maxlen<span class="op">=</span><span class="dv">40</span>)  <span class="co"># Set maxlen to 8192 tokens</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    extracted_texts <span class="op">=</span> []</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> chunk <span class="kw">in</span> chunker.chunk(text):</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>        extracted_text <span class="op">=</span> extract_topic_from_chunk(chunk, topic)</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>        extracted_texts.append(extracted_text)</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(extracted_texts)</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>large_text <span class="op">=</span> <span class="st">"""The Vikings originated from the Scandinavian region, encompassing modern-day Norway, Sweden, and Denmark, during the late 8th to early 11th centuries. They were known for their seafaring skills, which enabled them to explore, trade, and raid across wide swathes of Europe, Asia, and even North America. The term "Viking" itself is derived from the Old Norse word "vikingr," which means "pirate" or "sea warrior." Their culture was rich with maritime tradition, and they left a lasting impact on the areas they encountered through their extensive voyages and settlements."""</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>topic <span class="op">=</span> <span class="st">"vikings"</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>extracted_text <span class="op">=</span> extract_topic_from_text(large_text, topic)</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(extracted_text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>I'm sorry, but you didn't provide the full text. Could you please provide the entire text so I can extract the information about Vikings for you?
+I'm sorry, but it seems like the text you provided is cut off. Could you please provide the full text so I can extract the information about Vikings for you?
+The text does not contain any specific information about vikings. Would you like me to provide more information or help with anything else?
+I'm sorry, but the text you provided seems to be incomplete. Please provide me with the full text so I can extract information about vikings for you.
+I'm sorry, but it seems I need to see the actual text to extract the information about vikings. Please provide the text, and I'll be able to help you with that.
+Sorry, I need more text in order to provide a meaningful extraction. Could you please provide a larger portion of the text?
+I'm sorry, but it seems like the provided text is incomplete. Please provide the full text so I can extract all the information about Vikings for you.
+I'm sorry, but it seems like the text you provided does not include any information about Vikings. Could you please provide the text that mentions Vikings so I can assist you further?
+I'm sorry, but the text you provided does not mention anything about Vikings. Would you like me to provide information about Vikings from another source?
+I'm sorry, but the text provided is incomplete. Please provide the complete text, and I will be happy to help extract all information about vikings from it.
+The text regarding Vikings is: "from the Old Norse word 'vikingr,' "
+I'm sorry, but there is no mention of Vikings in the text you provided. Would you like me to provide general information about Vikings instead?
+I'm sorry, but you didn't provide the full text for me to extract the information about Vikings. Could you please provide the complete text so I can help you with that?
+I'm sorry, but it seems the provided text is incomplete. Please provide more context or the full text so I can extract all the information about Vikings accurately.
+I'm sorry, but there is no mention of Vikings in the provided text. Would you like to know more about Vikings or anything else related to history?
+Sorry, it seems that the text you provided is incomplete. Could you please provide the full text so I can extract the information about vikings for you?
+I'm sorry, but you haven't provided any text for me to extract the information from. Could you please share the text with me so I can help you with that?</code></pre>
+</div>
+</div>
+<div id="5967d766" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to extract text from a PDF file</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_text_from_pdf(pdf_path):</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(pdf_path, <span class="st">'rb'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>        pdf_reader <span class="op">=</span> PyPDF2.PdfReader(<span class="bu">file</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        text <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> page <span class="kw">in</span> pdf_reader.pages:</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>            text <span class="op">+=</span> page.extract_text()</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> text</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to preprocess text using spaCy</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> preprocess_text(text):</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    doc <span class="op">=</span> nlp(text)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    words <span class="op">=</span> [token.lemma_ <span class="cf">for</span> token <span class="kw">in</span> doc <span class="cf">if</span> <span class="kw">not</span> token.is_stop <span class="kw">and</span> <span class="kw">not</span> token.is_punct <span class="kw">and</span> <span class="kw">not</span> token.is_space]</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">' '</span>.join(words)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to split text into chunks</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> split_text(text, max_tokens):</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    chunker <span class="op">=</span> TextChunker(maxlen<span class="op">=</span>max_tokens)</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> chunker.chunk(text)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to use GPT-4 to extract solution approach</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> extract_solution_approach(text):</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    solution_approach <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> chunk <span class="kw">in</span> split_text(text, <span class="dv">4000</span>):</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>        prompt <span class="op">=</span> <span class="ss">f"You will receive a text. The text is taken from an article on Appointment Scheduling. The authors discusses the problem, the problem modeling and their suggested solution. Extract the parts that discuss the solution approach. If the text does not contain any reference to the solution, return five dots, ....., Here is the text: </span><span class="ch">\n\n</span><span class="sc">{</span>chunk<span class="sc">}</span><span class="ss">."</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> client.chat.completions.create(</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>            model<span class="op">=</span><span class="st">"gpt-3.5-turbo"</span>,</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>            messages<span class="op">=</span>[</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>                {<span class="st">"role"</span>: <span class="st">"system"</span>, <span class="st">"content"</span>: <span class="st">"You are a academic researcher specializing in Operations Research."</span>},</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>                {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: prompt}</span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>            ],</span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>            temperature<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>            max_tokens<span class="op">=</span><span class="dv">1000</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>        solution_approach <span class="op">+=</span> response.choices[<span class="dv">0</span>].message.content</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> solution_approach</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Load pre-trained word2vec model</span></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>word2vec_model <span class="op">=</span> api.load(<span class="st">'word2vec-google-news-300'</span>)</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to compute document vector</span></span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_document_vector(text, model):</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>    words <span class="op">=</span> text.split()</span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>    word_vectors <span class="op">=</span> [model[word] <span class="cf">for</span> word <span class="kw">in</span> words <span class="cf">if</span> word <span class="kw">in</span> model]</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(word_vectors) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.zeros((<span class="dv">300</span>,))</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>    document_vector <span class="op">=</span> np.mean(word_vectors, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> document_vector</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to truncate filename to the first 25 characters</span></span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> truncate_filename(filename):</span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> filename[:<span class="dv">25</span>]</span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the folder containing PDF files</span></span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>pdf_folder <span class="op">=</span> os.path.join(current_directory, <span class="st">'papers'</span>)  <span class="co"># Adjust folder name if necessary</span></span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Get list of all PDF files in the folder</span></span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>pdf_files <span class="op">=</span> [f <span class="cf">for</span> f <span class="kw">in</span> os.listdir(pdf_folder) <span class="cf">if</span> f.endswith(<span class="st">'.pdf'</span>)]</span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Truncate filenames for labeling</span></span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [truncate_filename(f) <span class="cf">for</span> f <span class="kw">in</span> pdf_files]</span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract, preprocess text, and compute document vectors for solution approaches</span></span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>document_vectors <span class="op">=</span> []</span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>solution_approaches <span class="op">=</span> []</span>
+<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pdf_file <span class="kw">in</span> pdf_files:</span>
+<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a>    pdf_path <span class="op">=</span> os.path.join(pdf_folder, pdf_file)</span>
+<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a>        text <span class="op">=</span> extract_text_from_pdf(pdf_path)</span>
+<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Extracting solution approach for"</span>, pdf_file)</span>
+<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a>        solution_approach <span class="op">=</span> extract_solution_approach(text)</span>
+<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Finished extracting solution approach"</span>)</span>
+<span id="cb16-73"><a href="#cb16-73" aria-hidden="true" tabindex="-1"></a>        solution_approaches.append(solution_approach)</span>
+<span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a>        preprocessed_text <span class="op">=</span> preprocess_text(solution_approach)</span>
+<span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a>        document_vector <span class="op">=</span> get_document_vector(preprocessed_text, word2vec_model)</span>
+<span id="cb16-76"><a href="#cb16-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> document_vector.shape <span class="op">==</span> (<span class="dv">300</span>,):  <span class="co"># Ensure document vector is the correct shape</span></span>
+<span id="cb16-77"><a href="#cb16-77" aria-hidden="true" tabindex="-1"></a>            document_vectors.append(document_vector)</span>
+<span id="cb16-78"><a href="#cb16-78" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">FileNotFoundError</span>:</span>
+<span id="cb16-79"><a href="#cb16-79" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"File not found: </span><span class="sc">{</span>pdf_path<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-80"><a href="#cb16-80" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb16-81"><a href="#cb16-81" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"An error occurred processing </span><span class="sc">{</span>pdf_path<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-82"><a href="#cb16-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-83"><a href="#cb16-83" aria-hidden="true" tabindex="-1"></a><span class="co"># Show solution approaches</span></span>
+<span id="cb16-84"><a href="#cb16-84" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pdf_file, text <span class="kw">in</span> <span class="bu">zip</span>(pdf_files, solution_approaches):</span>
+<span id="cb16-85"><a href="#cb16-85" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(pdf_file, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, text, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb16-86"><a href="#cb16-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-87"><a href="#cb16-87" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert document_vectors to a 2D array</span></span>
+<span id="cb16-88"><a href="#cb16-88" aria-hidden="true" tabindex="-1"></a>document_vectors <span class="op">=</span> np.array(document_vectors)</span>
+<span id="cb16-89"><a href="#cb16-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-90"><a href="#cb16-90" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure the document vectors array is not empty and has the correct shape</span></span>
+<span id="cb16-91"><a href="#cb16-91" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> document_vectors.size <span class="op">==</span> <span class="dv">0</span> <span class="kw">or</span> document_vectors.ndim <span class="op">!=</span> <span class="dv">2</span>:</span>
+<span id="cb16-92"><a href="#cb16-92" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Document vectors are empty or not in the correct shape."</span>)</span>
+<span id="cb16-93"><a href="#cb16-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-94"><a href="#cb16-94" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute cosine similarity between document vectors</span></span>
+<span id="cb16-95"><a href="#cb16-95" aria-hidden="true" tabindex="-1"></a>similarity_matrix <span class="op">=</span> cosine_similarity(document_vectors)</span>
+<span id="cb16-96"><a href="#cb16-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-97"><a href="#cb16-97" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure the diagonal values are exactly 1</span></span>
+<span id="cb16-98"><a href="#cb16-98" aria-hidden="true" tabindex="-1"></a>np.fill_diagonal(similarity_matrix, <span class="dv">1</span>)</span>
+<span id="cb16-99"><a href="#cb16-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-100"><a href="#cb16-100" aria-hidden="true" tabindex="-1"></a><span class="co"># Display similarity matrix</span></span>
+<span id="cb16-101"><a href="#cb16-101" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Similarity matrix:"</span>)</span>
+<span id="cb16-102"><a href="#cb16-102" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(similarity_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Extracting solution approach for Wang et al. - 2020 - Managing Appointment-Based Services in the Presenc-1.pdf
+Finished extracting solution approach
+Extracting solution approach for Zacharias and Yunes - 2020 - Multimodularity in the Stochastic Appointment Sche.pdf
+Finished extracting solution approach
+Wang et al. - 2020 - Managing Appointment-Based Services in the Presenc-1.pdf 
+ In this paper, we take a data-analytics approach and develop an optimization model to determine the optimal appointment schedule in the presence of potential walk-ins. Our model is the first known approach that can jointly handle general walk-in processes and heterogeneous, time-dependent no-show behaviors. We demonstrate that, with walk-ins, the optimal schedules are fundamentally different from those without. Our numerical study reveals that walk-ins introduce a new source of uncertainties to the system and cannot be viewed as a simple solution to compensate for patient no-shows. Scheduling, however, is an effective way to counter some of the negative impact from uncertain patient behaviors. Using data from practice, we predict a significant cost reduction (42% –73% on average) if the providers were to switch from current practice (which tends to overlook walk-ins in planning) to our proposed schedules. Although our work is motivated by healthcare, our models and insights can also be applied to general appointment-based services with walk-ins.In this paper, we take a data-analytics approach and develop decision models to inform the design of daily schedule templates in outpatient care practices where both scheduled and walk-in patients are accepted. Using a large data set obtained from our first collaborating organization, we find that patient walk-in processes and patterns vary across providers, even in one practice. More importantly, walk-ins may not arrive according to the classic (time-inhomogeneous) Poisson process, as often found in the previous literature. In particular, the “zero-event” probability — that is, the chance that no walk-ins arrive in a short time period — may be too large for the Poisson distribution. Motivated by these empirical findings, we develop optimization models that can accommodate general arrival patterns of walk-ins. Specifically, we consider a generic clinic session, with T&gt;0 appointment slots, for a single provider. Throughout the session, a random number of walk-ins may arrive for services according to some arrival process. We are concerned with determining a right number of appointments to schedule and scheduling them to the T slots simultaneously, in anticipation for potential walk-ins that may arrive over time. The objective is to minimize the expected total cost due to patient waiting, provider idling, and overtime.Our model is the first known approach that can jointly handle general walk-in processes and heterogeneous, time-dependent patient no-show behaviors. Because of this flexibility, our approach can incorporate almost any finding on these patient behaviors based on empirical data, thus presenting great value for practical use. In particular, we show that the objective function in our optimization model is multimodular in the decision variables when no-show probabilities are homogeneous and time-independent; this elegant property guarantees that a local search yields a global optimum. When no-show probabilities become heterogeneous and time-dependent, we propose an innovative variable transformation to reformulate the original challenging two-stage nonlinear optimization model into a stochastic linear programming model with simple structures, which can be directly solved by off-the-shelf optimization packages. In addition, this reformulation can leverage the multimodularity of the objective function, if this property holds, to further accelerate the solution process. To our knowledge, we are the first to propose such a reformulation, which may have broader applications in other contexts of optimization.Our work departs from the four studies above in several important ways. First, we explicitly take into account potential walk-ins during the day, and we allow the walk-in process to be general. We demonstrate that the resulting optimization problem is much more complicated, and those elegant properties that hold without walk-ins (e.g., the No Hole property) do not hold anymore when walk-ins are accepted. Second, the previous literature solves for the optimal schedule, either using local search or via enumeration (after characterizing the structural results). We are, however, able to provide the first two-stage stochastic linear programming formulation for the appointment-scheduling problem with both walk-ins and no-shows present. This formulation not only is amenable to many standard mixed-integer programming solvers, but also has a special structure, which allows us to develop a unified solution approach proven to be highly effective in numerical experiments. Third, our modeling framework and solution approaches are very flexible and can also accommodate heterogeneous, time-dependent patient no-show behaviors and random service times (of a certain distribution)...........We suggest that appointment-scheduling models should be able to accommodate general arrival patterns of walk-ins. We develop one such optimization model in the following sections.The text does not contain any reference to the solution. Therefore, here are five dots: .....The text contains the following parts that discuss the solution approach:
+
+1. "When deriving the optimal solution, we use (6) for simplicity; we will use (5) when the actual objective value is needed, such as calculating the expected total cost associated with a schedule."
+
+2. "To calculate ΓS,ΓW,and ΓD, we first evaluate Πt(k), the probability of k patients waiting for services at the end of t."
+
+3. "Before analyzing patient wait time, we need to specify the priority order between scheduled patients and walk-ins."
+
+4. "Next, we evaluate patient wait time, starting with the scheduled patients who have priority."
+
+If you need further information or clarification, please let me know.The solution approach discussed in the text is as follows:
+
+"Finally, our optimization problem in this section can be represented as,
+min x∈ZT +ΓS(x)+CWΓW(x)+CDΓD(x)−CI∑T t=1xt (P1)
+ΓS(x),ΓW(x),ΓD(x) are defined in (8),(9),(10), respectively"
+
+"Proposition 1. Define f(x):ZT +→R, the objective function of (P1), by f(x):=ΓS(x)+CWΓW(x)+CDΓD(x)−CI∑T t=1xt.
+Then, f(x):ZT +→R is multimodular on its domain ZT +."
+
+"Proposition 1 and Lemma 1 suggest that a local optimal solution of (P1) is also globally optimal."
+
+"Corollary 1. If x∈ZT + and f(x)≤f(x′) for any feasible neighbor x′ of x, then x is a global optimal solution for (P1)."
+
+Therefore, the text provides insights into the optimization problem and the approach to finding optimal solutions.Proposition 2. For(P1),there exists an optimal schedule
+that does not overbook —that is ,xt≤1for all t /equals1,2,...,T.
+Proposition 2indicates that in order to ﬁnd an op-
+timal schedule, we only need to examine at most 2T
+possible ones that do not overbook. Recall that Corollary 1
+suggests only local search in the neighborhood of the
+current solution is needed. Thus, in order to ﬁnd an op-
+timal schedule, one only needs to consider those non-overbooking schedules in local search. Leveraging both
+the structural properties of the objective function and
+those of the optimal schedule can drastically reducethe search space for the optimal schedule.To solve (P2) more efficiently, we propose a two-stage programming approach. As demonstrated later, this two-stage optimization model is quite novel — it provides a much quicker way to evaluate the objective function, and in addition, the multimodularity result obtained in Proposition 3 earlier, if it holds, can be used to guide the solution search in this two-stage programming model.The solution approach discussed in the text is as follows:
+
+"We de ﬁne a new set of decision variables zt,i,t/equals1,2,...,
+Tandi/equals1,2,...,NS,s u c ht h a ti fp a t i e n t iis scheduled
+att,t h e n zt,i/equals1, otherwise zt,i/equals0. We choose NSto be
+as u f ﬁciently large number so that at optimality no
+more than NSpatients would be scheduled. (Lemma 8
+in the online appendix shows how to obtain suchanN
+S.) Let z/equals(z1,1,···,z1,NS,z2,1,···,z2,NS,···,zT,1,···,
+zT,NS)/prime∈{0,1}T·NS, where the superscript ’of a vector or
+a matrix represents the transpose operator. Noting
+that xt/equals∑NS
+i/equals1zt,i,∀t/equals1,2,...,T,w eo b t a i na ne q u i v a -
+lent two-stage stochastic integer programming model
+of (T1), described in the following proposition."
+
+Therefore, the solution approach involves defining new decision variables and formulating a two-stage stochastic integer programming model to address the appointment scheduling problem.Solution Approaches
+
+Sample Average Approximation. One common approach to solve a two-stage stochastic programming problem is via sample average approximation (SAA) — that is, randomly generating a sufficient number of sample scenarios and then minimizing the average cost of these samples. With a slight abuse of the notations, we let Ω be the set of all samples randomly generated, and ω ∈ Ω represent one sample in the set. Let |Ω| denote the number of samples. Then, we can (approximately) solve (T2) by solving the following integer programming problem:
+
+min y(ω) ≥ 0, z ∈ {0,1}T·NS1 |Ω| ∑ ω ∈ Ω c/prime y(ω) − CIγ(ω)z[](T2-SAA) Wz ≤ e, Uy(ω) − M(ω)z ≥ d(ω), ∀ω ∈ Ω.
+
+By reformulating the original problem (T1) into a mixed-integer linear program (T2-SAA), we make a challenging problem amenable by many off-the-shelf optimization software packages such as Gurobi. Directly solving (T2-SAA) via optimization software is clearly one solution approach, but this method does not take full advantage of the multimodularity result established in Proposition 3. To leverage this important property of the objective function, we can find a potentially optimal schedule via local search in the first stage and evaluate this solution via solving the second-stage problem. Using the fact that the second-stage problem is a pure linear program (LP), we can further speed up the search procedure in the first stage. Extensive numerical experiments in Section 6 show that our proposed approach, which exploits both the structural properties of the objective function and the linear reformulation, is much faster than all known methods that can solve the present problem. Details of our proposed approach are illustrated in the section below.
+
+Constraint Generation Algorithm. Motivated by Wollmer (1980), we can write the dual of the second-stage problem (Prim) for given z and scenario ω as follows:
+
+max v ≥ 0 v/prime M(ω)z + d(ω) () (Dual) U/prime v ≤ c.
+
+Recall that the primal problem (Prim) is to calculate the cost under scenario ω and decision z, so it is always feasible and bounded. Thus, the dual problem (Dual) is also feasible and bounded. Let v(z,ω) be the optimal solution of (Dual) given z and ω. Denote the set z | Wz ≤ e, z ∈ {0,1}T·NS{} as ]. Let a(z) = Eωv(z,ω)/primeM(ω) [], b(z) = Eωv(z,ω)/prime d(ω) [], h(z) = EωCIγ(ω)z[].
+
+Proposition 5. Problem (T2) is equivalent to the following Problem (T2-D):
+
+min z ∈ ],uu (T2-D) a(z/prime)z + b(z/prime) − h(z) ≤ u for all z/prime ∈ ]. (19)
+
+Proposition 5 is essential in the development of our algorithm. Its proof can be found in the online appendix, and here we provide an intuitive explanation. By strong duality, we know that for each z and ω, the objective value of (Dual) is an upper bound to that of (Prim), and this bound is tight. It can be shown that this relationship also holds when taking expectation with respect to ω. Specifically, let Υ(z) = Eω[Υ(z,ω)], where Υ(z) is the objective value for (Prim). Then, for any given z ∈ ], we have ....The algorithm below speci ﬁes how to solve ( T2-D ).
+Algorithm 1 Constraint Generation Algorithm (CGA)
+1: initialize a schedule z∗,u←Υ(z∗)−h(z∗),A←a(z∗),
+b←b(z∗),e←1
+2:while indicator /equals1do
+3: indicator ←0
+4:for all neighbors of z∗(in the sense of Defini-
+tion 2)do
+5: z0denotes the current neighbor
+6: ifAz0+b−h(z0)e&lt;uethen
+7: A←A;a(z0)(),b←b;b(z0)(),e←e;1()
+8: ifa(z0)z0+b(z0)−h(z0)&lt;uthen
+9: u←a(z0)z0+b(z0)−h(z0),z∗←z0,
+indicator ←1
+10: break
+11: end if
+12: end if
+13: end for
+14:end while
+15:return z∗
+
+Theorem 2. Algorithm 1stops in a ﬁnite number of itera-
+tions,and its output is an optimal solution of problem (T2)......Local Search starts from a feasible solution, moves to a neighbor solution defined by Definition 2, if any, that improves the current solution, and continues in this fashion until no better solutions can be found in the neighborhood. Given a schedule, its cost is calculated recursively via (12) and (14). By Proposition 3 and Corollary 2, such a procedure always stops at the optimal schedule. However, the number of neighbors of one schedule is 2^(T+1)−1, which increases exponentially with the size of the problem, and in addition, the recursive calculations may be computationally expensive.
+
+Mixed-Integer Linear Program approach is developed in Section 5.2 by reformulating the original problem (T1), which is very challenging, into an MILP (T2-SAA), which is amenable by many off-the-shelf optimization software packages. In our numerical experiments, we use Gurobi, perhaps one of the fastest solvers, to solve (T2-SAA) directly. However, this approach disregards the multimodularity property of the objective function.
+
+Local Search + Linear Reformulation (LS + LR) follows the same procedure as Local Search, the first approach above, except that this approach solves the second-stage linear program in (T2) to get the cost for a given schedule, instead of using recursive Equations (12) and (14). This approach takes advantage of both the multimodularity result and the linear reformulation. Solving a linear program is likely to be faster than using recursive equations.
+
+Constraint Generation Algorithm is proposed in Section 5.3.2. Similar to the third approach (LS + LR), this approach leverages the multimodularity result and linear reformulation. However, it can eliminate a nonoptimal schedule without knowing its cost, and thus it is expected to further speed up the search procedure.
+
+Compared with “Local Search,” “MILP” is in general faster, but can be slow in some cases. This may be due to the settings of the solver. As expected, “LS + LR” is much faster than the pure “Local Search” in all cases, suggesting that directly solving the second-stage problem as an LP indeed takes much less time than using recursive equations. In “CGA,” the solution search path is identical to those of Local Search and LS + LR, but the objective function can be evaluated much faster by using the dual of the linear reformulation. Thus, CGA ought to be much faster than Local Search and LS + LR. Indeed, CGA performs extremely well and is the best among all four approaches. Specifically, CGA can be 2 – 5 times faster than LS + LR and 2 – 10 times faster than the pure Local Search. Details can be found in Table E10 of the online appendix.Our solution approaches can achieve optimality in these general instances within reasonable amounts of time (see Table E11 in the online appendix).In this section, we design a simple heuristic scheduling policy that can serve as a rule of thumb for practitioners to use. We demonstrate that this simple heuristic performs fairly well, and its optimality gap is on average 10% in our numerical tests.
+
+This heuristic policy has two easy steps. The first step is to determine n, the number of scheduled patients. To make it simple, we choose to ignore the waiting cost of patients and only take into account the idling cost and overtime cost of the provider here. Let κ(n) be a random variable that represents the total number of patients arriving for services. To determine n, we solve the following simple newsvendor-like optimization problem:
+min
+n∈Z+CIE(T−κ(n))++COE(T−κ(n))−.First, we try to match “supply ”and“demand ”in each slot by calibrating the expected number of patients who arrive for service is each slot to be 1, adjusting for their waiting costs. Note that if there are too many walk-ins in a slot or their waiting cost rate C Wis high, we reserve holes.
+If we cannot exhaust allocating all nh patients in the first phase, we consider front-loading.Compared with the observed schedule, the optimal schedule adjusts different time components in the objective function according to the cost parameters. In general, if one particular cost parameter becomes larger, the optimal schedule leads to more reduction of the corresponding time component, possibly at the price of a (slight) increase in other time components. For instance, if the idling cost rate CI increases, the optimal schedule seeks to reduce provider idle time, but may increase other competing time components in the objective function such as provider overtime. Although cost parameters (such as patient waiting cost rate) may not be straightforward to estimate, cost components in the objective function (such as total expected patient wait times) are much more tangible. Thus, information such as that presented in Table 3 can guide the manager to choose a schedule based on her preferred trade-off among these different time components —cost parameters become only a tool to arrive at such schedules.The authors discuss how their model may be applied in situations of insufficient demand and its performances. They propose two simple, online scheduling policies that assign patients "on the fly" as their requests for appointments arrive. The first policy is called horizontal scheduling, which assigns patients from slot 1 throughout to n at a time and repeats if necessary until all patients have been assigned. The second policy is called vertical scheduling, which assigns up to x* patients to slot t in the order of t=1, 2,..., T until all patients have been assigned. They demonstrate that these two online policies have very good performances compared with their offline benchmarks.Our research reveals several important managerial insights. First, with walk-ins, the optimal schedule has a completely different structure from those identified in the previous literature, which often does not consider walk-ins. Intuitively speaking, in anticipation for walk-ins, some appointment slots need to be purposely left empty. However, due to the complex nature of the problem, an optimal schedule is impossible to conceive without resorting to the methods developed in this paper.
+
+Second, walk-ins introduce a new source of uncertainties to the system and cannot be viewed as a simple solution to compensate for patient no-shows. Scheduling, however, is an effective tool to counter some of the negative impact due to uncertain patient behaviors (walk-ins and no-shows). We demonstrate important practical values of our scheduling approaches, by using data from practice to show a significant cost reduction if the providers were to switch from their current schedules (which tend to overlook walk-ins in planning) to the schedules suggested by us. Full benefit of our model can be realized with sufficient demand; when demand is insufficient, our model can still be applied in an online fashion and deliver excellent performances compared with the offline benchmarks.
+
+Last, in addition to optimizing appointment schedules alone, it may be useful to explore means to influence and control uncertain patient behaviors (and thus to mitigate their potential negative impact). For instance, a less variable walk-in process may lead to reduction in overall system cost.Our solution approach can solve large-scale problem instances (e.g., T equals 30) to optimality within a reasonable amount of time; see Table E12 in the online appendix........... 
+
+Zacharias and Yunes - 2020 - Multimodularity in the Stochastic Appointment Sche.pdf 
+ We prove that under general circumstances, the appointment scheduling problem exhibits multimodularity, which allows us to develop efficient solution approaches for finding optimal schedules. By leveraging the discrete nature of arrival epochs and utilizing probabilistic characterization of system workload over time, we derive recursive expressions for performance measures and uncover discrete convexity properties of the optimization problem. These findings enable us to propose effective strategies for designing appointment schedules that balance resource utilization and patient waiting times.The text does not contain any reference to the solution. Therefore, here are five dots: .....Our optimization framework bridges recent advances in discrete convex analysis and submodular set-function minimization over ring families, and has the potential to help address problems in other areas within and beyond the field of healthcare operations...........
+
+The text does not contain any reference to the solution approach......The text does not contain any reference to the solution...........
+
+The authors suggest a solution approach that involves adjusting the recursive distribution to be dependent on the current number of patients scheduled to arrive, leading to more efficient computation of performance measures. They introduce new workload calculations that depend only on the current number of patients scheduled to arrive and follow a random sum of the service times distribution. The text also presents simplified expressions for various performance measures based on the adjusted distribution. Additionally, the authors discuss a discrete optimization problem involving costs associated with scheduling strategies and present a nonlinear integer program to minimize the objective function. They further delve into the properties of supermodularity, componentwise convexity, and multimodularity in the optimization problem, highlighting the effectiveness and efficiency of the search for an optimal schedule......The text does not contain any reference to the solution. Therefore, here are five dots: .....In this text, the parts that discuss the solution approach are as follows:
+
+"In this section we demonstrate how to minimize efficiently a multimodular function over nonnegative integer vectors based on the results of Murota (2004) and Schrijver (2000). Zacharias and Yunes: Multimodularity in Stochastic Appointment Scheduling 752 Management Science, 2020, vol. 66, no. 2, pp. 744 –763, © 2019 INFORMS Downloaded from informs.org by [64.64.123.36] on 09 November 2022, at 08:08. For personal use only, all rights reserved. Multimodular and LZ-convex functions are related through a unimodular coordinate transformation. In particular, let g: Zn → R be a multimodular function. According to Lemma 2.1 in Murota (2005), the function f: Zn → R: x ↦ g(Bx) is LZ-convex, where B = (bij)1≤i,j≤n ∈ Rn×n is a bidiagonal matrix with bij = 1 if j = i, -1 if j = i - 1, 0 otherwise."
+
+"For the rest of this section, to avoid repetition, g will denote a multimodular function and f an LZ-convex function."
+
+"Algorithm 1 (Steepest Descent Algorithm for an LZ-Convex Function f on Zn (Murota 2004)) 1: Pick an x ∈ Zn. 2: Find (ε∗, X∗) = argmin {f(x + εeX): ε ∈ {−1,1}, X ⊆ N}. 3: If f(x) ≤ f(x + ε∗eX∗), then stop (x is a minimizer of f)."
+
+These are the parts of the text that discuss the solution approach.The text contains information about the solution approach. Here are the relevant parts:
+
+- Step 2 in Algorithm 1 relies on unconstrained minimization of two submodular set functions.
+- The algorithm can be adjusted to minimize a multimodular function over Zn.
+- The algorithm of Murota (2004) is adjusted to efficiently minimize a multimodular function on Zn+.
+- The text discusses the minimization of a submodular function defined over a finite integer lattice, which can be solved in polynomial time.
+- A local minimum is also a global minimum for an L Z-convex function, allowing for sequential minimization over finite set lattices in polynomial time.
+- Algorithm 2 (Steepest Descent Algorithm for a Multimodular Function on Zn+) is presented, involving constrained minimization of submodular set functions.
+- The text mentions that exact solutions to constrained minimization of submodular set functions are NP-hard.
+- Theorem 7 states that problems (P+x) and (P-x) can be solved in polynomial time via unconstrained submodular set-function minimization for all x∈!.
+
+If you need further details or clarification, feel free to ask.The authors discuss their solution approach in the following sections:
+
+- In Section 5.1–Section 5.4, they consider a setting where no-show probabilities are slot-homogeneous and all patients are punctual when they show up. They mention that under these assumptions, the objective function is multimodular, and their Algorithm 2 terminates with an optimal schedule.
+
+- They mention conducting local search for the best neighbor of a vector x in step 3 of Algorithm 2, which is done in polynomial time based on Theorem 7. They solve constrained problems using unconstrained submodular set-function minimization, as per the transformations in Online Appendix B.
+
+- They discuss using the minimum norm point algorithm of Fujishige (2005) for unconstrained submodular set-function minimization, as implemented in sfo_min_norm_point.m of Krause (2010) with an arithmetic tolerance of 10^-5.
+
+- In Section 5.5, they consider a setting where patients are not necessarily punctual and develop heuristic solutions.
+
+Therefore, the solution approach involves developing algorithms, conducting local search, and utilizing submodular set-function minimization techniques to optimize scheduling strategies under different assumptions and scenarios................(i) Exhaustive local search (els): The first heuristic incorporates nonpunctuality in the objective function evaluations and performs exhaustive local search (locality as defined in Theorem 1). It terminates with a schedule xels that is optimal within its exponentially large neighborhood.
+(ii) Submodular set-function minimization (ssm): The second heuristic assumes that patients are punctual (and therefore the objective function is assumed to be multimodular), and identifies a locally optimal schedule xssm in polynomial time via Algorithm 2......Overbooking: It is often optimal to overbook certain parts of the schedule to address variability stemming from all sources and its impact on the clinic’s productivity. Overbooking can be done in two ways: by double-booking certain slots or by separating consecutive patients’ appointments by less than the average consultation time. The former type of overbooking should mainly be used earlier in the day, whereas the latter can be spread later throughout the day. Moreover, in the presence of no-shows and stochastic consultation times, the total number of overbooked patients should be such that the expected patient throughput is slightly below the daily capacity to see patients.
+
+Trade-off between productivity and waiting times: In the presence of variability, elimination of idle time (thereby improving overall productivity and throughput) and containment of waiting times are conflicting goals. Our weighted objective approach can capture the relative importance between these goals. As waiting time weighs more in our scheduling decisions, we might have to compromise patient throughput and/or idle time and/or overtime. We recommend that practitioners try different configurations on the objective coefficients and pick the one that strikes the right balance between their operational goals.The authors provide a solution to the problem by analyzing a stylized analytical model. They also mention that a precise computational analysis based on continuous distributions remains an open direction, although they believe it will not provide any additional insights. Additionally, they introduce the front-loaded order ≤fl as a more meaningful tool for contrasting different scheduling strategies compared to the standard order ≤ on Zn+. Their comparisons and monotonicity patterns based on ≤fl are grounded on computational experiments, not on theoretical findings. They suggest that developing a theoretical foundation for their observations is a promising future direction........... 
+
+Similarity matrix:
+[[1.        0.9696497]
+ [0.9696497 1.       ]]</code></pre>
+</div>
+</div>
+<div id="152dbdc5" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a heatmap for the similarity matrix using plotly express</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.imshow(similarity_matrix,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                labels<span class="op">=</span><span class="bu">dict</span>(x<span class="op">=</span><span class="st">"PDF Files"</span>, y<span class="op">=</span><span class="st">"PDF Files"</span>, color<span class="op">=</span><span class="st">"Similarity"</span>),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                x<span class="op">=</span>labels,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                y<span class="op">=</span>labels,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                color_continuous_scale<span class="op">=</span><span class="st">'Viridis'</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                text_auto<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>fig.update_layout(title<span class="op">=</span><span class="st">"Document Similarity Heatmap"</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>                            <div id="5eba1527-da75-4475-b7af-60a7a2288922" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("5eba1527-da75-4475-b7af-60a7a2288922")) {                    Plotly.newPlot(                        "5eba1527-da75-4475-b7af-60a7a2288922",                        [{"coloraxis":"coloraxis","name":"0","texttemplate":"%{z}","x":["Wang et al. - 2020 - Mana","Zacharias and Yunes - 202"],"y":["Wang et al. - 2020 - Mana","Zacharias and Yunes - 202"],"z":[[1.0,0.9696496725082397],[0.9696496725082397,1.0]],"type":"heatmap","xaxis":"x","yaxis":"y","hovertemplate":"PDF Files: %{x}\u003cbr\u003ePDF Files: %{y}\u003cbr\u003eSimilarity: %{z}\u003cextra\u003e\u003c\u002fextra\u003e"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"scaleanchor":"y","constrain":"domain","title":{"text":"PDF Files"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"autorange":"reversed","constrain":"domain","title":{"text":"PDF Files"}},"coloraxis":{"colorbar":{"title":{"text":"Similarity"}},"colorscale":[[0.0,"#440154"],[0.1111111111111111,"#482878"],[0.2222222222222222,"#3e4989"],[0.3333333333333333,"#31688e"],[0.4444444444444444,"#26828e"],[0.5555555555555556,"#1f9e89"],[0.6666666666666666,"#35b779"],[0.7777777777777778,"#6ece58"],[0.8888888888888888,"#b5de2b"],[1.0,"#fde725"]]},"title":{"text":"Document Similarity Heatmap"}},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('5eba1527-da75-4475-b7af-60a7a2288922');
 var x = new MutationObserver(function (mutations, observer) {{
         var display = window.getComputedStyle(gd).display;
         if (!display || display === 'none') {{
@@ -352,6 +946,7 @@ if (outputEl) {{
 </div>
 </div>
 
+</section>
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
