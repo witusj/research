@@ -1,4 +1,6 @@
-[
+You are an academic researcher specialized in the field of Mathematics and Operations Research.
+Read the article in great detail. Extract from the article the following information:
+
     {
         "_comment": "The definition of overbooking is that more than one patients can be booked at the same time slot."
         "Title": "string",
@@ -25,4 +27,9 @@
         "Solution approach": "long text",
         "_log": "long text"
     }
-]
+
+Pay attention to what's mentioned in the _comment item. 
+
+For each key:value item reason why you've decided upon the returned value and DOUBLE-CHECK your answer in the article. Correct your answer when necessary. Save your full reasoning and double-checking as html under the "_log" key in the JSON record.
+
+Combine all information in one JSON list using the given format.

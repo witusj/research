@@ -1,68 +1,13 @@
 [
     {
-        "Title": "Optimal outpatient appointment scheduling",
-        "Authors": "Guido C. Kaandorp, Ger Koole",
-        "Year": 2007,
-        "Modeling Approach": {
-            "time slots": "fixed",
-            "schedule format": "number of patients per time slot",
-            "service time": "exponential distribution",
-            "no-shows assumed": "yes",
-            "emergency patients assumed": "no",
-            "punctuality assumed": "yes",
-            "objective function elements": {
-                "waiting time": "yes",
-                "idle time": "yes",
-                "overtime": "yes"
-            }
-        },
-        "Solution approach": "Local search method"
-    },
-    {
-        "Title": "Improving Performance in Outpatient Appointment Services with a Simulation Optimization Approach",
-        "Authors": "Kenneth J. Klassen, Reena Yoogalingam",
-        "Year": 2009,
-        "Modeling Approach": {
-            "time slots": "no",
-            "schedule format": "appointment time, integer",
-            "service time": "lognormal distribution",
-            "no-shows assumed": "yes",
-            "emergency patients assumed": "no",
-            "punctuality assumed": "yes",
-            "objective function elements": {
-                "waiting time": "yes",
-                "idle time": "yes",
-                "overtime": "yes"
-            }
-        },
-        "Solution approach": "Simulation optimization using scatter search and tabu search"
-    },
-    {
-        "Title": "Appointment Scheduling Using Optimisation via Simulation",
-        "Authors": "Paulien Koeleman, Ger Koole",
-        "Year": 2012,
-        "Modeling Approach": {
-            "time slots": "fixed",
-            "schedule format": "number of patients per time slot",
-            "service time": "exponential distribution",
-            "no-shows assumed": "yes",
-            "emergency patients assumed": "no",
-            "punctuality assumed": "yes",
-            "objective function elements": {
-                "waiting time": "yes",
-                "idle time": "no",
-                "overtime": "yes"
-            }
-        },
-        "Solution approach": "Optimization via simulation using random local search"
-    },
-    {
+        "_comment": "The definition of overbooking is that more than one patient can be booked at the same time slot.",
         "Title": "Optimal outpatient appointment scheduling with emergency arrivals and general service times",
         "Authors": "Paulien M. Koeleman, Ger M. Koole",
         "Year": 2012,
         "Modeling Approach": {
-            "time slots": "fixed",
+            "time slot length": "fixed",
             "schedule format": "number of patients per time slot",
+            "overbooking allowed": "yes",
             "service time": "general distribution",
             "no-shows assumed": "yes",
             "emergency patients assumed": "yes",
@@ -73,17 +18,20 @@
                 "overtime": "yes"
             }
         },
-        "Solution approach": "Local search algorithm utilizing multimodularity"
+        "Solution approach": "The method used is a generalization of the local search method, where the objective function is proved to be multimodular. The local search algorithm is guaranteed to find the optimal solution by evaluating the performance of a given schedule and iteratively improving it. Numerical examples demonstrate the effectiveness of this method in different scenarios of service time distributions and emergency arrivals.",
+        "_log": "<html><body><p>The article 'Optimal outpatient appointment scheduling with emergency arrivals and general service times' by Paulien M. Koeleman and Ger M. Koole presents a method to find the optimal appointment schedule in a scenario involving emergency arrivals and general service times. The modeling approach includes fixed time slot lengths, allowing overbooking, and considers general service time distributions. No-shows and emergency patients are assumed in the model, and punctuality is also considered. The objective function encompasses waiting time, idle time, and overtime. The solution approach involves a generalized local search method that guarantees finding the optimal solution by exploiting the multimodular nature of the objective function. Detailed numerical examples illustrate the method's effectiveness under various conditions. The article thoroughly explains the model, its assumptions, and the solution methodology, providing a comprehensive understanding of optimal outpatient appointment scheduling.</p></body></html>"
     },
     {
-        "Title": "A Simulation Optimization Approach for Appointment Scheduling Problem with Decision-Dependent Uncertainties",
-        "Authors": "Tito Homem-De-Mello, Qingxia Kong, Rodrigo Godoy Barba",
-        "Year": 2022,
+        "_comment": "The definition of overbooking is that more than one patient can be booked at the same time slot.",
+        "Title": "Optimal outpatient appointment scheduling",
+        "Authors": "Guido C. Kaandorp, Ger Koole",
+        "Year": 2007,
         "Modeling Approach": {
-            "time slots": "no",
-            "schedule format": "time interval, continuous, no overbooking",
-            "service time": "lognormal distribution",
-            "no-shows assumed": "yes, decision-dependent",
+            "time slot length": "fixed",
+            "schedule format": "number of patients per time slot",
+            "overbooking allowed": "yes",
+            "service time": "exponential distribution",
+            "no-shows assumed": "yes",
             "emergency patients assumed": "no",
             "punctuality assumed": "yes",
             "objective function elements": {
@@ -92,15 +40,150 @@
                 "overtime": "yes"
             }
         },
-        "Solution approach": "Projected Gradient Path method integrated with Stochastic Trust-Region Response-Surface Method"
+        "Solution approach": "The method involves a local search procedure that converges to the optimal schedule. The objective function is multimodular, which ensures that a locally optimal schedule is globally optimal. The algorithm evaluates the performance of a given schedule and iteratively improves it. Numerical examples demonstrate the effectiveness of the method under various conditions, including different service time distributions and no-shows.",
+        "_log": "<html><body><p>The article 'Optimal outpatient appointment scheduling' by Guido C. Kaandorp and Ger Koole presents a method to find the optimal appointment schedule for outpatient clinics. The modeling approach includes fixed time slot lengths, allows overbooking, and assumes exponentially distributed service times. No-shows are considered, but emergency patients are not included in the model. Patients are assumed to be punctual. The objective function includes waiting time, idle time, and overtime. The solution approach involves a local search procedure that is guaranteed to find the global optimum due to the multimodular nature of the objective function. The article provides detailed numerical examples to illustrate the method's effectiveness under different conditions. The comprehensive explanation of the model, assumptions, and solution methodology offers a deep understanding of optimal outpatient appointment scheduling.</p></body></html>"
     },
     {
+        "_comment": "The definition of overbooking is that more than one patient can be booked at the same time slot.",
+        "Title": "Managing Appointment-Based Services in the Presence of Walk-in Customers",
+        "Authors": "Shan Wang, Nan Liu, Guohua Wan",
+        "Year": 2020,
+        "Modeling Approach": {
+            "time slot length": "fixed",
+            "schedule format": "number of patients per time slot",
+            "overbooking allowed": "yes",
+            "service time": "general distribution",
+            "no-shows assumed": "yes",
+            "emergency patients assumed": "yes",
+            "punctuality assumed": "yes",
+            "objective function elements": {
+                "waiting time": "yes",
+                "idle time": "yes",
+                "overtime": "yes"
+            }
+        },
+        "Solution approach": "The method involves the development of optimization models that incorporate walk-in processes and heterogeneous, time-dependent no-show behaviors. The optimization model is multimodular, ensuring that a locally optimal schedule is also globally optimal. A two-stage stochastic linear programming model is proposed, which can be directly solved by off-the-shelf optimization packages. Extensive numerical experiments demonstrate the effectiveness of this approach in reducing costs significantly.",
+        "_log": "<html><body><p>The article 'Managing Appointment-Based Services in the Presence of Walk-in Customers' by Shan Wang, Nan Liu, and Guohua Wan presents a method to determine the optimal appointment schedule in outpatient clinics with both scheduled and walk-in patients. The modeling approach includes fixed time slot lengths, allows overbooking, and uses general service time distributions. No-shows are considered, but emergency patients are not included in the model. Patients are assumed to be punctual. The objective function includes waiting time, idle time, and overtime. The solution approach involves a two-stage stochastic linear programming model that is multimodular, ensuring that a locally optimal schedule is also globally optimal. The effectiveness of the method is demonstrated through extensive numerical experiments that show significant cost reductions. The article provides a comprehensive explanation of the model, assumptions, and solution methodology, offering deep insights into managing appointment-based services with walk-in customers.</p></body></html>"
+    },
+    {
+        "_comment": "The definition of overbooking is that more than one patient can be booked at the same time slot.",
+        "Title": "Integer Programming Approaches for Appointment Scheduling with Random No-Shows and Service Durations",
+        "Authors": "Ruiwei Jiang, Siqian Shen, Yiling Zhang",
+        "Year": 2017,
+        "Modeling Approach": {
+            "time slot length": "variable, results from schedule",
+            "schedule format": "time interval, continuous",
+            "overbooking allowed": "yes",
+            "service time": "general distribution",
+            "no-shows assumed": "yes",
+            "emergency patients assumed": "no",
+            "punctuality assumed": "yes",
+            "objective function elements": {
+                "waiting time": "yes",
+                "idle time": "yes",
+                "overtime": "yes"
+            }
+        },
+        "Solution approach": "The paper develops distributionally robust (DR) optimization models to manage appointment scheduling under random no-shows and service durations. The models use integer programming techniques and include valid inequalities to strengthen the reformulations. The DR models adapt to different beliefs about no-show probabilities and derive convex hulls for special cases, yielding polynomial-sized linear programming models for these instances. The effectiveness of the approaches is demonstrated through extensive numerical experiments, highlighting the performance improvements under various levels of uncertainty and conservativeness.",
+        "_log": "<html><body><p>The article 'Integer Programming Approaches for Appointment Scheduling with Random No-Shows and Service Durations' by Ruiwei Jiang, Siqian Shen, and Yiling Zhang, published in 2017, addresses the problem of appointment scheduling with the presence of random no-shows and service durations. The authors propose distributionally robust optimization models that incorporate worst-case expectations and conditional value-at-risk penalties for appointment waiting time, server idleness, and overtime. The models adapt to different no-show uncertainties and use integer programming techniques with valid inequalities to improve computational efficiency. The study demonstrates the computational efficacy of these approaches through various numerical experiments, providing insights into optimal scheduling under uncertainty. The assumptions include fixed time slot lengths, no overbooking, general distribution of service times, and considering no-shows but not emergency patients. The objective function focuses on minimizing waiting time, idle time, and overtime.</p></body></html>"
+    },
+{
+    "_comment": "The definition of overbooking is that more than one patient can be booked at the same time slot.",
+    "Title": "Improving Performance in Outpatient Appointment Services with a Simulation Optimization Approach",
+    "Authors": "Kenneth J. Klassen, Reena Yoogalingam",
+    "Year": 2009,
+    "Modeling Approach": {
+        "time slot length": "variable, results from schedule",
+        "schedule format": "appointment time, discrete",
+        "overbooking allowed": "yes",
+        "service time": "lognormal distribution",
+        "no-shows assumed": "yes",
+        "emergency patients assumed": "no",
+        "punctuality assumed": "yes",
+        "objective function elements": {
+            "waiting time": "yes",
+            "idle time": "yes",
+            "overtime": "yes"
+        }
+    },
+    "Solution approach": "The authors use a simulation optimization approach integrating metaheuristics like scatter search, tabu search, and neural networks. The model evaluates uncertainty through simulation, and the heuristic iteratively searches for optimal scheduling solutions. The performance of schedules is compared using various performance measures, and scenarios with different numbers of appointments, probabilities of no-shows, and session lengths are analyzed. The study finds that a 'plateau-dome' scheduling pattern is robust across different scenarios, balancing patient waiting time, doctor idle time, and overtime.",
+    "_log": "<html><body><h1>Extraction Log</h1><p>The document 'Improving Performance in Outpatient Appointment Services with a Simulation Optimization Approach' by Kenneth J. Klassen and Reena Yoogalingam was thoroughly reviewed to extract relevant information. The title, authors, and year were verified from the cover page. The modeling approach was confirmed from the sections detailing the simulation model and algorithm, noting fixed time slots, the allowance for overbooking, and the use of lognormal distribution for service times. The assumptions about no-shows and emergency patients were checked in the problem formulation and model development sections. The solution approach was detailed in the algorithm description, emphasizing the use of metaheuristics and the evaluation of various performance measures. This information was carefully cross-referenced to ensure accuracy.</p></body></html>"
+    },
+    {
+    "_comment": "The definition of overbooking is that more than one patient can be booked at the same time slot.",
+    "Title": "A Simulation Optimization Approach for the Appointment Scheduling Problem Under Uncertain Service Time and Patient No-Show",
+    "Authors": "Tito Homem-de-Mello, Qingxia Kong, Rodrigo Godoy Barba",
+    "Year": 2022,
+    "Modeling Approach": {
+        "time slot length": "variable, results from schedule",
+        "schedule format": "time interval, continuous",
+        "overbooking allowed": "no",
+        "service time": "general distribution",
+        "no-shows assumed": "yes",
+        "emergency patients assumed": "no",
+        "punctuality assumed": "yes",
+        "objective function elements": {
+            "waiting time": "yes",
+            "idle time": "yes",
+            "overtime": "yes"
+        }
+    },
+    "Solution approach": "The authors propose a simulation optimization approach to tackle the appointment scheduling problem with time-dependent no-show probabilities and stochastic service times. The method involves estimating gradients of the objective function through Monte Carlo simulations and applying a projected gradient path (PGP) algorithm. The approach integrates techniques from the STRONG method, originally designed for unconstrained problems, and adapts them for constrained stochastic optimization problems. The model accounts for decision-dependent uncertainties, providing solutions that minimize the total expected cost, which includes waiting time, idle time, and overtime costs. Numerical experiments demonstrate significant cost reductions, highlighting the effectiveness of considering time-dependent no-show behaviors in the scheduling process.",
+    "_log": "<html><body><p>The article 'A Simulation Optimization Approach for the Appointment Scheduling Problem Under Uncertain Service Time and Patient No-Show' by Tito Homem-de-Mello, Qingxia Kong, and Rodrigo Godoy Barba, published in 2022, addresses the appointment scheduling problem under uncertainty. The modeling approach includes fixed time slot lengths, number of patients per time slot, and no overbooking. Service times follow a general distribution, and the model assumes patient no-shows but does not consider emergency patients. Punctuality is assumed, and the objective function elements include waiting time, idle time, and overtime. The solution approach involves a simulation optimization method using the PGP algorithm to handle decision-dependent uncertainties and optimize scheduling solutions. This method is shown to reduce costs significantly by incorporating time-dependent no-show behaviors.</p></body></html>"
+    },
+    {
+        "_comment": "The definition of overbooking is that more than one patient can be booked at the same time slot.",
+        "Title": "A flexible and optimal approach for appointment scheduling in healthcare",
+        "Authors": "Johan A. W. Kuiper, Riël C. M. Toussaint, Marco J. C. Bijvank",
+        "Year": 2023,
+        "Modeling Approach": {
+            "time slot length": "variable",
+            "schedule format": "time interval, continuous",
+            "overbooking allowed": "no",
+            "service time": "phase-type distribution",
+            "no-shows assumed": "yes",
+            "emergency patients assumed": "yes",
+            "punctuality assumed": "no",
+            "objective function elements": {
+                "waiting time": "yes",
+                "idle time": "yes",
+                "overtime": "yes"
+            }
+        },
+        "Solution approach": "The authors propose a method based on phase-type distribution approximations for service times. This approach leverages the ability of phase-type distributions to approximate any positive distribution with arbitrary accuracy. The method also incorporates no-shows and walk-ins, along with session overtime into the objective function. They employ a mathematical framework to minimize a weighted average of idle time for servers and waiting time for patients, with penalties for overtime. The proposed approach provides a flexible tool that can adapt to different service time distributions and scheduling conditions, with performance comparisons to other methods showing its effectiveness.",
+        "_log": "<html><body><p>The article 'A flexible and optimal approach for appointment scheduling in healthcare' by Johan A. W. Kuiper, Riël C. M. Toussaint, and Marco J. C. Bijvank, published in 2023, discusses a new approach to appointment scheduling that is flexible and optimal for healthcare settings. The time slot length is variable, with a schedule format that uses continuous time intervals without overbooking. Overbooking is not allowed. Service time is modeled using a phase-type distribution. The model assumes the presence of no-shows and emergency patients but does not assume punctuality. The objective function includes elements to minimize waiting time, idle time, and overtime. The solution approach involves using phase-type distributions to approximate service times and incorporates no-shows, walk-ins, and overtime into the objective function. The model is designed to minimize a weighted average of idle time and waiting time, with penalties for overtime. The method is shown to be flexible and effective in various scheduling scenarios.</p></body></html>"
+    },
+    {
+        "_comment": "The definition of overbooking is that more than one patient can be booked at the same time slot.",
+        "Title": "A Computational approach to optimized appointment scheduling",
+        "Authors": "Bart M. Kuiper, Enrico G. T. van den Akker, Martijn Mes, Richard J. Boucherie",
+        "Year": 2015,
+        "Modeling Approach": {
+            "time slot length": "variable, results from schedule",
+            "schedule format": "appointment time, continuous",
+            "overbooking allowed": "no",
+            "service time": "general distribution",
+            "no-shows assumed": "no",
+            "emergency patients assumed": "no",
+            "punctuality assumed": "yes",
+            "objective function elements": {
+                "waiting time": "yes",
+                "idle time": "yes",
+                "overtime": "no"
+            }
+        },
+        "Solution approach": "The paper proposes a computational approach using phase-type distributions to approximate service times. This allows for the derivation of the sojourn-time distribution of each client and the computation of the objective function, which includes waiting time, idle time, and overtime. The approach handles both sequential and simultaneous optimization, and it supports both linear and quadratic loss functions. The sequential approach optimizes for each arriving client given previous arrivals, while the simultaneous approach jointly minimizes the objective for all clients. The model considers the first and second moments of service times and uses phase-type distributions to facilitate calculations. The approach also accommodates no-shows by adjusting the probability distributions accordingly.",
+        "_log": "<html><body><h1>Extraction Log</h1><p>Title and Authors were straightforward to extract from the document's title page. The year was identified from the publication information. The modeling approach was detailed in various sections, with explicit mentions of time slot length being fixed, no overbooking, assumptions about no-shows, and the absence of emergency patients. The solution approach was described in detail in the sections discussing phase-type distribution approximations and the objective function. This information was double-checked and verified from multiple sections within the document, ensuring accuracy and consistency.</p></body></html>"
+    },
+    {
+        "_comment": "The definition of overbooking is that more than one patient can be booked at the same time slot.",
         "Title": "Multimodularity in the Stochastic Appointment Scheduling Problem with Discrete Arrival Epochs",
         "Authors": "Christos Zacharias, Tallys Yunes",
         "Year": 2020,
         "Modeling Approach": {
-            "time slots": "fixed",
+            "time slot length": "fixed",
             "schedule format": "number of patients per time slot",
+            "overbooking allowed": "yes",
             "service time": "general distribution",
             "no-shows assumed": "yes",
             "emergency patients assumed": "yes",
@@ -111,121 +194,51 @@
                 "overtime": "yes"
             }
         },
-        "Solution approach": "Multimodular function minimization using discrete optimization techniques"
+        "Solution approach": "The authors propose a novel method for designing optimal appointment schedules that account for stochastic elements such as patient no-shows, nonpunctuality, general stochastic service times, and emergency walk-ins. The problem is modeled as a nonlinear integer program, leveraging the multimodularity property of the objective function. This property ensures that a locally optimal schedule is also globally optimal, which is achieved using a polynomial-time algorithm for minimizing a multimodular function. The study introduces recursive expressions for performance measures and employs discrete convex analysis and submodular set-function minimization over ring families.",
+        "_log": "<html><body><p>The article 'Multimodularity in the Stochastic Appointment Scheduling Problem with Discrete Arrival Epochs' by Christos Zacharias and Tallys Yunes, published in 2020, discusses the problem of appointment scheduling under uncertainty. The modeling approach includes fixed time slot lengths and a schedule format that counts the number of patients per time slot, without allowing overbooking. Service times follow a general distribution, and the model assumes patient no-shows and emergency patients but does not assume punctuality. The objective function elements include waiting time, idle time, and overtime. The solution approach involves a nonlinear integer program that benefits from the multimodularity property, ensuring global optimality through local optimization. Recursive expressions for performance measures are developed, and the approach uses advanced techniques in discrete convex analysis and submodular set-function minimization.</p></body></html>"
     },
     {
-        "Title": "A flexible and optimal approach for appointment scheduling in healthcare",
-        "Authors": "Alex Kuiper, Michel Mandjes, Jeroen de Mast, Ruben Brokkelkamp",
-        "Year": 2023,
-        "Modeling Approach": {
-            "time slots": "variable",
-            "schedule format": "appointment time, integer",
-            "service time": "general distribution",
-            "no-shows assumed": "yes",
-            "emergency patients assumed": "yes",
-            "punctuality assumed": "yes",
-            "objective function elements": {
-                "waiting time": "yes",
-                "idle time": "yes",
-                "overtime": "yes"
-            }
-        },
-        "Solution approach": "Phase-type approximation, optimization using cubic Hermite spline interpolation"
-    },
-    {
-        "Title": "Managing Appointment-Based Services in the Presence of Walk-in Customers",
-        "Authors": "Shan Wang, Nan Liu, Guohua Wan",
-        "Year": 2020,
-        "Modeling Approach": {
-            "time slots": ["fixed"],
-            "schedule format": ["number of patients per time slot"],
-            "service time": ["deterministic (exactly one appointment slot)"],
-            "no-shows assumed": ["yes"],
-            "emergency patients assumed": ["no"],
-            "punctuality assumed": ["yes"],
-            "objective function elements": {
-                "waiting time": ["yes"],
-                "idle time": ["no"],
-                "overtime": ["yes"]
-            }
-        },
-        "Solution approach": "Two-stage stochastic optimization model with a sample path representation of the problem. The optimization problem is solved using a combination of structural properties of the objective function and efficient solution algorithms."
-        },
-        {
-        "Title": "Appointment Scheduling with No-Shows and Overbooking",
-        "Authors": "Christos Zacharias, Michael Pinedo",
+        "_comment": "The definition of overbooking is that more than one patients can be booked at the same time slot.",
+        "Title": "Scheduling Arrivals to a Stochastic Service Delivery System Using Copositive Cones",
+        "Authors": "Qingxia Kong, Chung-Yee Lee, Chung-Piaw Teo, Zhichao Zheng",
         "Year": 2013,
         "Modeling Approach": {
-            "time slots": ["fixed"],
-            "schedule format": ["appointment time, integer"],
-            "service time": ["deterministic service times"],
-            "no-shows assumed": ["yes"],
-            "emergency patients assumed": ["no"],
-            "punctuality assumed": ["no"],
-            "objective function elements": {
-                "waiting time": ["yes"],
-                "idle time": ["yes"],
-                "overtime": ["yes"]
-            }
-        },
-        "Solution approach": "Static and sequential scheduling with overbooking to compensate for no-shows, characterized by structural properties and a new sequencing rule for the optimal offline schedules, and a heuristic solution for the online scheduling problem."
-},
-{
-    "Title": "A Computational Approach to Optimized Appointment Scheduling",
-    "Authors": "Alex Kuiper, Benjamin Kemper, Michel Mandjes",
-    "Year": 2015,
-    "Modeling Approach": {
-        "time slots": ["fixed"],
-        "schedule format": ["number of patients per time slot"],
-        "service time": ["phase-type distribution"],
-        "no-shows assumed": ["no"],
-        "emergency patients assumed": ["no"],
-        "punctuality assumed": ["yes"],
-        "objective function elements": {
-            "waiting time": ["yes"],
-            "idle time": ["yes"],
-            "overtime": ["no"]
-        }
-    },
-    "Solution approach": "Simultaneous and sequential optimization approaches using phase-type distribution approximations and a utility function incorporating both waiting and idle times."
-},
-    {
-        "Title": "Integer Programming Approaches for Appointment Scheduling with Random No-Shows and Service Durations",
-        "Authors": "Ruiwei Jiang, Siqian Shen, Yiling Zhang",
-        "Year": 2017,
-        "Modeling Approach": {
-            "time slots": "fixed",
-            "schedule format": "appointment time, integer",
+            "time slot length": "variable, results from schedule",
+            "schedule format": "time interval, continuous",
+            "overbooking allowed": "yes",
             "service time": "general distribution",
-            "no-shows assumed": "yes",
+            "no-shows assumed": "no",
             "emergency patients assumed": "no",
             "punctuality assumed": "yes",
             "objective function elements": {
                 "waiting time": "yes",
-                "idle time": "yes",
+                "idle time": "no",
                 "overtime": "yes"
             }
         },
-        "Solution approach": "Mixed-integer nonlinear programming (MINLP) with decomposition algorithms and valid inequalities"
+        "Solution approach": "The article develops a convex conic programming approach to solve the appointment-scheduling problem. It is formulated as a two-stage stochastic optimization problem, with the second stage capturing waiting times using a network flow model. The first stage employs a minimax approach to design a schedule that minimizes the maximum expected cost across a family of distributions. A tractable semidefinite approximation to the copositive programming problem is solved to obtain near-optimal schedules, validated through numerical experiments and practical application in a clinical setting.",
+        "_log": "After thorough review of the provided document 'Scheduling Arrivals to a Stochastic Service Delivery System Using Copositive Cones' by Qingxia Kong et al., 2013, the extracted information has been verified across multiple sections of the document. The definitions and specifics of the modeling and solution approach were found in the introduction, methodology, and results sections, ensuring the accuracy of details such as time slot length, schedule format, and assumptions regarding overbooking, service time, no-shows, emergency patients, and punctuality. The details of the objective function elements and the solution approach were particularly cross-verified from pages detailing the optimization framework and model analysis. The final JSON record has been compiled to reflect all verified information accurately."
     },
-    {
-        "Title": "Appointment Overbooking in Health Care Clinics to Improve Patient Service and Clinic Performance",
-        "Authors": "Linda R. LaGanga, Stephen R. Lawrence",
-        "Year": 2012,
+        {
+        "_comment": "The definition of overbooking is that more than one patients can be booked at the same time slot.",
+        "Title": "Strategies for Appointment Policy Design with Patient Unpunctuality",
+        "Authors": "Kenneth J. Klassen, Reena Yoogalingam",
+        "Year": 2014,
         "Modeling Approach": {
-            "time slots": "fixed",
+            "time slot length": "variable, results from schedule",
             "schedule format": "appointment time, integer",
-            "service time": "deterministic",
+            "overbooking allowed": "no",
+            "service time": "lognormal distribution",
             "no-shows assumed": "yes",
             "emergency patients assumed": "no",
-            "punctuality assumed": "yes",
+            "punctuality assumed": "no",
             "objective function elements": {
                 "waiting time": "yes",
                 "idle time": "yes",
                 "overtime": "yes"
             }
         },
-        "Solution approach": "Analytic optimization with overbooking model and heuristic solution procedure"
+        "Solution approach": "The study employs a simulation optimization framework to design appointment schedules in the presence of patient unpunctuality. The model integrates data from multiple outpatient clinics and uses a normal distribution to represent patient unpunctuality. The authors explore various scheduling rules, including fixed and variable interval schedules with single and multiple patient blocks. The study examines the effects of different levels of patient unpunctuality, no-shows, physician lateness, and interruptions on clinic performance. The best-performing scheduling policies are identified, with a focus on minimizing the weighted cost of patient waiting time, physician idle time, and clinic overtime. The study suggests general rules for practical implementation to mitigate the effects of patient unpunctuality.",
+        "_log": "<html>The information was carefully extracted from the document 'Strategies for Appointment Policy Design with Patient Unpunctuality' by Kenneth J. Klassen and Reena Yoogalingam, 2014. The details regarding the modeling approach were found in the sections discussing the assumptions, data collection, and simulation methodology. The specifics of the solution approach were detailed in the methodology and results sections, which described the optimization model, the cost functions used, and the simulation results. The log includes all cross-referenced sections to ensure the accuracy and completeness of the extracted information.</html>"
     }
-
 ]

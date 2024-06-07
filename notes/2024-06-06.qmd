@@ -1,5 +1,5 @@
 ---
-title: "2024-05-30"
+title: "2024-06-06"
 author: "Witek ten Hove"
 format:
   html:
@@ -34,4 +34,56 @@ Afspraken:
 
 -   [ ] Problem description uitwerken in Overleaf.
 
+```{python}
+import pandas as pd
+import json
+from itables import init_notebook_mode, show
+init_notebook_mode(all_interactive=False)
+```
 
+
+```{python}
+#| column: screen-inset-shaded
+
+# Read the JSON data from the file
+with open('methods.json', 'r') as file:
+    data = json.load(file)
+
+# Sort the data by the "Year" field
+sorted_data = sorted(data, key=lambda x: x["Year"])
+
+# Extracting the data for the table
+headers = ["Title", "Authors", "Publication Year", "Time Slots", "Schedule Format", "Overbooking Allowed", "Service Time", "No-Shows Assumed", "Emergency Patients Assumed", "Punctuality Assumed", "Waiting Time", "Idle Time", "Overtime", "Solution Approach"]
+rows = []
+
+for article in sorted_data:
+    row = [
+        article["Title"],
+        article["Authors"],
+        article["Year"],
+        article["Modeling Approach"]["time slot length"],
+        article["Modeling Approach"]["schedule format"],
+        article["Modeling Approach"]["overbooking allowed"],
+        article["Modeling Approach"]["service time"],
+        article["Modeling Approach"]["no-shows assumed"],
+        article["Modeling Approach"]["emergency patients assumed"],
+        article["Modeling Approach"]["punctuality assumed"],
+        article["Modeling Approach"]["objective function elements"]["waiting time"],
+        article["Modeling Approach"]["objective function elements"]["idle time"],
+        article["Modeling Approach"]["objective function elements"]["overtime"],
+        article["Solution approach"]
+    ]
+    rows.append(row)
+
+# Create a DataFrame
+df = pd.DataFrame(rows, columns=headers)
+
+# Use Styler to format the DataFrame
+styled_table = df.style.set_properties(**{'text-align': 'left', 'white-space': 'pre-wrap'}) \
+                 .set_table_styles([dict(selector='th', props=[('text-align', 'left'), ('vertical-align', 'top')])])  
+show(styled_table,
+     classes='display compact',
+     buttons=['copyHtml5', 'csvHtml5', 'excelHtml5'],
+     layout={'top1': 'searchPanes'},
+     searchPanes={"cascadePanes": True, 'initCollapsed': True},)
+```
