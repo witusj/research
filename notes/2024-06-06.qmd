@@ -3,6 +3,7 @@ title: "2024-06-06"
 author: "Witek ten Hove"
 format:
   html:
+    css: styles.css
     include-in-header:
       - scripts.html
 bibliography: bibliography.bib
@@ -98,8 +99,10 @@ def binomial_coefficient(N, T):
 N = 7
 T = 5
 result = binomial_coefficient(N, T)
-print(result)  # Output: 21
+print(result)
 ```
+
+The problem can be illustrated as a landscape that contains all possible solutions (points) and the task is to find a path that leads to the solution (point) that has the lowest value. Each point can be defined by an array of T coordinates with values between 0 and N, such that the sum of all coordinates equals N.
 
 ```{python}
 import numpy as np
@@ -125,7 +128,6 @@ def find_positions(matrix, values):
     for value in values:
         result = np.where(matrix == value)
         positions.append((result[0][0], result[1][0]))
-        print(positions)
     return positions
 
 def plot_matrix_with_arrows(matrix, l):
@@ -157,7 +159,7 @@ def plot_matrix_with_arrows(matrix, l):
     ))
     
     fig.update_layout(
-        title='n x m Grid with Colored Dots',
+        title=f'Landscape with all {n * m} possible solutions',
         xaxis=dict(
             tickmode='linear',
             dtick=1,
@@ -189,8 +191,8 @@ def plot_matrix_with_arrows(matrix, l):
             axref="x",
             ayref="y",
             showarrow=True,
-            arrowhead=3,
-            arrowsize=1,
+            arrowhead=2,
+            arrowsize=3,
             arrowwidth=2,
             arrowcolor="red"
         )
@@ -198,9 +200,11 @@ def plot_matrix_with_arrows(matrix, l):
     fig.show()
 
 # Example usage
-i = 330
+N = 7
+T = 5
+result = binomial_coefficient(N, T)
+i = result
 matrix = create_square_matrix(i)
-print(matrix)
 print(matrix.shape)  # Output the shape to verify it is as square as possible
 
 # Plot the matrix with arrows
@@ -208,3 +212,15 @@ plot_matrix_with_arrows(matrix, 6)
 
 ```
 
+What we know is:
+
+1. The objective function of a model with fixed and equal time slots is multimodular relatively to schedule $x$.
+2. In the case where appointment times are continuous and variable the optimal schedule is dome-shaped.
+
+
+<ol class="custom-counter">
+    <li>....</li>
+    <li>Would that mean that schedules with overbooking at the start and towards the finish and more zeroes in the middle show optimal performance?</li>
+    <li></li>
+    <!-- Add more list items as needed -->
+</ol> 

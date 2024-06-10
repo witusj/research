@@ -1,0 +1,15 @@
+ol.custom-counter {
+    counter-reset: custom-counter;
+}
+ol.custom-counter li {
+    list-style: none;
+    counter-increment: custom-counter;
+    position: relative;
+}
+ol.custom-counter li::before {
+    content: "Ad. " counter(custom-counter) ":";
+    position: absolute;
+    left: -60px; /* Adjust the value to fit your layout */
+    width: 50px; /* Adjust the value to fit your layout */
+    text-align: right;
+}
