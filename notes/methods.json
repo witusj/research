@@ -240,5 +240,28 @@
         },
         "Solution approach": "The study employs a simulation optimization framework to design appointment schedules in the presence of patient unpunctuality. The model integrates data from multiple outpatient clinics and uses a normal distribution to represent patient unpunctuality. The authors explore various scheduling rules, including fixed and variable interval schedules with single and multiple patient blocks. The study examines the effects of different levels of patient unpunctuality, no-shows, physician lateness, and interruptions on clinic performance. The best-performing scheduling policies are identified, with a focus on minimizing the weighted cost of patient waiting time, physician idle time, and clinic overtime. The study suggests general rules for practical implementation to mitigate the effects of patient unpunctuality.",
         "_log": "<html>The information was carefully extracted from the document 'Strategies for Appointment Policy Design with Patient Unpunctuality' by Kenneth J. Klassen and Reena Yoogalingam, 2014. The details regarding the modeling approach were found in the sections discussing the assumptions, data collection, and simulation methodology. The specifics of the solution approach were detailed in the methodology and results sections, which described the optimization model, the cost functions used, and the simulation results. The log includes all cross-referenced sections to ensure the accuracy and completeness of the extracted information.</html>"
-    }
+    },
+    {
+    "_comment": "The definition of overbooking is that more than one patients can be booked at the same time slot.",
+    "Title": "Outpatient scheduling with unpunctual patients and no-shows: A queueing approach",
+    "Authors": "Matthias Deceuninck, Dieter Fiems, Stijn De Vuyst",
+    "Year": 2018,
+    "Modeling Approach": {
+        "time slot length": "fixed",
+        "schedule format": "appointment time, integer",
+        "overbooking allowed": "yes",
+        "service time": "lognormal distribution",
+        "no-shows assumed": "yes",
+        "emergency patients assumed": "no",
+        "punctuality assumed": "no",
+        "objective function elements": {
+            "waiting time": "yes",
+            "idle time": "yes",
+            "overtime": "yes"
+        }
+    },
+    "Solution approach": "The solution approach involves a numerical methodology for evaluating outpatient schedules that explicitly accounts for no-shows and patient unpunctuality. The authors use the transient solution of a modified Lindley recursion, allowing explicit expressions for each performance measure. This is achieved in a discrete-time (slotted) setting, simplifying the computations. The analysis is based on a discrete-time queueing model with a two-dimensional state space representing the amount of work in the queue and the unpunctuality on effective patient arrival times. The approach does not require assumptions on the consultation times other than their independence and known distributions. It includes the use of a local search algorithm to optimize scheduling.",
+    "_log": "<html><body><h1>Full Reasoning and Double-Checking</h1><p>1. The title 'Outpatient scheduling with unpunctual patients and no-shows: A queueing approach' was found on the first page of the document.</p><p>2. The authors 'Matthias Deceuninck, Dieter Fiems, Stijn De Vuyst' were listed on the title page.</p><p>3. The publication year '2018' is given on the title page and in the citation information.</p><p>4. The time slot length was determined to be 'fixed' based on the description of a discrete-time (slotted) setting in the methodology section.</p><p>5. The schedule format is 'appointment time, integer' as evidenced by the integer time slots and appointment times discussed throughout the paper.</p><p>6. Overbooking is allowed as the paper discusses scenarios where patients arrive out of order and may be scheduled for the same slot.</p><p>7. Service time follows a 'lognormal distribution' as supported by the numerical experiments section which specifies the use of a lognormal distribution for consultation times.</p><p>8. No-shows are assumed, as explicitly stated in the paper.</p><p>9. Emergency patients are not assumed, as there is no mention of handling emergency cases.</p><p>10. Punctuality is not assumed; the whole paper is focused on dealing with unpunctual patients.</p><p>11. The objective function includes elements for waiting time, idle time, and overtime, as discussed in the sections on performance measures and cost reductions.</p><p>12. The solution approach was detailed in the sections describing the numerical methodology and the use of the modified Lindley recursion and local search algorithm.</p></body></html>"
+}
+
 ]

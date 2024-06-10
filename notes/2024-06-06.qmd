@@ -82,7 +82,7 @@ df = pd.DataFrame(rows, columns=headers)
 styled_table = df.style.set_properties(**{'text-align': 'left', 'white-space': 'pre-wrap'}) \
                  .set_table_styles([dict(selector='th', props=[('text-align', 'left'), ('vertical-align', 'top')])])  
 show(styled_table,
-     classes='display compact',
+     classes='display compact cell-border',
      buttons=['copyHtml5', 'csvHtml5', 'excelHtml5'],
      layout={'top1': 'searchPanes'},
      searchPanes={"cascadePanes": True, 'initCollapsed': True},)

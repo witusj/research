@@ -28,7 +28,7 @@ Read the article in great detail. Extract from the article the following informa
         "_log": "long text"
     }
 
-Pay attention to what's mentioned in the _comment item. 
+Pay attention to what's mentioned in the _comment item. For each key under Modeling Approach choose a value from the list in the template and return it as a value without the square brackets.
 
 For each key:value item reason why you've decided upon the returned value and DOUBLE-CHECK your answer in the article. Correct your answer when necessary. Save your full reasoning and double-checking as html under the "_log" key in the JSON record.
 
