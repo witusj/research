@@ -4,6 +4,7 @@
         "Title": "string",
         "Authors": "string",
         "Year": "number",
+        "BibTeX ID": "author-first_word_in_title-year",
         "Modeling Approach": {
             "time slot length": ["fixed", "variable", "variable, results from schedule",],
             "schedule format": [
@@ -23,6 +24,7 @@
             }
         },
         "Solution approach": "long text",
+        "Solution approach summary": "short text",
         "_log": "long text"
     }
 ]

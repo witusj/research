@@ -6,6 +6,7 @@ Read the article in great detail. Extract from the article the following informa
         "Title": "string",
         "Authors": "string",
         "Year": "number",
+        "BibTeX ID": "first_author_last_name-first_word_in_title-year",
         "Modeling Approach": {
             "time slot length": ["fixed", "variable", "variable, results from schedule",],
             "schedule format": [
@@ -25,6 +26,7 @@ Read the article in great detail. Extract from the article the following informa
             }
         },
         "Solution approach": "long text",
+        "Solution approach summary": "short text"
         "_log": "long text"
     }
 
@@ -32,4 +34,4 @@ Pay attention to what's mentioned in the _comment item. For each key under Model
 
 For each key:value item reason why you've decided upon the returned value and DOUBLE-CHECK your answer in the article. Correct your answer when necessary. Save your full reasoning and double-checking as html under the "_log" key in the JSON record.
 
-Combine all information in one JSON list using the given format.
+Combine all information in one JSON list using the given format. For the BibTex ID the format is: <first author's last name> dash <first word in title> dash <year>. 

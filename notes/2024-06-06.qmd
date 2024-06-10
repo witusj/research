@@ -53,14 +53,12 @@ with open('methods.json', 'r') as file:
 sorted_data = sorted(data, key=lambda x: x["Year"])
 
 # Extracting the data for the table
-headers = ["Title", "Authors", "Publication Year", "Time Slots", "Schedule Format", "Overbooking Allowed", "Service Time", "No-Shows Assumed", "Emergency Patients Assumed", "Punctuality Assumed", "Waiting Time", "Idle Time", "Overtime", "Solution Approach"]
+headers = ["BibTex ID", "Time Slots", "Schedule Format", "Overbooking Allowed", "Service Time", "No-Shows Assumed", "Emergency Patients Assumed", "Punctuality Assumed", "Waiting Time", "Idle Time", "Overtime", "Solution Approach"]
 rows = []
 
 for article in sorted_data:
     row = [
-        article["Title"],
-        article["Authors"],
-        article["Year"],
+        article["BibTex ID"],
         article["Modeling Approach"]["time slot length"],
         article["Modeling Approach"]["schedule format"],
         article["Modeling Approach"]["overbooking allowed"],
@@ -71,7 +69,7 @@ for article in sorted_data:
         article["Modeling Approach"]["objective function elements"]["waiting time"],
         article["Modeling Approach"]["objective function elements"]["idle time"],
         article["Modeling Approach"]["objective function elements"]["overtime"],
-        article["Solution approach"]
+        article["Solution approach summary"]
     ]
     rows.append(row)
 
@@ -82,8 +80,11 @@ df = pd.DataFrame(rows, columns=headers)
 styled_table = df.style.set_properties(**{'text-align': 'left', 'white-space': 'pre-wrap'}) \
                  .set_table_styles([dict(selector='th', props=[('text-align', 'left'), ('vertical-align', 'top')])])  
 show(styled_table,
+     paging=False,
      classes='display compact cell-border',
      buttons=['copyHtml5', 'csvHtml5', 'excelHtml5'],
      layout={'top1': 'searchPanes'},
      searchPanes={"cascadePanes": True, 'initCollapsed': True},)
 ```
+
+
