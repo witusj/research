@@ -95,8 +95,8 @@ def binomial_coefficient(N, T):
     return math.comb(N + T - 1, N)
 
 # Example usage
-N = 5
-T = 3
+N = 7
+T = 5
 result = binomial_coefficient(N, T)
 print(result)  # Output: 21
 ```
@@ -128,7 +128,7 @@ def find_positions(matrix, values):
         print(positions)
     return positions
 
-def plot_matrix_with_arrows(matrix):
+def plot_matrix_with_arrows(matrix, l):
     n, m = matrix.shape
     x, y, colors = [], [], []
 
@@ -140,7 +140,7 @@ def plot_matrix_with_arrows(matrix):
     
     # Find the four lowest values and their positions
     sorted_values = np.sort(matrix, axis=None)
-    lowest_values = sorted_values[:4]
+    lowest_values = sorted_values[:l]
     
     positions = find_positions(matrix, lowest_values)
     
@@ -176,7 +176,7 @@ def plot_matrix_with_arrows(matrix):
     )
 
     # Add arrows from the fourth lowest to the lowest value
-    for i in range(3):
+    for i in range(l-1):
         (start_i, start_j) = positions[i]
         (end_i, end_j) = positions[i + 1]
         fig.add_annotation(
@@ -198,13 +198,13 @@ def plot_matrix_with_arrows(matrix):
     fig.show()
 
 # Example usage
-i = 21
+i = 330
 matrix = create_square_matrix(i)
 print(matrix)
 print(matrix.shape)  # Output the shape to verify it is as square as possible
 
 # Plot the matrix with arrows
-plot_matrix_with_arrows(matrix)
+plot_matrix_with_arrows(matrix, 6)
 
 ```
 
