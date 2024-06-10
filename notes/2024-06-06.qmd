@@ -87,4 +87,124 @@ show(styled_table,
      searchPanes={"cascadePanes": True, 'initCollapsed': True},)
 ```
 
+## Solution landscape
+```{python}
+import math
+
+def binomial_coefficient(N, T):
+    return math.comb(N + T - 1, N)
+
+# Example usage
+N = 5
+T = 3
+result = binomial_coefficient(N, T)
+print(result)  # Output: 21
+```
+
+```{python}
+import numpy as np
+import plotly.graph_objects as go
+
+def create_square_matrix(i):
+    if i < 1:
+        raise ValueError("The input must be an integer greater than 1.")
+    
+    # Find n and m such that n * m = i and |n - m| is minimized
+    n = int(np.sqrt(i))
+    while i % n != 0:
+        n -= 1
+    m = i // n
+    
+    # Generate the n x m matrix with random values
+    matrix = np.random.rand(n, m)
+    
+    return matrix
+
+def find_positions(matrix, values):
+    positions = []
+    for value in values:
+        result = np.where(matrix == value)
+        positions.append((result[0][0], result[1][0]))
+        print(positions)
+    return positions
+
+def plot_matrix_with_arrows(matrix):
+    n, m = matrix.shape
+    x, y, colors = [], [], []
+
+    for i in range(n):
+        for j in range(m):
+            x.append(j)
+            y.append(n - i - 1)  # Invert y-axis to have the origin at the top-left corner
+            colors.append(matrix[i, j])
+    
+    # Find the four lowest values and their positions
+    sorted_values = np.sort(matrix, axis=None)
+    lowest_values = sorted_values[:4]
+    
+    positions = find_positions(matrix, lowest_values)
+    
+    fig = go.Figure(data=go.Scatter(
+        x=x,
+        y=y,
+        mode='markers',
+        marker=dict(
+            size=20,
+            color=colors,
+            colorscale='Viridis',
+            colorbar=dict(title='Value')
+        )
+    ))
+    
+    fig.update_layout(
+        title='n x m Grid with Colored Dots',
+        xaxis=dict(
+            tickmode='linear',
+            dtick=1,
+            range=[-0.5, m - 0.5]
+        ),
+        yaxis=dict(
+            tickmode='linear',
+            dtick=1,
+            range=[-0.5, n - 0.5],
+            autorange='reversed'
+        ),
+        xaxis_title='Column',
+        yaxis_title='Row',
+        width=800,
+        height=800
+    )
+
+    # Add arrows from the fourth lowest to the lowest value
+    for i in range(3):
+        (start_i, start_j) = positions[i]
+        (end_i, end_j) = positions[i + 1]
+        fig.add_annotation(
+            x=end_j,
+            y=n - end_i - 1,
+            ax=start_j,
+            ay=n - start_i - 1,
+            xref="x",
+            yref="y",
+            axref="x",
+            ayref="y",
+            showarrow=True,
+            arrowhead=3,
+            arrowsize=1,
+            arrowwidth=2,
+            arrowcolor="red"
+        )
+    
+    fig.show()
+
+# Example usage
+i = 21
+matrix = create_square_matrix(i)
+print(matrix)
+print(matrix.shape)  # Output the shape to verify it is as square as possible
+
+# Plot the matrix with arrows
+plot_matrix_with_arrows(matrix)
+
+```
 
