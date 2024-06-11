@@ -42,7 +42,6 @@ from itables import init_notebook_mode, show
 init_notebook_mode(all_interactive=False)
 ```
 
-
 ```{python}
 #| column: screen-inset-shaded
 
@@ -89,6 +88,7 @@ show(styled_table,
 ```
 
 ## Solution landscape
+
 ```{python}
 import math
 
@@ -102,7 +102,8 @@ result = binomial_coefficient(N, T)
 print(result)
 ```
 
-The problem can be illustrated as a landscape that contains all possible solutions (points) and the task is to find a path that leads to the solution (point) that has the lowest value. Each point can be defined by an array of T coordinates with values between 0 and N, such that the sum of all coordinates equals N.
+The problem can be illustrated as a landscape that contains all possible solutions (points) and the task is to find a path that leads to the solution (point) that has the lowest value.
+Each point can be defined by an array of T coordinates with values between 0 and N, such that the sum of all coordinates equals N.
 
 ```{python}
 import numpy as np
@@ -209,18 +210,42 @@ print(matrix.shape)  # Output the shape to verify it is as square as possible
 
 # Plot the matrix with arrows
 plot_matrix_with_arrows(matrix, 6)
-
 ```
 
 What we know is:
 
-1. The objective function of a model with fixed and equal time slots is multimodular relatively to schedule $x$.
-2. In the case where appointment times are continuous and variable the optimal schedule is dome-shaped.
+1.  A scheduling problem with fixed and equal time slots defined as:
 
+$$
+\min \left\{ \alpha_W W(x) + \alpha_I I(x) + \alpha_L L(x) \ \middle| \ 
+\begin{array}{c}
+\sum_t x_t = N \\
+x_t \in \mathbb{N}_0
+\end{array}
+\right\}
+$$
+
+        
+has a multimodular objective [@kaandorp2007optimal]
+
+
+<!-- -->
+
+2.  In the case where appointment times are continuous and variable the optimal schedule is dome-shaped, meaning the time allotted for each appointment initially increases sharply, then climbs slowly to a peak, and decreases slowly after the peak. This allows for some buffer time to absorb increasing service time variability as the day progresses due to accumulated delays, while keeping slots tight at the start and end [@klassen_improving_2009].
 
 <ol class="custom-counter">
-    <li>....</li>
-    <li>Would that mean that schedules with overbooking at the start and towards the finish and more zeroes in the middle show optimal performance?</li>
-    <li></li>
-    <!-- Add more list items as needed -->
-</ol> 
+
+<li>This means that any local optimum is also the global optimum .</li>
+
+<li>
+
+Would that mean that schedules with overbooking at the start and towards the finish and more zeroes in the middle show optimal performance?`<`{=html}
+`/li>`{=html}
+
+<li>
+
+</li>
+
+<!-- Add more list items as needed -->
+
+</ol>
