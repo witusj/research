@@ -274,5 +274,33 @@
         },
         "Solution approach": "The solution approach involves a numerical methodology for evaluating outpatient schedules that explicitly accounts for no-shows and patient unpunctuality. The authors use the transient solution of a modified Lindley recursion, allowing explicit expressions for each performance measure. This is achieved in a discrete-time (slotted) setting, simplifying the computations. The analysis is based on a discrete-time queueing model with a two-dimensional state space representing the amount of work in the queue and the unpunctuality on effective patient arrival times. The approach does not require assumptions on the consultation times other than their independence and known distributions. It includes the use of a local search algorithm to optimize scheduling.",
         "Solution approach summary": "A numerical methodology using a modified Lindley recursion evaluates schedules accounting for no-shows and unpunctuality."
-    }
+    },
+    {
+    "_comment": "The definition of overbooking is that more than one patients can be booked at the same time slot.",
+    "Title": "A Universal Appointment Rule in the Presence of No-Shows and Walk-Ins",
+    "Authors": "Tugba Cayirli, Kum Khiong Yang, Ser Aik Quek",
+    "Year": 2012,
+    "BibTex ID": "cayirli-universal-2012",
+    "Modeling Approach": {
+        "time slot length": "variable",
+        "schedule format": [
+            "number of patients per time slot",
+            "appointment time, integer"
+        ],
+        "overbooking allowed": "yes",
+        "service time": "lognormal distribution",
+        "no-shows assumed": "yes",
+        "emergency patients assumed": "yes",
+        "punctuality assumed": "yes",
+        "objective function elements": {
+            "waiting time": "yes",
+            "idle time": "yes",
+            "overtime": "yes"
+        }
+    },
+    "Solution approach": "The study introduces a 'Dome' appointment rule that uses simulation and nonlinear regression to predict the planning constant as a function of various environmental factors such as no-shows, walk-ins, number of appointments per session, variability of service times, and cost of doctor’s time to patients’ time. The approach adjusts the mean and standard deviation of service times based on the expected probabilities of no-shows and walk-ins to explicitly minimize their disruptive effects. An open-source decision-support tool is also provided to help healthcare managers develop appointment schedules tailored to their clinical environment.",
+    "Solution approach summary": "The 'Dome' rule is parameterized using simulation and nonlinear regression to accommodate no-shows and walk-ins.",
+    "_log": "<html><body><p>The provided article, titled 'A Universal Appointment Rule in the Presence of No-Shows and Walk-Ins', authored by Tugba Cayirli, Kum Khiong Yang, and Ser Aik Quek, and published in 2012, introduces a universal 'Dome' appointment rule.</p><p>The article outlines a comprehensive modeling approach:</p><ul><li>Time slot length is variable, resulting from the schedule.</li><li>Schedule format is defined by the number of patients per time slot and appointment time in integer values.</li><li>Overbooking is allowed as the model explicitly considers the possibility of more than one patient being booked in the same time slot.</li><li>Service times are modeled using a lognormal distribution.</li><li>No-shows are assumed, and they are decision-dependent.</li><li>Emergency patients (walk-ins) are assumed.</li><li>Punctuality is assumed for scheduled patients.</li><li>The objective function elements include waiting time, idle time, and overtime.</li></ul><p>The solution approach employs simulation and nonlinear regression to derive an equation that predicts the planning constant as a function of the environmental factors. It also introduces an adjustment procedure that modifies the mean and standard deviation of service times based on the expected probabilities of no-shows and walk-ins. This procedure aims to minimize their disruptive effects, improving the overall performance of the appointment system. The study provides an open-source decision-support tool to assist healthcare managers in developing appointment schedules tailored to their specific clinical environments.</p><p>For the BibTeX ID, 'cayirli-universal-2012' was created based on the first author's last name, the first word in the title, and the year of publication.</p></body></html>"
+}
+
 ]
