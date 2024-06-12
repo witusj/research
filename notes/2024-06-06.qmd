@@ -160,16 +160,18 @@ def plot_matrix_with_arrows(N, T, l):
         xaxis=dict(
             tickmode='linear',
             dtick=1,
-            range=[-0.5, m - 0.5]
+            range=[-0.5, m - 0.5],
+            visible=False  # numbers below
         ),
         yaxis=dict(
             tickmode='linear',
             dtick=1,
             range=[-0.5, n - 0.5],
-            autorange='reversed'
+            autorange='reversed',
+            visible=False  # numbers below
         ),
-        xaxis_title='Column',
-        yaxis_title='Row',
+        # xaxis_title='Column',
+        # yaxis_title='Row',
         width=800,
         height=800,
         showlegend = False
@@ -196,6 +198,7 @@ def plot_matrix_with_arrows(N, T, l):
         )
     
     fig.show()
+    fig.write_image("images/landscape-with-arrows.png", scale=4)
 
 # Example usage
 N = 7
