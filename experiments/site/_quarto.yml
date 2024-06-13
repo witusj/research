@@ -16,6 +16,7 @@ website:
       # - noshow.qmd
       - local-search-function.qmd
       - local-search-schedule-probabilities.qmd
+      - simple-schedule-landscape.qmd
       
 format:
   html:

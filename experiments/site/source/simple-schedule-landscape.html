@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.551">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Experiments - Simple schedule landscape</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+if (typeof require !== 'undefined') {
+require.undef("plotly");
+requirejs.config({
+    paths: {
+        'plotly': ['https://cdn.plot.ly/plotly-2.24.1.min']
+    }
+});
+require(['plotly'], function(Plotly) {
+    window._Plotly = Plotly;
+});
+}
+</script>
+
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Experiments</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./sched-sim.html"> 
+<span class="menu-text">Scheduling Simulation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./sim-based-opt.html"> 
+<span class="menu-text">Simulation Based Optimization</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./search-function.html"> 
+<span class="menu-text">Search Function</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./schedule-probabilities.html"> 
+<span class="menu-text">Scheduling w/ Nested Partitions</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./convexity.html"> 
+<span class="menu-text">Convexity</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./local-search-function.html"> 
+<span class="menu-text">Local Search Function</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./local-search-schedule-probabilities.html"> 
+<span class="menu-text">Scheduling w/ Local Search</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./simple-schedule-landscape.html" aria-current="page"> 
+<span class="menu-text">Simple schedule landscape</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Simple schedule landscape</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This code replicates methods from <span class="citation" data-cites="kaandorp_optimal_2007">Kaandorp and Koole (<a href="#ref-kaandorp_optimal_2007" role="doc-biblioref">2007</a>)</span>.</p>
+<div id="0f14c069" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> copy</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> poisson</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> lognorm</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> signal</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objs <span class="im">as</span> go</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.offline <span class="im">as</span> pyo</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> unittest</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> functions <span class="im">as</span> fn</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> chain, combinations</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objs <span class="im">as</span> go</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> copy</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>logging.basicConfig(filename<span class="op">=</span><span class="st">'logs.txt'</span>, encoding<span class="op">=</span><span class="st">'utf-8'</span>, level<span class="op">=</span>logging.DEBUG)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># """</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to calculate the convolution of two arrays.</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Args:</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#     a (numpy.ndarray): The first array to be convolved.</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#     b (numpy.ndarray): The second array to be convolved.</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns:</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">#     numpy.ndarray: The convolution of the two input arrays.</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co"># """</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convolve(a, b):</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize an empty array to store the result.</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> np.array([])</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute the convolution of the two arrays.</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(a)):</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get subsets of array expanded to the right.</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>        a_sub <span class="op">=</span> a[<span class="dv">0</span>:i <span class="op">+</span> <span class="dv">1</span>].copy()</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>        b_sub <span class="op">=</span> b[<span class="dv">0</span>:i <span class="op">+</span> <span class="dv">1</span>].copy()</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Reverse b.</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        b_rev <span class="op">=</span> b_sub[::<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the dot product of a and b_rev.</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> np.append(c, np.dot(a_sub, b_rev))</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,<span class="bu">len</span>(a)):</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get subsets of array collapse from the right.</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>        a_sub <span class="op">=</span> a[i:].copy()</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>        b_sub <span class="op">=</span> b[i:].copy()</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Reverse b.</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>        b_rev <span class="op">=</span> b_sub[::<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the dot product of a and b_rev.</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> np.append(c, np.dot(a_sub, b_rev))</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> c</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co"># """</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to convolve a distribution with itself n times.</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Args:</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="co">#     a (numpy.ndarray): The distribution to be convolved.</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="co">#     n (int): The number of times to convolve the distribution with itself.</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns:</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="co">#     numpy.ndarray: The convolution of the input distribution with itself n times.</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="co"># """</span></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convolve_n(a, n):</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize an empty array to store the result.</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> np.array([])</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>    <span class="co"># If n is 0, return an array of zeros with length equal to the length of a, except for the first element which is 1.</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>        c <span class="op">=</span> np.array(np.zeros(<span class="bu">len</span>(a)), dtype<span class="op">=</span>np.float64)</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>        c[<span class="dv">0</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> c</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convolve the distribution with itself n times.</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>        <span class="co"># If this is the first iteration, set c equal to a.</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> i <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> a</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Otherwise, convolve c with a.</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> np.convolve(c, a)</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> c</span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="co"># """</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to create an array of zero arrays according to a given shape array.</span></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="co"># Args:</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="co">#      num_zeros (numpy.ndarray): The shape array.</span></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="co">#      l (int): The length of the zeros array.</span></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="co">#  </span></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="co"># Returns:</span></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="co">#      numpy.ndarray: The convolution of the input distribution with itself n times.</span></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="co"># """</span></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> zero_arrays(num_zeros, l):</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> []</span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> n <span class="kw">in</span> num_zeros:</span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>        zeros <span class="op">=</span> np.zeros(l)</span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>        result.append([zeros] <span class="op">*</span> n)</span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Zero arrays are: </span><span class="sc">{</span>zero_arrays(np.array([<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">3</span>]), <span class="dv">4</span>)<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calc_distr_limit(l):</span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">int</span>(<span class="bu">max</span>(l<span class="op">+</span><span class="dv">4</span><span class="op">*</span>l<span class="op">**</span><span class="fl">0.5</span>, <span class="dv">100</span>))</span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TestConvolve(unittest.TestCase):</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> test_convolve(<span class="va">self</span>):</span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>        a <span class="op">=</span> np.array([</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.4456796414</span>,</span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.160623141</span>,</span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.137676978</span>,</span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.1032577335</span>])</span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>        b <span class="op">=</span> np.array([</span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.006737946999</span>,</span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.033689735</span>,</span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.08422433749</span>,</span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.1403738958</span>])</span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>        expected_output <span class="op">=</span> np.convolve(a, b)</span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.assertTrue(np.allclose(convolve(a, b), expected_output))</span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> powerset(iterable):</span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a>    <span class="co">"powerset([1,2,3]) --&gt; () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"</span></span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> <span class="bu">list</span>(iterable)</span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="bu">list</span>(item) <span class="cf">for</span> item <span class="kw">in</span> chain.from_iterable(combinations(s, r) <span class="cf">for</span> r <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(s)<span class="op">+</span><span class="dv">1</span>))]</span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_v_star(t):</span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create an initial vector 'u' of zeros with length 't'</span></span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>    u <span class="op">=</span> np.zeros(t, dtype<span class="op">=</span>np.int64)</span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Set the first element of vector 'u' to -1</span></span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a>    u[<span class="dv">0</span>] <span class="op">=</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Set the last element of vector 'u' to 1</span></span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>    u[<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize the list 'v_star' with the initial vector 'u'</span></span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>    v_star <span class="op">=</span> [u]</span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Loop over the length of 'u' minus one times</span></span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(u) <span class="op">-</span> <span class="dv">1</span>):</span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Append the last element of 'u' to the front of 'u'</span></span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>        u <span class="op">=</span> np.append(u[<span class="op">-</span><span class="dv">1</span>], u)</span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Remove the last element of 'u' to maintain the same length</span></span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a>        u <span class="op">=</span> np.delete(u, <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Append the updated vector 'u' to the list 'v_star'</span></span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a>        v_star.append(u)</span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Convert the list of vectors 'v_star' into a NumPy array and return it</span></span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(np.array(v_star))</span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a><span class="co"># Example of function call:</span></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a><span class="co"># This will create a 4x4 matrix where each row is a cyclically shifted version of the first row</span></span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_search_neighborhood(schedule):</span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a>  N <span class="op">=</span> <span class="bu">sum</span>(schedule)</span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>  T <span class="op">=</span> <span class="bu">len</span>(schedule)</span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a>  logging.info(<span class="ss">f'The schedule = </span><span class="sc">{</span>schedule<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Generate a matrix 'v_star' using the 'get_v_star' function</span></span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a>  v_star <span class="op">=</span> get_v_star(T)</span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Generate all possible non-empty subsets (powerset) of the set {0, 1, 2, ..., T-1}</span></span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 'ids' will be a list of tuples, where each tuple is a subset of indices</span></span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a>  ids <span class="op">=</span> <span class="bu">list</span>(powerset(<span class="bu">range</span>(T)))</span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a>  logging.info(<span class="ss">f'Neighborhood size = </span><span class="sc">{</span><span class="bu">len</span>(ids)<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Select the vectors from 'v_star' that correspond to the indices in each subset</span></span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 'sub_sets' will be a list of lists, where each inner list contains vectors from 'v_star'</span></span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a>  sub_sets <span class="op">=</span> [v_star[i] <span class="cf">for</span> i <span class="kw">in</span> ids]</span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Sum the vectors within each subset and flatten the result to get a 1-D array</span></span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a>  <span class="co"># 'summed_sets' will be a list of 1-D numpy arrays, where each array is the sum of vectors</span></span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a>  summed_sets <span class="op">=</span> [np.<span class="bu">sum</span>(sub_sets[i], axis<span class="op">=</span><span class="dv">0</span>).flatten() <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(sub_sets))]</span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a>  neighborhood <span class="op">=</span> np.array([schedule <span class="op">+</span> summed_sets[i] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(summed_sets))])</span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a mask for rows with negative values</span></span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a>  mask <span class="op">=</span> <span class="op">~</span>np.<span class="bu">any</span>(neighborhood <span class="op">&lt;</span> <span class="dv">0</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Filter out rows with negative values using the mask</span></span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a>  filtered_neighborhood <span class="op">=</span> neighborhood[mask]</span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a>  logging.info(<span class="ss">f'And the neighborhood is </span><span class="sc">{</span>filtered_neighborhood<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> filtered_neighborhood</span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_small_search_neighborhood(schedule):</span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a>  N <span class="op">=</span> <span class="bu">sum</span>(schedule)</span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a>  T <span class="op">=</span> <span class="bu">len</span>(schedule)</span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a>  logging.info(<span class="ss">f'The schedule = </span><span class="sc">{</span>schedule<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Generate a matrix 'v_star' using the 'get_v_star' function</span></span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a>  v_star <span class="op">=</span> get_v_star(T)</span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a>  neighborhood <span class="op">=</span> np.array([schedule <span class="op">+</span> v_star[i] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(v_star))])</span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create a mask for rows with negative values</span></span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a>  mask <span class="op">=</span> <span class="op">~</span>np.<span class="bu">any</span>(neighborhood <span class="op">&lt;</span> <span class="dv">0</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Filter out rows with negative values using the mask</span></span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a>  filtered_neighborhood <span class="op">=</span> neighborhood[mask]</span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a>  logging.info(<span class="ss">f'And the neighborhood is </span><span class="sc">{</span>filtered_neighborhood<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> filtered_neighborhood</span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> distribute_patients(n_patients, n_timeslots):</span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a list with all slots initially empty</span></span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a>    distribution <span class="op">=</span> [<span class="dv">0</span>] <span class="op">*</span> n_timeslots</span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Place patients in timeslots</span></span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_patients):</span>
+<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate the slot for each patient</span></span>
+<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a>        slot <span class="op">=</span> <span class="bu">round</span>(i <span class="op">*</span> n_timeslots <span class="op">/</span> n_patients)</span>
+<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a>        distribution[slot] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> distribution</span>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_timeline(slots, title):</span>
+<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a figure</span></span>
+<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> go.Figure()</span>
+<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterate over each timeslot and add a bar for occupied slots</span></span>
+<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, slot <span class="kw">in</span> <span class="bu">enumerate</span>(slots):</span>
+<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a>        fig.add_trace(go.Bar(x<span class="op">=</span>[i], y<span class="op">=</span>[slot], width<span class="op">=</span><span class="fl">0.8</span>, marker_color<span class="op">=</span><span class="st">'black'</span>))</span>
+<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Update layout</span></span>
+<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a>    fig.update_layout(</span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span>title,</span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a>        xaxis_title<span class="op">=</span><span class="st">"Timeslots"</span>,</span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a>        yaxis<span class="op">=</span><span class="bu">dict</span>(showticklabels<span class="op">=</span><span class="va">False</span>, showgrid<span class="op">=</span><span class="va">False</span>, zeroline<span class="op">=</span><span class="va">False</span>),</span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a>        showlegend<span class="op">=</span><span class="va">False</span></span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Set y-axis range</span></span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a>    fig.update_yaxes(<span class="bu">range</span><span class="op">=</span>[<span class="dv">0</span>, np.<span class="bu">max</span>(slots)])</span>
+<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Show the figure</span></span>
+<span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a>    fig.show()</span>
+<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-242"><a href="#cb1-242" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> service_time_with_no_shows(s, q):</span>
+<span id="cb1-243"><a href="#cb1-243" aria-hidden="true" tabindex="-1"></a>  <span class="co"># """</span></span>
+<span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Function to adjust a distribution of service times for no-shows</span></span>
+<span id="cb1-245"><a href="#cb1-245" aria-hidden="true" tabindex="-1"></a>  <span class="co"># </span></span>
+<span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Args:</span></span>
+<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a>  <span class="co">#     s (numpy.ndarray): An array with service times.</span></span>
+<span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a>  <span class="co">#     q (double): The fraction of no-shows.</span></span>
+<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a>  <span class="co"># </span></span>
+<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Returns:</span></span>
+<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a>  <span class="co">#     numpy.ndarray: The adjusted array of service times.</span></span>
+<span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a>  <span class="co"># """</span></span>
+<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a>  s_adj <span class="op">=</span> s <span class="op">*</span> (<span class="dv">1</span><span class="op">-</span>q)</span>
+<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a>  s_adj[<span class="dv">0</span>] <span class="op">=</span> s_adj[<span class="dv">0</span>] <span class="op">+</span> q</span>
+<span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span>(s_adj)</span>
+<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_lists(short_list, long_list):</span>
+<span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a>  <span class="co"># """</span></span>
+<span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a>  <span class="co"># This function takes in two lists and returns a new list where each element </span></span>
+<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a>  <span class="co"># is the sum of the elements from the input lists at the corresponding position.</span></span>
+<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a>  <span class="co"># If the lists are of different lengths, the shorter list is extended with zeros </span></span>
+<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a>  <span class="co"># to match the length of the longer list.</span></span>
+<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a>  <span class="co"># </span></span>
+<span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Parameters:</span></span>
+<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a>  <span class="co"># - short_list (list): The shorter list of numbers.</span></span>
+<span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a>  <span class="co"># - long_list (list): The longer list of numbers.</span></span>
+<span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a>  <span class="co"># </span></span>
+<span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Returns:</span></span>
+<span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a>  <span class="co"># - list: A list containing the element-wise sum of the two input lists.</span></span>
+<span id="cb1-271"><a href="#cb1-271" aria-hidden="true" tabindex="-1"></a>  <span class="co"># """</span></span>
+<span id="cb1-272"><a href="#cb1-272" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-273"><a href="#cb1-273" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Extend the short lists to the length of the long list with zeros</span></span>
+<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a>  short_list.extend([<span class="dv">0</span>] <span class="op">*</span> (<span class="bu">len</span>(long_list) <span class="op">-</span> <span class="bu">len</span>(short_list)))</span>
+<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-276"><a href="#cb1-276" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Sum the elements of the two lists element-wise</span></span>
+<span id="cb1-277"><a href="#cb1-277" aria-hidden="true" tabindex="-1"></a>  result <span class="op">=</span> [a <span class="op">+</span> b <span class="cf">for</span> a, b <span class="kw">in</span> <span class="bu">zip</span>(short_list, long_list)]</span>
+<span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> result</span>
+<span id="cb1-280"><a href="#cb1-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_rolling_convolution(p_y, s):</span>
+<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a>  conv_list <span class="op">=</span> s</span>
+<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a>  limit <span class="op">=</span> <span class="bu">len</span>(p_y)</span>
+<span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a>  v <span class="op">=</span> [x <span class="op">*</span> p_y[<span class="dv">0</span>] <span class="cf">for</span> x <span class="kw">in</span> conv_list]</span>
+<span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, limit):</span>
+<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a>    conv_list <span class="op">=</span> np.convolve(conv_list, s)</span>
+<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> add_lists(v, [x <span class="op">*</span> p_y[i] <span class="cf">for</span> x <span class="kw">in</span> conv_list])</span>
+<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span>(v)</span>
+<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_schedules(N):</span>
+<span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a><span class="co">    Generate all possible ways to distribute N patients into 3 timeslots.</span></span>
+<span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a><span class="co">    The function returns a list of lists, where each sublist represents</span></span>
+<span id="cb1-295"><a href="#cb1-295" aria-hidden="true" tabindex="-1"></a><span class="co">    a distribution of patients across the 3 timeslots such that the sum of</span></span>
+<span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a><span class="co">    the numbers in the sublist is N.</span></span>
+<span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a><span class="co">    N (int): The total number of patients to be distributed.</span></span>
+<span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb1-302"><a href="#cb1-302" aria-hidden="true" tabindex="-1"></a><span class="co">    List[List[int]]: A list of lists where each sublist contains 3 integers</span></span>
+<span id="cb1-303"><a href="#cb1-303" aria-hidden="true" tabindex="-1"></a><span class="co">    representing a possible distribution of patients across the 3 timeslots.</span></span>
+<span id="cb1-304"><a href="#cb1-304" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a>    <span class="co"># This list will hold the result</span></span>
+<span id="cb1-306"><a href="#cb1-306" aria-hidden="true" tabindex="-1"></a>    schedules <span class="op">=</span> []</span>
+<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-308"><a href="#cb1-308" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterate over all possible values of 'a' from 0 to N (inclusive)</span></span>
+<span id="cb1-309"><a href="#cb1-309" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> a <span class="kw">in</span> <span class="bu">range</span>(N <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb1-310"><a href="#cb1-310" aria-hidden="true" tabindex="-1"></a>        <span class="co"># For each value of 'a', iterate over all possible values of 'b' from 0 to N-a (inclusive)</span></span>
+<span id="cb1-311"><a href="#cb1-311" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(N <span class="op">-</span> a <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb1-312"><a href="#cb1-312" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Compute 'c' such that the sum of 'a', 'b', and 'c' is N</span></span>
+<span id="cb1-313"><a href="#cb1-313" aria-hidden="true" tabindex="-1"></a>            c <span class="op">=</span> N <span class="op">-</span> a <span class="op">-</span> b</span>
+<span id="cb1-314"><a href="#cb1-314" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Append the combination [a, b, c] to the schedules list</span></span>
+<span id="cb1-315"><a href="#cb1-315" aria-hidden="true" tabindex="-1"></a>            schedules.append([a, b, c])</span>
+<span id="cb1-316"><a href="#cb1-316" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-317"><a href="#cb1-317" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Return the list of all possible schedules</span></span>
+<span id="cb1-318"><a href="#cb1-318" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> schedules</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Zero arrays are: [[array([0., 0., 0., 0.])], [], [array([0., 0., 0., 0.]), array([0., 0., 0., 0.]), array([0., 0., 0., 0.])]]</code></pre>
+</div>
+</div>
+<p>A schedule with <span class="math inline">\(T\)</span> intervals can have <span class="math inline">\(T\)</span> states. A state of a schedule at interval <span class="math inline">\(t\)</span> is defined by:</p>
+<p>- <span class="math inline">\(p^-_t(i)\)</span>, the distribution of the amount of work (<span class="math inline">\(i\)</span>) left at the end of the state at interval <span class="math inline">\(t-1\)</span>,</p>
+<p>- <span class="math inline">\(w_{tk}(i)\)</span>, the distribution of waiting time (<span class="math inline">\(i\)</span>) for a patient <span class="math inline">\(k\)</span> in interval <span class="math inline">\(t\)</span></p>
+<p>- <span class="math inline">\(p^+_t(i)\)</span>, the probability of the total amount of work (<span class="math inline">\(i\)</span>) in interval <span class="math inline">\(t\)</span>, ergo: the work left from the previous state plus all work related to arriving patients.</p>
+<p><span class="math inline">\(p^+_t(i)\)</span> is equal to the convolution of the distribution of waiting times of the last patient with the distribution of his service time. The iteration is as follows with K patients scheduled at interval t:</p>
+<blockquote class="blockquote">
+<p>Step 1: <span class="math inline">\(w_{t0}(i) = p^-_t(i)\)</span> # The first patient has to wait for all the work leftover from the previous interval</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Step 2: <span class="math inline">\(w_{t1}(i) = w_{t0}(i)*s(i)\)</span> # The next patient has to wait for the previous patient waiting time and service time</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>. . .</p>
+</blockquote>
+<blockquote class="blockquote">
+<p>Step K: <span class="math inline">\(p^+_t(i) = w_{t(K-1)}(i)*s(i)\)</span></p>
+</blockquote>
+<p>With <span class="math inline">\(s(i)\)</span> being the distribution of individual service times. <strong>In the examples below we model service times as a Poisson process, because we are calculating in discrete time units.</strong></p>
+<div id="b65db976" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">A schedule class with a constructor and a method to calculate the system states.</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">"""</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Schedule:</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, x, d, s, q, omega):</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">        Initialize the Schedule class with patient schedules and a service time distribution.</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">            x (list): A list of integers representing the number of patients scheduled to arrive at each time step.</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">            d (int): An integer representing the length of a time interval.</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">            s (list): A list of floats representing the probability distribution of service times.</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">            q (float): A float representing the probability of patients not showing up.</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">            omega (float): A float representing weight for the waiting cost in the loss function The weight for tardiness equal 1 - omega.</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> <span class="bu">all</span>(<span class="bu">isinstance</span>(i, np.integer) <span class="kw">and</span> i <span class="op">&gt;=</span> <span class="dv">0</span> <span class="cf">for</span> i <span class="kw">in</span> x):</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"All elements in x must be non-negative integers."</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> <span class="bu">isinstance</span>(d, <span class="bu">int</span>) <span class="kw">or</span> d <span class="op">&lt;=</span> <span class="dv">0</span>:</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"d must be a positive integer."</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> <span class="bu">all</span>(<span class="bu">isinstance</span>(i, <span class="bu">float</span>) <span class="kw">and</span> <span class="dv">0</span> <span class="op">&lt;=</span> i <span class="op">&lt;=</span> <span class="dv">1</span> <span class="cf">for</span> i <span class="kw">in</span> s):</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"All elements in s must be floats between 0 and 1."</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> <span class="bu">isinstance</span>(q, <span class="bu">float</span>) <span class="kw">and</span> <span class="dv">0</span> <span class="op">&lt;=</span> q <span class="op">&lt;=</span> <span class="dv">1</span>:</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"q must be a float between 0 and 1."</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> <span class="bu">isinstance</span>(omega, <span class="bu">float</span>) <span class="kw">and</span> <span class="dv">0</span> <span class="op">&lt;=</span> omega <span class="op">&lt;=</span> <span class="dv">1</span>:</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"omegea must be a float between 0 and 1."</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.parameters <span class="op">=</span> {<span class="st">'x'</span>: x, <span class="st">'d'</span>: d, <span class="st">'s'</span>: s, <span class="st">'q'</span>: q, <span class="st">'omega'</span>: omega}</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="co">""" Adjust service times for no-shows. """</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.parameters[<span class="st">'s'</span>] <span class="op">=</span> service_time_with_no_shows(<span class="va">self</span>.parameters[<span class="st">'s'</span>], <span class="va">self</span>.parameters[<span class="st">'q'</span>])</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._initialize_system()</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _initialize_system(<span class="va">self</span>):</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        <span class="co">""" Initialize the system's internal state. """</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.state <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>        length_x <span class="op">=</span> <span class="bu">len</span>(<span class="va">self</span>.parameters[<span class="st">'x'</span>])</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        length_s <span class="op">=</span> <span class="bu">len</span>(<span class="va">self</span>.parameters[<span class="st">'s'</span>])</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.system <span class="op">=</span> {</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>            <span class="st">'p_min'</span>: np.zeros((length_x <span class="op">+</span> <span class="dv">1</span>, length_s), dtype<span class="op">=</span>np.float64),</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>            <span class="st">'p_plus'</span>: np.zeros((length_x, length_s), dtype<span class="op">=</span>np.float64),</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>            <span class="st">'w'</span>: [np.zeros((i, length_s), dtype<span class="op">=</span>np.float64) <span class="cf">for</span> i <span class="kw">in</span> <span class="va">self</span>.parameters[<span class="st">'x'</span>]],</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>            <span class="st">'ew'</span>: np.zeros(length_x, dtype<span class="op">=</span>np.float64),</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>            <span class="st">'loss'</span>: <span class="va">None</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(<span class="va">self</span>.parameters[<span class="st">'x'</span>][<span class="dv">0</span>] <span class="op">&gt;</span> <span class="dv">0</span>): <span class="co"># Only calculate waiting times if there are patients scheduled in the state</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>                     <span class="va">self</span>.system[<span class="st">'w'</span>][<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">=</span> <span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="dv">0</span>].copy()</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>                     <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="va">self</span>.parameters[<span class="st">'x'</span>][<span class="dv">0</span>]):</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>                            <span class="va">self</span>.system[<span class="st">'w'</span>][<span class="dv">0</span>][i] <span class="op">=</span> np.convolve(<span class="va">self</span>.system[<span class="st">'w'</span>][<span class="dv">0</span>][i<span class="op">-</span><span class="dv">1</span>], <span class="va">self</span>.parameters[<span class="st">'s'</span>])[:(<span class="bu">len</span>(<span class="va">self</span>.parameters[<span class="st">'s'</span>]))]</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._update_p_plus(<span class="dv">0</span>)</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.state <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _update_p_plus(<span class="va">self</span>, state):</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>        <span class="co">""" Update the p_plus array based on the current state. """</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.parameters[<span class="st">'x'</span>][state] <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.system[<span class="st">'p_plus'</span>][state] <span class="op">=</span> <span class="va">self</span>.system[<span class="st">'p_min'</span>][state].copy()</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.system[<span class="st">'p_plus'</span>][state] <span class="op">=</span> np.convolve(<span class="va">self</span>.system[<span class="st">'w'</span>][state][<span class="op">-</span><span class="dv">1</span>], <span class="va">self</span>.parameters[<span class="st">'s'</span>], mode<span class="op">=</span><span class="st">'full'</span>)[:<span class="bu">len</span>(<span class="va">self</span>.parameters[<span class="st">'s'</span>])]</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>        logging.info(<span class="ss">f"p_plus = </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>system[<span class="st">'p_plus'</span>][state]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> _calculate_state(<span class="va">self</span>):</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>        logging.info(<span class="ss">f'</span><span class="sc">{</span>datetime<span class="sc">.</span>datetime<span class="sc">.</span>now()<span class="sc">}</span><span class="ss"> - State = </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>state<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""The probability that the amount of work left in the system equals zero just before state t starts is the probablity that the total amount work in state t-1 was less than or equal to the interval length d."""</span></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>        logging.info(<span class="ss">f'</span><span class="sc">{</span>datetime<span class="sc">.</span>datetime<span class="sc">.</span>now()<span class="sc">}</span><span class="ss"> - Calculating p_min in state </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>state<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="va">self</span>.state][<span class="dv">0</span>] <span class="op">=</span> np.<span class="bu">sum</span>(<span class="va">self</span>.system[<span class="st">'p_plus'</span>][<span class="va">self</span>.state<span class="op">-</span><span class="dv">1</span>][:(<span class="va">self</span>.parameters[<span class="st">'d'</span>] <span class="op">+</span> <span class="dv">1</span>)])</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""The probability that the amount of work left in the system equals i just before state t starts is the probablity that the total amount work in state t-1 exceeded the interval length d with amount i."""</span></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="va">self</span>.state][<span class="dv">1</span>:(<span class="op">-</span><span class="dv">1</span><span class="op">*</span><span class="va">self</span>.parameters[<span class="st">'d'</span>])] <span class="op">=</span> <span class="va">self</span>.system[<span class="st">'p_plus'</span>][<span class="va">self</span>.state<span class="op">-</span><span class="dv">1</span>][(<span class="va">self</span>.parameters[<span class="st">'d'</span>] <span class="op">+</span> <span class="dv">1</span>):]</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""The distribution of waiting times of the first patient in state t equals p_min. </span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a><span class="co">        The distribution of waiting times of the second patient in state t equals the convolution of the distribution  of waiting times of the first patient in state t and the service time distribution. The resulting vector is truncated to the length of the service time distribution."""</span></span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(<span class="va">self</span>.parameters[<span class="st">'x'</span>][<span class="va">self</span>.state] <span class="op">&gt;</span> <span class="dv">0</span>): <span class="co"># Only calculate waiting times if there are patients scheduled in the state</span></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>                logging.info(<span class="ss">f'</span><span class="sc">{</span>datetime<span class="sc">.</span>datetime<span class="sc">.</span>now()<span class="sc">}</span><span class="ss"> - Calculating w[</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>state<span class="sc">}</span><span class="ss">][0] in state </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>state<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.system[<span class="st">'w'</span>][<span class="va">self</span>.state][<span class="dv">0</span>] <span class="op">=</span> <span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="va">self</span>.state].copy()</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>                logging.info(<span class="va">self</span>.system[<span class="st">'w'</span>][<span class="va">self</span>.state][<span class="dv">0</span>])</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>                logging.info(<span class="ss">f'</span><span class="sc">{</span>datetime<span class="sc">.</span>datetime<span class="sc">.</span>now()<span class="sc">}</span><span class="ss"> - Done'</span>)</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="va">self</span>.parameters[<span class="st">'x'</span>][<span class="va">self</span>.state]):</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>                    logging.info(<span class="ss">f'</span><span class="sc">{</span>datetime<span class="sc">.</span>datetime<span class="sc">.</span>now()<span class="sc">}</span><span class="ss"> - Calculating w[</span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>state<span class="sc">}</span><span class="ss">][</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">] in state </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>state<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>                    <span class="va">self</span>.system[<span class="st">'w'</span>][<span class="va">self</span>.state][i] <span class="op">=</span> np.convolve(<span class="va">self</span>.system[<span class="st">'w'</span>][<span class="va">self</span>.state][i<span class="op">-</span><span class="dv">1</span>], <span class="va">self</span>.parameters[<span class="st">'s'</span>])[:(<span class="bu">len</span>(<span class="va">self</span>.parameters[<span class="st">'s'</span>]))]</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>                    logging.info(<span class="va">self</span>.system[<span class="st">'w'</span>][<span class="va">self</span>.state][i])</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""The probablitity that the amount of work left in the system equals i just before state t ends equals the convolution of the waiting time distribution of the last arriving patient and the service time distribution. Unless there are no patients in the state t. In that case the distribution of total work just before t ends is equal to the distribution of work at the beginning of t. The resulting vector is truncated to the length of the service time distribution."""</span></span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>        logging.info(<span class="ss">f'</span><span class="sc">{</span>datetime<span class="sc">.</span>datetime<span class="sc">.</span>now()<span class="sc">}</span><span class="ss"> - Calculating p_plus in state </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>state<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>._update_p_plus(<span class="va">self</span>.state)</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> calculate_system_states(<span class="va">self</span>, until<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="co">        Calculate the probabilities of the system being in each state at each time step.</span></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a><span class="co">            until (int, optional): The state until which to calculate the probabilities. Defaults to 1.</span></span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="va">self</span>.state <span class="op">&lt;</span> until:</span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>._calculate_state()</span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.state <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> calculate_loss(<span class="va">self</span>):</span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>        omega <span class="op">=</span> <span class="va">self</span>.parameters[<span class="st">'omega'</span>]</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate loss</span></span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>        tot_wt <span class="op">=</span> <span class="va">self</span>.system[<span class="st">'ew'</span>].<span class="bu">sum</span>()</span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.calculate_tardiness()</span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>        indices <span class="op">=</span> np.arange(<span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="op">-</span><span class="dv">1</span>].size) </span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>        exp_tard <span class="op">=</span> (indices <span class="op">*</span> <span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="op">-</span><span class="dv">1</span>]).<span class="bu">sum</span>()</span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.system[<span class="st">'loss'</span>] <span class="op">=</span> omega <span class="op">*</span> tot_wt <span class="op">/</span> <span class="va">self</span>.parameters[<span class="st">'x'</span>].<span class="bu">sum</span>() <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> omega) <span class="op">*</span> exp_tard</span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> local_search(<span class="va">self</span>, omega<span class="op">=</span><span class="fl">0.5</span>):</span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a><span class="co">        Perform a local search to optimize a schedule by minimizing the total waiting time and expected tardiness.</span></span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a><span class="co">        The function starts with an initial schedule and iteratively explores neighboring schedules. For each neighboring schedule, it recalculates the system's states and computes the total waiting time and expected tardiness. If a neighboring schedule with a lower objective value (weighted sum of normalized waiting time and expected tardiness) is found, the function updates the current best schedule and continues the search from this new schedule. The search stops when no better neighboring schedule is found.</span></span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a><span class="co">        Parameters:</span></span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a><span class="co">        omega (float): A weighting factor between 0 and 1 used to balance the trade-off between total waiting time and expected tardiness.</span></span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a><span class="co">        The function follows these steps:</span></span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a><span class="co">        1. Calculate the initial loss using the total waiting time and expected tardiness.</span></span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a><span class="co">        2. Store the current schedule and system state as the initial best solution.</span></span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a><span class="co">        3. Enter a loop to explore neighboring schedules:</span></span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a><span class="co">           a. Generate a neighborhood of candidate schedules.</span></span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a><span class="co">           b. For each candidate schedule in the neighborhood:</span></span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a><span class="co">              i. Update the schedule and reinitialize the system.</span></span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a><span class="co">              ii. Recalculate the system states and waiting times.</span></span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a><span class="co">              iii. Calculate the objective value (weighted sum of normalized waiting time and expected tardiness).</span></span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a><span class="co">              iv. If a better schedule is found, update the best solution and break to generate a new neighborhood.</span></span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a><span class="co">        4. If no better schedule is found in the neighborhood, end the search.</span></span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a><span class="co">        5. Set the system to the best found schedule and system state.</span></span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a>        omega <span class="op">=</span> <span class="va">self</span>.parameters[<span class="st">'omega'</span>]</span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Calculate initial loss</span></span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a>        test_wt <span class="op">=</span> <span class="va">self</span>.system[<span class="st">"ew"</span>].<span class="bu">sum</span>()</span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.calculate_tardiness()</span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>        indices <span class="op">=</span> np.arange(<span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="op">-</span><span class="dv">1</span>].size) </span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a>        exp_tard <span class="op">=</span> (indices <span class="op">*</span> <span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="op">-</span><span class="dv">1</span>]).<span class="bu">sum</span>()</span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a>        lowest_loss <span class="op">=</span> omega <span class="op">*</span> test_wt <span class="op">/</span> <span class="va">self</span>.parameters[<span class="st">'x'</span>].<span class="bu">sum</span>() <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> omega) <span class="op">*</span> exp_tard</span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a>        store_optim <span class="op">=</span> <span class="bu">dict</span>({ <span class="st">'x'</span> : <span class="va">self</span>.parameters[<span class="st">'x'</span>].copy(), <span class="st">'system'</span> : copy.deepcopy(<span class="va">self</span>.system), <span class="st">'tot_wt'</span> : test_wt})</span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Continue the search until no improvement is found</span></span>
+<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="va">True</span>:  <span class="co"># Start an outer loop that will continue until explicitly broken</span></span>
+<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a>            nh <span class="op">=</span> generate_search_neighborhood(<span class="va">self</span>.parameters[<span class="st">'x'</span>])  <span class="co"># Generate a new neighborhood</span></span>
+<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a>            improved <span class="op">=</span> <span class="va">False</span>  <span class="co"># Flag to check if an improvement was found in the inner loop</span></span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> y <span class="kw">in</span> nh:  <span class="co"># Inner loop to search through the neighborhood</span></span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Insert first element of nh in x</span></span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.parameters[<span class="st">'x'</span>] <span class="op">=</span> y.copy()</span>
+<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a>                logging.info(<span class="ss">f"Test schedule = </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>parameters[<span class="st">'x'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Set starting state</span></span>
+<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.state <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a>                <span class="co"># If start state is 0 reinitialize p_min, w and p_plus in state 0</span></span>
+<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>._initialize_system()</span>
+<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.calculate_system_states(until<span class="op">=</span><span class="bu">len</span>(<span class="va">self</span>.parameters[<span class="st">'x'</span>]))</span>
+<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a>                logging.info(<span class="st">"System recalculated"</span>)</span>
+<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.calculate_wait_times()</span>
+<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a>                test_wt <span class="op">=</span> <span class="va">self</span>.system[<span class="st">"ew"</span>].<span class="bu">sum</span>()</span>
+<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a>                logging.info(<span class="ss">f"Average waiting time=</span><span class="sc">{</span>test_wt <span class="op">/</span> <span class="va">self</span><span class="sc">.</span>parameters[<span class="st">'x'</span>]<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.calculate_tardiness()</span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a>                indices <span class="op">=</span> np.arange(<span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="op">-</span><span class="dv">1</span>].size) </span>
+<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a>                exp_tard <span class="op">=</span> (indices <span class="op">*</span> <span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="op">-</span><span class="dv">1</span>]).<span class="bu">sum</span>()</span>
+<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a>                logging.info(<span class="ss">f'Expected tardiness=</span><span class="sc">{</span>exp_tard<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a>                test_loss <span class="op">=</span> omega <span class="op">*</span> test_wt <span class="op">/</span> <span class="va">self</span>.parameters[<span class="st">'x'</span>].<span class="bu">sum</span>() <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> omega) <span class="op">*</span> exp_tard</span>
+<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a>                logging.info(<span class="ss">f'obj_value = </span><span class="sc">{</span>test_loss<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a>                <span class="co"># If a neighborhood with a lower waiting time is found, store the system</span></span>
+<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span>(test_loss <span class="op">&lt;</span> lowest_loss):</span>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a>                    lowest_loss <span class="op">=</span> test_loss</span>
+<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a>                    store_optim[<span class="st">'x'</span>] <span class="op">=</span> <span class="va">self</span>.parameters[<span class="st">'x'</span>].copy()</span>
+<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a>                    newsystem <span class="op">=</span> copy.deepcopy(<span class="va">self</span>.system)</span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a>                    store_optim[<span class="st">'system'</span>] <span class="op">=</span> newsystem</span>
+<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a>                    store_optim[<span class="st">'tot_wt'</span>] <span class="op">=</span> test_wt</span>
+<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a>                    logging.info(<span class="ss">f'</span><span class="sc">{</span>datetime<span class="sc">.</span>datetime<span class="sc">.</span>now()<span class="sc">}</span><span class="ss"> - Found lower loss = </span><span class="sc">{</span>lowest_loss<span class="sc">}</span><span class="ss"> with x = </span><span class="sc">{</span>store_optim[<span class="st">"x"</span>]<span class="sc">}</span><span class="ss"> and system = </span><span class="sc">{</span>store_optim[<span class="st">"system"</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a>                    improved <span class="op">=</span> <span class="va">True</span>  <span class="co"># Set the flag because an improvement was found</span></span>
+<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">break</span>  <span class="co"># Exit the inner loop to generate a new neighborhood</span></span>
+<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> improved:  <span class="co"># If no improvement was found in the inner loop</span></span>
+<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a>                logging.info(<span class="ss">f'Finished searching'</span>)</span>
+<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Set the system to the stored optimal system </span></span>
+<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a>                logging.info(<span class="ss">f'</span><span class="sc">{</span>datetime<span class="sc">.</span>datetime<span class="sc">.</span>now()<span class="sc">}</span><span class="ss"> - Final result lowest loss = </span><span class="sc">{</span>lowest_loss<span class="sc">}</span><span class="ss"> with x = </span><span class="sc">{</span>store_optim[<span class="st">"x"</span>]<span class="sc">}</span><span class="ss"> and system = </span><span class="sc">{</span>store_optim[<span class="st">"system"</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.parameters[<span class="st">'x'</span>] <span class="op">=</span> store_optim[<span class="st">'x'</span>].copy()</span>
+<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.system[<span class="st">'p_min'</span>] <span class="op">=</span> store_optim[<span class="st">'system'</span>][<span class="st">'p_min'</span>]</span>
+<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.system[<span class="st">'p_plus'</span>] <span class="op">=</span> store_optim[<span class="st">'system'</span>][<span class="st">'p_plus'</span>]</span>
+<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.system[<span class="st">'w'</span>] <span class="op">=</span> store_optim[<span class="st">'system'</span>][<span class="st">'w'</span>]</span>
+<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.system[<span class="st">'ew'</span>] <span class="op">=</span> store_optim[<span class="st">'system'</span>][<span class="st">'ew'</span>]</span>
+<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span>  <span class="co"># Exit the outer loop - the search is complete</span></span>
+<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> small_local_search(<span class="va">self</span>):</span>
+<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a>          <span class="co">"""</span></span>
+<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a><span class="co">          Generate for a given schedule a local search environment, establish for each schedule in the environment the lowest total waiting time, if a schedule with a lower waiting time is found, use this schedule to generate a new local environment and search this environment for lower waiting times. When a local environment contains no schedules with lower waiting stop searching.  </span></span>
+<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a><span class="co">          """</span></span>
+<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a>          omega <span class="op">=</span> <span class="va">self</span>.parameters[<span class="st">'omega'</span>]</span>
+<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a>          <span class="co"># Calculate initial loss</span></span>
+<span id="cb3-191"><a href="#cb3-191" aria-hidden="true" tabindex="-1"></a>          test_wt <span class="op">=</span> <span class="va">self</span>.system[<span class="st">"ew"</span>].<span class="bu">sum</span>()</span>
+<span id="cb3-192"><a href="#cb3-192" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.calculate_tardiness()</span>
+<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a>          indices <span class="op">=</span> np.arange(<span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="op">-</span><span class="dv">1</span>].size) </span>
+<span id="cb3-194"><a href="#cb3-194" aria-hidden="true" tabindex="-1"></a>          exp_tard <span class="op">=</span> (indices <span class="op">*</span> <span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="op">-</span><span class="dv">1</span>]).<span class="bu">sum</span>()</span>
+<span id="cb3-195"><a href="#cb3-195" aria-hidden="true" tabindex="-1"></a>          lowest_loss <span class="op">=</span> omega <span class="op">*</span> test_wt <span class="op">/</span> <span class="va">self</span>.parameters[<span class="st">'x'</span>].<span class="bu">sum</span>() <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> omega) <span class="op">*</span> exp_tard</span>
+<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a>          store_optim <span class="op">=</span> <span class="bu">dict</span>({ <span class="st">'x'</span> : <span class="va">self</span>.parameters[<span class="st">'x'</span>].copy(), <span class="st">'system'</span> : copy.deepcopy(<span class="va">self</span>.system), <span class="st">'tot_wt'</span> : test_wt})</span>
+<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a>          <span class="co"># Continue the search until no improvement is found</span></span>
+<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a>          <span class="cf">while</span> <span class="va">True</span>:  <span class="co"># Start an outer loop that will continue until explicitly broken</span></span>
+<span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a>              nh <span class="op">=</span> generate_small_search_neighborhood(<span class="va">self</span>.parameters[<span class="st">'x'</span>])  <span class="co"># Generate a new neighborhood</span></span>
+<span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a>              improved <span class="op">=</span> <span class="va">False</span>  <span class="co"># Flag to check if an improvement was found in the inner loop</span></span>
+<span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a>              </span>
+<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a>              <span class="cf">for</span> y <span class="kw">in</span> nh:  <span class="co"># Inner loop to search through the neighborhood</span></span>
+<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a>                  <span class="co"># Insert first element of nh in x</span></span>
+<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a>                  <span class="va">self</span>.parameters[<span class="st">'x'</span>] <span class="op">=</span> y.copy()</span>
+<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a>                  logging.info(<span class="ss">f"Test schedule = </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>parameters[<span class="st">'x'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a>                  <span class="co"># Set starting state</span></span>
+<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a>                  <span class="va">self</span>.state <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a>                  <span class="co"># If start state is 0 reinitialize p_min, w and p_plus in state 0</span></span>
+<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a>                  <span class="cf">if</span>(<span class="va">self</span>.state <span class="op">==</span> <span class="dv">0</span>):</span>
+<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a>                      <span class="va">self</span>.system <span class="op">=</span> <span class="bu">dict</span>({</span>
+<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a>                          <span class="st">'p_min'</span>: np.zeros((<span class="bu">len</span>(<span class="va">self</span>.parameters[<span class="st">'x'</span>]) <span class="op">+</span> <span class="dv">1</span>, <span class="bu">len</span>(<span class="va">self</span>.parameters[<span class="st">'s'</span>])), dtype<span class="op">=</span>np.float64),</span>
+<span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a>                          <span class="st">'p_plus'</span>: np.zeros((<span class="bu">len</span>(<span class="va">self</span>.parameters[<span class="st">'x'</span>]), <span class="bu">len</span>(<span class="va">self</span>.parameters[<span class="st">'s'</span>])), dtype<span class="op">=</span>np.float64)</span>
+<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a>                      })</span>
+<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a>                      <span class="co"># Set the first element of p_min in the initial state to 1.</span></span>
+<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a>                      <span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a>                      <span class="co"># Initialize array of arrays for saving waiting times distributions per patient</span></span>
+<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a>                      <span class="va">self</span>.system[<span class="st">'w'</span>] <span class="op">=</span> zero_arrays(<span class="va">self</span>.parameters[<span class="st">'x'</span>].copy(), <span class="bu">len</span>(<span class="va">self</span>.parameters[<span class="st">'s'</span>]))</span>
+<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a>                      <span class="cf">if</span>(<span class="va">self</span>.parameters[<span class="st">'x'</span>][<span class="dv">0</span>] <span class="op">&gt;</span> <span class="dv">0</span>): <span class="co"># Only calculate waiting times if there are patients scheduled in the state</span></span>
+<span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a>                               <span class="va">self</span>.system[<span class="st">'w'</span>][<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">=</span> <span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="dv">0</span>].copy()</span>
+<span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a>                               <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="va">self</span>.parameters[<span class="st">'x'</span>][<span class="dv">0</span>]):</span>
+<span id="cb3-222"><a href="#cb3-222" aria-hidden="true" tabindex="-1"></a>                                      <span class="va">self</span>.system[<span class="st">'w'</span>][<span class="dv">0</span>][i] <span class="op">=</span> np.convolve(<span class="va">self</span>.system[<span class="st">'w'</span>][<span class="dv">0</span>][i<span class="op">-</span><span class="dv">1</span>], <span class="va">self</span>.parameters[<span class="st">'s'</span>])[:(<span class="bu">len</span>(<span class="va">self</span>.parameters[<span class="st">'s'</span>]))]</span>
+<span id="cb3-223"><a href="#cb3-223" aria-hidden="true" tabindex="-1"></a>                      <span class="va">self</span>.system[<span class="st">'p_plus'</span>][<span class="dv">0</span>] <span class="op">=</span> <span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="dv">0</span>].copy() <span class="cf">if</span> <span class="va">self</span>.parameters[<span class="st">'x'</span>][<span class="dv">0</span>] <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> np.convolve(<span class="va">self</span>.system[<span class="st">'w'</span>][<span class="dv">0</span>][<span class="op">-</span><span class="dv">1</span>], <span class="va">self</span>.parameters[<span class="st">'s'</span>])[:(<span class="bu">len</span>(<span class="va">self</span>.parameters[<span class="st">'s'</span>]))]</span>
+<span id="cb3-224"><a href="#cb3-224" aria-hidden="true" tabindex="-1"></a>                      <span class="co"># Initialize array for saving total expected waiting times per state</span></span>
+<span id="cb3-225"><a href="#cb3-225" aria-hidden="true" tabindex="-1"></a>                      <span class="va">self</span>.system[<span class="st">'ew'</span>] <span class="op">=</span> np.zeros(<span class="bu">len</span>(<span class="va">self</span>.parameters[<span class="st">'x'</span>]), dtype<span class="op">=</span>np.float64)</span>
+<span id="cb3-226"><a href="#cb3-226" aria-hidden="true" tabindex="-1"></a>                      <span class="co"># Set the initial state to 1.</span></span>
+<span id="cb3-227"><a href="#cb3-227" aria-hidden="true" tabindex="-1"></a>                      <span class="va">self</span>.state <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb3-228"><a href="#cb3-228" aria-hidden="true" tabindex="-1"></a>                  <span class="va">self</span>.calculate_system_states(until<span class="op">=</span><span class="bu">len</span>(<span class="va">self</span>.parameters[<span class="st">'x'</span>]))</span>
+<span id="cb3-229"><a href="#cb3-229" aria-hidden="true" tabindex="-1"></a>                  logging.info(<span class="st">"System recalculated"</span>)</span>
+<span id="cb3-230"><a href="#cb3-230" aria-hidden="true" tabindex="-1"></a>                  <span class="va">self</span>.calculate_wait_times()</span>
+<span id="cb3-231"><a href="#cb3-231" aria-hidden="true" tabindex="-1"></a>                  test_wt <span class="op">=</span> <span class="va">self</span>.system[<span class="st">"ew"</span>].<span class="bu">sum</span>()</span>
+<span id="cb3-232"><a href="#cb3-232" aria-hidden="true" tabindex="-1"></a>                  logging.info(<span class="ss">f"Average waiting time=</span><span class="sc">{</span>test_wt <span class="op">/</span> <span class="va">self</span><span class="sc">.</span>parameters[<span class="st">'x'</span>]<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-233"><a href="#cb3-233" aria-hidden="true" tabindex="-1"></a>                  <span class="va">self</span>.calculate_tardiness()</span>
+<span id="cb3-234"><a href="#cb3-234" aria-hidden="true" tabindex="-1"></a>                  indices <span class="op">=</span> np.arange(<span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="op">-</span><span class="dv">1</span>].size) </span>
+<span id="cb3-235"><a href="#cb3-235" aria-hidden="true" tabindex="-1"></a>                  exp_tard <span class="op">=</span> (indices <span class="op">*</span> <span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="op">-</span><span class="dv">1</span>]).<span class="bu">sum</span>()</span>
+<span id="cb3-236"><a href="#cb3-236" aria-hidden="true" tabindex="-1"></a>                  logging.info(<span class="ss">f'Expected tardiness=</span><span class="sc">{</span>exp_tard<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-237"><a href="#cb3-237" aria-hidden="true" tabindex="-1"></a>                  test_loss <span class="op">=</span> omega <span class="op">*</span> test_wt <span class="op">/</span> <span class="va">self</span>.parameters[<span class="st">'x'</span>].<span class="bu">sum</span>() <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> omega) <span class="op">*</span> exp_tard</span>
+<span id="cb3-238"><a href="#cb3-238" aria-hidden="true" tabindex="-1"></a>                  logging.info(<span class="ss">f'obj_value = </span><span class="sc">{</span>test_loss<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-239"><a href="#cb3-239" aria-hidden="true" tabindex="-1"></a>                  <span class="co"># If a schedule with a lower waiting time is found, store the system</span></span>
+<span id="cb3-240"><a href="#cb3-240" aria-hidden="true" tabindex="-1"></a>                  <span class="cf">if</span>(test_loss <span class="op">&lt;</span> lowest_loss):</span>
+<span id="cb3-241"><a href="#cb3-241" aria-hidden="true" tabindex="-1"></a>                    lowest_loss <span class="op">=</span> test_loss</span>
+<span id="cb3-242"><a href="#cb3-242" aria-hidden="true" tabindex="-1"></a>                    store_optim[<span class="st">'x'</span>] <span class="op">=</span> <span class="va">self</span>.parameters[<span class="st">'x'</span>].copy()</span>
+<span id="cb3-243"><a href="#cb3-243" aria-hidden="true" tabindex="-1"></a>                    newsystem <span class="op">=</span> copy.deepcopy(<span class="va">self</span>.system)</span>
+<span id="cb3-244"><a href="#cb3-244" aria-hidden="true" tabindex="-1"></a>                    store_optim[<span class="st">'system'</span>] <span class="op">=</span> newsystem</span>
+<span id="cb3-245"><a href="#cb3-245" aria-hidden="true" tabindex="-1"></a>                    store_optim[<span class="st">'tot_wt'</span>] <span class="op">=</span> test_wt</span>
+<span id="cb3-246"><a href="#cb3-246" aria-hidden="true" tabindex="-1"></a>                    logging.info(<span class="ss">f'</span><span class="sc">{</span>datetime<span class="sc">.</span>datetime<span class="sc">.</span>now()<span class="sc">}</span><span class="ss"> - Found lower loss = </span><span class="sc">{</span>lowest_loss<span class="sc">}</span><span class="ss"> with x = </span><span class="sc">{</span>store_optim[<span class="st">"x"</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-247"><a href="#cb3-247" aria-hidden="true" tabindex="-1"></a>                    improved <span class="op">=</span> <span class="va">True</span>  <span class="co"># Set the flag because an improvement was found</span></span>
+<span id="cb3-248"><a href="#cb3-248" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">break</span>  <span class="co"># Exit the inner loop to generate a new neighborhood</span></span>
+<span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a>              </span>
+<span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a>              <span class="cf">if</span> <span class="kw">not</span> improved:  <span class="co"># If no improvement was found in the inner loop</span></span>
+<span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a>                logging.info(<span class="ss">f'Finished searching'</span>)</span>
+<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Set the system to the stored optimal system </span></span>
+<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a>                logging.info(<span class="ss">f'</span><span class="sc">{</span>datetime<span class="sc">.</span>datetime<span class="sc">.</span>now()<span class="sc">}</span><span class="ss"> - Final result lowest loss = </span><span class="sc">{</span>lowest_loss<span class="sc">}</span><span class="ss"> with x = </span><span class="sc">{</span>store_optim[<span class="st">"x"</span>]<span class="sc">}</span><span class="ss"> and system = </span><span class="sc">{</span>store_optim[<span class="st">"system"</span>]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.parameters[<span class="st">'x'</span>] <span class="op">=</span> store_optim[<span class="st">'x'</span>].copy()</span>
+<span id="cb3-255"><a href="#cb3-255" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.system[<span class="st">'p_min'</span>] <span class="op">=</span> store_optim[<span class="st">'system'</span>][<span class="st">'p_min'</span>]</span>
+<span id="cb3-256"><a href="#cb3-256" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.system[<span class="st">'p_plus'</span>] <span class="op">=</span> store_optim[<span class="st">'system'</span>][<span class="st">'p_plus'</span>]</span>
+<span id="cb3-257"><a href="#cb3-257" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.system[<span class="st">'w'</span>] <span class="op">=</span> store_optim[<span class="st">'system'</span>][<span class="st">'w'</span>]</span>
+<span id="cb3-258"><a href="#cb3-258" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.system[<span class="st">'ew'</span>] <span class="op">=</span> store_optim[<span class="st">'system'</span>][<span class="st">'ew'</span>]</span>
+<span id="cb3-259"><a href="#cb3-259" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span>  <span class="co"># Exit the outer loop - the search is complete</span></span>
+<span id="cb3-260"><a href="#cb3-260" aria-hidden="true" tabindex="-1"></a>          </span>
+<span id="cb3-261"><a href="#cb3-261" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> calculate_tardiness(<span class="va">self</span>):</span>
+<span id="cb3-262"><a href="#cb3-262" aria-hidden="true" tabindex="-1"></a>      <span class="co">"""</span></span>
+<span id="cb3-263"><a href="#cb3-263" aria-hidden="true" tabindex="-1"></a><span class="co">      Calculate the tardiness for the current system and add it as the last element to p_min - the distribution of work in interval t just before any patient has arrived. </span></span>
+<span id="cb3-264"><a href="#cb3-264" aria-hidden="true" tabindex="-1"></a><span class="co">      """</span></span>
+<span id="cb3-265"><a href="#cb3-265" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="op">-</span><span class="dv">1</span>][<span class="dv">0</span>] <span class="op">=</span> np.<span class="bu">sum</span>(<span class="va">self</span>.system[<span class="st">'p_plus'</span>][<span class="op">-</span><span class="dv">1</span>][:(<span class="va">self</span>.parameters[<span class="st">'d'</span>] <span class="op">+</span> <span class="dv">1</span>)])</span>
+<span id="cb3-266"><a href="#cb3-266" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.system[<span class="st">'p_min'</span>][<span class="op">-</span><span class="dv">1</span>][<span class="dv">1</span>:(<span class="op">-</span><span class="dv">1</span><span class="op">*</span><span class="va">self</span>.parameters[<span class="st">'d'</span>])] <span class="op">=</span> <span class="va">self</span>.system[<span class="st">'p_plus'</span>][<span class="op">-</span><span class="dv">1</span>][(<span class="va">self</span>.parameters[<span class="st">'d'</span>] <span class="op">+</span> <span class="dv">1</span>):]</span>
+<span id="cb3-267"><a href="#cb3-267" aria-hidden="true" tabindex="-1"></a>      <span class="co"># logging.info(f'{datetime.datetime.now()} - calculating tardiness distribution:  {self.system["p_min"][-1]}')</span></span>
+<span id="cb3-268"><a href="#cb3-268" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb3-269"><a href="#cb3-269" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-270"><a href="#cb3-270" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> calculate_wait_times(<span class="va">self</span>):</span>
+<span id="cb3-271"><a href="#cb3-271" aria-hidden="true" tabindex="-1"></a>      <span class="co">"""</span></span>
+<span id="cb3-272"><a href="#cb3-272" aria-hidden="true" tabindex="-1"></a><span class="co">      Calculate the expected waiting time for each time step.</span></span>
+<span id="cb3-273"><a href="#cb3-273" aria-hidden="true" tabindex="-1"></a><span class="co">      """</span></span>
+<span id="cb3-274"><a href="#cb3-274" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span> interval, wtdists <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.system[<span class="st">'w'</span>]):</span>
+<span id="cb3-275"><a href="#cb3-275" aria-hidden="true" tabindex="-1"></a>          ew <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-276"><a href="#cb3-276" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span> nr, dist <span class="kw">in</span> <span class="bu">enumerate</span>(wtdists):</span>
+<span id="cb3-277"><a href="#cb3-277" aria-hidden="true" tabindex="-1"></a>              <span class="co"># Calculate the weighted sum of the waiting time distribution</span></span>
+<span id="cb3-278"><a href="#cb3-278" aria-hidden="true" tabindex="-1"></a>              a <span class="op">=</span> <span class="bu">range</span>(<span class="bu">len</span>(dist))</span>
+<span id="cb3-279"><a href="#cb3-279" aria-hidden="true" tabindex="-1"></a>              b <span class="op">=</span> dist</span>
+<span id="cb3-280"><a href="#cb3-280" aria-hidden="true" tabindex="-1"></a>              meanwt <span class="op">=</span> np.dot(a, b)</span>
+<span id="cb3-281"><a href="#cb3-281" aria-hidden="true" tabindex="-1"></a>              logging.info(<span class="ss">f"Mean waiting time for patient </span><span class="sc">{</span>nr<span class="sc">}</span><span class="ss"> in interval </span><span class="sc">{</span>interval<span class="sc">}</span><span class="ss"> = </span><span class="sc">{</span>meanwt<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-282"><a href="#cb3-282" aria-hidden="true" tabindex="-1"></a>              ew <span class="op">+=</span> meanwt</span>
+<span id="cb3-283"><a href="#cb3-283" aria-hidden="true" tabindex="-1"></a>          <span class="co"># Store the expected waiting time for the current time step</span></span>
+<span id="cb3-284"><a href="#cb3-284" aria-hidden="true" tabindex="-1"></a>          <span class="va">self</span>.system[<span class="st">'ew'</span>][interval] <span class="op">=</span> ew</span>
+<span id="cb3-285"><a href="#cb3-285" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-286"><a href="#cb3-286" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-287"><a href="#cb3-287" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> visualize_state(<span class="va">self</span>, state<span class="op">=</span><span class="st">''</span>, dist<span class="op">=</span><span class="st">'p_plus'</span>):</span>
+<span id="cb3-288"><a href="#cb3-288" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb3-289"><a href="#cb3-289" aria-hidden="true" tabindex="-1"></a><span class="co">        Visualize a distribution in the last given state.</span></span>
+<span id="cb3-290"><a href="#cb3-290" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb3-291"><a href="#cb3-291" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb3-292"><a href="#cb3-292" aria-hidden="true" tabindex="-1"></a><span class="co">        state (int): An optional integer representing the state to visualize. If not provided, the current state is used.</span></span>
+<span id="cb3-293"><a href="#cb3-293" aria-hidden="true" tabindex="-1"></a><span class="co">        dist (str): An optional string representing the distribution to visualize. Defaults to 'p_plus'.</span></span>
+<span id="cb3-294"><a href="#cb3-294" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb3-295"><a href="#cb3-295" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> state <span class="op">==</span> <span class="st">''</span>:</span>
+<span id="cb3-296"><a href="#cb3-296" aria-hidden="true" tabindex="-1"></a>            state <span class="op">=</span> <span class="va">self</span>.state</span>
+<span id="cb3-297"><a href="#cb3-297" aria-hidden="true" tabindex="-1"></a>        trace <span class="op">=</span> go.Scatter(</span>
+<span id="cb3-298"><a href="#cb3-298" aria-hidden="true" tabindex="-1"></a>            x<span class="op">=</span><span class="bu">list</span>(<span class="bu">range</span>(<span class="bu">len</span>(<span class="va">self</span>.system[dist][state]))),</span>
+<span id="cb3-299"><a href="#cb3-299" aria-hidden="true" tabindex="-1"></a>            y<span class="op">=</span><span class="va">self</span>.system[dist][state],</span>
+<span id="cb3-300"><a href="#cb3-300" aria-hidden="true" tabindex="-1"></a>            mode<span class="op">=</span><span class="st">'lines'</span></span>
+<span id="cb3-301"><a href="#cb3-301" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-302"><a href="#cb3-302" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-303"><a href="#cb3-303" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> [trace]</span>
+<span id="cb3-304"><a href="#cb3-304" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-305"><a href="#cb3-305" aria-hidden="true" tabindex="-1"></a>        layout <span class="op">=</span> go.Layout(</span>
+<span id="cb3-306"><a href="#cb3-306" aria-hidden="true" tabindex="-1"></a>            title<span class="op">=</span><span class="ss">f'</span><span class="sc">{</span>dist<span class="sc">}</span><span class="ss"> in state </span><span class="sc">{</span>state<span class="sc">}</span><span class="ss"> with x = </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>parameters[<span class="st">"x"</span>]<span class="sc">}</span><span class="ss">&lt;br&gt;&lt;sub&gt;AUR = </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(np.<span class="bu">sum</span>(<span class="va">self</span>.system[dist][state]), <span class="dv">3</span>)<span class="sc">}</span><span class="ss">&lt;/sub&gt;'</span>,</span>
+<span id="cb3-307"><a href="#cb3-307" aria-hidden="true" tabindex="-1"></a>            xaxis<span class="op">=</span><span class="bu">dict</span>(title<span class="op">=</span><span class="st">'Time'</span>),</span>
+<span id="cb3-308"><a href="#cb3-308" aria-hidden="true" tabindex="-1"></a>            yaxis<span class="op">=</span><span class="bu">dict</span>(title<span class="op">=</span><span class="st">'Probability'</span>)</span>
+<span id="cb3-309"><a href="#cb3-309" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-310"><a href="#cb3-310" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-311"><a href="#cb3-311" aria-hidden="true" tabindex="-1"></a>        fig <span class="op">=</span> go.Figure(data<span class="op">=</span>data, layout<span class="op">=</span>layout)</span>
+<span id="cb3-312"><a href="#cb3-312" aria-hidden="true" tabindex="-1"></a>        pyo.iplot(fig)</span>
+<span id="cb3-313"><a href="#cb3-313" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-314"><a href="#cb3-314" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> visualize_system(<span class="va">self</span>, dist<span class="op">=</span><span class="st">'p_plus'</span>):</span>
+<span id="cb3-315"><a href="#cb3-315" aria-hidden="true" tabindex="-1"></a>        l <span class="op">=</span> <span class="bu">len</span>(<span class="va">self</span>.parameters[<span class="st">"x"</span>])</span>
+<span id="cb3-316"><a href="#cb3-316" aria-hidden="true" tabindex="-1"></a>        suffix <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb3-317"><a href="#cb3-317" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(dist<span class="op">==</span><span class="st">'p_min'</span>): suffix <span class="op">=</span> <span class="ss">f'&lt;br&gt;NB: p_min[</span><span class="sc">{</span>l<span class="sc">}</span><span class="ss">] contains tardiness distribution'</span></span>
+<span id="cb3-318"><a href="#cb3-318" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb3-319"><a href="#cb3-319" aria-hidden="true" tabindex="-1"></a><span class="co">        Visualize a distribution for the entire system.</span></span>
+<span id="cb3-320"><a href="#cb3-320" aria-hidden="true" tabindex="-1"></a><span class="co">        </span></span>
+<span id="cb3-321"><a href="#cb3-321" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb3-322"><a href="#cb3-322" aria-hidden="true" tabindex="-1"></a><span class="co">        dist (str): An optional string representing the distribution to visualize. Defaults to 'p_plus'.</span></span>
+<span id="cb3-323"><a href="#cb3-323" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb3-324"><a href="#cb3-324" aria-hidden="true" tabindex="-1"></a>        values <span class="op">=</span> <span class="va">self</span>.system[dist]</span>
+<span id="cb3-325"><a href="#cb3-325" aria-hidden="true" tabindex="-1"></a>        trace <span class="op">=</span> go.Heatmap(</span>
+<span id="cb3-326"><a href="#cb3-326" aria-hidden="true" tabindex="-1"></a>                    z<span class="op">=</span>values,</span>
+<span id="cb3-327"><a href="#cb3-327" aria-hidden="true" tabindex="-1"></a>                    colorscale<span class="op">=</span>[</span>
+<span id="cb3-328"><a href="#cb3-328" aria-hidden="true" tabindex="-1"></a>                      [<span class="dv">0</span>, <span class="st">'white'</span>],  <span class="co"># white color at the bottom</span></span>
+<span id="cb3-329"><a href="#cb3-329" aria-hidden="true" tabindex="-1"></a>                      [<span class="dv">1</span>, <span class="st">'red'</span>]     <span class="co"># red color at the top</span></span>
+<span id="cb3-330"><a href="#cb3-330" aria-hidden="true" tabindex="-1"></a>                    ]</span>
+<span id="cb3-331"><a href="#cb3-331" aria-hidden="true" tabindex="-1"></a>                    )</span>
+<span id="cb3-332"><a href="#cb3-332" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> [trace]</span>
+<span id="cb3-333"><a href="#cb3-333" aria-hidden="true" tabindex="-1"></a>        layout <span class="op">=</span> go.Layout(</span>
+<span id="cb3-334"><a href="#cb3-334" aria-hidden="true" tabindex="-1"></a>            title<span class="op">=</span><span class="ss">f'</span><span class="sc">{</span>dist<span class="sc">}</span><span class="ss"> with x = </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>parameters[<span class="st">"x"</span>]<span class="sc">}{</span>suffix<span class="sc">}</span><span class="ss">'</span>,</span>
+<span id="cb3-335"><a href="#cb3-335" aria-hidden="true" tabindex="-1"></a>            xaxis<span class="op">=</span><span class="bu">dict</span>(title<span class="op">=</span><span class="st">'Time'</span>),</span>
+<span id="cb3-336"><a href="#cb3-336" aria-hidden="true" tabindex="-1"></a>            yaxis<span class="op">=</span><span class="bu">dict</span>(title<span class="op">=</span><span class="st">'Interval'</span>)</span>
+<span id="cb3-337"><a href="#cb3-337" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-338"><a href="#cb3-338" aria-hidden="true" tabindex="-1"></a>        fig <span class="op">=</span> go.Figure(data<span class="op">=</span>data, layout<span class="op">=</span>layout)</span>
+<span id="cb3-339"><a href="#cb3-339" aria-hidden="true" tabindex="-1"></a>        pyo.iplot(fig)</span>
+<span id="cb3-340"><a href="#cb3-340" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb3-341"><a href="#cb3-341" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__str__</span>(<span class="va">self</span>):</span>
+<span id="cb3-342"><a href="#cb3-342" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""</span></span>
+<span id="cb3-343"><a href="#cb3-343" aria-hidden="true" tabindex="-1"></a><span class="co">        Print all probabilities</span></span>
+<span id="cb3-344"><a href="#cb3-344" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb3-345"><a href="#cb3-345" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span>(<span class="st">"p_min = </span><span class="sc">% s</span><span class="st"> </span><span class="ch">\n</span><span class="st">w = </span><span class="sc">% s</span><span class="st"> </span><span class="ch">\n</span><span class="st">p_plus = </span><span class="sc">% s</span><span class="st"> </span><span class="ch">\n</span><span class="st">ew = </span><span class="sc">% s</span><span class="st">"</span> <span class="op">%</span> (<span class="va">self</span>.system[<span class="st">'p_min'</span>], <span class="va">self</span>.system[<span class="st">'w'</span>], <span class="va">self</span>.system[<span class="st">'p_plus'</span>], <span class="va">self</span>.system[<span class="st">'ew'</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This Python class, named <strong><code>Schedule</code></strong>, simulates a scheduling system. Itis be used for analyzing a scheduling system that has time intervals with varying numbers of scheduled patients.</p>
+<p>Here’s a breakdown of what happens in the class:</p>
+<ol type="1">
+<li><p><strong>Initialization (<code>__init__</code>):</strong> In the initialization function, parameters <strong><code>x</code></strong>, <strong><code>d</code></strong>, <strong><code>s</code></strong> are set which represent the patients scheduled in each interval, the interval length, and the service time distribution, respectively. It also initializes certain elements of the <strong><code>system</code></strong> dictionary such as <strong><code>p_min</code></strong>, <strong><code>p_plus</code></strong>, and <strong><code>w</code></strong> which are used for storing the distributions of work in the system at the start and end of each state and the distributions of waiting times of each patient.</p></li>
+<li><p><strong><code>calculate_system_states</code>:</strong> This function is used to calculate the system states. This involves calculation of the amount of work left in the system just before the start of each state (<strong><code>p_min</code></strong>) and just before the end of each state (<strong><code>p_plus</code></strong>), along with the waiting time distributions of patients (<strong><code>w</code></strong>) using convolution. The <strong><code>until</code></strong> parameter can be used to control until which state the system states should be calculated.</p></li>
+<li><p><strong><code>impute_compositions</code>:</strong> This function changes the scheduling of patients (represented by the array <strong><code>x</code></strong>) for a certain number of intervals (<strong><code>k</code></strong> intervals starting from interval <strong><code>s</code></strong>). All possible ways of distributing a certain number of patients (<strong><code>n</code></strong>) over the intervals are generated (<strong><code>compositions</code></strong>), for each possible distribution the system states are recalculated and the schedule with the lowest total waiting time is established. <em>NB: The system only requires recalculation starting from interval ‘s’, because the schedule has not changed before that that interval.</em></p></li>
+<li><p><strong><code>search_function(k)</code>:</strong> This function invokes <code>impute_compositions()</code> for different start states to find the optimal schedule with the lowest waiting time.</p></li>
+<li><p><strong><code>calculate_wait_times</code>:</strong> This function calculates the expected waiting times for each interval by adding up the expected waiting times of all tasks in the interval.</p></li>
+<li><p><strong><code>visualize_state</code> and <code>visualize_system</code>:</strong> These functions are used to visualize a certain distribution (<strong><code>p_min</code></strong>, <strong><code>p_plus</code></strong>, or <strong><code>w</code></strong>) for a certain state or for all states in a heat map. The visualization is done using Plotly.</p></li>
+<li><p><strong><code>__str__</code>:</strong> This function is used to get a string representation of the schedule instance, which shows the values of the <strong><code>p_min</code></strong>, <strong><code>w</code></strong>, <strong><code>p_plus</code></strong>, and <strong><code>ew</code></strong> arrays.</p></li>
+</ol>
+<div id="96956e14" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_schedule(x, d, s, q, omega, print_system<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    schedule <span class="op">=</span> Schedule(x<span class="op">=</span>x, d<span class="op">=</span>d, s<span class="op">=</span>s, q<span class="op">=</span>q, omega<span class="op">=</span>omega)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    schedule.calculate_system_states(until<span class="op">=</span><span class="bu">len</span>(x))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    schedule.calculate_wait_times()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    schedule.calculate_loss()</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(print_system): <span class="bu">print</span>(schedule)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(schedule)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="25b88710" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">"""Simple test case"""</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>q <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>omega <span class="op">=</span> <span class="fl">0.6</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>s<span class="op">=</span>np.array(</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>, <span class="fl">0.15</span>, <span class="fl">0.05</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>], dtype<span class="op">=</span>np.float64)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># s= service_time_with_no_shows(s, q)</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>indices <span class="op">=</span> np.arange(s.size)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>exp_s <span class="op">=</span> (indices <span class="op">*</span> s).<span class="bu">sum</span>()</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'exp_s = </span><span class="sc">{</span>exp_s<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>exp_s = 2.25</code></pre>
+</div>
+</div>
+<div id="ba974f94" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>schedules <span class="op">=</span> generate_schedules(N)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> {<span class="st">'x0'</span>: [], <span class="st">'x1'</span>: [], <span class="st">'x2'</span>: [], <span class="st">'loss'</span>: []}</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> schedule <span class="kw">in</span> schedules:</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> np.array(schedule, dtype<span class="op">=</span>np.int64)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  sch <span class="op">=</span> run_schedule(x, d, s, q, omega, <span class="va">False</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  x0, x1, x2 <span class="op">=</span> x</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  data[<span class="st">'x0'</span>].append(x0)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  data[<span class="st">'x1'</span>].append(x1)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  data[<span class="st">'x2'</span>].append(x2)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  data[<span class="st">'loss'</span>].append(sch.system[<span class="st">'loss'</span>])</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame.from_dict(data)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">x0</th>
+<th data-quarto-table-cell-role="th">x1</th>
+<th data-quarto-table-cell-role="th">x2</th>
+<th data-quarto-table-cell-role="th">loss</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
+<td>0</td>
+<td>6</td>
+<td>4.548829</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0</td>
+<td>1</td>
+<td>5</td>
+<td>4.417006</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0</td>
+<td>2</td>
+<td>4</td>
+<td>4.363485</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0</td>
+<td>3</td>
+<td>3</td>
+<td>4.541565</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0</td>
+<td>4</td>
+<td>2</td>
+<td>4.723808</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>0</td>
+<td>5</td>
+<td>1</td>
+<td>4.555431</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>0</td>
+<td>6</td>
+<td>0</td>
+<td>3.946096</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>1</td>
+<td>0</td>
+<td>5</td>
+<td>4.364368</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>1</td>
+<td>1</td>
+<td>4</td>
+<td>3.730667</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>3.552043</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>1</td>
+<td>3</td>
+<td>2</td>
+<td>3.743224</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>1</td>
+<td>4</td>
+<td>1</td>
+<td>3.867762</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>1</td>
+<td>5</td>
+<td>0</td>
+<td>3.534817</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>2</td>
+<td>0</td>
+<td>4</td>
+<td>3.860934</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>2</td>
+<td>1</td>
+<td>3</td>
+<td>3.365116</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>3.430555</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>2</td>
+<td>3</td>
+<td>1</td>
+<td>3.589480</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>2</td>
+<td>4</td>
+<td>0</td>
+<td>3.412492</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>3</td>
+<td>0</td>
+<td>3</td>
+<td>3.618120</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>3</td>
+<td>1</td>
+<td>2</td>
+<td>3.617519</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>3.758252</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>3</td>
+<td>3</td>
+<td>0</td>
+<td>3.595156</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>4</td>
+<td>0</td>
+<td>2</td>
+<td>3.730820</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>4</td>
+<td>1</td>
+<td>1</td>
+<td>3.910641</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">24</td>
+<td>4</td>
+<td>2</td>
+<td>0</td>
+<td>3.787802</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25</td>
+<td>5</td>
+<td>0</td>
+<td>1</td>
+<td>3.569059</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">26</td>
+<td>5</td>
+<td>1</td>
+<td>0</td>
+<td>3.703079</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">27</td>
+<td>6</td>
+<td>0</td>
+<td>0</td>
+<td>3.382490</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+<div id="ea75c083" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a 3D scatter plot with Plotly with arrows</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort the dataframe by 'loss' to find the 5th lowest and the lowest loss</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>sorted_df <span class="op">=</span> df.sort_values(by<span class="op">=</span><span class="st">'loss'</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the 3D scatter plot using Plotly Graph Objects</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> go.Figure()</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Add scatter plot</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>fig.add_trace(go.Scatter3d(</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>df[<span class="st">'x0'</span>], y<span class="op">=</span>df[<span class="st">'x1'</span>], z<span class="op">=</span>df[<span class="st">'x2'</span>],</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    mode<span class="op">=</span><span class="st">'markers'</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    marker<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        size<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        color<span class="op">=</span>df[<span class="st">'loss'</span>],</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        colorscale<span class="op">=</span><span class="st">'matter'</span>,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        showscale<span class="op">=</span><span class="va">False</span>  <span class="co"># Hide the colorbar)</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    text<span class="op">=</span>df[<span class="st">'loss'</span>],</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    hovertemplate<span class="op">=</span><span class="st">'[%</span><span class="sc">{x}</span><span class="st">, %</span><span class="sc">{y}</span><span class="st">, %</span><span class="sc">{z}</span><span class="st">] - loss = %</span><span class="sc">{text:.2f}</span><span class="st">'</span>,</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Add red arrows from the 5th lowest loss to the lowest loss point</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>):</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    fig.add_trace(go.Scatter3d(</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span>[sorted_df[<span class="st">'x0'</span>][i], sorted_df[<span class="st">'x0'</span>][i <span class="op">+</span> <span class="dv">1</span>]],</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=</span>[sorted_df[<span class="st">'x1'</span>][i], sorted_df[<span class="st">'x1'</span>][i <span class="op">+</span> <span class="dv">1</span>]],</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>        z<span class="op">=</span>[sorted_df[<span class="st">'x2'</span>][i], sorted_df[<span class="st">'x2'</span>][i <span class="op">+</span> <span class="dv">1</span>]],</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>        mode<span class="op">=</span><span class="st">'lines'</span>,</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>        line<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">'red'</span>, width<span class="op">=</span><span class="dv">4</span>),</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>        showlegend<span class="op">=</span><span class="va">False</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Update layout</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Solution landscape for schedule with N = </span><span class="sc">{}</span><span class="st"> and T = 3'</span>.<span class="bu">format</span>(N),</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>    scene<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>        xaxis_title<span class="op">=</span><span class="st">'x0'</span>,</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>        yaxis_title<span class="op">=</span><span class="st">'x1'</span>,</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>        zaxis_title<span class="op">=</span><span class="st">'x2'</span>,</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">800</span>,</span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">800</span>,</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>    showlegend<span class="op">=</span><span class="va">False</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a><span class="co">#fig.write_image("images/landscape-with-arrows.png", scale=4)</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>                            <div id="b452abac-edf1-44ea-9dc1-c7d14cb5ba42" class="plotly-graph-div" style="height:800px; width:800px;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("b452abac-edf1-44ea-9dc1-c7d14cb5ba42")) {                    Plotly.newPlot(                        "b452abac-edf1-44ea-9dc1-c7d14cb5ba42",                        [{"hovertemplate":"[%{x}, %{y}, %{z}] - loss = %{text:.2f}","marker":{"color":[4.548829250000001,4.417005625000001,4.3634853625000005,4.541565462500001,4.7238075,4.555431050000001,3.946096250000001,4.3643675,3.7306670000000004,3.5520432750000004,3.7432237500000003,3.8677623750000008,3.5348172750000004,3.8609335750000007,3.3651156750000006,3.4305549750000006,3.5894798000000003,3.4124919125000006,3.6181197000000007,3.617519325000001,3.7582523500000002,3.5951555375,3.730819800000001,3.9106409500000003,3.7878017500000003,3.569058750000001,3.703078900000001,3.3824895500000007],"colorscale":[[0.0,"rgb(253, 237, 176)"],[0.09090909090909091,"rgb(250, 205, 145)"],[0.18181818181818182,"rgb(246, 173, 119)"],[0.2727272727272727,"rgb(240, 142, 98)"],[0.36363636363636365,"rgb(231, 109, 84)"],[0.45454545454545453,"rgb(216, 80, 83)"],[0.5454545454545454,"rgb(195, 56, 90)"],[0.6363636363636364,"rgb(168, 40, 96)"],[0.7272727272727273,"rgb(138, 29, 99)"],[0.8181818181818182,"rgb(107, 24, 93)"],[0.9090909090909091,"rgb(76, 21, 80)"],[1.0,"rgb(47, 15, 61)"]],"showscale":false,"size":10},"mode":"markers","text":[4.548829250000001,4.417005625000001,4.3634853625000005,4.541565462500001,4.7238075,4.555431050000001,3.946096250000001,4.3643675,3.7306670000000004,3.5520432750000004,3.7432237500000003,3.8677623750000008,3.5348172750000004,3.8609335750000007,3.3651156750000006,3.4305549750000006,3.5894798000000003,3.4124919125000006,3.6181197000000007,3.617519325000001,3.7582523500000002,3.5951555375,3.730819800000001,3.9106409500000003,3.7878017500000003,3.569058750000001,3.703078900000001,3.3824895500000007],"x":[0,0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,5,5,6],"y":[0,1,2,3,4,5,6,0,1,2,3,4,5,0,1,2,3,4,0,1,2,3,0,1,2,0,1,0],"z":[6,5,4,3,2,1,0,5,4,3,2,1,0,4,3,2,1,0,3,2,1,0,2,1,0,1,0,0],"type":"scatter3d"},{"line":{"color":"red","width":4},"mode":"lines","showlegend":false,"x":[2,6],"y":[1,0],"z":[3,0],"type":"scatter3d"},{"line":{"color":"red","width":4},"mode":"lines","showlegend":false,"x":[6,2],"y":[0,4],"z":[0,0],"type":"scatter3d"},{"line":{"color":"red","width":4},"mode":"lines","showlegend":false,"x":[2,2],"y":[4,2],"z":[0,2],"type":"scatter3d"},{"line":{"color":"red","width":4},"mode":"lines","showlegend":false,"x":[2,1],"y":[2,5],"z":[2,0],"type":"scatter3d"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"title":{"text":"Solution landscape for schedule with N = 6 and T = 3"},"scene":{"xaxis":{"title":{"text":"x0"}},"yaxis":{"title":{"text":"x1"}},"zaxis":{"title":{"text":"x2"}}},"width":800,"height":800,"showlegend":false},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('b452abac-edf1-44ea-9dc1-c7d14cb5ba42');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+</div>
+
+
+
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-kaandorp_optimal_2007" class="csl-entry" role="listitem">
+Kaandorp, Guido C., and Ger Koole. 2007. <span>“Optimal Outpatient Appointment Scheduling.”</span> <em>Health Care Management Science</em> 10 (3): 217–29. <a href="https://doi.org/10.1007/s10729-007-9015-x">https://doi.org/10.1007/s10729-007-9015-x</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

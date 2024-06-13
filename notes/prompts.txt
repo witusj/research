@@ -6,7 +6,7 @@ Read the article in great detail. Extract from the article the following informa
         "Title": "string",
         "Authors": "string",
         "Year": "number",
-        "BibTeX ID": "first_author_last_name-first_word_in_title-year",
+        "BibTex ID": "first_author_last_name-first_word_in_title-year",
         "Modeling Approach": {
             "time slot length": ["fixed", "variable", "variable, results from schedule",],
             "schedule format": [
