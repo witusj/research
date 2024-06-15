@@ -23,8 +23,8 @@
                 "overtime": ["yes", "no"]
             }
         },
-        "Solution approach": "long text",
-        "Solution approach summary": "short text",
+        "Solution method": "long text",
+        "Solution method summary": "short text",
         "_log": "long text"
     }
 ]
