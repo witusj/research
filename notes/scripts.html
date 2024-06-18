@@ -1,29 +1,3 @@
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        fetch('methods.json')
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.getElementById('comparisonTable').getElementsByTagName('tbody')[0];
-
-                data.forEach(article => {
-                    const row = tableBody.insertRow();
-                    row.insertCell().textContent = article.Title;
-                    row.insertCell().textContent = article.Authors;
-                    row.insertCell().textContent = article.Year;
-                    row.insertCell().textContent = article["Modeling Approach"]["time slots"];
-                    row.insertCell().textContent = article["Modeling Approach"]["schedule format"];
-                    row.insertCell().textContent = article["Modeling Approach"]["service time"];
-                    row.insertCell().textContent = article["Modeling Approach"]["no-shows assumed"];
-                    row.insertCell().textContent = article["Modeling Approach"]["emergency patients assumed"];
-                    row.insertCell().textContent = article["Modeling Approach"]["punctuality assumed"];
-                    row.insertCell().textContent = article["Modeling Approach"]["objective function elements"]["waiting time"];
-                    row.insertCell().textContent = article["Modeling Approach"]["objective function elements"]["idle time"];
-                    row.insertCell().textContent = article["Modeling Approach"]["objective function elements"]["overtime"];
-                    row.insertCell().textContent = article["Solution approach"];
-                });
-            })
-            .catch(error => console.error('Error fetching the JSON data:', error));
-    });
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.js"></script>
