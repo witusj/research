@@ -804,3 +804,54 @@ fig.update_layout(
 fig.show()
 ```
 
+
+```{python}
+# Create a 3D scatter plot with Plotly with arrows
+
+# Sort the dataframe by 'loss' to find the 5th lowest and the lowest loss
+sorted_df = df.sort_values(by='loss').reset_index(drop=True)
+
+# Create the 3D scatter plot using Plotly Graph Objects
+fig = go.Figure()
+
+# Add scatter plot
+fig.add_trace(go.Scatter3d(
+    x=df['x0'], y=df['x1'], z=df['loss'],
+    mode='markers',
+    marker=dict(
+        size=10,
+        color=df['loss'],
+        colorscale='matter',
+        showscale=False  # Hide the colorbar)
+    ),
+    text=df['loss'],
+    hovertemplate='[%{x}, %{y}, %{z}] - loss = %{text:.2f}',
+))
+
+# Add red arrows from the 5th lowest loss to the lowest loss point
+for i in range(4):
+    fig.add_trace(go.Scatter3d(
+        x=[sorted_df['x0'][i], sorted_df['x0'][i + 1]],
+        y=[sorted_df['x1'][i], sorted_df['x1'][i + 1]],
+        z=[sorted_df['loss'][i], sorted_df['loss'][i + 1]],
+        mode='lines',
+        line=dict(color='red', width=4),
+        showlegend=False
+    ))
+
+# Update layout
+fig.update_layout(
+    title='Solution landscape for schedule with N = {} and T = 3'.format(N),
+    scene=dict(
+        xaxis_title='x0',
+        yaxis_title='x1',
+        zaxis_title='loss',
+    ),
+    width=800,
+    height=800,
+    showlegend=False
+)
+fig.write_image("images/landscape-with-arrows.png", scale=4)
+fig.show()
+```
+

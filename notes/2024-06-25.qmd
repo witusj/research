@@ -1,0 +1,199 @@
+---
+title: "2024-06-15"
+author: "Witek ten Hove"
+format:
+  html:
+    css: styles.css
+    html-math-method: katex
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+jupyter: python3
+editor: 
+  markdown: 
+    wrap: sentence
+---
+
+## OBP:
+
+Afspraken:
+
+-   [ ] We gaan verder kijken naar Simulation Optimization methodes
+
+-   [ ] Wellicht icm Gradient Boosting, mogelijk ML-toepassingen
+
+-   [ ] Onderzoeken wat de stand van zaken is mbt SO en Appointment Scheduling
+
+-   [ ] Start met artikel van @homem2022simulation
+
+-   [ ] Waarom zou het probleem dat besproken wordt in @homem2022simulation non-convex zijn?
+
+-   [x] Aanmaken van Overleaf document voor samenwerking.
+
+-   [ ] Literatuurnotities maken
+
+-   [x] Literatuuroverzicht maken
+
+-   [ ] Problem description uitwerken in Overleaf.
+
+From appendix D @zacharias2020multimodularity
+
+::: {.column-screen-inset}
+
+```{=html}
+
+<table border="1">
+  <tr>
+    <th>Service Time Distribution</th>
+    <th>Emergency Demand</th>
+    <th>No-Shows</th>
+    <th>Random Investigational Punctuality</th>
+    <th>Heterogeneous Patient Groups</th>
+    <th>Theoretical Optimization Properties</th>
+    <th>Exact or Heuristic Solution</th>
+    <th>Full Reference</th>
+  </tr>
+  <tr>
+    <td>Lau and Lau (2000)</td>
+    <td>Independent, General</td>
+    <td>No</td>
+    <td>No</td>
+    <td>No</td>
+    <td>Yes</td>
+    <td>Stochastic - Heuristic Quasi-Newton (beta-fitting)</td>
+    <td>Lau HS, Lau AHL (2000) A fast procedure for computing the total system cost of an appointment schedule for medical and kindred facilities. IIE Trans. 32(9):833–839.</td>
+  </tr>
+  <tr>
+    <td>Kaandorp and Koole (2007)</td>
+    <td>I.I.D Exponential</td>
+    <td>Yes</td>
+    <td>No</td>
+    <td>No</td>
+    <td>No</td>
+    <td>Local Search Multimodularity Exact (Exponential Complexity)</td>
+    <td>Kaandorp GC, Koole G (2007) Optimal outpatient appointment scheduling. Health Care Management Sci. 10(3):217–229.</td>
+  </tr>
+  <tr>
+    <td>Hassin and Mendel (2008)</td>
+    <td>I.I.D Exponential</td>
+    <td>Yes</td>
+    <td>No</td>
+    <td>No</td>
+    <td>No</td>
+    <td>Sequential - Heuristic Quadratic Programming</td>
+    <td>Hassin R, Mendel S (2008) Scheduling arrivals to queues: A single-server model with no-shows. Management Sci. 54(3):565–572.</td>
+  </tr>
+  <tr>
+    <td>Zeng et al. (2010)</td>
+    <td>I.I.D Exponential</td>
+    <td>Yes</td>
+    <td>No</td>
+    <td>No</td>
+    <td>Yes</td>
+    <td>Local Search Multimodularity Exact (Exponential Complexity)</td>
+    <td>Zeng B, Turkcan A, Lin J, Lawley M (2010) Clinic scheduling models with overbooking for patients with heterogeneous no-show probabilities. Ann. Oper. Res. 178(1):121–144.</td>
+  </tr>
+  <tr>
+    <td>Begen and Queyranne (2011)</td>
+    <td>Independent</td>
+    <td>Yes</td>
+    <td>No</td>
+    <td>No</td>
+    <td>Yes</td>
+    <td>Local Search General L-Convexity Exact in Polynomial Time</td>
+    <td>Begen MA, Queyranne M (2011) Appointment scheduling with discrete random durations. Math. Oper. Res. 36(2):240–257.</td>
+  </tr>
+  <tr>
+    <td>Luo et al. (2012)</td>
+    <td>Independent Exponential</td>
+    <td>Yes</td>
+    <td>Yes</td>
+    <td>No</td>
+    <td>Yes</td>
+    <td>Interior-Point Methods - Heuristic</td>
+    <td>Luo J, Kulkarni VG, Ziya S (2012) Appointment scheduling under patient no-shows and service interruptions. Manufacturing Service Oper. Management 14(4):670–684.</td>
+  </tr>
+  <tr>
+    <td>LaGanga and Lawrence (2012)</td>
+    <td>Deterministic</td>
+    <td>Yes</td>
+    <td>No</td>
+    <td>No</td>
+    <td>No</td>
+    <td>Structural Properties & Heuristic Gradient Search & Pairwise Swap</td>
+    <td>LaGanga LR, Lawrence SR (2012) Appointment overbooking in health care clinics to improve patient service and clinic performance. Production Oper. Management 21(5):874–888.</td>
+  </tr>
+  <tr>
+    <td>Kong et al. (2013)</td>
+    <td>Distributionally Robust Based on First Two Moments</td>
+    <td>No</td>
+    <td>No</td>
+    <td>No</td>
+    <td>Yes</td>
+    <td>Moment Robust Optimization Exact Decomposition & Convex Conic Programming</td>
+    <td>Kong Q, Lee CY, Teo CP, Zheng Z (2013) Scheduling arrivals to a stochastic service delivery system using copositive cones. Oper. Res. 61(3):711–726.</td>
+  </tr>
+  <tr>
+    <td>Chen and Robinson (2014)</td>
+    <td>Independent General</td>
+    <td>Yes</td>
+    <td>Yes</td>
+    <td>No</td>
+    <td>Yes</td>
+    <td>Stochastic Linear Programming & Stochastic Sequencing Rules - Heuristic</td>
+    <td>Chen RR, Robinson LW (2014) Sequencing and scheduling appointments with potential call-in patients. Production Oper. Management 23(9):1522–1538.</td>
+  </tr>
+  <tr>
+    <td>Zacharias and Pinedo (2014)</td>
+    <td>Deterministic</td>
+    <td>Yes</td>
+    <td>No</td>
+    <td>No</td>
+    <td>Yes</td>
+    <td>Structural Properties Exact Enumeration (Exponential Complexity)</td>
+    <td>Zacharias C, Pinedo M (2014) Appointment scheduling with no-shows and overbooking. Production Oper. Management 23(5):788–801.</td>
+  </tr>
+  <tr>
+    <td>Mak et al. (2014)</td>
+    <td>Independent General</td>
+    <td>No</td>
+    <td>No</td>
+    <td>No</td>
+    <td>Yes</td>
+    <td>Structural Properties Mixed-Integer Second-Order Stochastic Conic Programming - Heuristic</td>
+    <td>Mak HY, Rong Y, Zhang J (2015) Appointment scheduling with limited distributional information. Management Sci. 61(2):316–334.</td>
+  </tr>
+  <tr>
+    <td>Mak et al. (2015)</td>
+    <td>Distributionally Robust Based on Marginal Moments</td>
+    <td>No</td>
+    <td>No</td>
+    <td>No</td>
+    <td>Yes</td>
+    <td>Sequencing Rules, Closed-Form Conic Programming & Sample Average Approximation - Exact</td>
+    <td>Mak HY, Rong Y, Zhang J (2015) Appointment scheduling with limited distributional information. Management Sci. 61(2):316–334.</td>
+  </tr>
+  <tr>
+    <td>Zacharias and Pinedo (2017)</td>
+    <td>Deterministic</td>
+    <td>Yes</td>
+    <td>No</td>
+    <td>No</td>
+    <td>No</td>
+    <td>Multimodularity & Monotonicity Properties Local Search Exact (Exponential Complexity)</td>
+    <td>Zacharias C, Pinedo M (2017) Managing customer arrivals in service systems with multiple identical servers. Manufacturing Service Oper. Management 19(4):639–656.</td>
+  </tr>
+  <tr>
+    <td>Qi (2017)</td>
+    <td>General Discrete</td>
+    <td>No</td>
+    <td>No</td>
+    <td>No</td>
+    <td>Yes</td>
+    <td>Equivalent Exact</td>
+    <td>Qi J (2017) Mitigating delays and unfairness in appointment systems. Management Sci. 63(2):566–583.</td>
+  </tr>
+</table>
+```
+
+:::
