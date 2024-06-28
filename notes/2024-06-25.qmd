@@ -1,5 +1,5 @@
 ---
-title: "2024-06-15"
+title: "2024-06-25"
 author: "Witek ten Hove"
 format:
   html:
@@ -42,158 +42,265 @@ From appendix D @zacharias2020multimodularity
 
 ```{=html}
 
-<table border="1">
-  <tr>
-    <th>Service Time Distribution</th>
-    <th>Emergency Demand</th>
-    <th>No-Shows</th>
-    <th>Random Investigational Punctuality</th>
-    <th>Heterogeneous Patient Groups</th>
-    <th>Theoretical Optimization Properties</th>
-    <th>Exact or Heuristic Solution</th>
-    <th>Full Reference</th>
-  </tr>
-  <tr>
-    <td>Lau and Lau (2000)</td>
-    <td>Independent, General</td>
-    <td>No</td>
-    <td>No</td>
-    <td>No</td>
-    <td>Yes</td>
-    <td>Stochastic - Heuristic Quasi-Newton (beta-fitting)</td>
-    <td>Lau HS, Lau AHL (2000) A fast procedure for computing the total system cost of an appointment schedule for medical and kindred facilities. IIE Trans. 32(9):833–839.</td>
-  </tr>
-  <tr>
-    <td>Kaandorp and Koole (2007)</td>
-    <td>I.I.D Exponential</td>
-    <td>Yes</td>
-    <td>No</td>
-    <td>No</td>
-    <td>No</td>
-    <td>Local Search Multimodularity Exact (Exponential Complexity)</td>
-    <td>Kaandorp GC, Koole G (2007) Optimal outpatient appointment scheduling. Health Care Management Sci. 10(3):217–229.</td>
-  </tr>
-  <tr>
-    <td>Hassin and Mendel (2008)</td>
-    <td>I.I.D Exponential</td>
-    <td>Yes</td>
-    <td>No</td>
-    <td>No</td>
-    <td>No</td>
-    <td>Sequential - Heuristic Quadratic Programming</td>
-    <td>Hassin R, Mendel S (2008) Scheduling arrivals to queues: A single-server model with no-shows. Management Sci. 54(3):565–572.</td>
-  </tr>
-  <tr>
-    <td>Zeng et al. (2010)</td>
-    <td>I.I.D Exponential</td>
-    <td>Yes</td>
-    <td>No</td>
-    <td>No</td>
-    <td>Yes</td>
-    <td>Local Search Multimodularity Exact (Exponential Complexity)</td>
-    <td>Zeng B, Turkcan A, Lin J, Lawley M (2010) Clinic scheduling models with overbooking for patients with heterogeneous no-show probabilities. Ann. Oper. Res. 178(1):121–144.</td>
-  </tr>
-  <tr>
-    <td>Begen and Queyranne (2011)</td>
-    <td>Independent</td>
-    <td>Yes</td>
-    <td>No</td>
-    <td>No</td>
-    <td>Yes</td>
-    <td>Local Search General L-Convexity Exact in Polynomial Time</td>
-    <td>Begen MA, Queyranne M (2011) Appointment scheduling with discrete random durations. Math. Oper. Res. 36(2):240–257.</td>
-  </tr>
-  <tr>
-    <td>Luo et al. (2012)</td>
-    <td>Independent Exponential</td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>No</td>
-    <td>Yes</td>
-    <td>Interior-Point Methods - Heuristic</td>
-    <td>Luo J, Kulkarni VG, Ziya S (2012) Appointment scheduling under patient no-shows and service interruptions. Manufacturing Service Oper. Management 14(4):670–684.</td>
-  </tr>
-  <tr>
-    <td>LaGanga and Lawrence (2012)</td>
-    <td>Deterministic</td>
-    <td>Yes</td>
-    <td>No</td>
-    <td>No</td>
-    <td>No</td>
-    <td>Structural Properties & Heuristic Gradient Search & Pairwise Swap</td>
-    <td>LaGanga LR, Lawrence SR (2012) Appointment overbooking in health care clinics to improve patient service and clinic performance. Production Oper. Management 21(5):874–888.</td>
-  </tr>
-  <tr>
-    <td>Kong et al. (2013)</td>
-    <td>Distributionally Robust Based on First Two Moments</td>
-    <td>No</td>
-    <td>No</td>
-    <td>No</td>
-    <td>Yes</td>
-    <td>Moment Robust Optimization Exact Decomposition & Convex Conic Programming</td>
-    <td>Kong Q, Lee CY, Teo CP, Zheng Z (2013) Scheduling arrivals to a stochastic service delivery system using copositive cones. Oper. Res. 61(3):711–726.</td>
-  </tr>
-  <tr>
-    <td>Chen and Robinson (2014)</td>
-    <td>Independent General</td>
-    <td>Yes</td>
-    <td>Yes</td>
-    <td>No</td>
-    <td>Yes</td>
-    <td>Stochastic Linear Programming & Stochastic Sequencing Rules - Heuristic</td>
-    <td>Chen RR, Robinson LW (2014) Sequencing and scheduling appointments with potential call-in patients. Production Oper. Management 23(9):1522–1538.</td>
-  </tr>
-  <tr>
-    <td>Zacharias and Pinedo (2014)</td>
-    <td>Deterministic</td>
-    <td>Yes</td>
-    <td>No</td>
-    <td>No</td>
-    <td>Yes</td>
-    <td>Structural Properties Exact Enumeration (Exponential Complexity)</td>
-    <td>Zacharias C, Pinedo M (2014) Appointment scheduling with no-shows and overbooking. Production Oper. Management 23(5):788–801.</td>
-  </tr>
-  <tr>
-    <td>Mak et al. (2014)</td>
-    <td>Independent General</td>
-    <td>No</td>
-    <td>No</td>
-    <td>No</td>
-    <td>Yes</td>
-    <td>Structural Properties Mixed-Integer Second-Order Stochastic Conic Programming - Heuristic</td>
-    <td>Mak HY, Rong Y, Zhang J (2015) Appointment scheduling with limited distributional information. Management Sci. 61(2):316–334.</td>
-  </tr>
-  <tr>
-    <td>Mak et al. (2015)</td>
-    <td>Distributionally Robust Based on Marginal Moments</td>
-    <td>No</td>
-    <td>No</td>
-    <td>No</td>
-    <td>Yes</td>
-    <td>Sequencing Rules, Closed-Form Conic Programming & Sample Average Approximation - Exact</td>
-    <td>Mak HY, Rong Y, Zhang J (2015) Appointment scheduling with limited distributional information. Management Sci. 61(2):316–334.</td>
-  </tr>
-  <tr>
-    <td>Zacharias and Pinedo (2017)</td>
-    <td>Deterministic</td>
-    <td>Yes</td>
-    <td>No</td>
-    <td>No</td>
-    <td>No</td>
-    <td>Multimodularity & Monotonicity Properties Local Search Exact (Exponential Complexity)</td>
-    <td>Zacharias C, Pinedo M (2017) Managing customer arrivals in service systems with multiple identical servers. Manufacturing Service Oper. Management 19(4):639–656.</td>
-  </tr>
-  <tr>
-    <td>Qi (2017)</td>
-    <td>General Discrete</td>
-    <td>No</td>
-    <td>No</td>
-    <td>No</td>
-    <td>Yes</td>
-    <td>Equivalent Exact</td>
-    <td>Qi J (2017) Mitigating delays and unfairness in appointment systems. Management Sci. 63(2):566–583.</td>
-  </tr>
-</table>
+<div class="container mt-4">
+        <div class="table-wrapper">
+            <table class="table table-bordered">
+                <thead style="position: sticky; top: 0; background-color: #fff; z-index: 1;">
+                    <tr>
+                        <th>Service Time Distribution</th>
+                        <th>Emergency Demand</th>
+                        <th>No-Shows</th>
+                        <th>Random Investigational Punctuality</th>
+                        <th>Heterogeneous Patient Groups</th>
+                        <th>Theoretical Optimization Properties</th>
+                        <th>Exact or Heuristic Solution</th>
+                        <th>Full Reference</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Lau and Lau (2000)</td>
+                        <td>Independent, General</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Stochastic - Heuristic Quasi-Newton (beta-fitting)</td>
+                        <td>Lau HS, Lau AHL (2000) A fast procedure for computing the total system cost of an appointment schedule for medical and kindred facilities. IIE Trans. 32(9):833–839.</td>
+                    </tr>
+                    <tr>
+                        <td>Kaandorp and Koole (2007)</td>
+                        <td>I.I.D Exponential</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Local Search Multimodularity Exact (Exponential Complexity)</td>
+                        <td>Kaandorp GC, Koole G (2007) Optimal outpatient appointment scheduling. Health Care Management Sci. 10(3):217–229.</td>
+                    </tr>
+                    <tr>
+                        <td>Hassin and Mendel (2008)</td>
+                        <td>I.I.D Exponential</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Sequential - Heuristic Quadratic Programming</td>
+                        <td>Hassin R, Mendel S (2008) Scheduling arrivals to queues: A single-server model with no-shows. Management Sci. 54(3):565–572.</td>
+                    </tr>
+                    <tr>
+                        <td>Zeng et al. (2010)</td>
+                        <td>I.I.D Exponential</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Local Search Multimodularity Exact (Exponential Complexity)</td>
+                        <td>Zeng B, Turkcan A, Lin J, Lawley M (2010) Clinic scheduling models with overbooking for patients with heterogeneous no-show probabilities. Ann. Oper. Res. 178(1):121–144.</td>
+                    </tr>
+                    <tr>
+                        <td>Begen and Queyranne (2011)</td>
+                        <td>Independent</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Local Search General L-Convexity Exact in Polynomial Time</td>
+                        <td>Begen MA, Queyranne M (2011) Appointment scheduling with discrete random durations. Math. Oper. Res. 36(2):240–257.</td>
+                    </tr>
+                    <tr>
+                        <td>Luo et al. (2012)</td>
+                        <td>Independent Exponential</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Interior-Point Methods - Heuristic</td>
+                        <td>Luo J, Kulkarni VG, Ziya S (2012) Appointment scheduling under patient no-shows and service interruptions. Manufacturing Service Oper. Management 14(4):670–684.</td>
+                    </tr>
+                    <tr>
+                        <td>LaGanga and Lawrence (2012)</td>
+                        <td>Deterministic</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Structural Properties & Heuristic Gradient Search & Pairwise Swap</td>
+                        <td>LaGanga LR, Lawrence SR (2012) Appointment overbooking in health care clinics to improve patient service and clinic performance. Production Oper. Management 21(5):874–888.</td>
+                    </tr>
+                    <tr>
+                        <td>Kong et al. (2013)</td>
+                        <td>Distributionally Robust Based on First Two Moments</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Moment Robust Optimization Exact Decomposition & Convex Conic Programming</td>
+                        <td>Kong Q, Lee CY, Teo CP, Zheng Z (2013) Scheduling arrivals to a stochastic service delivery system using copositive cones. Oper. Res. 61(3):711–726.</td>
+                    </tr>
+                    <tr>
+                        <td>Chen and Robinson (2014)</td>
+                        <td>Independent General</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Stochastic Linear Programming & Stochastic Sequencing Rules - Heuristic</td>
+                        <td>Chen RR, Robinson LW (2014) Sequencing and scheduling appointments with potential call-in patients. Production Oper. Management 23(9):1522–1538.</td>
+                    </tr>
+                    <tr>
+                        <td>Zacharias and Pinedo (2014)</td>
+                        <td>Deterministic</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Structural Properties Exact Enumeration (Exponential Complexity)</td>
+                        <td>Zacharias C, Pinedo M (2014) Appointment scheduling with no-shows and overbooking. Production Oper. Management 23(5):788–801.</td>
+                    </tr>
+                    <tr>
+                        <td>Mak et al. (2014)</td>
+                        <td>Independent General</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Structural Properties Mixed-Integer Second-Order Stochastic Conic Programming - Heuristic</td>
+                        <td>Mak HY, Rong Y, Zhang J (2015) Appointment scheduling with limited distributional information. Management Sci. 61(2):316–334.</td>
+                    </tr>
+                    <tr>
+                        <td>Mak et al. (2015)</td>
+                        <td>Distributionally Robust Based on Marginal Moments</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Sequencing Rules, Closed-Form Conic Programming & Sample Average Approximation - Exact</td>
+                        <td>Mak HY, Rong Y, Zhang J (2015) Appointment scheduling with limited distributional information. Management Sci. 61(2):316–334.</td>
+                    </tr>
+                    <tr>
+                        <td>Zacharias and Pinedo (2017)</td>
+                        <td>Deterministic</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Multimodularity & Monotonicity Properties Local Search Exact (Exponential Complexity)</td>
+                        <td>Zacharias C, Pinedo M (2017) Managing customer arrivals in service systems with multiple identical servers. Manufacturing Service Oper. Management 19(4):639–656.</td>
+                    </tr>
+                    <tr>
+                        <td>Qi (2017)</td>
+                        <td>General Discrete</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Equivalent Exact</td>
+                        <td>Qi J (2017) Mitigating delays and unfairness in appointment systems. Management Sci. 63(2):566–583.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+```
+:::
+
+----
+
+To solve the scheduling problem using XGBoost, we need to frame it as a machine learning problem where XGBoost can be applied effectively. This involves several steps:
+
+1. **Define the Problem**: We need to define the scheduling problem in terms of features and labels that can be used for training the XGBoost model.
+
+2. **Generate Data**: Since this is a scheduling problem, we need to generate or use historical scheduling data that includes features such as the number of patients, number of service intervals, service times, waiting times, no-show probabilities, etc.
+
+3. **Feature Engineering**: Create relevant features that will be used by the XGBoost model to make predictions.
+
+4. **Define the Objective Function**: As per the scheduling problem, the objective function is to minimize the expected waiting time and overtime. This objective function will be used to evaluate the performance of the model.
+
+5. **Train the XGBoost Model**: Train the model using the generated or historical data.
+
+6. **Evaluate and Optimize**: Evaluate the model's performance and optimize the hyperparameters to improve the results.
+
+Here’s a detailed approach to implement XGBoost for the scheduling problem:
+
+### Step 1: Define the Problem
+
+The goal is to minimize the expected waiting time $W(x)$ and the expected overtime $L(x)$ given a schedule $x$. We will use XGBoost to predict the expected waiting time and overtime for given schedules.
+
+### Step 2: Generate Data
+
+Generate synthetic data or use historical data that includes the following:
+- Number of patients ($N$)
+- Number of service intervals ($T$)
+- Duration of each interval ($d$)
+- Service times ($s_{n,t}$)
+- Waiting times ($w_{n,t}$)
+- No-show probabilities ($\rho$)
+- Idle times ($i_t$)
+- Actual schedule ($x$)
+
+### Step 3: Feature Engineering
+
+Create features that can be used by the XGBoost model:
+- $N$: Total number of patients.
+- $T$: Total number of service intervals.
+- $d$: Duration of each interval.
+- $\rho$: No-show probability.
+- Aggregated statistics of service times (mean, variance, etc.).
+- Aggregated statistics of waiting times (mean, variance, etc.).
+- Features representing the schedule $x$ (e.g., number of patients in each interval).
+
+### Step 4: Define the Objective Function
+
+The objective function to minimize is given by:
+$$C(x) = \alpha_W W(x) + \alpha_L L(x)$$
+
+Here, $W(x)$ and $L(x)$ are the expected waiting time and expected overtime, respectively.
+
+### Step 5: Train the XGBoost Model
+
+Use the features and labels (expected waiting time and overtime) to train the XGBoost model.
+
+```python
+import xgboost as xgb
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+
+# Assume `data` is a DataFrame containing the features and labels
+X = data.drop(['expected_waiting_time', 'expected_overtime'], axis=1)
+y_waiting_time = data['expected_waiting_time']
+y_overtime = data['expected_overtime']
+
+# Split the data into training and testing sets
+X_train, X_test, y_train_waiting, y_test_waiting = train_test_split(X, y_waiting_time, test_size=0.2, random_state=42)
+_, _, y_train_overtime, y_test_overtime = train_test_split(X, y_overtime, test_size=0.2, random_state=42)
+
+# Train XGBoost models
+model_waiting = xgb.XGBRegressor(objective='reg:squarederror')
+model_overtime = xgb.XGBRegressor(objective='reg:squarederror')
+
+model_waiting.fit(X_train, y_train_waiting)
+model_overtime.fit(X_train, y_train_overtime)
+
+# Predict and evaluate
+pred_waiting = model_waiting.predict(X_test)
+pred_overtime = model_overtime.predict(X_test)
+
+rmse_waiting = mean_squared_error(y_test_waiting, pred_waiting, squared=False)
+rmse_overtime = mean_squared_error(y_test_overtime, pred_overtime, squared=False)
+
+print(f'RMSE for Waiting Time: {rmse_waiting}')
+print(f'RMSE for Overtime: {rmse_overtime}')
 ```
 
-:::
+### Step 6: Evaluate and Optimize
+
+Evaluate the model's performance using metrics such as RMSE (Root Mean Squared Error) for both waiting time and overtime. Optimize the hyperparameters of the XGBoost model using techniques such as Grid Search or Bayesian Optimization to improve the results.
+
+### Additional Considerations
+
+1. **Hyperparameter Tuning**: Use cross-validation and hyperparameter tuning to improve the model performance.
+2. **Feature Importance**: Analyze feature importance to understand which features are most influential in predicting waiting time and overtime.
+3. **Model Interpretability**: Consider using SHAP values to interpret the model predictions and understand the impact of each feature.
+
+By following these steps, you can effectively use XGBoost to address the scheduling problem, aiming to minimize the expected waiting time and overtime for the given schedules.

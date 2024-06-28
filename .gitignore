@@ -10,4 +10,4 @@ docs/
 /.luarc.json
 myenv/
 .env
-
+experiments/

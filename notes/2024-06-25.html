@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -58,6 +92,49 @@ div.csl-indent {
 <script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.js"></script>
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -111,20 +188,24 @@ div.csl-indent {
 <div class="column-screen-inset">
 <div>
 
-
-<table data-quarto-postprocess="true" data-border="1" class="table">
+<div class="container mt-4">
+        <div class="table-wrapper">
+            
+<table class="table table-bordered" data-quarto-postprocess="true">
+<thead style="position: sticky; top: 0; background-color: #fff; z-index: 1;">
+<tr class="header">
+<th data-quarto-table-cell-role="th">Service Time Distribution</th>
+<th data-quarto-table-cell-role="th">Emergency Demand</th>
+<th data-quarto-table-cell-role="th">No-Shows</th>
+<th data-quarto-table-cell-role="th">Random Investigational Punctuality</th>
+<th data-quarto-table-cell-role="th">Heterogeneous Patient Groups</th>
+<th data-quarto-table-cell-role="th">Theoretical Optimization Properties</th>
+<th data-quarto-table-cell-role="th">Exact or Heuristic Solution</th>
+<th data-quarto-table-cell-role="th">Full Reference</th>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">Service Time Distribution</td>
-<td data-quarto-table-cell-role="th">Emergency Demand</td>
-<td data-quarto-table-cell-role="th">No-Shows</td>
-<td data-quarto-table-cell-role="th">Random Investigational Punctuality</td>
-<td data-quarto-table-cell-role="th">Heterogeneous Patient Groups</td>
-<td data-quarto-table-cell-role="th">Theoretical Optimization Properties</td>
-<td data-quarto-table-cell-role="th">Exact or Heuristic Solution</td>
-<td data-quarto-table-cell-role="th">Full Reference</td>
-</tr>
-<tr class="even">
 <td>Lau and Lau (2000)</td>
 <td>Independent, General</td>
 <td>No</td>
@@ -134,7 +215,7 @@ div.csl-indent {
 <td>Stochastic - Heuristic Quasi-Newton (beta-fitting)</td>
 <td>Lau HS, Lau AHL (2000) A fast procedure for computing the total system cost of an appointment schedule for medical and kindred facilities. IIE Trans. 32(9):833–839.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Kaandorp and Koole (2007)</td>
 <td>I.I.D Exponential</td>
 <td>Yes</td>
@@ -144,7 +225,7 @@ div.csl-indent {
 <td>Local Search Multimodularity Exact (Exponential Complexity)</td>
 <td>Kaandorp GC, Koole G (2007) Optimal outpatient appointment scheduling. Health Care Management Sci. 10(3):217–229.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Hassin and Mendel (2008)</td>
 <td>I.I.D Exponential</td>
 <td>Yes</td>
@@ -154,7 +235,7 @@ div.csl-indent {
 <td>Sequential - Heuristic Quadratic Programming</td>
 <td>Hassin R, Mendel S (2008) Scheduling arrivals to queues: A single-server model with no-shows. Management Sci. 54(3):565–572.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Zeng et al. (2010)</td>
 <td>I.I.D Exponential</td>
 <td>Yes</td>
@@ -164,7 +245,7 @@ div.csl-indent {
 <td>Local Search Multimodularity Exact (Exponential Complexity)</td>
 <td>Zeng B, Turkcan A, Lin J, Lawley M (2010) Clinic scheduling models with overbooking for patients with heterogeneous no-show probabilities. Ann. Oper. Res. 178(1):121–144.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Begen and Queyranne (2011)</td>
 <td>Independent</td>
 <td>Yes</td>
@@ -174,7 +255,7 @@ div.csl-indent {
 <td>Local Search General L-Convexity Exact in Polynomial Time</td>
 <td>Begen MA, Queyranne M (2011) Appointment scheduling with discrete random durations. Math. Oper. Res. 36(2):240–257.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Luo et al. (2012)</td>
 <td>Independent Exponential</td>
 <td>Yes</td>
@@ -184,7 +265,7 @@ div.csl-indent {
 <td>Interior-Point Methods - Heuristic</td>
 <td>Luo J, Kulkarni VG, Ziya S (2012) Appointment scheduling under patient no-shows and service interruptions. Manufacturing Service Oper. Management 14(4):670–684.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>LaGanga and Lawrence (2012)</td>
 <td>Deterministic</td>
 <td>Yes</td>
@@ -194,7 +275,7 @@ div.csl-indent {
 <td>Structural Properties &amp; Heuristic Gradient Search &amp; Pairwise Swap</td>
 <td>LaGanga LR, Lawrence SR (2012) Appointment overbooking in health care clinics to improve patient service and clinic performance. Production Oper. Management 21(5):874–888.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Kong et al. (2013)</td>
 <td>Distributionally Robust Based on First Two Moments</td>
 <td>No</td>
@@ -204,7 +285,7 @@ div.csl-indent {
 <td>Moment Robust Optimization Exact Decomposition &amp; Convex Conic Programming</td>
 <td>Kong Q, Lee CY, Teo CP, Zheng Z (2013) Scheduling arrivals to a stochastic service delivery system using copositive cones. Oper. Res. 61(3):711–726.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Chen and Robinson (2014)</td>
 <td>Independent General</td>
 <td>Yes</td>
@@ -214,7 +295,7 @@ div.csl-indent {
 <td>Stochastic Linear Programming &amp; Stochastic Sequencing Rules - Heuristic</td>
 <td>Chen RR, Robinson LW (2014) Sequencing and scheduling appointments with potential call-in patients. Production Oper. Management 23(9):1522–1538.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Zacharias and Pinedo (2014)</td>
 <td>Deterministic</td>
 <td>Yes</td>
@@ -224,7 +305,7 @@ div.csl-indent {
 <td>Structural Properties Exact Enumeration (Exponential Complexity)</td>
 <td>Zacharias C, Pinedo M (2014) Appointment scheduling with no-shows and overbooking. Production Oper. Management 23(5):788–801.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Mak et al. (2014)</td>
 <td>Independent General</td>
 <td>No</td>
@@ -234,7 +315,7 @@ div.csl-indent {
 <td>Structural Properties Mixed-Integer Second-Order Stochastic Conic Programming - Heuristic</td>
 <td>Mak HY, Rong Y, Zhang J (2015) Appointment scheduling with limited distributional information. Management Sci. 61(2):316–334.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Mak et al. (2015)</td>
 <td>Distributionally Robust Based on Marginal Moments</td>
 <td>No</td>
@@ -244,7 +325,7 @@ div.csl-indent {
 <td>Sequencing Rules, Closed-Form Conic Programming &amp; Sample Average Approximation - Exact</td>
 <td>Mak HY, Rong Y, Zhang J (2015) Appointment scheduling with limited distributional information. Management Sci. 61(2):316–334.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Zacharias and Pinedo (2017)</td>
 <td>Deterministic</td>
 <td>Yes</td>
@@ -254,7 +335,7 @@ div.csl-indent {
 <td>Multimodularity &amp; Monotonicity Properties Local Search Exact (Exponential Complexity)</td>
 <td>Zacharias C, Pinedo M (2017) Managing customer arrivals in service systems with multiple identical servers. Manufacturing Service Oper. Management 19(4):639–656.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Qi (2017)</td>
 <td>General Discrete</td>
 <td>No</td>
@@ -266,9 +347,86 @@ div.csl-indent {
 </tr>
 </tbody>
 </table>
-</div>
-</div>
 
+        </div>
+    </div>
+</div>
+</div>
+<hr>
+<p>To solve the scheduling problem using XGBoost, we need to frame it as a machine learning problem where XGBoost can be applied effectively. This involves several steps:</p>
+<ol type="1">
+<li><p><strong>Define the Problem</strong>: We need to define the scheduling problem in terms of features and labels that can be used for training the XGBoost model.</p></li>
+<li><p><strong>Generate Data</strong>: Since this is a scheduling problem, we need to generate or use historical scheduling data that includes features such as the number of patients, number of service intervals, service times, waiting times, no-show probabilities, etc.</p></li>
+<li><p><strong>Feature Engineering</strong>: Create relevant features that will be used by the XGBoost model to make predictions.</p></li>
+<li><p><strong>Define the Objective Function</strong>: As per the scheduling problem, the objective function is to minimize the expected waiting time and overtime. This objective function will be used to evaluate the performance of the model.</p></li>
+<li><p><strong>Train the XGBoost Model</strong>: Train the model using the generated or historical data.</p></li>
+<li><p><strong>Evaluate and Optimize</strong>: Evaluate the model’s performance and optimize the hyperparameters to improve the results.</p></li>
+</ol>
+<p>Here’s a detailed approach to implement XGBoost for the scheduling problem:</p>
+<section id="step-1-define-the-problem" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-define-the-problem">Step 1: Define the Problem</h3>
+<p>The goal is to minimize the expected waiting time <span class="math inline">W(x)</span> and the expected overtime <span class="math inline">L(x)</span> given a schedule <span class="math inline">x</span>. We will use XGBoost to predict the expected waiting time and overtime for given schedules.</p>
+</section>
+<section id="step-2-generate-data" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-generate-data">Step 2: Generate Data</h3>
+<p>Generate synthetic data or use historical data that includes the following: - Number of patients (<span class="math inline">N</span>) - Number of service intervals (<span class="math inline">T</span>) - Duration of each interval (<span class="math inline">d</span>) - Service times (<span class="math inline">s_{n,t}</span>) - Waiting times (<span class="math inline">w_{n,t}</span>) - No-show probabilities (<span class="math inline">\rho</span>) - Idle times (<span class="math inline">i_t</span>) - Actual schedule (<span class="math inline">x</span>)</p>
+</section>
+<section id="step-3-feature-engineering" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-feature-engineering">Step 3: Feature Engineering</h3>
+<p>Create features that can be used by the XGBoost model: - <span class="math inline">N</span>: Total number of patients. - <span class="math inline">T</span>: Total number of service intervals. - <span class="math inline">d</span>: Duration of each interval. - <span class="math inline">\rho</span>: No-show probability. - Aggregated statistics of service times (mean, variance, etc.). - Aggregated statistics of waiting times (mean, variance, etc.). - Features representing the schedule <span class="math inline">x</span> (e.g., number of patients in each interval).</p>
+</section>
+<section id="step-4-define-the-objective-function" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-define-the-objective-function">Step 4: Define the Objective Function</h3>
+<p>The objective function to minimize is given by: <span class="math display">C(x) = \alpha_W W(x) + \alpha_L L(x)</span></p>
+<p>Here, <span class="math inline">W(x)</span> and <span class="math inline">L(x)</span> are the expected waiting time and expected overtime, respectively.</p>
+</section>
+<section id="step-5-train-the-xgboost-model" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-train-the-xgboost-model">Step 5: Train the XGBoost Model</h3>
+<p>Use the features and labels (expected waiting time and overtime) to train the XGBoost model.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xgboost <span class="im">as</span> xgb</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Assume `data` is a DataFrame containing the features and labels</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> data.drop([<span class="st">'expected_waiting_time'</span>, <span class="st">'expected_overtime'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>y_waiting_time <span class="op">=</span> data[<span class="st">'expected_waiting_time'</span>]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>y_overtime <span class="op">=</span> data[<span class="st">'expected_overtime'</span>]</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data into training and testing sets</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train_waiting, y_test_waiting <span class="op">=</span> train_test_split(X, y_waiting_time, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>_, _, y_train_overtime, y_test_overtime <span class="op">=</span> train_test_split(X, y_overtime, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Train XGBoost models</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>model_waiting <span class="op">=</span> xgb.XGBRegressor(objective<span class="op">=</span><span class="st">'reg:squarederror'</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>model_overtime <span class="op">=</span> xgb.XGBRegressor(objective<span class="op">=</span><span class="st">'reg:squarederror'</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>model_waiting.fit(X_train, y_train_waiting)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>model_overtime.fit(X_train, y_train_overtime)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict and evaluate</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>pred_waiting <span class="op">=</span> model_waiting.predict(X_test)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>pred_overtime <span class="op">=</span> model_overtime.predict(X_test)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>rmse_waiting <span class="op">=</span> mean_squared_error(y_test_waiting, pred_waiting, squared<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>rmse_overtime <span class="op">=</span> mean_squared_error(y_test_overtime, pred_overtime, squared<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'RMSE for Waiting Time: </span><span class="sc">{</span>rmse_waiting<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'RMSE for Overtime: </span><span class="sc">{</span>rmse_overtime<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="step-6-evaluate-and-optimize" class="level3">
+<h3 class="anchored" data-anchor-id="step-6-evaluate-and-optimize">Step 6: Evaluate and Optimize</h3>
+<p>Evaluate the model’s performance using metrics such as RMSE (Root Mean Squared Error) for both waiting time and overtime. Optimize the hyperparameters of the XGBoost model using techniques such as Grid Search or Bayesian Optimization to improve the results.</p>
+</section>
+<section id="additional-considerations" class="level3">
+<h3 class="anchored" data-anchor-id="additional-considerations">Additional Considerations</h3>
+<ol type="1">
+<li><strong>Hyperparameter Tuning</strong>: Use cross-validation and hyperparameter tuning to improve the model performance.</li>
+<li><strong>Feature Importance</strong>: Analyze feature importance to understand which features are most influential in predicting waiting time and overtime.</li>
+<li><strong>Model Interpretability</strong>: Consider using SHAP values to interpret the model predictions and understand the impact of each feature.</li>
+</ol>
+<p>By following these steps, you can effectively use XGBoost to address the scheduling problem, aiming to minimize the expected waiting time and overtime for the given schedules.</p>
+
+</section>
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
