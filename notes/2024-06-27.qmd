@@ -21,8 +21,61 @@ Afspraken:
 -   [ ] We gaan verder kijken naar XG Boosting
 -   [ ] Data: optimale schedules, labels: waiting times en tardiness
 
-Idee Joost: cardinal analysis - is schedule a better than b, yes/no
+Idee Joost: cardinal analysis - is schedule a better than b?
+-\> yes/no
 
+## Experiment: Application of ML models to calculate loss values
+
+In this experiment we will try out several Machine Learning models to predict the outcome of a loss function from a given schedule with $T$ intervals of length $d$.
+A schedule with $N$ patients can be defined as a vector
+
+$$
+x = (x_1, x_2, \ldots, x_T) \in \mathbb{N}_0^T
+$$
+
+$$
+\text{ such that } \sum_{t=1}^{T} x_t = N.
+$$
+
+Waiting times are calculated using a Lindley recursion:
+
+$$
+W_{1, t} = \max(0, W_{1, t-1} + V_{t-1} - d)
+$$
+
+$$
+W_{n, t} = W_{1,t} * S^{(n-1)}
+$$
+
+where $W_{n, t}$ is the waiting time distribution of patient $n$ in interval $t$, $V_{T}$ is the distribution of the total amount of work in the last interval, $S^{(k)}$ is the k-fold convolution of the service time distribution $S$ and $W*S$ is the convolution of the waiting time distribtion $W$ with $S$.
+
+We are interested in calculating for each schedule $x$ the expected total waiting time and overtime
+
+$$
+E(W(x)) = \sum_{t=1}^{T} \sum_{n=1}^{x_t} E(W_{n, t})
+$$
+
+$$
+E(L(x)) = E(\max(0, W_{1, T} + V_{T} - d)),
+$$
+
+The loss function is a weighted average of expected waiting time and overtime
+
+$$
+C(x) = \alpha_W E(W(x)) + \alpha_L E(L(x))
+$$
+
+Directly mapping schedules to loss values would significantly reduce the practical applicability of our method.
+The weights in the loss function are subjective values that reflect the perceived relative importance of their corresponding factors.
+Consequently, each time the weights are adjusted, the model would need to be retrained.
+
+A more effective approach would be to train separate models for each factor in the loss function.
+Once we predict the levels of each factor, we can input them into the loss function using the desired weights.
+In this experiment we will even go a step further and try to predict the expected waiting times in each interval instead of the aggregated values for the whole schedule.
+
+## Setup
+
+Load all packages, the schedule class and selected functions.
 
 ```{python}
 from schedule_class import Schedule, generate_schedules
@@ -46,14 +99,20 @@ omega = 0.5
 schedule = Schedule(x, d, s, q, omega)
 print(schedule)
 ```
+
+Runner functions for creating and running a schedule instance.
+
 ```{python}
 def run_schedule(x, d, s, q, omega, print_system=True):
     schedule = Schedule(x=x, d=d, s=s, q=q, omega=omega)
     schedule.calculate_system_states(until=len(x))
     schedule.calculate_wait_times()
+    schedule.calculate_loss()
     if(print_system): print(schedule)
     return(schedule)
 ```
+
+Run a simple test instance of a schedule.
 
 ```{python}
 """Simple test case"""
@@ -67,6 +126,8 @@ indices = np.arange(s.size)
 exp_s = (indices * s).sum()
 print(f'exp_s = {exp_s}')
 ```
+
+Generate all feasable schedules with $T = 3$ and $N = 6$ and calculate loss values.
 
 ```{python}
 N = 6
@@ -82,16 +143,18 @@ for schedule in schedules:
   data['x2'].append(x2)
   data['loss'].append(sch.system['loss'])
 
-df = pd.DataFrame.from_dict(data).sort_values(by=['loss'], ascending=False)
+df = pd.DataFrame.from_dict(data).sort_values(by=['loss'], ascending=False, ignore_index=True)
 df
 ```
+
+Generate a dataset for training and testing of various schedules with $N \in \{1, \dots, 18\}$ and corresponding aggregated expected waiting times in each interval.
 
 ```{python}
 N = 18
 data = {'x0': [], 'x1': [], 'x2': [], 'ew0': [], 'ew1': [], 'ew2': []}
 df = pd.DataFrame.from_dict(data)
 
-for n in range(1,N+1):
+for n in range(1, N+1):
     schedules = generate_schedules(n) # Generates all possible schedules with T hard-coded 3
     for schedule in schedules:
       x = np.array(schedule, dtype=np.int64)
@@ -111,6 +174,8 @@ for n in range(1,N+1):
 
 df
 ```
+
+### XGBoost
 
 ```{python}
 import xgboost as xgb
@@ -229,11 +294,13 @@ model.compile(optimizer='adam', loss='mean_squared_error')
 model.summary()
 
 ```
+
 ```{python}
 # Train the model
 model.fit(X_train, y_train, epochs=50, batch_size=1, verbose=2)
 
 ```
+
 ```{python}
 # Evaluate the model
 loss = model.evaluate(X_test, y_test, verbose=0)
@@ -264,4 +331,3 @@ fig1.show()
 fig2.show()
 fig3.show()
 ```
-
