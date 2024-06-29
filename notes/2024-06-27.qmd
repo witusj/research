@@ -425,6 +425,8 @@ model.summary()
 ```
 
 ```{python}
+#| echo: false
+
 # Train the model
 model.fit(X_train, y_train, epochs=50, batch_size=1, verbose=2)
 
@@ -494,12 +496,38 @@ fig6.show()
 
 3.  **Reshape Data**:
 
+    In Convolutional Neural Networks (CNNs), the input data is typically expected to be in a specific shape to allow the convolutional layers to process it correctly.
+    The required shape usually depends on the nature of the data and the framework being used.
+    Here’s a detailed explanation of the reshaping process:
+
+    Assuming we have a dataset `X` where:
+    - Each row corresponds to a different sample.
+    - Each column corresponds to a different feature.
+
+    For example, if `X` has 3 features (`x0`, `x1`, `x2`), the original shape of `X` would be `(samples, 3)`.
+
+    CNNs expect input data in the form of a 4D tensor:
+    -   **samples**: Number of samples in the dataset.
+    -   **height**: Height of the input data (typically the number of rows in an image).
+    -   **width**: Width of the input data (typically the number of columns in an image).
+    -   **channels**: Number of channels in the input data (e.g., 1 for grayscale images, 3 for RGB images).
+
+    For this specific case, we want to reshape `X` to have a shape suitable for a CNN.
+    The new shape is `(samples, height, width, channels)`.
+
+    ````         
+    Here’s the code for reshaping `X`:
+
     ``` python
     # Reshape X to have the shape (samples, height, width, channels)
     X = X.reshape((X.shape[0], X.shape[1], 1, 1))
     ```
 
-    -   Reshapes `X` to fit the input shape expected by the convolutional neural network (CNN). The new shape is `(samples, height, width, channels)`.
+    -   `X.shape[0]`: This represents the number of samples.
+    -   `X.shape[1]`: This represents the number of features. In this case, each feature will be treated as a separate "row" in the "image".
+    -   `1`: This represents the width of each "image". Since each feature is treated as a single "pixel" row, the width is 1.
+    -   `1`: This represents the number of channels. Since your data isn't color-coded and only consists of numerical values for each feature, we use 1 channel.
+    ````
 
 4.  **Split Data into Training and Testing Sets**:
 

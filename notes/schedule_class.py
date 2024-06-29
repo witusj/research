@@ -13,8 +13,6 @@ from itertools import chain, combinations
 import plotly.graph_objs as go
 import copy
 
-logging.basicConfig(filename='logs.txt', encoding='utf-8', level=logging.DEBUG)
-
 # """
 # Function to calculate the convolution of two arrays.
 # 
@@ -321,6 +319,14 @@ def generate_schedules(N):
   
 class Schedule:
   def __init__(self, x, d, s, q, omega):
+    
+      # Clear the log file by opening it in write mode
+      with open('logs.txt', 'w'):
+            pass
+
+        # Configure logging
+      logging.basicConfig(filename='logs.txt', encoding='utf-8', level=logging.DEBUG)
+
       if not all(isinstance(i, np.integer) and i >= 0 for i in x):
           raise ValueError("All elements in x must be non-negative integers.")
       if not isinstance(d, int) or d <= 0:
