@@ -21,8 +21,8 @@ Afspraken:
 -   [ ] We gaan verder kijken naar XG Boosting
 -   [ ] Data: optimale schedules, labels: waiting times en tardiness
 
-Idee Joost: cardinal analysis - is schedule a better than b?
--\> yes/no
+Idee Joost: cardinal analysis - is schedule A better than B?
+-\> Yes/No
 
 ## Experiment: Application of ML models to calculate loss values
 
@@ -81,13 +81,15 @@ Load all packages, the schedule class and selected functions.
 from schedule_class import Schedule, generate_schedules
 import numpy as np
 import pandas as pd
-import plotly.express as px
 import xgboost as xgb
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Conv2D, Flatten, Dense
+from tensorflow.keras.layers import Input, Conv2D, Flatten, Dense
+import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 
 # Example usage:
 x = np.array([2, 1, 0])
@@ -175,7 +177,8 @@ for n in range(1, N+1):
 df
 ```
 
-### XGBoost
+::: panel-tabset
+## XGBoost
 
 ```{python}
 import xgboost as xgb
@@ -198,7 +201,7 @@ params = {
     'objective': 'reg:squarederror',
     'max_depth': 3,
     'eta': 0.1,
-    'silent': 1
+    'verbosity': 1
 }
 num_round = 100
 
@@ -244,6 +247,8 @@ print(f'MSE for output_2: {mse2}')
 print(f'MSE for output_3: {mse3}')
 ```
 
+## Plots
+
 ```{python}
 # Create a DataFrame with actual and predicted values for comparison
 comparison_df = pd.DataFrame({
@@ -266,6 +271,129 @@ fig2.show()
 fig3.show()
 ```
 
+## Model explanation
+
+### Description of the Setup
+
+1.  **Import Necessary Libraries**:
+
+    ``` python
+    import xgboost as xgb
+    from sklearn.model_selection import train_test_split
+    from sklearn.metrics import mean_squared_error
+    ```
+
+    -   `xgboost`: Library for gradient boosting.
+    -   `train_test_split` from `sklearn`: Function to split data into training and testing sets.
+    -   `mean_squared_error` from `sklearn`: Function to evaluate the performance of the models.
+
+2.  **Prepare Data**:
+
+    ``` python
+    # Split data into features and labels
+    X = df[['x0', 'x1', 'x2']]
+    y1 = df['ew0']
+    y2 = df['ew1']
+    y3 = df['ew2']
+    ```
+
+    -   `X`: Feature matrix containing columns `x0`, `x1`, and `x2`.
+    -   `y1`, `y2`, `y3`: Target variables corresponding to different outputs.
+
+3.  **Split Data into Training and Testing Sets**:
+
+    ``` python
+    # Split into training and testing datasets
+    X_train, X_test, y1_train, y1_test = train_test_split(X, y1, test_size=0.2, random_state=42)
+    _, _, y2_train, y2_test = train_test_split(X, y2, test_size=0.2, random_state=42)
+    _, _, y3_train, y3_test = train_test_split(X, y3, test_size=0.2, random_state=42)
+    ```
+
+    -   `train_test_split` splits the data with 80% for training and 20% for testing, using a fixed random seed (`random_state=42`) for reproducibility.
+    -   Splits are performed separately for `y1`, `y2`, and `y3`.
+
+4.  **Define XGBoost Parameters**:
+
+    ``` python
+    params = {
+        'objective': 'reg:squarederror',
+        'max_depth': 3,
+        'eta': 0.1,
+        'silent': 1
+    }
+    num_round = 100
+    ```
+
+    -   `params`: Dictionary of parameters for XGBoost.
+        -   `objective`: Specifies the learning task and the corresponding objective. Here, it's set to regression with squared error.
+        -   `max_depth`: Maximum depth of a tree.
+        -   `eta`: Learning rate.
+        -   `verbosity`: Verbosity mode.
+    -   `num_round`: Number of boosting rounds.
+
+5.  **Train Models**:
+
+    -   For `output_1`:
+
+        ``` python
+        dtrain1 = xgb.DMatrix(X_train.iloc[:, 0], label=y1_train)
+        dtest1 = xgb.DMatrix(X_test.iloc[:, 0], label=y1_test)
+        model1 = xgb.train(params, dtrain1, num_round)
+        ```
+
+        -   `dtrain1`, `dtest1`: DMatrix objects for training and testing with only the first feature column (`x0`).
+        -   `model1`: Trained model for `y1`.
+
+    -   For `output_2`:
+
+        ``` python
+        dtrain2 = xgb.DMatrix(X_train.iloc[:, 0:2], label=y2_train)
+        dtest2 = xgb.DMatrix(X_test.iloc[:, 0:2], label=y2_test)
+        model2 = xgb.train(params, dtrain2, num_round)
+        ```
+
+        -   `dtrain2`, `dtest2`: DMatrix objects for training and testing with the first two feature columns (`x0` and `x1`).
+        -   `model2`: Trained model for `y2`.
+
+    -   For `output_3`:
+
+        ``` python
+        dtrain3 = xgb.DMatrix(X_train, label=y3_train)
+        dtest3 = xgb.DMatrix(X_test, label=y3_test)
+        model3 = xgb.train(params, dtrain3, num_round)
+        ```
+
+        -   `dtrain3`, `dtest3`: DMatrix objects for training and testing with all three feature columns (`x0`, `x1`, and `x2`).
+        -   `model3`: Trained model for `y3`.
+
+## Model options
+
+1.  **Learning Task Parameters**:
+    -   `objective`: Defines the loss function to be minimized (e.g., `reg:squarederror`, `binary:logistic`, `multi:softmax`).
+2.  **Tree Parameters**:
+    -   `max_depth`: Maximum depth of the decision trees. Larger values can lead to overfitting.
+    -   `min_child_weight`: Minimum sum of instance weight (hessian) needed in a child.
+    -   `gamma`: Minimum loss reduction required to make a further partition on a leaf node.
+3.  **Booster Parameters**:
+    -   `eta` (alias: `learning_rate`): Step size shrinkage used to prevent overfitting.
+    -   `subsample`: Proportion of training instances to use for each tree. Helps prevent overfitting.
+    -   `colsample_bytree`: Subsample ratio of columns when constructing each tree.
+    -   `lambda` (alias: `reg_lambda`): L2 regularization term on weights.
+    -   `alpha` (alias: `reg_alpha`): L1 regularization term on weights.
+4.  **Learning Task Customization**:
+    -   `scale_pos_weight`: Control the balance of positive and negative weights, useful for unbalanced classes.
+    -   `eval_metric`: Evaluation metrics to be used (e.g., `rmse`, `logloss`, `error`).
+5.  **Control Parameters**:
+    -   `n_estimators`: Number of trees to fit (number of boosting rounds).
+    -   `early_stopping_rounds`: Stop training if one metric doesn’t improve after a given number of rounds.
+6.  **Tree Method Parameters**:
+    -   `tree_method`: Algorithm used to construct trees (e.g., `auto`, `exact`, `approx`, `hist`, `gpu_hist`).
+    -   `grow_policy`: Controls the growth policy for the trees. `depthwise` or `lossguide`.
+
+Adjusting these parameters allows for fine-tuning the XGBoost model to better fit the data and improve performance.
+:::
+
+::: panel-tabset
 ## Convolutional Neural Network (CNN)
 
 ```{python}
@@ -282,7 +410,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 ```{python}
 # Build the model
 model = Sequential()
-model.add(Conv2D(64, (2, 1), activation='relu', input_shape=(3, 1, 1)))
+model.add(Input(shape=(3, 1, 1)))
+model.add(Conv2D(64, (2, 1), activation='relu'))
 model.add(Flatten())
 model.add(Dense(64, activation='relu'))
 model.add(Dense(3))  # Output layer with 3 units (one for each output value)
@@ -310,6 +439,8 @@ print(f'Test Loss: {loss}')
 predictions = model.predict(X_test)
 ```
 
+## Plots
+
 ```{python}
 # Create a DataFrame with actual and predicted values for comparison
 comparison_df = pd.DataFrame({
@@ -322,12 +453,208 @@ comparison_df = pd.DataFrame({
 })
 
 # Create scatter plots for each output
-fig1 = px.scatter(comparison_df, x='Actual_output_1', y='Predicted_output_1', title='Actual vs Predicted - Output 1')
-fig2 = px.scatter(comparison_df, x='Actual_output_2', y='Predicted_output_2', title='Actual vs Predicted - Output 2')
-fig3 = px.scatter(comparison_df, x='Actual_output_3', y='Predicted_output_3', title='Actual vs Predicted - Output 3')
+fig4 = px.scatter(comparison_df, x='Actual_output_1', y='Predicted_output_1', title='Actual vs Predicted - Output 1')
+fig5 = px.scatter(comparison_df, x='Actual_output_2', y='Predicted_output_2', title='Actual vs Predicted - Output 2')
+fig6 = px.scatter(comparison_df, x='Actual_output_3', y='Predicted_output_3', title='Actual vs Predicted - Output 3')
 
 # Show the plots
-fig1.show()
-fig2.show()
-fig3.show()
+fig4.show()
+fig5.show()
+fig6.show()
 ```
+
+## Model explanation
+
+### Data Preparation
+
+1.  **Import Necessary Libraries**:
+
+    ``` python
+    import numpy as np
+    from sklearn.model_selection import train_test_split
+    from tensorflow.keras.models import Sequential
+    from tensorflow.keras.layers import Input, Conv2D, Flatten, Dense
+    from tensorflow.keras.optimizers import Adam
+    ```
+
+    -   `numpy`: Library for numerical computations.
+    -   `train_test_split` from `sklearn`: Function to split data into training and testing sets.
+    -   `Sequential`, `Conv2D`, `Flatten`, `Dense` from `tensorflow.keras`: Classes and functions for building and training neural networks.
+    -   `Adam` from `tensorflow.keras.optimizers`: Optimizer for training the neural network.
+
+2.  **Prepare Data**:
+
+    ``` python
+    X = df[['x0', 'x1', 'x2']].values
+    y = df[['ew0', 'ew1', 'ew2']].values
+    ```
+
+    -   `X`: Feature matrix containing columns `x0`, `x1`, and `x2`.
+    -   `y`: Target matrix containing columns `ew0`, `ew1`, and `ew2`.
+
+3.  **Reshape Data**:
+
+    ``` python
+    # Reshape X to have the shape (samples, height, width, channels)
+    X = X.reshape((X.shape[0], X.shape[1], 1, 1))
+    ```
+
+    -   Reshapes `X` to fit the input shape expected by the convolutional neural network (CNN). The new shape is `(samples, height, width, channels)`.
+
+4.  **Split Data into Training and Testing Sets**:
+
+    ``` python
+    # Split into training and testing datasets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    ```
+
+    -   `train_test_split` splits the data with 80% for training and 20% for testing, using a fixed random seed (`random_state=42`) for reproducibility.
+
+### Model Building
+
+5.  **Build the Model**:
+
+    ``` python
+    # Build the model
+    model = Sequential()
+    model.add(Conv2D(64, (2, 1), activation='relu', input_shape=(3, 1, 1)))
+    model.add(Flatten())
+    model.add(Dense(64, activation='relu'))
+    model.add(Dense(3))  # Output layer with 3 units (one for each output value)
+    ```
+
+    -   Creates a Sequential model.
+    -   Adds a `Conv2D` layer with 64 filters, a kernel size of `(2, 1)`, and ReLU activation. The input shape is specified as `(3, 1, 1)`.
+    -   Adds a `Flatten` layer to convert the 2D output of the convolutional layer to a 1D array.
+    -   Adds a `Dense` layer with 64 units and ReLU activation.
+    -   Adds an output `Dense` layer with 3 units (one for each target variable).
+
+6.  **Compile the Model**:
+
+    ``` python
+    # Compile the model
+    model.compile(optimizer='adam', loss='mean_squared_error')
+    ```
+
+    -   Compiles the model with the Adam optimizer and mean squared error loss function.
+
+7.  **Print Model Summary**:
+
+    ``` python
+    # Print model summary
+    model.summary()
+    ```
+
+    -   Prints a summary of the model architecture.
+
+### Model Training and Evaluation
+
+8.  **Train the Model**:
+
+    ``` python
+    # Train the model
+    model.fit(X_train, y_train, epochs=50, batch_size=1, verbose=2)
+    ```
+
+    -   Trains the model for 50 epochs with a batch size of 1. The `verbose=2` option provides detailed logs during training.
+
+9.  **Evaluate the Model**:
+
+    ``` python
+    # Evaluate the model
+    loss = model.evaluate(X_test, y_test, verbose=0)
+    print(f'Test Loss: {loss}')
+    ```
+
+    -   Evaluates the model on the test data and prints the test loss.
+
+10. **Make Predictions**: `python     # Make predictions     predictions = model.predict(X_test)`
+
+    -   Makes predictions on the test data.
+
+## Model options
+
+1.  **Model Architecture**:
+    -   **Layer Types**: Add or remove layers such as additional `Conv2D`, `MaxPooling2D`, `Dense`, or other layers to change the network's complexity.
+    -   **Layer Parameters**: Adjust the number of filters in `Conv2D`, the size of kernels, or the number of units in `Dense` layers.
+2.  **Activation Functions**:
+    -   Change activation functions (e.g., `relu`, `sigmoid`, `tanh`, `softmax`) to experiment with different non-linearities.
+3.  **Optimizer**:
+    -   Change the optimizer (e.g., `SGD`, `RMSprop`, `Adam`, `Adagrad`). Adjust learning rates and other optimizer-specific parameters.
+4.  **Loss Function**:
+    -   Use different loss functions (e.g., `mean_absolute_error`, `mean_squared_logarithmic_error`) depending on the specific task and data distribution.
+5.  **Regularization**:
+    -   Add regularization techniques such as `Dropout` layers, L2 regularization (`kernel_regularizer=l2()`), or early stopping during training to prevent overfitting.
+6.  **Batch Size and Epochs**:
+    -   Adjust the `batch_size` and `epochs` to change the training dynamics. Larger batch sizes can provide more stable updates, while more epochs allow the model to learn more but can lead to overfitting.
+7.  **Input Data Shape**:
+    -   Reshape the input data differently if experimenting with other network architectures that expect different input shapes.
+8.  **Evaluation Metrics**:
+    -   Monitor different metrics during training and validation (e.g., `mean_absolute_error`, `r2_score`) for a better understanding of model performance.
+
+Adjusting these options allows for fine-tuning the neural network model to better fit the data and improve performance.
+:::
+
+::: column-screen-inset
+```{python}
+#| echo: false
+
+# Create a 2x3 subplot
+title_txt = "Performance comparison of XGBoost vs Convolutional Neural Network</br></br><sub>Label: Expected waiting times</sub>"
+subplot_titles = ('Interval 1', 'Interval 2', 
+                  'Interval 3', 'Interval 1', 
+                  'Interval 2', 'Interval 3')
+
+fig = make_subplots(rows=2, cols=3, subplot_titles=subplot_titles)
+
+# Add each scatter plot to the subplot
+fig.add_trace(fig1.data[0], row=1, col=1)
+fig.add_trace(fig2.data[0], row=1, col=2)
+fig.add_trace(fig3.data[0], row=1, col=3)
+fig.add_trace(fig4.data[0], row=2, col=1)
+fig.add_trace(fig5.data[0], row=2, col=2)
+fig.add_trace(fig6.data[0], row=2, col=3)
+
+# Add annotations for model labels
+fig.add_annotation(dict(font=dict(size=16),
+                        x=0.5,
+                        y=1.14,
+                        showarrow=False,
+                        text="XGBoost",
+                        xref="paper",
+                        yref="paper"))
+
+fig.add_annotation(dict(font=dict(size=16),
+                        x=0.5,
+                        y=0.48,
+                        showarrow=False,
+                        text="CNN",
+                        xref="paper",
+                        yref="paper"))
+
+# Add shared axis labels
+fig.add_annotation(dict(font=dict(size=16),
+                        x=0.5,
+                        y=-0.1,
+                        showarrow=False,
+                        text="Actual",
+                        xref="paper",
+                        yref="paper"))
+
+fig.add_annotation(dict(font=dict(size=16),
+                        x=-0.1,
+                        y=0.5,
+                        showarrow=False,
+                        text="Predicted",
+                        textangle=-90,
+                        xref="paper",
+                        yref="paper"))
+
+# Update layout to add more left margin and increase top margin
+fig.update_layout(margin=dict(l=150, r=20, t=180, b=100), height=800, width=1200, title_text=title_txt, title_y=0.95)
+
+# Show the combined plot
+fig.show()
+
+```
+:::
