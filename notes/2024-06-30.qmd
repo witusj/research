@@ -254,7 +254,7 @@ for t in range(T):
 
 # Update the layout of the subplot figure
 fig.update_layout(
-    height=800,  # Adjust height as needed
+    height=1000,  # Adjust height as needed
     width=1200,  # Adjust width as needed
     title_text="XGBoost: Actual vs Predicted Waiting Times Across Intervals",
     title={
