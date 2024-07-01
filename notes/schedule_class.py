@@ -477,3 +477,158 @@ class Schedule:
       
   def __str__(self):
       return "p_min = % s \nw = % s \np_plus = % s \new = % s \ntardiness = % s \nloss = % s" % (self.system['p_min'], self.system['w'], self.system['p_plus'], self.system['ew'], self.system['p_min'][-1], self.system['loss'])
+    
+
+class NewSchedule:
+    def __init__(self, x, d, s, q, omega):
+        self._clear_log_file()
+        self._configure_logging()
+
+        self._validate_parameters(x, d, s, q, omega)
+
+        self.parameters = {'x': x, 'd': d, 's': s, 'q': q, 'omega': omega}
+        self.parameters['s'] = service_time_with_no_shows(self.parameters['s'], self.parameters['q'])
+        self._initialize_system()
+
+    def _clear_log_file(self):
+        with open('logs.txt', 'w'):
+            pass
+
+    def _configure_logging(self):
+        logging.basicConfig(filename='logs.txt', encoding='utf-8', level=logging.DEBUG)
+
+    def _validate_parameters(self, x, d, s, q, omega):
+        if not all(isinstance(i, np.integer) and i >= 0 for i in x):
+            raise ValueError("All elements in x must be non-negative integers.")
+        if not isinstance(d, int) or d <= 0:
+            raise ValueError("d must be a positive integer.")
+        if not all(isinstance(i, float) and 0 <= i <= 1 for i in s):
+            raise ValueError("All elements in s must be floats between 0 and 1.")
+        if not isinstance(q, float) or not (0 <= q <= 1):
+            raise ValueError("q must be a float between 0 and 1.")
+        if not isinstance(omega, float) or not (0 <= omega <= 1):
+            raise ValueError("omega must be a float between 0 and 1.")
+
+    def _initialize_system(self):
+        self.state = 0
+        self.system = {
+            'p_min': [],  # Initialize as empty list
+            'p_plus': [],  # Initialize as empty list
+            'w': [[] for _ in self.parameters['x']],  # Initialize as list of lists
+            'ew': [],  # Initialize as empty list
+            'loss': None,
+            'search_path': []  # Initialize as empty list
+        }
+        self.system['p_min'].append(np.zeros(len(self.parameters['s']), dtype=np.float64))
+        self.system['p_min'][0][0] = 1  # The first patient in the schedule has waiting time zero with probability 1
+
+        if self.parameters['x'][0] > 0:  # Only calculate waiting times if there are patients scheduled in the state
+            self.system['w'][0].append(self.system['p_min'][0].copy())
+            for i in range(1, self.parameters['x'][0]):
+                convolved = np.convolve(self.system['w'][0][i - 1], self.parameters['s'])
+                self.system['w'][0].append(convolved)
+
+        self._update_p_plus(0)
+        self.state = 1
+
+    def _update_p_plus(self, state):
+        if self.parameters['x'][state] == 0:
+            self.system['p_plus'].append(self.system['p_min'][state].copy())
+        else:
+            convolved = np.convolve(self.system['w'][state][-1], self.parameters['s'], mode='full')
+            self.system['p_plus'].append(convolved)
+        logging.info(f"p_plus = {self.system['p_plus'][state]}")
+
+    def _calculate_state(self):
+        logging.info(f'{datetime.datetime.now()} - State = {self.state}')
+        prev_p_plus = self.system['p_plus'][self.state - 1]
+        new_p_min_length = len(prev_p_plus) - self.parameters['d']
+        new_p_min = np.zeros(max(len(prev_p_plus), new_p_min_length + self.parameters['d']), dtype=np.float64)
+        new_p_min[0] = np.sum(prev_p_plus[:(self.parameters['d'] + 1)])
+        new_p_min[1:new_p_min_length] = prev_p_plus[(self.parameters['d'] + 1):]
+        self.system['p_min'].append(new_p_min)
+
+        if self.parameters['x'][self.state] > 0:
+            self.system['w'][self.state].append(self.system['p_min'][self.state].copy())
+            logging.info(self.system['w'][self.state][0])
+            for i in range(1, self.parameters['x'][self.state]):
+                convolved = np.convolve(self.system['w'][self.state][i - 1], self.parameters['s'])
+                self.system['w'][self.state].append(convolved)
+                logging.info(self.system['w'][self.state][i])
+
+        self._update_p_plus(self.state)
+
+    def calculate_system_states(self, until=1):
+        while self.state < until:
+            self._calculate_state()
+            self.state += 1
+
+    def calculate_tardiness(self):
+        last_p_plus = self.system['p_plus'][-1]
+        new_p_min_length = len(last_p_plus) + self.parameters['d']
+        new_p_min = np.zeros(new_p_min_length, dtype=np.float64)
+        new_p_min[0] = np.sum(last_p_plus[:(self.parameters['d'] + 1)])
+        new_p_min[1:len(last_p_plus) - self.parameters['d']] = last_p_plus[(self.parameters['d'] + 1):]
+        self.system['p_min'][-1] = new_p_min
+
+    def calculate_wait_times(self):
+        for interval, wtdists in enumerate(self.system['w']):
+            ew = 0
+            for nr, dist in enumerate(wtdists):
+                meanwt = np.dot(range(len(dist)), dist)
+                logging.info(f"Mean waiting time for patient {nr} in interval {interval} = {meanwt}")
+                ew += meanwt
+            self.system['ew'].append(ew)
+
+    def calculate_loss(self):
+        omega = self.parameters['omega']
+        tot_wt = np.sum(self.system["ew"])
+        self.calculate_tardiness()
+        indices = np.arange(len(self.system['p_min'][-1]))
+        exp_tard = np.dot(indices, self.system['p_min'][-1])
+        self.system['loss'] = omega * tot_wt / np.sum(self.parameters['x']) + (1 - omega) * exp_tard
+
+    def local_search(self, omega=0.5):
+        omega = self.parameters['omega']
+        self.calculate_loss()
+        lowest_loss = self.system['loss']
+        store_optim = {'x': self.parameters['x'].copy(), 'system': copy.deepcopy(self.system)}
+
+        search_path = [{'schedule': self.parameters['x'].copy(), 'loss': lowest_loss}]
+
+        while True:
+            nh = generate_search_neighborhood(self.parameters['x'])
+            improved = False
+
+            for y in nh:
+                self.parameters['x'] = y.copy()
+                logging.info(f"Test schedule = {self.parameters['x']}")
+                self._initialize_system()
+                self.calculate_system_states(until=len(self.parameters['x']))
+                logging.info("System recalculated")
+                self.calculate_wait_times()
+                self.calculate_loss()
+
+                test_loss = self.system['loss']
+                logging.info(f'obj_value = {test_loss}')
+                search_path.append({'schedule': self.parameters['x'].copy(), 'loss': test_loss})
+
+                if test_loss < lowest_loss:
+                    lowest_loss = test_loss
+                    store_optim['x'] = self.parameters['x'].copy()
+                    store_optim['system'] = copy.deepcopy(self.system)
+                    logging.info(f'{datetime.datetime.now()} - Found lower loss = {lowest_loss} with x = {store_optim["x"]}')
+                    improved = True
+                    break
+
+            if not improved:
+                logging.info(f'Finished searching')
+                self.parameters['x'] = store_optim['x'].copy()
+                self.system = store_optim['system']
+                self.system['search_path'] = search_path
+                break
+
+    def __str__(self):
+        return "p_min = % s \nw = % s \np_plus = % s \new = % s \ntardiness = % s \nloss = % s" % (
+            self.system['p_min'], self.system['w'], self.system['p_plus'], self.system['ew'], self.system['p_min'][-1], self.system['loss'])
+
