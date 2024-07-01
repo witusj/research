@@ -1,0 +1,340 @@
+---
+title: "2024-06-27"
+author: "Witek ten Hove"
+format:
+  html:
+    css: styles.css
+    html-math-method: katex
+    include-in-header:
+      - scripts.html
+bibliography: bibliography.bib
+jupyter: python3
+editor: 
+  markdown: 
+    wrap: sentence
+---
+
+## OBP:
+
+Afspraken:
+
+-   [ ] We gaan verder kijken naar XG Boosting
+-   [ ] Data: optimale schedules, labels: waiting times en tardiness
+
+Idee Joost: cardinal analysis - is schedule A better than B?
+-\> Yes/No
+
+## Experiment: Application of ML models to calculate loss values
+
+In this experiment we will try out several Machine Learning models to predict the outcome of a loss function from a given schedule with $T$ intervals of length $d$.
+A schedule with $N$ patients can be defined as a vector
+
+$$
+x = (x_1, x_2, \ldots, x_T) \in \mathbb{N}_0^T
+$$
+
+$$
+\text{ such that } \sum_{t=1}^{T} x_t = N.
+$$
+
+Waiting times are calculated using a Lindley recursion:
+
+$$
+W_{1, t} = \max(0, W_{1, t-1} + V_{t-1} - d)
+$$
+
+$$
+W_{n, t} = W_{1,t} * S^{(n-1)}
+$$
+
+where $W_{n, t}$ is the waiting time distribution of patient $n$ in interval $t$, $V_{T}$ is the distribution of the total amount of work in the last interval, $S^{(k)}$ is the k-fold convolution of the service time distribution $S$ and $W*S$ is the convolution of the waiting time distribtion $W$ with $S$.
+
+We are interested in calculating for each schedule $x$ the expected total waiting time and overtime
+
+$$
+E(W(x)) = \sum_{t=1}^{T} \sum_{n=1}^{x_t} E(W_{n, t})
+$$
+
+$$
+E(L(x)) = E(\max(0, W_{1, T} + V_{T} - d)),
+$$
+
+The loss function is a weighted average of expected waiting time and overtime
+
+$$
+C(x) = \alpha_W E(W(x)) + \alpha_L E(L(x))
+$$
+
+Directly mapping schedules to loss values would significantly reduce the practical applicability of our method.
+The weights in the loss function are subjective values that reflect the perceived relative importance of their corresponding factors.
+Consequently, each time the weights are adjusted, the model would need to be retrained.
+
+A more effective approach would be to train separate models for each factor in the loss function.
+Once we predict the levels of each factor, we can input them into the loss function using the desired weights.
+In this experiment we will even go a step further and try to predict the expected waiting times in each interval instead of the aggregated values for the whole schedule.
+
+## Setup
+
+Load all packages, the schedule class and selected functions.
+
+```{python}
+
+from schedule_class import Schedule, generate_schedules
+from functions import generate_all_schedules
+import numpy as np
+import pandas as pd
+import xgboost as xgb
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Input, Conv2D, Flatten, Dense
+import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
+# Example usage:
+x = np.array([2, 1, 0])
+d = 3
+s = [0.1, 0.3, 0.25, 0.2, 0.15]
+q = 0.0
+omega = 0.5
+
+schedule = Schedule(x, d, s, q, omega)
+print(schedule)
+
+```
+
+Runner functions for creating and running a schedule instance.
+
+```{python}
+def run_schedule(x, d, s, q, omega, print_system=True):
+    schedule = Schedule(x=x, d=d, s=s, q=q, omega=omega)
+    schedule.calculate_system_states(until=len(x))
+    schedule.calculate_wait_times()
+    schedule.calculate_loss()
+    if(print_system): print(schedule)
+    return(schedule)
+```
+
+## Generate dataset
+
+Generate a dataset for training and testing of various schedules of lenght $T = 10$ with $N \in \{1, \dots, 14\}$ and corresponding aggregated expected waiting times in each interval.
+
+```{python}
+max_N = 8
+T =  5
+samples_names = [f'x_{t}' for t in range(T)]
+samples = pd.DataFrame(columns = samples_names)
+lables_names = [f'ew_{t}' for t in range(T)]
+lables = pd.DataFrame(columns = lables_names)
+
+for n in range(1, max_N+1):
+    schedules = generate_all_schedules(n, T) # Generates all possible schedules with length T
+    for schedule in schedules:
+      x = np.array(schedule, dtype=np.int64)
+      sch = run_schedule(x, d, s, q, omega, False)
+      
+      # Convert the current data dictionary to a DataFrame and append it to the main DataFrame
+      temp_samples = pd.DataFrame([x], columns=samples_names)
+      samples = pd.concat([samples, temp_samples], ignore_index=True)
+      temp_lables = pd.DataFrame([sch.system['ew']], columns=lables_names)
+      lables = pd.concat([lables, temp_lables], ignore_index=True)
+
+samples = samples.astype(np.int64)
+lables = lables.astype(np.int64)
+samples.tail()
+samples.dtypes
+lables.tail()
+```
+
+## XGBoost
+
+::: panel-tabset
+## Modeling
+
+### Create workflow
+
+![CRISP DM Workflow](https://upload.wikimedia.org/wikipedia/commons/b/b9/CRISP-DM_Process_Diagram.png){width="600"}
+
+```{python}
+
+def xgboost_workflow(X, y):
+  # Data preparation: create training and test sets
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+  # Train models
+  params = {
+      'objective': 'reg:squarederror',
+      'max_depth': 3,
+      'eta': 0.1,
+      'verbosity': 1
+  }
+  num_round = 100
+  # Model
+  dtrain = xgb.DMatrix(X_train, label=y_train)
+  dtest = xgb.DMatrix(X_test, label=y_test)
+  model = xgb.train(params, dtrain, num_round)
+  # Make predictions
+  preds = model.predict(dtest)
+  # Evaluate
+  mse = mean_squared_error(y_test, preds)
+  return(y_test, preds, mse)
+```
+
+### Run XGBoost workflow
+
+For each of the total expected waiting time per interval we want to train an XGBoost model.
+As input we take the schedule upto the current interval:
+
+$$
+\text{from } x_{0, \dots, t} \text{ predict } \sum_{n=1}^{x_t} E(W_{n, t})
+$$
+
+```{python}
+X = samples
+y = lables  # Number of intervals
+results_names = ['interval', 'actual', 'predicted']
+results = pd.DataFrame(columns = results_names)
+mse_list = []
+for t in range(1, T+1):
+    X_subset = samples.iloc[:, :t]
+    y_subset = lables.iloc[:, t-1]
+    y_test, preds, mse = xgboost_workflow(X_subset, y_subset)
+    temp_results = pd.DataFrame({
+      'interval': [t-1] * len(y_test),
+      'actual': y_test,
+      'predicted': preds
+      })
+    results = pd.concat([results, temp_results], ignore_index=True)
+    mse_list.append(mse)
+    
+    print(f"Interval {t-1}, MSE: {mse}")
+results.head()   
+```
+
+## Plots
+
+::: column-screen-inset
+```{python}
+# Define the number of rows and columns for the subplot grid
+rows = (T + 1) // 3  # Number of rows, adjust based on the total number of plots
+cols = 3  # Number of columns
+
+# Create a subplot figure
+fig = make_subplots(rows=rows, cols=cols, subplot_titles=[f'Interval {t}' for t in range(T)])
+
+def add_jitter(values, jitter_amount=0.0):
+    return values + np.random.uniform(-jitter_amount, jitter_amount, len(values))
+
+for t in range(T):
+    comparison_df = results[results['interval'] == t]
+    # Add jitter to actual and predicted values
+    jittered_actual = add_jitter(comparison_df['actual'])
+    jittered_predicted = add_jitter(comparison_df['predicted'])
+    
+    # Get the row and column index for the current plot
+    row = (t // cols) + 1
+    col = (t % cols) + 1
+    
+    # Add the scatter plot with jittered points to the subplot figure
+    fig.add_trace(
+        go.Scatter(x=jittered_actual, y=jittered_predicted, mode='markers', name=f'Interval {t}', showlegend=False),
+        row=row, col=col
+    )
+    
+    # Round the MSE value to two decimals
+    rounded_mse = round(mse_list[t], 2)
+    
+    # Update subplot title with MSE
+    fig.layout.annotations[t].text = f'Interval {t}</br></br><sub>MSE = {rounded_mse}, # Samples = {len(comparison_df["actual"])}</sub>'
+
+# Update the layout of the subplot figure
+fig.update_layout(
+    height=800,  # Adjust height as needed
+    width=1200,  # Adjust width as needed
+    title_text="XGBoost: Actual vs Predicted Waiting Times Across Intervals",
+    title={
+        'y': 0.95,  # Position the title closer to the top
+        'x': 0.5,  # Center the title
+        'xanchor': 'center',
+        'yanchor': 'top'
+    },
+    margin=dict(l=150, r=20, t=180, b=100)  # Add top margin to create space between title and plots
+)
+
+# Add shared axis labels
+fig.add_annotation(dict(font=dict(size=16),
+                        x=0.5,
+                        y=-0.1,
+                        showarrow=False,
+                        text="Actual",
+                        xref="paper",
+                        yref="paper"))
+
+fig.add_annotation(dict(font=dict(size=16),
+                        x=-0.1,
+                        y=0.5,
+                        showarrow=False,
+                        text="Predicted",
+                        textangle=-90,
+                        xref="paper",
+                        yref="paper"))
+
+# Show the figure
+fig.show()
+
+```
+:::
+
+## Model explanation
+
+1.  **Function Definition**:
+    -   The function `xgboost_workflow` takes two arguments: `X` (the feature set) and `y` (the target variable).
+2.  **Data Preparation**:
+    -   The function splits the data into training and testing sets using `train_test_split` from the `sklearn.model_selection` module.
+    -   `X_train` and `X_test` are the training and testing subsets of the feature set, respectively.
+    -   `y_train` and `y_test` are the corresponding subsets of the target variable.
+    -   The `test_size` parameter is set to 0.2, meaning 20% of the data is used for testing, and 80% for training.
+    -   The `random_state` parameter ensures reproducibility by seeding the random number generator.
+3.  **Model Training Parameters**:
+    -   A dictionary `params` is defined to set the hyperparameters for the XGBoost model:
+        -   `'objective': 'reg:squarederror'` specifies that the objective function is regression using squared error.
+        -   `'max_depth': 3` sets the maximum depth of the trees to 3, controlling the complexity of the model.
+        -   `'eta': 0.1` sets the learning rate to 0.1, controlling the step size during optimization.
+        -   `'verbosity': 1` sets the verbosity level to 1, providing basic information about the training process.
+4.  **Number of Rounds**:
+    -   `num_round` is set to 100, indicating the number of boosting rounds (iterations) the model will undergo.
+5.  **DMatrix Creation**:
+    -   The training and testing datasets are converted into `DMatrix` objects, which are the internal data structure that XGBoost uses.
+    -   `dtrain` is the `DMatrix` for the training set, created with `X_train` and `y_train`.
+    -   `dtest` is the `DMatrix` for the testing set, created with `X_test` and `y_test`.
+6.  **Model Training**:
+    -   The XGBoost model is trained using the `xgb.train` function, which takes the parameters, the training `DMatrix`, and the number of rounds as inputs.
+    -   The trained model is returned as the output of the function.
+
+## Model options
+
+1.  **Learning Task Parameters**:
+    -   `objective`: Defines the loss function to be minimized (e.g., `reg:squarederror`, `binary:logistic`, `multi:softmax`).
+2.  **Tree Parameters**:
+    -   `max_depth`: Maximum depth of the decision trees. Larger values can lead to overfitting.
+    -   `min_child_weight`: Minimum sum of instance weight (hessian) needed in a child.
+    -   `gamma`: Minimum loss reduction required to make a further partition on a leaf node.
+3.  **Booster Parameters**:
+    -   `eta` (alias: `learning_rate`): Step size shrinkage used to prevent overfitting.
+    -   `subsample`: Proportion of training instances to use for each tree. Helps prevent overfitting.
+    -   `colsample_bytree`: Subsample ratio of columns when constructing each tree.
+    -   `lambda` (alias: `reg_lambda`): L2 regularization term on weights.
+    -   `alpha` (alias: `reg_alpha`): L1 regularization term on weights.
+4.  **Learning Task Customization**:
+    -   `scale_pos_weight`: Control the balance of positive and negative weights, useful for unbalanced classes.
+    -   `eval_metric`: Evaluation metrics to be used (e.g., `rmse`, `logloss`, `error`).
+5.  **Control Parameters**:
+    -   `n_estimators`: Number of trees to fit (number of boosting rounds).
+    -   `early_stopping_rounds`: Stop training if one metric doesn’t improve after a given number of rounds.
+6.  **Tree Method Parameters**:
+    -   `tree_method`: Algorithm used to construct trees (e.g., `auto`, `exact`, `approx`, `hist`, `gpu_hist`).
+    -   `grow_policy`: Controls the growth policy for the trees. `depthwise` or `lossguide`.
+
+Adjusting these parameters allows for fine-tuning the XGBoost model to better fit the data and improve performance.
+:::

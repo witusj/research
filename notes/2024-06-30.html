@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.551">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Witek ten Hove">
+
+<title>2024-06-27</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="2024-06-30_files/libs/clipboard/clipboard.min.js"></script>
+<script src="2024-06-30_files/libs/quarto-html/quarto.js"></script>
+<script src="2024-06-30_files/libs/quarto-html/popper.min.js"></script>
+<script src="2024-06-30_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="2024-06-30_files/libs/quarto-html/anchor.min.js"></script>
+<link href="2024-06-30_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="2024-06-30_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="2024-06-30_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="2024-06-30_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="2024-06-30_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+if (typeof require !== 'undefined') {
+require.undef("plotly");
+requirejs.config({
+    paths: {
+        'plotly': ['https://cdn.plot.ly/plotly-2.32.0.min']
+    }
+});
+require(['plotly'], function(Plotly) {
+    window._Plotly = Plotly;
+});
+}
+</script>
+
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">2024-06-27</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Witek ten Hove </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="obp" class="level2">
+<h2 class="anchored" data-anchor-id="obp">OBP:</h2>
+<p>Afspraken:</p>
+<ul class="task-list">
+<li><label><input type="checkbox">We gaan verder kijken naar XG Boosting</label></li>
+<li><label><input type="checkbox">Data: optimale schedules, labels: waiting times en tardiness</label></li>
+</ul>
+<p>Idee Joost: cardinal analysis - is schedule A better than B? -&gt; Yes/No</p>
+</section>
+<section id="experiment-application-of-ml-models-to-calculate-loss-values" class="level2">
+<h2 class="anchored" data-anchor-id="experiment-application-of-ml-models-to-calculate-loss-values">Experiment: Application of ML models to calculate loss values</h2>
+<p>In this experiment we will try out several Machine Learning models to predict the outcome of a loss function from a given schedule with <span class="math inline">T</span> intervals of length <span class="math inline">d</span>. A schedule with <span class="math inline">N</span> patients can be defined as a vector</p>
+<p><span class="math display">
+x = (x_1, x_2, \ldots, x_T) \in \mathbb{N}_0^T
+</span></p>
+<p><span class="math display">
+\text{ such that } \sum_{t=1}^{T} x_t = N.
+</span></p>
+<p>Waiting times are calculated using a Lindley recursion:</p>
+<p><span class="math display">
+W_{1, t} = \max(0, W_{1, t-1} + V_{t-1} - d)
+</span></p>
+<p><span class="math display">
+W_{n, t} = W_{1,t} * S^{(n-1)}
+</span></p>
+<p>where <span class="math inline">W_{n, t}</span> is the waiting time distribution of patient <span class="math inline">n</span> in interval <span class="math inline">t</span>, <span class="math inline">V_{T}</span> is the distribution of the total amount of work in the last interval, <span class="math inline">S^{(k)}</span> is the k-fold convolution of the service time distribution <span class="math inline">S</span> and <span class="math inline">W*S</span> is the convolution of the waiting time distribtion <span class="math inline">W</span> with <span class="math inline">S</span>.</p>
+<p>We are interested in calculating for each schedule <span class="math inline">x</span> the expected total waiting time and overtime</p>
+<p><span class="math display">
+E(W(x)) = \sum_{t=1}^{T} \sum_{n=1}^{x_t} E(W_{n, t})
+</span></p>
+<p><span class="math display">
+E(L(x)) = E(\max(0, W_{1, T} + V_{T} - d)),
+</span></p>
+<p>The loss function is a weighted average of expected waiting time and overtime</p>
+<p><span class="math display">
+C(x) = \alpha_W E(W(x)) + \alpha_L E(L(x))
+</span></p>
+<p>Directly mapping schedules to loss values would significantly reduce the practical applicability of our method. The weights in the loss function are subjective values that reflect the perceived relative importance of their corresponding factors. Consequently, each time the weights are adjusted, the model would need to be retrained.</p>
+<p>A more effective approach would be to train separate models for each factor in the loss function. Once we predict the levels of each factor, we can input them into the loss function using the desired weights. In this experiment we will even go a step further and try to predict the expected waiting times in each interval instead of the aggregated values for the whole schedule.</p>
+</section>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<p>Load all packages, the schedule class and selected functions.</p>
+<div id="e8b135ce" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> schedule_class <span class="im">import</span> Schedule, generate_schedules</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functions <span class="im">import</span> generate_all_schedules</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xgboost <span class="im">as</span> xgb</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.models <span class="im">import</span> Sequential</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.layers <span class="im">import</span> Input, Conv2D, Flatten, Dense</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotly.subplots <span class="im">import</span> make_subplots</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Example usage:</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">0</span>])</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.3</span>, <span class="fl">0.25</span>, <span class="fl">0.2</span>, <span class="fl">0.15</span>]</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>q <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>omega <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>schedule <span class="op">=</span> Schedule(x, d, s, q, omega)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(schedule)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>p_min = [array([1., 0., 0., 0., 0.])] 
+w = [[array([1., 0., 0., 0., 0.]), array([0.1 , 0.3 , 0.25, 0.2 , 0.15, 0.  , 0.  , 0.  , 0.  ])], [], []] 
+p_plus = [array([0.01  , 0.06  , 0.14  , 0.19  , 0.2125, 0.19  , 0.115 , 0.06  ,
+       0.0225, 0.    , 0.    , 0.    , 0.    ])] 
+ew = [] 
+tardiness = [1. 0. 0. 0. 0.] 
+loss = None</code></pre>
+</div>
+</div>
+<p>Runner functions for creating and running a schedule instance.</p>
+<div id="afada17e" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_schedule(x, d, s, q, omega, print_system<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    schedule <span class="op">=</span> Schedule(x<span class="op">=</span>x, d<span class="op">=</span>d, s<span class="op">=</span>s, q<span class="op">=</span>q, omega<span class="op">=</span>omega)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    schedule.calculate_system_states(until<span class="op">=</span><span class="bu">len</span>(x))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    schedule.calculate_wait_times()</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    schedule.calculate_loss()</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(print_system): <span class="bu">print</span>(schedule)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(schedule)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="generate-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="generate-dataset">Generate dataset</h2>
+<p>Generate a dataset for training and testing of various schedules of lenght <span class="math inline">T = 10</span> with <span class="math inline">N \in \{1, \dots, 14\}</span> and corresponding aggregated expected waiting times in each interval.</p>
+<div id="3f3305a7" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>max_N <span class="op">=</span> <span class="dv">8</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span>  <span class="dv">5</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>samples_names <span class="op">=</span> [<span class="ss">f'x_</span><span class="sc">{</span>t<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(T)]</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>samples <span class="op">=</span> pd.DataFrame(columns <span class="op">=</span> samples_names)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>lables_names <span class="op">=</span> [<span class="ss">f'ew_</span><span class="sc">{</span>t<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(T)]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>lables <span class="op">=</span> pd.DataFrame(columns <span class="op">=</span> lables_names)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, max_N<span class="op">+</span><span class="dv">1</span>):</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    schedules <span class="op">=</span> generate_all_schedules(n, T) <span class="co"># Generates all possible schedules with length T</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> schedule <span class="kw">in</span> schedules:</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>      x <span class="op">=</span> np.array(schedule, dtype<span class="op">=</span>np.int64)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>      sch <span class="op">=</span> run_schedule(x, d, s, q, omega, <span class="va">False</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Convert the current data dictionary to a DataFrame and append it to the main DataFrame</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      temp_samples <span class="op">=</span> pd.DataFrame([x], columns<span class="op">=</span>samples_names)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>      samples <span class="op">=</span> pd.concat([samples, temp_samples], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>      temp_lables <span class="op">=</span> pd.DataFrame([sch.system[<span class="st">'ew'</span>]], columns<span class="op">=</span>lables_names)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>      lables <span class="op">=</span> pd.concat([lables, temp_lables], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>samples <span class="op">=</span> samples.astype(np.int64)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>lables <span class="op">=</span> lables.astype(np.int64)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>samples.tail()</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>samples.dtypes</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>lables.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/gf/gtt1mww524x0q33rqlwsmjw80000gn/T/ipykernel_11227/3038709434.py:18: FutureWarning:
+
+The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">ew_0</th>
+<th data-quarto-table-cell-role="th">ew_1</th>
+<th data-quarto-table-cell-role="th">ew_2</th>
+<th data-quarto-table-cell-role="th">ew_3</th>
+<th data-quarto-table-cell-role="th">ew_4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1281</td>
+<td>42</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1282</td>
+<td>42</td>
+<td>0</td>
+<td>0</td>
+<td>5</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1283</td>
+<td>42</td>
+<td>0</td>
+<td>8</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1284</td>
+<td>42</td>
+<td>11</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1285</td>
+<td>56</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="xgboost" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="xgboost">XGBoost</h2>
+<div class="tabset-margin-container"></div><div class="panel-tabset page-columns page-full">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Modeling</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Plots</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Model explanation</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Model options</a></li></ul>
+<div class="tab-content page-columns page-full">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<section id="create-workflow" class="level3">
+<h3 class="anchored" data-anchor-id="create-workflow">Create workflow</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/CRISP-DM_Process_Diagram.png" class="img-fluid figure-img" width="600"></p>
+<figcaption>CRISP DM Workflow</figcaption>
+</figure>
+</div>
+<div id="ceaa5097" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> xgboost_workflow(X, y):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Data preparation: create training and test sets</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Train models</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  params <span class="op">=</span> {</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      <span class="st">'objective'</span>: <span class="st">'reg:squarederror'</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">'max_depth'</span>: <span class="dv">3</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">'eta'</span>: <span class="fl">0.1</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">'verbosity'</span>: <span class="dv">1</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  num_round <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Model</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  dtrain <span class="op">=</span> xgb.DMatrix(X_train, label<span class="op">=</span>y_train)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  dtest <span class="op">=</span> xgb.DMatrix(X_test, label<span class="op">=</span>y_test)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  model <span class="op">=</span> xgb.train(params, dtrain, num_round)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Make predictions</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  preds <span class="op">=</span> model.predict(dtest)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Evaluate</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  mse <span class="op">=</span> mean_squared_error(y_test, preds)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span>(y_test, preds, mse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="run-xgboost-workflow" class="level3">
+<h3 class="anchored" data-anchor-id="run-xgboost-workflow">Run XGBoost workflow</h3>
+<p>For each of the total expected waiting time per interval we want to train an XGBoost model. As input we take the schedule upto the current interval:</p>
+<p><span class="math display">
+\text{from } x_{0, \dots, t} \text{ predict } \sum_{n=1}^{x_t} E(W_{n, t})
+</span></p>
+<div id="8892ec71" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> samples</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> lables  <span class="co"># Number of intervals</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>results_names <span class="op">=</span> [<span class="st">'interval'</span>, <span class="st">'actual'</span>, <span class="st">'predicted'</span>]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> pd.DataFrame(columns <span class="op">=</span> results_names)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>mse_list <span class="op">=</span> []</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, T<span class="op">+</span><span class="dv">1</span>):</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    X_subset <span class="op">=</span> samples.iloc[:, :t]</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    y_subset <span class="op">=</span> lables.iloc[:, t<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    y_test, preds, mse <span class="op">=</span> xgboost_workflow(X_subset, y_subset)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    temp_results <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">'interval'</span>: [t<span class="op">-</span><span class="dv">1</span>] <span class="op">*</span> <span class="bu">len</span>(y_test),</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">'actual'</span>: y_test,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">'predicted'</span>: preds</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>      })</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> pd.concat([results, temp_results], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    mse_list.append(mse)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Interval </span><span class="sc">{</span>t<span class="op">-</span><span class="dv">1</span><span class="sc">}</span><span class="ss">, MSE: </span><span class="sc">{</span>mse<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>results.head()   </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Interval 0, MSE: 2.4269942148634815e-07
+Interval 1, MSE: 0.03228330349226581
+Interval 2, MSE: 0.8638008314839354
+Interval 3, MSE: 0.8875898561901042
+Interval 4, MSE: 0.8794581172302635</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/gf/gtt1mww524x0q33rqlwsmjw80000gn/T/ipykernel_11227/360415112.py:15: FutureWarning:
+
+The behavior of DataFrame concatenation with empty or all-NA entries is deprecated. In a future version, this will no longer exclude empty or all-NA columns when determining the result dtypes. To retain the old behavior, exclude the relevant entries before the concat operation.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">interval</th>
+<th data-quarto-table-cell-role="th">actual</th>
+<th data-quarto-table-cell-role="th">predicted</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
+<td>12</td>
+<td>11.999147</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>0</td>
+<td>0</td>
+<td>0.000258</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>0</td>
+<td>0</td>
+<td>0.000258</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>0</td>
+<td>2</td>
+<td>1.999862</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0</td>
+<td>6</td>
+<td>5.999709</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<div id="tabset-1-2" class="tab-pane page-columns page-full" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="column-screen-inset">
+<div id="16a74ba7" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the number of rows and columns for the subplot grid</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> (T <span class="op">+</span> <span class="dv">1</span>) <span class="op">//</span> <span class="dv">3</span>  <span class="co"># Number of rows, adjust based on the total number of plots</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> <span class="dv">3</span>  <span class="co"># Number of columns</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a subplot figure</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> make_subplots(rows<span class="op">=</span>rows, cols<span class="op">=</span>cols, subplot_titles<span class="op">=</span>[<span class="ss">f'Interval </span><span class="sc">{</span>t<span class="sc">}</span><span class="ss">'</span> <span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(T)])</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_jitter(values, jitter_amount<span class="op">=</span><span class="fl">0.0</span>):</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> values <span class="op">+</span> np.random.uniform(<span class="op">-</span>jitter_amount, jitter_amount, <span class="bu">len</span>(values))</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(T):</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    comparison_df <span class="op">=</span> results[results[<span class="st">'interval'</span>] <span class="op">==</span> t]</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add jitter to actual and predicted values</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    jittered_actual <span class="op">=</span> add_jitter(comparison_df[<span class="st">'actual'</span>])</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    jittered_predicted <span class="op">=</span> add_jitter(comparison_df[<span class="st">'predicted'</span>])</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get the row and column index for the current plot</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    row <span class="op">=</span> (t <span class="op">//</span> cols) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    col <span class="op">=</span> (t <span class="op">%</span> cols) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add the scatter plot with jittered points to the subplot figure</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    fig.add_trace(</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>        go.Scatter(x<span class="op">=</span>jittered_actual, y<span class="op">=</span>jittered_predicted, mode<span class="op">=</span><span class="st">'markers'</span>, name<span class="op">=</span><span class="ss">f'Interval </span><span class="sc">{</span>t<span class="sc">}</span><span class="ss">'</span>, showlegend<span class="op">=</span><span class="va">False</span>),</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>        row<span class="op">=</span>row, col<span class="op">=</span>col</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Round the MSE value to two decimals</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    rounded_mse <span class="op">=</span> <span class="bu">round</span>(mse_list[t], <span class="dv">2</span>)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Update subplot title with MSE</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    fig.layout.annotations[t].text <span class="op">=</span> <span class="ss">f'Interval </span><span class="sc">{</span>t<span class="sc">}</span><span class="ss">&lt;/br&gt;&lt;/br&gt;&lt;sub&gt;MSE = </span><span class="sc">{</span>rounded_mse<span class="sc">}</span><span class="ss">, # Samples = </span><span class="sc">{</span><span class="bu">len</span>(comparison_df[<span class="st">"actual"</span>])<span class="sc">}</span><span class="ss">&lt;/sub&gt;'</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Update the layout of the subplot figure</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">800</span>,  <span class="co"># Adjust height as needed</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">1200</span>,  <span class="co"># Adjust width as needed</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    title_text<span class="op">=</span><span class="st">"XGBoost: Actual vs Predicted Waiting Times Across Intervals"</span>,</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span>{</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>        <span class="st">'y'</span>: <span class="fl">0.95</span>,  <span class="co"># Position the title closer to the top</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>        <span class="st">'x'</span>: <span class="fl">0.5</span>,  <span class="co"># Center the title</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>        <span class="st">'xanchor'</span>: <span class="st">'center'</span>,</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>        <span class="st">'yanchor'</span>: <span class="st">'top'</span></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>    margin<span class="op">=</span><span class="bu">dict</span>(l<span class="op">=</span><span class="dv">150</span>, r<span class="op">=</span><span class="dv">20</span>, t<span class="op">=</span><span class="dv">180</span>, b<span class="op">=</span><span class="dv">100</span>)  <span class="co"># Add top margin to create space between title and plots</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Add shared axis labels</span></span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>fig.add_annotation(<span class="bu">dict</span>(font<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">16</span>),</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>                        x<span class="op">=</span><span class="fl">0.5</span>,</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>                        y<span class="op">=-</span><span class="fl">0.1</span>,</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>                        showarrow<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>                        text<span class="op">=</span><span class="st">"Actual"</span>,</span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>                        xref<span class="op">=</span><span class="st">"paper"</span>,</span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>                        yref<span class="op">=</span><span class="st">"paper"</span>))</span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>fig.add_annotation(<span class="bu">dict</span>(font<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">16</span>),</span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>                        x<span class="op">=-</span><span class="fl">0.1</span>,</span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>                        y<span class="op">=</span><span class="fl">0.5</span>,</span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>                        showarrow<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>                        text<span class="op">=</span><span class="st">"Predicted"</span>,</span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a>                        textangle<span class="op">=-</span><span class="dv">90</span>,</span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>                        xref<span class="op">=</span><span class="st">"paper"</span>,</span>
+<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>                        yref<span class="op">=</span><span class="st">"paper"</span>))</span>
+<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the figure</span></span>
+<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>                            <div id="1adfe62c-854d-4df8-905e-54cff2ceea09" class="plotly-graph-div" style="height:800px; width:1200px;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("1adfe62c-854d-4df8-905e-54cff2ceea09")) {                    Plotly.newPlot(                        "1adfe62c-854d-4df8-905e-54cff2ceea09",                        [{"mode":"markers","name":"Interval 0","showlegend":false,"x":[12.0,0.0,0.0,2.0,6.0,0.0,12.0,0.0,0.0,2.0,2.0,6.0,0.0,0.0,6.0,0.0,0.0,0.0,6.0,0.0,0.0,0.0,0.0,0.0,0.0,6.0,0.0,2.0,0.0,0.0,0.0,12.0,6.0,0.0,2.0,0.0,2.0,2.0,0.0,0.0,6.0,0.0,0.0,0.0,0.0,20.0,0.0,0.0,2.0,6.0,0.0,6.0,0.0,0.0,0.0,0.0,0.0,6.0,2.0,20.0,0.0,2.0,0.0,0.0,20.0,0.0,2.0,0.0,0.0,0.0,20.0,2.0,0.0,0.0,0.0,30.0,2.0,0.0,6.0,0.0,0.0,0.0,2.0,2.0,0.0,6.0,0.0,0.0,0.0,0.0,0.0,0.0,12.0,2.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,0.0,0.0,6.0,0.0,0.0,2.0,0.0,0.0,0.0,0.0,2.0,0.0,2.0,6.0,0.0,0.0,0.0,2.0,2.0,0.0,0.0,2.0,0.0,2.0,0.0,30.0,0.0,0.0,2.0,6.0,0.0,0.0,0.0,12.0,0.0,2.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,12.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,2.0,2.0,0.0,0.0,30.0,0.0,0.0,0.0,0.0,0.0,0.0,12.0,6.0,0.0,0.0,0.0,0.0,6.0,2.0,0.0,0.0,0.0,0.0,0.0,20.0,0.0,0.0,0.0,0.0,2.0,0.0,2.0,6.0,0.0,0.0,12.0,0.0,20.0,0.0,0.0,0.0,6.0,0.0,12.0,0.0,6.0,6.0,0.0,0.0,12.0,2.0,2.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,12.0,0.0,0.0,0.0,0.0,0.0,0.0,12.0,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,6.0,30.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,2.0,0.0,2.0,0.0,12.0,0.0,6.0,0.0,0.0,2.0,0.0,2.0],"y":[11.999147415161133,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,5.999708652496338,0.0002584609610494226,11.999147415161133,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,1.9998618364334106,5.999708652496338,0.0002584609610494226,0.0002584609610494226,5.999708652496338,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,5.999708652496338,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,5.999708652496338,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,11.999147415161133,5.999708652496338,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,1.9998618364334106,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,5.999708652496338,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,19.998634338378906,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,5.999708652496338,0.0002584609610494226,5.999708652496338,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,5.999708652496338,1.9998618364334106,19.998634338378906,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,19.998634338378906,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,19.998634338378906,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,29.997358322143555,1.9998618364334106,0.0002584609610494226,5.999708652496338,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,1.9998618364334106,0.0002584609610494226,5.999708652496338,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,11.999147415161133,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,5.999708652496338,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,1.9998618364334106,5.999708652496338,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,29.997358322143555,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,5.999708652496338,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,11.999147415161133,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,11.999147415161133,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,29.997358322143555,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,11.999147415161133,5.999708652496338,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,5.999708652496338,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,19.998634338378906,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,1.9998618364334106,5.999708652496338,0.0002584609610494226,0.0002584609610494226,11.999147415161133,0.0002584609610494226,19.998634338378906,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,5.999708652496338,0.0002584609610494226,11.999147415161133,0.0002584609610494226,5.999708652496338,5.999708652496338,0.0002584609610494226,0.0002584609610494226,11.999147415161133,1.9998618364334106,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,11.999147415161133,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,11.999147415161133,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,5.999708652496338,29.997358322143555,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,11.999147415161133,0.0002584609610494226,5.999708652496338,0.0002584609610494226,0.0002584609610494226,1.9998618364334106,0.0002584609610494226,1.9998618364334106],"type":"scatter","xaxis":"x","yaxis":"y"},{"mode":"markers","name":"Interval 1","showlegend":false,"x":[12.0,20.0,20.0,1.0,15.0,12.0,0.0,0.0,0.0,9.0,0.0,0.0,0.0,0.0,0.0,0.0,12.0,0.0,0.0,6.0,30.0,0.0,0.0,2.0,0.0,3.0,0.0,4.0,2.0,0.0,0.0,21.0,0.0,0.0,0.0,2.0,0.0,9.0,2.0,0.0,0.0,2.0,0.0,0.0,6.0,7.0,2.0,0.0,9.0,24.0,0.0,0.0,2.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.0,0.0,0.0,0.0,0.0,9.0,2.0,0.0,6.0,0.0,12.0,17.0,1.0,0.0,0.0,6.0,0.0,0.0,30.0,2.0,0.0,12.0,0.0,6.0,0.0,0.0,4.0,20.0,0.0,2.0,0.0,2.0,8.0,0.0,2.0,0.0,2.0,0.0,6.0,0.0,17.0,0.0,4.0,3.0,12.0,0.0,0.0,9.0,9.0,0.0,0.0,0.0,6.0,0.0,2.0,0.0,20.0,0.0,0.0,3.0,2.0,0.0,0.0,0.0,0.0,9.0,6.0,0.0,2.0,6.0,1.0,0.0,0.0,0.0,5.0,12.0,2.0,6.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,2.0,4.0,0.0,43.0,0.0,0.0,0.0,0.0,2.0,0.0,2.0,0.0,0.0,3.0,0.0,0.0,6.0,0.0,0.0,0.0,0.0,2.0,0.0,20.0,2.0,0.0,12.0,2.0,6.0,0.0,1.0,6.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6.0,6.0,0.0,0.0,5.0,0.0,3.0,3.0,0.0,6.0,0.0,4.0,9.0,0.0,2.0,20.0,0.0,2.0,0.0,20.0,12.0,6.0,2.0,6.0,0.0,0.0,2.0,0.0,0.0,0.0,20.0,0.0,2.0,0.0,0.0,0.0,8.0,0.0,0.0,20.0,0.0,0.0,0.0,0.0,0.0,6.0,0.0,17.0,0.0,0.0,9.0,6.0,4.0,2.0,12.0,2.0,3.0,0.0,2.0,26.0,0.0,0.0],"y":[12.16197395324707,20.00151252746582,20.00151252746582,1.3965784311294556,15.275259971618652,12.011476516723633,0.33554476499557495,-0.025372406467795372,0.03278058394789696,8.979817390441895,-0.28603628277778625,0.16973812878131866,-0.025372406467795372,-0.025372406467795372,0.16973812878131866,0.03278058394789696,12.011476516723633,-0.025372406467795372,0.16973812878131866,5.941833019256592,30.084535598754883,-0.025372406467795372,0.03278058394789696,2.068178176879883,-0.025372406467795372,2.8409554958343506,0.03278058394789696,3.955204725265503,2.068178176879883,-0.025372406467795372,0.03278058394789696,21.832172393798828,0.16973812878131866,-0.025372406467795372,-0.28603628277778625,2.068178176879883,-0.28603628277778625,8.979817390441895,2.068178176879883,-0.025372406467795372,0.16973812878131866,2.068178176879883,0.03278058394789696,-0.025372406467795372,5.941833019256592,6.6934494972229,2.068178176879883,-0.025372406467795372,8.979817390441895,24.399188995361328,-0.025372406467795372,0.16973812878131866,2.068178176879883,-0.025372406467795372,0.03278058394789696,-0.025372406467795372,0.03278058394789696,0.16973812878131866,1.3965784311294556,0.36249470710754395,0.03278058394789696,-0.28603628277778625,0.03278058394789696,-0.025372406467795372,0.36249470710754395,-0.025372406467795372,-0.28603628277778625,0.03278058394789696,-0.025372406467795372,0.03278058394789696,0.36249470710754395,3.955204725265503,-0.025372406467795372,0.03278058394789696,0.03278058394789696,0.16989386081695557,8.979817390441895,2.068178176879883,0.16973812878131866,5.941833019256592,-0.025372406467795372,12.011476516723633,17.00272560119629,1.3965784311294556,0.03278058394789696,0.16973812878131866,5.941833019256592,-0.025372406467795372,-0.025372406467795372,30.084535598754883,2.068178176879883,-0.025372406467795372,12.16197395324707,-0.28603628277778625,5.941833019256592,-0.025372406467795372,-0.025372406467795372,3.955204725265503,20.00151252746582,-0.025372406467795372,2.068178176879883,-0.025372406467795372,2.068178176879883,7.660417079925537,-0.025372406467795372,2.068178176879883,-0.28603628277778625,2.068178176879883,0.03278058394789696,5.941833019256592,-0.025372406467795372,17.00272560119629,0.03278058394789696,3.955204725265503,2.8409554958343506,12.011476516723633,-0.025372406467795372,-0.025372406467795372,8.979817390441895,8.979817390441895,-0.025372406467795372,-0.025372406467795372,-0.28603628277778625,5.941833019256592,-0.28603628277778625,2.068178176879883,0.16989386081695557,20.00151252746582,0.03278058394789696,-0.28603628277778625,2.8409554958343506,2.068178176879883,0.03278058394789696,0.03278058394789696,0.33554476499557495,-0.025372406467795372,8.979817390441895,5.941833019256592,0.03278058394789696,2.068178176879883,5.941833019256592,1.3965784311294556,-0.025372406467795372,0.03278058394789696,-0.025372406467795372,4.268794536590576,12.011476516723633,2.068178176879883,5.941833019256592,-0.025372406467795372,-0.025372406467795372,-0.025372406467795372,2.068178176879883,0.03278058394789696,-0.28603628277778625,0.03278058394789696,2.068178176879883,3.955204725265503,-0.28603628277778625,41.91533660888672,-0.025372406467795372,0.16989386081695557,-0.025372406467795372,0.03278058394789696,2.068178176879883,0.03278058394789696,2.068178176879883,-0.025372406467795372,0.33554476499557495,2.8409554958343506,-0.025372406467795372,0.03278058394789696,5.941833019256592,0.03278058394789696,0.16973812878131866,-0.28603628277778625,0.03278058394789696,2.068178176879883,-0.025372406467795372,20.00151252746582,2.068178176879883,0.36249470710754395,12.011476516723633,2.068178176879883,5.941833019256592,0.03278058394789696,1.3965784311294556,5.941833019256592,1.3965784311294556,0.16973812878131866,0.03278058394789696,-0.025372406467795372,0.33554476499557495,-0.025372406467795372,0.36249470710754395,-0.025372406467795372,5.941833019256592,5.941833019256592,0.16973812878131866,-0.025372406467795372,4.268794536590576,0.03278058394789696,2.8409554958343506,2.8409554958343506,0.03278058394789696,5.941833019256592,0.33554476499557495,3.955204725265503,8.979817390441895,0.03278058394789696,2.068178176879883,20.00151252746582,-0.28603628277778625,2.068178176879883,-0.025372406467795372,20.00151252746582,12.16197395324707,5.941833019256592,2.068178176879883,5.941833019256592,0.03278058394789696,0.03278058394789696,2.068178176879883,0.33554476499557495,0.03278058394789696,0.03278058394789696,20.00151252746582,-0.025372406467795372,2.068178176879883,-0.28603628277778625,-0.025372406467795372,-0.025372406467795372,7.660417079925537,0.16989386081695557,-0.025372406467795372,20.00151252746582,0.03278058394789696,-0.28603628277778625,-0.025372406467795372,0.03278058394789696,-0.025372406467795372,5.941833019256592,-0.025372406467795372,17.00272560119629,-0.025372406467795372,0.03278058394789696,8.979817390441895,5.941833019256592,3.955204725265503,2.068178176879883,12.16197395324707,2.068178176879883,2.8409554958343506,-0.025372406467795372,2.068178176879883,26.29946517944336,0.03278058394789696,-0.28603628277778625],"type":"scatter","xaxis":"x2","yaxis":"y2"},{"mode":"markers","name":"Interval 2","showlegend":false,"x":[14.0,7.0,0.0,3.0,0.0,0.0,0.0,2.0,12.0,0.0,0.0,3.0,2.0,0.0,0.0,0.0,21.0,12.0,0.0,8.0,0.0,6.0,0.0,0.0,0.0,0.0,2.0,0.0,1.0,0.0,0.0,8.0,0.0,0.0,0.0,0.0,0.0,0.0,4.0,12.0,0.0,10.0,2.0,0.0,3.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6.0,0.0,2.0,0.0,8.0,0.0,0.0,0.0,0.0,6.0,4.0,20.0,0.0,0.0,0.0,0.0,0.0,13.0,0.0,0.0,0.0,0.0,0.0,9.0,0.0,15.0,0.0,5.0,6.0,3.0,2.0,0.0,0.0,2.0,6.0,9.0,1.0,0.0,6.0,0.0,15.0,2.0,0.0,13.0,7.0,2.0,0.0,12.0,1.0,0.0,0.0,0.0,0.0,9.0,6.0,0.0,12.0,0.0,0.0,2.0,0.0,0.0,6.0,0.0,4.0,4.0,0.0,6.0,0.0,0.0,12.0,0.0,0.0,0.0,0.0,0.0,21.0,4.0,0.0,2.0,0.0,6.0,10.0,0.0,0.0,1.0,0.0,3.0,2.0,0.0,0.0,0.0,5.0,0.0,15.0,12.0,2.0,0.0,9.0,0.0,0.0,2.0,27.0,6.0,0.0,0.0,2.0,14.0,0.0,0.0,0.0,6.0,4.0,0.0,2.0,0.0,6.0,0.0,0.0,0.0,8.0,6.0,2.0,4.0,0.0,0.0,0.0,4.0,0.0,1.0,3.0,0.0,0.0,3.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,20.0,0.0,3.0,0.0,42.0,4.0,0.0,0.0,2.0,6.0,0.0,21.0,2.0,4.0,2.0,0.0,0.0,0.0,17.0,2.0,0.0,0.0,3.0,1.0,3.0,0.0,12.0,9.0,2.0,0.0,20.0,16.0,6.0,1.0,0.0,6.0,6.0,0.0,0.0,20.0,0.0,2.0,0.0,2.0,0.0,42.0,8.0,0.0,0.0,2.0,0.0,0.0,0.0,6.0,0.0,0.0,0.0,12.0,0.0,4.0,0.0,6.0,12.0],"y":[8.039494514465332,7.037317276000977,0.21834403276443481,3.264655590057373,0.5770838260650635,0.13819904625415802,0.8085353374481201,2.1024434566497803,12.209457397460938,0.291800320148468,0.36803939938545227,4.051284313201904,2.1024434566497803,0.06588239222764969,1.134443759918213,0.23914770781993866,20.93259620666504,11.98402214050293,1.134443759918213,8.203360557556152,0.17531998455524445,6.222540378570557,0.23914770781993866,-0.3057635426521301,0.06588239222764969,0.4532308578491211,2.4931654930114746,0.0729374960064888,1.5443836450576782,-0.49979454278945923,-0.5013577938079834,4.4394307136535645,-0.15738900005817413,-0.49979454278945923,0.36803939938545227,-0.3057635426521301,-0.6531063914299011,0.291800320148468,4.406414031982422,11.98402214050293,-0.15738900005817413,9.679325103759766,2.4931654930114746,-0.49979454278945923,3.079216957092285,1.8043416738510132,-0.3057635426521301,0.06588239222764969,0.291800320148468,0.5203847885131836,0.06588239222764969,-0.15738900005817413,-0.3057635426521301,0.06588239222764969,6.4479756355285645,-0.49979454278945923,2.4931654930114746,1.134443759918213,7.080540180206299,1.5727146863937378,-0.5013577938079834,0.36803939938545227,0.23914770781993866,6.222540378570557,3.750249147415161,20.158700942993164,0.36803939938545227,0.23914770781993866,0.06588239222764969,-0.5013577938079834,1.5727146863937378,10.374570846557617,-0.49979454278945923,-0.5013577938079834,0.23914770781993866,1.5727146863937378,0.291800320148468,9.679325103759766,1.134443759918213,15.420599937438965,-0.49979454278945923,4.891427040100098,5.561264991760254,3.264655590057373,2.4931654930114746,-0.15738900005817413,-0.05697409063577652,2.1024434566497803,6.222540378570557,8.861236572265625,1.5443836450576782,-0.49979454278945923,3.287809133529663,0.36803939938545227,15.420599937438965,2.1024434566497803,-0.49979454278945923,10.374570846557617,7.037317276000977,2.1024434566497803,-0.3057635426521301,11.98402214050293,1.5443836450576782,0.7115055322647095,-0.49979454278945923,-0.3057635426521301,-0.6531063914299011,9.679325103759766,6.4479756355285645,-0.05697409063577652,11.98402214050293,0.35256677865982056,-0.5013577938079834,2.378554344177246,0.4532308578491211,0.13819904625415802,6.222540378570557,-0.49979454278945923,3.883460760116577,3.883460760116577,0.06588239222764969,6.222540378570557,-0.6531063914299011,-0.05697409063577652,12.790661811828613,-0.3057635426521301,1.5727146863937378,0.21834403276443481,-0.5013577938079834,0.36803939938545227,15.930761337280273,4.406414031982422,0.23914770781993866,2.4931654930114746,0.8085353374481201,6.222540378570557,9.007603645324707,-0.05697409063577652,-0.5013577938079834,1.5443836450576782,-0.05697409063577652,3.264655590057373,2.1024434566497803,-0.5013577938079834,0.06588239222764969,1.4191547632217407,4.891427040100098,-0.3057635426521301,15.420599937438965,11.98402214050293,2.1024434566497803,-0.49979454278945923,9.679325103759766,0.23914770781993866,0.36803939938545227,2.4931654930114746,25.989877700805664,5.240584850311279,-0.6531063914299011,0.17531998455524445,2.1024434566497803,7.574509620666504,-0.49979454278945923,-0.5013577938079834,-0.3057635426521301,6.4479756355285645,4.406414031982422,0.06588239222764969,2.100367546081543,0.4532308578491211,6.222540378570557,0.23914770781993866,-0.05697409063577652,0.23914770781993866,8.805938720703125,6.385772705078125,2.4931654930114746,4.406414031982422,-0.49979454278945923,0.21834403276443481,-0.3057635426521301,3.750249147415161,0.13819904625415802,1.5443836450576782,3.079216957092285,-0.5013577938079834,-0.18533708155155182,3.079216957092285,1.0106377601623535,-0.15738900005817413,0.23914770781993866,2.1024434566497803,0.8085353374481201,-0.49979454278945923,1.5727146863937378,20.158700942993164,-0.05697409063577652,3.079216957092285,1.134443759918213,41.93105697631836,2.8858160972595215,0.23914770781993866,0.4532308578491211,1.9198923110961914,6.4479756355285645,-0.05697409063577652,16.80592155456543,2.378554344177246,3.883460760116577,2.4931654930114746,-0.3057635426521301,0.21834403276443481,-0.6531063914299011,17.231353759765625,2.1024434566497803,0.21834403276443481,0.7115055322647095,3.079216957092285,1.5443836450576782,3.079216957092285,0.23914770781993866,12.209457397460938,9.679325103759766,2.100367546081543,-0.5013577938079834,20.438920974731445,15.749565124511719,6.222540378570557,1.5443836450576782,-0.6531063914299011,6.222540378570557,6.222540378570557,0.7115055322647095,1.5727146863937378,20.158700942993164,0.21834403276443481,2.4931654930114746,0.36803939938545227,2.1024434566497803,-0.5013577938079834,41.93105697631836,8.203360557556152,0.06588239222764969,0.35256677865982056,2.1024434566497803,-0.5013577938079834,0.291800320148468,-0.05697409063577652,5.240584850311279,-0.3057635426521301,0.7115055322647095,-0.3057635426521301,10.315949440002441,-0.49979454278945923,4.406414031982422,0.3510117828845978,6.4479756355285645,12.790661811828613],"type":"scatter","xaxis":"x3","yaxis":"y3"},{"mode":"markers","name":"Interval 3","showlegend":false,"x":[0.0,0.0,4.0,0.0,0.0,21.0,0.0,1.0,5.0,1.0,0.0,0.0,1.0,0.0,0.0,2.0,0.0,21.0,0.0,0.0,6.0,8.0,6.0,6.0,0.0,0.0,17.0,0.0,0.0,6.0,0.0,0.0,6.0,6.0,2.0,0.0,0.0,11.0,0.0,32.0,6.0,4.0,4.0,6.0,6.0,8.0,6.0,0.0,5.0,5.0,6.0,2.0,0.0,6.0,8.0,30.0,1.0,7.0,3.0,5.0,6.0,0.0,0.0,3.0,0.0,0.0,0.0,0.0,43.0,0.0,1.0,0.0,0.0,2.0,2.0,8.0,0.0,10.0,0.0,0.0,6.0,10.0,0.0,12.0,1.0,0.0,8.0,4.0,15.0,0.0,3.0,6.0,5.0,0.0,6.0,1.0,6.0,0.0,6.0,26.0,12.0,12.0,0.0,10.0,0.0,0.0,0.0,0.0,8.0,0.0,12.0,0.0,0.0,1.0,0.0,6.0,3.0,0.0,8.0,3.0,6.0,15.0,2.0,0.0,5.0,2.0,0.0,0.0,20.0,0.0,0.0,0.0,6.0,17.0,7.0,0.0,5.0,0.0,0.0,8.0,0.0,0.0,4.0,0.0,0.0,1.0,4.0,0.0,6.0,5.0,9.0,12.0,10.0,0.0,0.0,0.0,0.0,0.0,2.0,0.0,4.0,0.0,6.0,30.0,0.0,0.0,2.0,2.0,0.0,14.0,24.0,12.0,0.0,0.0,0.0,0.0,0.0,0.0,30.0,0.0,6.0,0.0,6.0,8.0,0.0,2.0,12.0,2.0,0.0,0.0,21.0,1.0,0.0,0.0,1.0,0.0,0.0,12.0,0.0,0.0,3.0,12.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.0,0.0,0.0,6.0,0.0,4.0,10.0,0.0,12.0,3.0,0.0,2.0,0.0,0.0,11.0,2.0,7.0,0.0,0.0,0.0,2.0,0.0,0.0,0.0,3.0,16.0,4.0,1.0,2.0,9.0,6.0,11.0,10.0,2.0,3.0,0.0,0.0,5.0,3.0,0.0,0.0,8.0,2.0,0.0,42.0,6.0,5.0,3.0,0.0],"y":[0.38462498784065247,0.8522935509681702,4.681149959564209,-0.4733947515487671,0.0833655446767807,16.1999454498291,1.5281795263290405,2.0125443935394287,4.831523418426514,1.3153156042099,0.4814944565296173,-0.2827504575252533,2.0125443935394287,0.4403493106365204,-0.2031249701976776,2.8116893768310547,0.46753522753715515,20.15896224975586,1.1356182098388672,0.2560170292854309,5.173388481140137,8.003329277038574,6.84014368057251,7.082634925842285,0.4403493106365204,-0.1597667634487152,17.39462661743164,0.37533748149871826,1.079596757888794,6.136398792266846,0.1022636666893959,0.6618569493293762,6.949552536010742,6.136398792266846,2.7142069339752197,0.30936500430107117,0.03350284323096275,9.450485229492188,-0.039102889597415924,27.071012496948242,6.949552536010742,3.5942318439483643,5.378762245178223,6.136398792266846,5.709322452545166,5.216459274291992,7.082634925842285,-0.6112567782402039,4.296121120452881,3.177952289581299,6.701516151428223,3.019509792327881,0.30936500430107117,6.701516151428223,8.141956329345703,29.919221878051758,2.122451066970825,7.550086498260498,3.257735252380371,5.088194370269775,6.275026321411133,0.4814944565296173,-0.5792568922042847,3.0818562507629395,-0.013732660561800003,0.39721164107322693,-0.5701116323471069,0.5502552390098572,41.657859802246094,0.1022636666893959,2.7839832305908203,0.41356295347213745,-0.007642353884875774,2.1474857330322266,2.8116893768310547,5.153894424438477,-0.23464623093605042,9.273565292358398,-0.2031249701976776,0.44265058636665344,6.136398792266846,8.499580383300781,0.6554370522499084,10.010421752929688,2.122451066970825,0.6522099375724792,9.41133975982666,5.2401347160339355,15.205079078674316,0.7860718369483948,4.0701727867126465,6.136398792266846,2.328444480895996,-0.5701116323471069,4.5932393074035645,2.0125443935394287,6.136398792266846,0.41356295347213745,5.0872883796691895,26.440553665161133,12.889699935913086,11.8695707321167,1.079596757888794,7.952971458435059,-0.007642353884875774,-0.33664944767951965,-0.5346062779426575,0.34759044647216797,8.141956329345703,-0.3006187975406647,11.8695707321167,0.11653068661689758,-0.5437515377998352,1.1455693244934082,0.8192983269691467,7.020405292510986,3.0818562507629395,-0.5757514238357544,5.775295734405518,2.2962732315063477,6.701516151428223,15.205079078674316,2.0500032901763916,-0.3006187975406647,4.781104564666748,2.801724433898926,0.15986473858356476,0.5408729910850525,20.04094696044922,-0.5701116323471069,0.39221420884132385,-0.039102889597415924,6.84014368057251,17.39462661743164,7.4920196533203125,-0.05780113488435745,3.9168314933776855,-0.3006187975406647,0.1022636666893959,8.251996994018555,1.2493430376052856,-0.4733947515487671,5.2401347160339355,-0.5437515377998352,0.4403493106365204,1.695268154144287,3.6023435592651367,0.30936500430107117,4.5932393074035645,4.739959239959717,9.832649230957031,11.807753562927246,9.273565292358398,-0.5792568922042847,-0.5701116323471069,-0.5393672585487366,0.4422070384025574,0.0268696378916502,2.0500032901763916,0.4746513068675995,5.2401347160339355,-0.1518515646457672,6.136398792266846,29.968090057373047,0.30936500430107117,-0.025801146402955055,2.6517927646636963,2.6730618476867676,0.027595147490501404,12.264942169189453,23.625171661376953,12.465714454650879,1.2493430376052856,0.5502552390098572,0.1167619600892067,-0.016655944287776947,-0.5393672585487366,-0.039102889597415924,29.950410842895508,0.5408729910850525,7.082634925842285,-0.013732660561800003,7.020405292510986,8.251996994018555,0.16776463389396667,2.1474857330322266,11.925423622131348,2.2303009033203125,0.6162276864051819,-0.24894928932189941,20.468624114990234,2.0125443935394287,1.5281795263290405,-0.007642353884875774,2.7839832305908203,0.39721164107322693,-0.3006187975406647,11.169478416442871,-0.2031249701976776,0.38591268658638,1.9378095865249634,12.465714454650879,-0.1597667634487152,-0.11394243687391281,-0.025801146402955055,-0.3006187975406647,0.5242852568626404,-0.013019912876188755,0.23373720049858093,5.378762245178223,-0.33664944767951965,0.5408729910850525,6.1507158279418945,0.5338597893714905,5.2401347160339355,9.080169677734375,0.41563162207603455,11.169478416442871,4.0701727867126465,0.16776463389396667,2.8116893768310547,0.16046850383281708,0.34759044647216797,7.94324254989624,2.1474857330322266,6.843495845794678,0.3457432687282562,-0.05780113488435745,-0.07899244129657745,2.0500032901763916,-0.05780113488435745,-0.05780113488435745,0.04733492061495781,2.8496837615966797,14.740311622619629,4.681149959564209,2.122451066970825,2.7142069339752197,9.832649230957031,6.275026321411133,7.587788105010986,8.32475757598877,2.6730618476867676,2.6873583793640137,-0.5713671445846558,0.1022636666893959,4.296121120452881,4.2301483154296875,0.0268696378916502,-0.33664944767951965,4.57914924621582,2.801724433898926,0.20594453811645508,41.635196685791016,6.63724422454834,4.747122764587402,3.191762924194336,0.18795619904994965],"type":"scatter","xaxis":"x4","yaxis":"y4"},{"mode":"markers","name":"Interval 4","showlegend":false,"x":[0.0,0.0,8.0,0.0,4.0,0.0,0.0,15.0,0.0,0.0,6.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,5.0,0.0,0.0,3.0,8.0,6.0,0.0,0.0,0.0,7.0,15.0,0.0,0.0,3.0,8.0,10.0,20.0,0.0,0.0,7.0,0.0,0.0,3.0,7.0,0.0,3.0,0.0,3.0,0.0,0.0,0.0,8.0,4.0,0.0,0.0,0.0,9.0,0.0,3.0,3.0,0.0,8.0,0.0,5.0,6.0,0.0,0.0,20.0,21.0,0.0,12.0,1.0,0.0,20.0,0.0,0.0,0.0,7.0,5.0,2.0,8.0,15.0,0.0,2.0,0.0,3.0,6.0,3.0,6.0,0.0,0.0,6.0,24.0,0.0,2.0,0.0,8.0,3.0,2.0,0.0,8.0,5.0,6.0,0.0,0.0,30.0,0.0,20.0,1.0,10.0,0.0,0.0,0.0,6.0,0.0,0.0,8.0,2.0,42.0,0.0,0.0,3.0,6.0,1.0,2.0,4.0,0.0,4.0,1.0,0.0,12.0,0.0,3.0,15.0,0.0,0.0,0.0,0.0,20.0,0.0,0.0,3.0,0.0,0.0,6.0,12.0,0.0,3.0,12.0,5.0,10.0,4.0,5.0,0.0,0.0,0.0,2.0,0.0,1.0,17.0,0.0,2.0,0.0,3.0,9.0,0.0,8.0,5.0,17.0,7.0,0.0,0.0,12.0,0.0,6.0,0.0,3.0,2.0,0.0,9.0,1.0,0.0,4.0,0.0,3.0,0.0,1.0,5.0,11.0,0.0,0.0,7.0,24.0,0.0,6.0,4.0,18.0,0.0,0.0,12.0,0.0,0.0,5.0,6.0,0.0,3.0,12.0,0.0,2.0,1.0,0.0,11.0,0.0,15.0,3.0,13.0,0.0,1.0,5.0,0.0,7.0,17.0,13.0,0.0,0.0,26.0,0.0,5.0,8.0,0.0,9.0,15.0,3.0,2.0,2.0,0.0,3.0,15.0,1.0,10.0,0.0,0.0,0.0,27.0,0.0,0.0,6.0,2.0,6.0,4.0,5.0,0.0,1.0,2.0,11.0,3.0,0.0,13.0,6.0],"y":[0.12051630020141602,0.24253831803798676,5.662229061126709,0.7344987392425537,3.088341474533081,0.21548950672149658,-0.521879255771637,13.809768676757812,0.573530912399292,-0.35365375876426697,6.801333427429199,0.9173427820205688,2.053574323654175,-0.7641571760177612,0.569780707359314,1.80866277217865,0.2629590332508087,0.3464832603931427,-0.6611495018005371,3.7174417972564697,-0.061325084418058395,0.29423391819000244,3.166914224624634,8.546638488769531,6.801333427429199,-0.6993930339813232,0.20280519127845764,-0.7831178903579712,7.708763122558594,14.804788589477539,0.6841763854026794,0.14141616225242615,3.117835283279419,8.505277633666992,9.740872383117676,20.330684661865234,-0.8511857986450195,0.18085145950317383,6.687616348266602,0.17686167359352112,-0.12192235141992569,2.3027515411376953,5.838533401489258,-0.38630831241607666,2.740135669708252,-0.060683704912662506,3.532355785369873,0.3869365453720093,-0.01618770882487297,-0.0676443874835968,8.592308044433594,4.7454915046691895,1.510317087173462,-0.29927968978881836,0.19270122051239014,6.8977227210998535,-0.20065182447433472,3.2048637866973877,2.207761526107788,-0.1753995418548584,8.505277633666992,0.7712050676345825,6.082607269287109,6.7346038818359375,-0.27009832859039307,0.32714515924453735,19.744640350341797,20.318849563598633,-0.0863041877746582,12.292464256286621,1.1703693866729736,-0.3302382230758667,20.26679039001465,-0.49258190393447876,-0.40555328130722046,-0.1505519151687622,6.592950820922852,3.9638302326202393,2.4581615924835205,6.425371170043945,15.677218437194824,0.17317400872707367,1.8199838399887085,0.33626559376716614,3.7097747325897217,6.817312717437744,3.8253936767578125,5.838533401489258,0.47378304600715637,0.155247300863266,5.730393886566162,24.962158203125,-0.16112641990184784,2.2753169536590576,0.2944492697715759,8.681122779846191,3.4909958839416504,1.527863621711731,0.03858311101794243,7.3245768547058105,4.578438758850098,4.380125522613525,-0.6691670417785645,-0.04993157461285591,30.3429012298584,-0.8475566506385803,19.71284294128418,2.2859373092651367,8.641303062438965,1.5209965705871582,0.4963438808917999,-0.138408824801445,5.995578765869141,-0.6691670417785645,-0.7147908210754395,6.575890064239502,2.207761526107788,41.84770584106445,0.09776311367750168,-0.2397029846906662,3.166914224624634,5.077267646789551,1.7216341495513916,2.8741276264190674,3.5097455978393555,-0.3496890962123871,2.8512728214263916,3.0813441276550293,0.08828316628932953,11.755002975463867,0.2547110319137573,4.077149868011475,15.519327163696289,0.4292420446872711,0.002139698714017868,-0.30470219254493713,0.20327624678611755,20.062158584594727,1.4422491788864136,-0.23099762201309204,4.463493824005127,-0.5623509883880615,0.1050882562994957,6.808018207550049,13.022549629211426,-0.3737759292125702,2.801038980484009,12.813899040222168,3.385990619659424,7.1679911613464355,3.805525064468384,4.573348522186279,0.26098331809043884,-0.8285959362983704,0.3869365453720093,3.98215913772583,0.3845725953578949,0.8294889330863953,16.925893783569336,0.05533912405371666,2.4472742080688477,0.01231292262673378,3.079885721206665,7.30883264541626,-0.7831178903579712,8.886153221130371,3.804764747619629,16.957691192626953,6.393924713134766,0.10239257663488388,0.07772492617368698,12.56266975402832,1.2086182832717896,7.613772869110107,-0.24238412082195282,4.613902568817139,2.8925559520721436,1.5875612497329712,7.30883264541626,2.35650634765625,-0.11851175129413605,2.896616220474243,-0.07554469257593155,3.6463065147399902,1.6349472999572754,1.7216341495513916,4.573348522186279,8.345152854919434,0.7712050676345825,-0.7327804565429688,7.034493923187256,20.984516143798828,1.013482689857483,7.771667003631592,3.179293155670166,12.427181243896484,-0.4462834596633911,0.035130541771650314,11.878095626831055,0.32714515924453735,-0.2867473065853119,4.660377025604248,6.21181058883667,-0.6123644113540649,4.613902568817139,12.172635078430176,0.44762250781059265,2.370307207107544,0.9101097583770752,0.1050882562994957,11.791274070739746,0.05533912405371666,14.804788589477539,3.5503592491149902,11.588369369506836,-0.042987316846847534,0.955852746963501,3.9393444061279297,-0.2357383370399475,7.598230838775635,17.37569236755371,11.894625663757324,-0.20971207320690155,0.08916836231946945,26.310787200927734,0.8621967434883118,3.6708638668060303,8.886153221130371,0.4819266200065613,9.653841972351074,16.685386657714844,5.703503131866455,2.5032191276550293,1.2120543718338013,0.5099688172340393,2.407353639602661,13.564846992492676,1.80866277217865,9.636269569396973,-0.1598716676235199,0.8621967434883118,0.5068718791007996,26.587507247924805,-0.20202136039733887,-0.4418248236179352,7.526744365692139,2.123405933380127,5.241429805755615,2.98754620552063,6.0636467933654785,-0.04233115166425705,2.299008846282959,1.6491050720214844,7.30883264541626,3.051570415496826,-0.14861612021923065,11.239455223083496,6.136890888214111],"type":"scatter","xaxis":"x5","yaxis":"y5"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"xaxis":{"anchor":"y","domain":[0.0,0.2888888888888889]},"yaxis":{"anchor":"x","domain":[0.625,1.0]},"xaxis2":{"anchor":"y2","domain":[0.35555555555555557,0.6444444444444445]},"yaxis2":{"anchor":"x2","domain":[0.625,1.0]},"xaxis3":{"anchor":"y3","domain":[0.7111111111111111,1.0]},"yaxis3":{"anchor":"x3","domain":[0.625,1.0]},"xaxis4":{"anchor":"y4","domain":[0.0,0.2888888888888889]},"yaxis4":{"anchor":"x4","domain":[0.0,0.375]},"xaxis5":{"anchor":"y5","domain":[0.35555555555555557,0.6444444444444445]},"yaxis5":{"anchor":"x5","domain":[0.0,0.375]},"xaxis6":{"anchor":"y6","domain":[0.7111111111111111,1.0]},"yaxis6":{"anchor":"x6","domain":[0.0,0.375]},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Interval 0\u003c\u002fbr\u003e\u003c\u002fbr\u003e\u003csub\u003eMSE = 0.0, # Samples = 258\u003c\u002fsub\u003e","x":0.14444444444444446,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Interval 1\u003c\u002fbr\u003e\u003c\u002fbr\u003e\u003csub\u003eMSE = 0.03, # Samples = 258\u003c\u002fsub\u003e","x":0.5,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Interval 2\u003c\u002fbr\u003e\u003c\u002fbr\u003e\u003csub\u003eMSE = 0.86, # Samples = 258\u003c\u002fsub\u003e","x":0.8555555555555556,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Interval 3\u003c\u002fbr\u003e\u003c\u002fbr\u003e\u003csub\u003eMSE = 0.89, # Samples = 258\u003c\u002fsub\u003e","x":0.14444444444444446,"xanchor":"center","xref":"paper","y":0.375,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Interval 4\u003c\u002fbr\u003e\u003c\u002fbr\u003e\u003csub\u003eMSE = 0.88, # Samples = 258\u003c\u002fsub\u003e","x":0.5,"xanchor":"center","xref":"paper","y":0.375,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Actual","x":0.5,"xref":"paper","y":-0.1,"yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Predicted","textangle":-90,"x":-0.1,"xref":"paper","y":0.5,"yref":"paper"}],"title":{"text":"XGBoost: Actual vs Predicted Waiting Times Across Intervals","y":0.95,"x":0.5,"xanchor":"center","yanchor":"top"},"margin":{"l":150,"r":20,"t":180,"b":100},"height":800,"width":1200},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('1adfe62c-854d-4df8-905e-54cff2ceea09');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<ol type="1">
+<li><strong>Function Definition</strong>:
+<ul>
+<li>The function <code>xgboost_workflow</code> takes two arguments: <code>X</code> (the feature set) and <code>y</code> (the target variable).</li>
+</ul></li>
+<li><strong>Data Preparation</strong>:
+<ul>
+<li>The function splits the data into training and testing sets using <code>train_test_split</code> from the <code>sklearn.model_selection</code> module.</li>
+<li><code>X_train</code> and <code>X_test</code> are the training and testing subsets of the feature set, respectively.</li>
+<li><code>y_train</code> and <code>y_test</code> are the corresponding subsets of the target variable.</li>
+<li>The <code>test_size</code> parameter is set to 0.2, meaning 20% of the data is used for testing, and 80% for training.</li>
+<li>The <code>random_state</code> parameter ensures reproducibility by seeding the random number generator.</li>
+</ul></li>
+<li><strong>Model Training Parameters</strong>:
+<ul>
+<li>A dictionary <code>params</code> is defined to set the hyperparameters for the XGBoost model:
+<ul>
+<li><code>'objective': 'reg:squarederror'</code> specifies that the objective function is regression using squared error.</li>
+<li><code>'max_depth': 3</code> sets the maximum depth of the trees to 3, controlling the complexity of the model.</li>
+<li><code>'eta': 0.1</code> sets the learning rate to 0.1, controlling the step size during optimization.</li>
+<li><code>'verbosity': 1</code> sets the verbosity level to 1, providing basic information about the training process.</li>
+</ul></li>
+</ul></li>
+<li><strong>Number of Rounds</strong>:
+<ul>
+<li><code>num_round</code> is set to 100, indicating the number of boosting rounds (iterations) the model will undergo.</li>
+</ul></li>
+<li><strong>DMatrix Creation</strong>:
+<ul>
+<li>The training and testing datasets are converted into <code>DMatrix</code> objects, which are the internal data structure that XGBoost uses.</li>
+<li><code>dtrain</code> is the <code>DMatrix</code> for the training set, created with <code>X_train</code> and <code>y_train</code>.</li>
+<li><code>dtest</code> is the <code>DMatrix</code> for the testing set, created with <code>X_test</code> and <code>y_test</code>.</li>
+</ul></li>
+<li><strong>Model Training</strong>:
+<ul>
+<li>The XGBoost model is trained using the <code>xgb.train</code> function, which takes the parameters, the training <code>DMatrix</code>, and the number of rounds as inputs.</li>
+<li>The trained model is returned as the output of the function.</li>
+</ul></li>
+</ol>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
+<ol type="1">
+<li><strong>Learning Task Parameters</strong>:
+<ul>
+<li><code>objective</code>: Defines the loss function to be minimized (e.g., <code>reg:squarederror</code>, <code>binary:logistic</code>, <code>multi:softmax</code>).</li>
+</ul></li>
+<li><strong>Tree Parameters</strong>:
+<ul>
+<li><code>max_depth</code>: Maximum depth of the decision trees. Larger values can lead to overfitting.</li>
+<li><code>min_child_weight</code>: Minimum sum of instance weight (hessian) needed in a child.</li>
+<li><code>gamma</code>: Minimum loss reduction required to make a further partition on a leaf node.</li>
+</ul></li>
+<li><strong>Booster Parameters</strong>:
+<ul>
+<li><code>eta</code> (alias: <code>learning_rate</code>): Step size shrinkage used to prevent overfitting.</li>
+<li><code>subsample</code>: Proportion of training instances to use for each tree. Helps prevent overfitting.</li>
+<li><code>colsample_bytree</code>: Subsample ratio of columns when constructing each tree.</li>
+<li><code>lambda</code> (alias: <code>reg_lambda</code>): L2 regularization term on weights.</li>
+<li><code>alpha</code> (alias: <code>reg_alpha</code>): L1 regularization term on weights.</li>
+</ul></li>
+<li><strong>Learning Task Customization</strong>:
+<ul>
+<li><code>scale_pos_weight</code>: Control the balance of positive and negative weights, useful for unbalanced classes.</li>
+<li><code>eval_metric</code>: Evaluation metrics to be used (e.g., <code>rmse</code>, <code>logloss</code>, <code>error</code>).</li>
+</ul></li>
+<li><strong>Control Parameters</strong>:
+<ul>
+<li><code>n_estimators</code>: Number of trees to fit (number of boosting rounds).</li>
+<li><code>early_stopping_rounds</code>: Stop training if one metric doesn’t improve after a given number of rounds.</li>
+</ul></li>
+<li><strong>Tree Method Parameters</strong>:
+<ul>
+<li><code>tree_method</code>: Algorithm used to construct trees (e.g., <code>auto</code>, <code>exact</code>, <code>approx</code>, <code>hist</code>, <code>gpu_hist</code>).</li>
+<li><code>grow_policy</code>: Controls the growth policy for the trees. <code>depthwise</code> or <code>lossguide</code>.</li>
+</ul></li>
+</ol>
+<p>Adjusting these parameters allows for fine-tuning the XGBoost model to better fit the data and improve performance.</p>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
