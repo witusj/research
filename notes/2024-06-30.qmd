@@ -429,7 +429,7 @@ X_c = X_c.reshape((X_c.shape[0], X_c.shape[1], 1, 1))
 print(X_c.shape[0], X_c.shape[1])
 
 # Split into training and testing datasets
-X_train_c, X_test_c, y_train_c, y_test_c = train_test_split(X_c, y_c, test_size=0.2, random_state=42)
+X_train_c, X_test_c, y_train_c, y_test_c = train_test_split(X_c, y_c, test_size=0.9, random_state=42)
 ```
 
 ```{python}
@@ -520,7 +520,7 @@ for t in range(T):
     )
     
     # Update subplot title with MSE
-    fig.layout.annotations[t].text = f'Interval {t}</br></br><sub>MSE = {round(mse_cnn[t], 2)}, # Samples = {len(comparison_df["actual"])}</sub>'
+    fig.layout.annotations[t].text = f'Interval {t}</br></br><sub>MSE = {round(mse_cnn[t], 2)}, # Samples = {len(y_test_c)}</sub>'
 
 # Update the layout of the subplot figure
 fig.update_layout(
