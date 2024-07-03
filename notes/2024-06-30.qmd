@@ -1,5 +1,5 @@
 ---
-title: "2024-06-27"
+title: "2024-06-30"
 author: "Witek ten Hove"
 format:
   html:
@@ -21,8 +21,17 @@ Afspraken:
 -   [ ] We gaan verder kijken naar XG Boosting
 -   [ ] Data: optimale schedules, labels: waiting times en tardiness
 
-Idee Joost: cardinal analysis - is schedule A better than B?
--\> Yes/No
+NB:
+
+-   Wat wordt de workflow van de online tool?
+
+-   Welke onderdelen van de workflow kunnen parallel worden uitgevoerd?
+
+-   Idee Joost: cardinal analysis - is schedule A better than B?
+    -\> Yes/No
+
+-   Idee Witek: Als een model is getraind op een set schedules met lengte T en de output is de reeks wachttijden voor ieder interval, dan kan ook iedere schedule met een lengte korter dan T met hetzelfde model worden bepaald.
+    Stel het model is getraind op T = 7. Dan kan iedere schedule T = 5 ook direct worden ingevoerd als $[x_0, x_1, x_2, x_3, x_4, 0, 0]$. Sterker nog: met $x_5 = 1$ wordt in dit geval overwerk ook berekend.
 
 ## Experiment: Application of ML models to calculate loss values
 
@@ -77,6 +86,12 @@ In this experiment we will even go a step further and try to predict the expecte
 
 Load all packages, the schedule class and selected functions.
 
+::: callout-warning
+This code chunk contains an important variable `run_flag`.
+If it's set to False, some code further in the notebook will not run.
+You can use this to save on execution times when making minor changes.
+:::
+
 ```{python}
 
 from schedule_class import NewSchedule, generate_schedules
@@ -92,17 +107,33 @@ from tensorflow.keras.layers import Input, Conv2D, Flatten, Dense
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
+import hashlib
+import time
 
-# Example usage:
-x = np.array([2, 1, 0])
-d = 3
-s = [0.1, 0.3, 0.25, 0.2, 0.15]
-q = 0.0
-omega = 0.5
+def compute_hash(lst):
+    """
+    Compute a hash for a given list of items.
+    """
+    hasher = hashlib.md5()
+    for item in lst:
+        # Convert each item to a string and then encode it to bytes
+        hasher.update(str(item).encode('utf-8'))
+    return hasher.hexdigest()
 
-schedule = NewSchedule(x, d, s, q, omega)
-print(schedule)
+def save_hash(hash_value, hash_file):
+    with open(hash_file, 'w') as f:
+        f.write(hash_value)
+        
+def load_hash(hash_file):
+    try:
+        with open(hash_file, 'r') as f:
+            return f.read().strip()
+    except FileNotFoundError:
+        return None
 
+hash_file = 'data_hash.txt'
+saved_hash = load_hash(hash_file)
+run_flag = True # Switch to run highly intensive code
 ```
 
 Runner functions for creating and running a schedule instance.
@@ -124,28 +155,51 @@ Generate a dataset for training and testing of various schedules of lenght $T = 
 ```{python}
 max_N = 10
 T =  7
-samples_names = [f'x_{t}' for t in range(T)]
-samples = pd.DataFrame(columns = samples_names)
-lables_names = [f'ew_{t}' for t in range(T)]
-lables = pd.DataFrame(columns = lables_names)
+d = 3
+s = [0.1, 0.3, 0.25, 0.2, 0.15]
+q = 0.0
+omega = 0.5
 
-for n in range(1, max_N+1):
-    schedules = generate_all_schedules(n, T) # Generates all possible schedules with length T
-    print(f'N = {n}, # of schedules = {len(schedules)}')
-    for schedule in schedules:
-      x = np.array(schedule, dtype=np.int64)
-      sch = run_schedule(x, d, s, q, omega, False)
-      
-      # Convert the current data dictionary to a DataFrame and append it to the main DataFrame
-      temp_samples = pd.DataFrame([x], columns=samples_names)
-      samples = pd.concat([samples, temp_samples], ignore_index=True)
-      temp_lables = pd.DataFrame([sch.system['ew']], columns=lables_names)
-      lables = pd.concat([lables, temp_lables], ignore_index=True)
+list_to_hash = [max_N, d, s, q, omega]
+hashed_list = compute_hash(list_to_hash)
+if(hashed_list != saved_hash):
+  run_flag = True
+  save_hash(hashed_list, hash_file)
+```
 
-samples = samples.astype(np.int64)
-lables = lables.astype(np.int64)
-samples.tail()
-lables.tail()
+```{python}
+if(run_flag):
+  # Start timing
+  start_time = time.time()
+  
+  samples_names = [f'x_{t}' for t in range(T)]
+  samples = pd.DataFrame(columns = samples_names)
+  lables_names = [f'ew_{t}' for t in range(T)]
+  lables = pd.DataFrame(columns = lables_names)
+  
+  for n in range(1, max_N+1):
+      schedules = generate_all_schedules(n, T) # Generates all possible schedules with length T
+      print(f'N = {n}, # of schedules = {len(schedules)}')
+      for schedule in schedules:
+        x = np.array(schedule, dtype=np.int64)
+        sch = run_schedule(x, d, s, q, omega, False)
+        
+        # Convert the current data dictionary to a DataFrame and append it to the main DataFrame
+        temp_samples = pd.DataFrame([x], columns=samples_names)
+        samples = pd.concat([samples, temp_samples], ignore_index=True)
+        temp_lables = pd.DataFrame([sch.system['ew']], columns=lables_names)
+        lables = pd.concat([lables, temp_lables], ignore_index=True)
+  
+  samples = samples.astype(np.int64)
+  lables = lables.astype(np.int64)
+  print(f'samples: {samples.tail()}\nlabels: {lables.tail()}')
+  
+  # End timing
+  end_time = time.time()
+
+  # Calculate elapsed time
+  elapsed_time = end_time - start_time
+  print(f"\nExecution time: {elapsed_time:.2f} seconds")
 ```
 
 ## XGBoost
@@ -158,8 +212,10 @@ lables.tail()
 ![CRISP DM Workflow](https://upload.wikimedia.org/wikipedia/commons/b/b9/CRISP-DM_Process_Diagram.png){width="600"}
 
 ```{python}
-
 def xgboost_workflow(X, y):
+  # Start timing
+  start_time = time.time()
+  
   # Data preparation: create training and test sets
   X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
   # Train models
@@ -167,7 +223,7 @@ def xgboost_workflow(X, y):
       'objective': 'reg:squarederror',
       'max_depth': 3,
       'eta': 0.1,
-      'verbosity': 1
+      'verbosity': 2
   }
   num_round = 100
   # Model
@@ -178,6 +234,12 @@ def xgboost_workflow(X, y):
   preds = model.predict(dtest)
   # Evaluate
   mse = mean_squared_error(y_test, preds)
+  # End timing
+  end_time = time.time()
+
+  # Calculate elapsed time
+  elapsed_time = end_time - start_time
+  print(f"\nExecution time: {elapsed_time:.2f} seconds")
   return(y_test, preds, mse)
 ```
 
@@ -193,33 +255,40 @@ $$
 ```{python}
 X = samples
 y = lables  # Number of intervals
-results_names = ['interval', 'actual', 'predicted']
-results = pd.DataFrame(columns = results_names)
-mse_list = []
-for t in range(1, T+1):
-    X_subset = samples.iloc[:, :t]
-    y_subset = lables.iloc[:, t-1]
-    y_test, preds, mse = xgboost_workflow(X_subset, y_subset)
-    temp_results = pd.DataFrame({
-      'interval': [t-1] * len(y_test),
-      'actual': y_test,
-      'predicted': preds
-      })
-    results = pd.concat([results, temp_results], ignore_index=True)
-    mse_list.append(mse)
-    
-    print(f"Interval {t-1}, MSE: {mse}")
-results.head()   
+if(run_flag):
+  # Start timing
+  start_time = time.time()
+
+  results_names = ['interval', 'actual', 'predicted']
+  results = pd.DataFrame(columns = results_names)
+  mse_list = []
+  for t in range(1, T+1):
+      X_subset = samples.iloc[:, :t]
+      y_subset = lables.iloc[:, t-1]
+      y_test, preds, mse = xgboost_workflow(X_subset, y_subset)
+      temp_results = pd.DataFrame({
+        'interval': [t-1] * len(y_test),
+        'actual': y_test,
+        'predicted': preds
+        })
+      results = pd.concat([results, temp_results], ignore_index=True)
+      mse_list.append(mse)
+      
+      print(f"Interval {t-1}, MSE: {mse}")
+  results.head()
+  
+  # End timing
+  end_time = time.time()
+
+  # Calculate elapsed time
+  elapsed_time = end_time - start_time
+  print(f"\nExecution time: {elapsed_time:.2f} seconds")
 ```
 
 ## Plots
 
 ::: column-screen-inset
 ```{python}
-from plotly.subplots import make_subplots
-import plotly.graph_objects as go
-import numpy as np
-
 # Define the number of rows and columns for the subplot grid
 rows = (T + 2) // 3  # Number of rows, adjust based on the total number of plots (adding 2 to ensure we have enough rows)
 cols = 3  # Number of columns
@@ -344,4 +413,152 @@ fig.show()
     -   `grow_policy`: Controls the growth policy for the trees. `depthwise` or `lossguide`.
 
 Adjusting these parameters allows for fine-tuning the XGBoost model to better fit the data and improve performance.
+:::
+
+## Convolutional Neural Network (CNN)
+
+::: panel-tabset
+## Modeling
+
+```{python}
+X_c = X.values
+y_c = y.values
+
+# Reshape X to have the shape (samples, height, width, channels)
+X_c = X_c.reshape((X_c.shape[0], X_c.shape[1], 1, 1))
+print(X_c.shape[0], X_c.shape[1])
+
+# Split into training and testing datasets
+X_train_c, X_test_c, y_train_c, y_test_c = train_test_split(X_c, y_c, test_size=0.2, random_state=42)
+```
+
+```{python}
+# Build the model
+model_c = Sequential()
+model_c.add(Input(shape=(X_c.shape[1], 1, 1)))
+model_c.add(Conv2D(64, (2, 1), activation='relu'))
+model_c.add(Flatten())
+model_c.add(Dense(64, activation='relu'))
+model_c.add(Dense(y_c.shape[1]))  # Output layer with T units (one for each output value)
+
+# Compile the model
+model_c.compile(optimizer='adam', loss='mean_squared_error')
+
+# Print model summary
+model_c.summary()
+```
+
+```{python}
+if(run_flag):
+    # Start timing
+  start_time = time.time()
+  
+  model_c.fit(X_train_c, y_train_c, epochs=50, batch_size=1, verbose=2)
+  
+  # End timing
+  end_time = time.time()
+
+  # Calculate elapsed time
+  elapsed_time = end_time - start_time
+  print(f"\nExecution time: {elapsed_time:.2f} seconds")
+```
+
+```{python}
+# Evaluate the model
+if(run_flag):
+  loss = model_c.evaluate(X_test_c, y_test_c, verbose=0)
+  print(f'Test Loss: {loss}')
+
+  # Make predictions
+  predictions = model_c.predict(X_test_c)
+
+  def calculate_mse(array1, array2):
+      """
+      Calculate the Mean Squared Error between two arrays.
+  
+      Parameters:
+      array1 (np.ndarray): The first array.
+      array2 (np.ndarray): The second array.
+  
+      Returns:
+      float: The Mean Squared Error between the two arrays.
+      """
+      # Ensure the input arrays are NumPy arrays
+      array1 = np.array(array1)
+      array2 = np.array(array2)
+      
+      # Calculate the MSE
+      mse = np.mean((array1 - array2) ** 2)
+    
+      return mse
+
+  mse_cnn = [calculate_mse(y_test_c[t], predictions[t]) for t in range(T)]
+  mse_cnn
+```
+
+## Plots
+
+::: column-screen-inset
+```{python}
+# Define the number of rows and columns for the subplot grid
+rows = (T + 2) // 3  # Number of rows, adjust based on the total number of plots (adding 2 to ensure we have enough rows)
+cols = 3  # Number of columns
+
+# Create a subplot figure
+fig = make_subplots(rows=rows, cols=cols, subplot_titles=[f'Interval {t}' for t in range(T)])
+
+for t in range(T):
+    
+    # Get the row and column index for the current plot
+    row = (t // cols) + 1
+    col = (t % cols) + 1
+    
+    # Add the scatter plot with jittered points to the subplot figure
+    fig.add_trace(
+        go.Scatter(x=y_test_c[:,t], y=predictions[:,t], mode='markers', name=f'Interval {t}', showlegend=False),
+        row=row, col=col
+    )
+    
+    # Update subplot title with MSE
+    fig.layout.annotations[t].text = f'Interval {t}</br></br><sub>MSE = {round(mse_cnn[t], 2)}, # Samples = {len(comparison_df["actual"])}</sub>'
+
+# Update the layout of the subplot figure
+fig.update_layout(
+    height=1000,  # Adjust height as needed
+    width=1200,  # Adjust width as needed
+    title_text="CNN: Actual vs Predicted Waiting Times Across Intervals",
+    title={
+        'y': 0.95,  # Position the title closer to the top
+        'x': 0.5,  # Center the title
+        'xanchor': 'center',
+        'yanchor': 'top'
+    },
+    margin=dict(l=150, r=20, t=180, b=100)  # Add top margin to create space between title and plots
+)
+
+# Add shared axis labels
+fig.add_annotation(dict(font=dict(size=16),
+                        x=0.5,
+                        y=-0.1,
+                        showarrow=False,
+                        text="Actual",
+                        xref="paper",
+                        yref="paper"))
+
+fig.add_annotation(dict(font=dict(size=16),
+                        x=-0.1,
+                        y=0.5,
+                        showarrow=False,
+                        text="Predicted",
+                        textangle=-90,
+                        xref="paper",
+                        yref="paper"))
+
+# Print the grid layout to debug the row and column index
+fig.print_grid()
+
+# Show the figure
+fig.show()
+```
+:::
 :::
