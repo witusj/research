@@ -283,7 +283,8 @@ if(run_flag):
       mse_list.append(mse)
       
       print(f"Interval {t-1}, MSE: {mse}")
-  print(f'{results.head()}\n{results.tail()}')
+      
+  print(f'\n{results.head()}\n...\n{results.tail()}')
   
   # End timing
   end_time = time.time()
