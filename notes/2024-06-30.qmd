@@ -32,6 +32,8 @@ NB:
 
 -   Idee Witek: Als een model is getraind op een set schedules met lengte T en de output is de reeks wachttijden voor ieder interval, dan kan ook iedere schedule met een lengte korter dan T met hetzelfde model worden bepaald.
     Stel het model is getraind op T = 7. Dan kan iedere schedule T = 5 ook direct worden ingevoerd als $[x_0, x_1, x_2, x_3, x_4, 0, 0]$. Sterker nog: met $x_5 = 1$ wordt in dit geval overwerk ook berekend.
+    
+![Notities overleg 04-07-2024](images/notes.jpeg)
 
 ## Experiment: Application of ML models to calculate loss values
 
@@ -94,7 +96,7 @@ You can use this to save on execution times when making minor changes.
 
 ```{python}
 
-from schedule_class import NewSchedule, generate_schedules
+from schedule_class import NewSchedule, generate_schedules, service_time_with_no_shows
 from functions import generate_all_schedules
 import numpy as np
 import pandas as pd
@@ -156,8 +158,14 @@ Generate a dataset for training and testing of various schedules of lenght $T = 
 max_N = 10
 T =  7
 d = 3
-s = [0.1, 0.3, 0.25, 0.2, 0.15]
+s = [0.0, 0.27, 0.28, 0.2, 0.15, 0.1]
+indices = np.arange(len(s))
+exp_s = (indices * s).sum()
 q = 0.2
+s_adj = service_time_with_no_shows(s, q)
+indices = np.arange(len(s_adj))
+exp_s_adj = (indices * s_adj).sum()
+print(f'service time distribution with no-shows: {s_adj} with expcted value: {exp_s_adj}')
 omega = 0.5
 
 list_to_hash = [max_N, d, s, q, omega]
@@ -174,8 +182,8 @@ if(run_flag):
   
   samples_names = [f'x_{t}' for t in range(T)]
   samples = pd.DataFrame(columns = samples_names)
-  lables_names = [f'ew_{t}' for t in range(T)]
-  lables = pd.DataFrame(columns = lables_names)
+  labels_names = [f'ew_{t}' for t in range(T)]
+  labels = pd.DataFrame(columns = labels_names)
   
   for n in range(1, max_N+1):
       schedules = generate_all_schedules(n, T) # Generates all possible schedules with length T
@@ -187,12 +195,12 @@ if(run_flag):
         # Convert the current data dictionary to a DataFrame and append it to the main DataFrame
         temp_samples = pd.DataFrame([x], columns=samples_names)
         samples = pd.concat([samples, temp_samples], ignore_index=True)
-        temp_lables = pd.DataFrame([sch.system['ew']], columns=lables_names)
-        lables = pd.concat([lables, temp_lables], ignore_index=True)
+        temp_labels = pd.DataFrame([sch.system['ew']], columns=labels_names)
+        labels = pd.concat([labels, temp_labels], ignore_index=True)
   
   samples = samples.astype(np.int64)
-  lables = lables.astype(np.int64)
-  print(f'samples: {samples.tail()}\nlabels: {lables.tail()}')
+  labels = labels.astype(np.float64)
+  print(f'samples: {samples.tail()}\nlabels: {labels.tail()}')
   
   # End timing
   end_time = time.time()
@@ -254,7 +262,7 @@ $$
 
 ```{python}
 X = samples
-y = lables  # Number of intervals
+y = labels
 if(run_flag):
   # Start timing
   start_time = time.time()
@@ -263,8 +271,8 @@ if(run_flag):
   results = pd.DataFrame(columns = results_names)
   mse_list = []
   for t in range(1, T+1):
-      X_subset = samples.iloc[:, :t]
-      y_subset = lables.iloc[:, t-1]
+      X_subset = X.iloc[:, :t]
+      y_subset = y.iloc[:, t-1]
       y_test, preds, mse = xgboost_workflow(X_subset, y_subset)
       temp_results = pd.DataFrame({
         'interval': [t-1] * len(y_test),
@@ -275,7 +283,7 @@ if(run_flag):
       mse_list.append(mse)
       
       print(f"Interval {t-1}, MSE: {mse}")
-  results.head()
+  print(f'{results.head()}\n{results.tail()}')
   
   # End timing
   end_time = time.time()

@@ -573,7 +573,7 @@ class NewSchedule:
 
     def calculate_wait_times(self):
         for interval, wtdists in enumerate(self.system['w']):
-            ew = 0
+            ew = 0.
             for nr, dist in enumerate(wtdists):
                 meanwt = np.dot(range(len(dist)), dist)
                 logging.info(f"Mean waiting time for patient {nr} in interval {interval} = {meanwt}")
