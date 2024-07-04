@@ -157,7 +157,7 @@ max_N = 10
 T =  7
 d = 3
 s = [0.1, 0.3, 0.25, 0.2, 0.15]
-q = 0.0
+q = 0.2
 omega = 0.5
 
 list_to_hash = [max_N, d, s, q, omega]
@@ -358,7 +358,6 @@ fig.print_grid()
 
 # Show the figure
 fig.show()
-
 ```
 :::
 
@@ -442,7 +441,7 @@ model_c.add(Dense(64, activation='relu'))
 model_c.add(Dense(y_c.shape[1]))  # Output layer with T units (one for each output value)
 
 # Compile the model
-model_c.compile(optimizer='adam', loss='mean_squared_error')
+model_c.compile(optimizer='adam', loss='mean_squared_error', metrics=['accuracy'])
 
 # Print model summary
 model_c.summary()
@@ -466,8 +465,7 @@ if(run_flag):
 ```{python}
 # Evaluate the model
 if(run_flag):
-  loss = model_c.evaluate(X_test_c, y_test_c, verbose=0)
-  print(f'Test Loss: {loss}')
+  loss = model_c.evaluate(X_test_c, y_test_c, verbose=2)
 
   # Make predictions
   predictions = model_c.predict(X_test_c)
