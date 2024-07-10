@@ -14,7 +14,7 @@ We hebben vandaag de resultaten bekeken van de ranking (zie note [2024-06-30](ht
 
 -   Train een model dat in nauwkeurigheid toeneemt naarmate de objective value of ranking beter is. In dat geval zou de rankingplot meer conisch verlopen en de ranking nauwkeuriger zijn bij een betere ranking. Zie: <https://elicit.com/notebook/aa0448de-dc7e-4d8b-8bd8-c1875679265f#17e0ddd35b0962672caf3894fb9da5b4>
 
-    ![](notes/images/ranking_plot.png)
+    ![](images/ranking_plot.png)
 
 -   Ik test de snelheid van de het huidige XGBoost model t.o.v. de berekende waarde.
 
