@@ -8,7 +8,7 @@ jupyter: python3
 
 ## OBP:
 
-We hebben vandaag de resultaten bekeken van de ranking (zie note 2024-06-30). Volgende denkrichtingen:
+We hebben vandaag de resultaten bekeken van de ranking (zie note [2024-06-30](https://witusj.github.io/research/notes/2024-06-30.html){target="_blank"}). Volgende denkrichtingen:
 
 -   Train een XGBoost model dat een list van twee schedules als input neemt en als output de index van de schedule met de hoogste objective waarde. Zie: <https://xgboost.readthedocs.io/en/latest/tutorials/learning_to_rank.html>
 
