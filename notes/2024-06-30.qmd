@@ -220,35 +220,45 @@ if(run_flag):
 ![CRISP DM Workflow](https://upload.wikimedia.org/wikipedia/commons/b/b9/CRISP-DM_Process_Diagram.png){width="600"}
 
 ```{python}
-def xgboost_workflow(X, y):
-  # Start timing
-  start_time = time.time()
-  
-  # Data preparation: create training and test sets
-  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-  # Train models
-  params = {
-      'objective': 'reg:squarederror',
-      'max_depth': 3,
-      'eta': 0.1,
-      'verbosity': 2
-  }
-  num_round = 100
-  # Model
-  dtrain = xgb.DMatrix(X_train, label=y_train)
-  dtest = xgb.DMatrix(X_test, label=y_test)
-  model = xgb.train(params, dtrain, num_round)
-  # Make predictions
-  preds = model.predict(dtest)
-  # Evaluate
-  mse = mean_squared_error(y_test, preds)
-  # End timing
-  end_time = time.time()
-
-  # Calculate elapsed time
-  elapsed_time = end_time - start_time
-  print(f"\nExecution time: {elapsed_time:.2f} seconds")
-  return(y_test, preds, mse)
+def xgboost_workflow(X, y, int):
+    # Start timing
+    start_time = time.time()
+    
+    # Data preparation: create training and test sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    # Train models
+    params = {
+        'objective': 'reg:squarederror',
+        'max_depth': 3,
+        'eta': 0.1,
+        'verbosity': 2
+    }
+    num_round = 100
+    
+    # Model
+    dtrain = xgb.DMatrix(X_train, label=y_train)
+    dtest = xgb.DMatrix(X_test, label=y_test)
+    model = xgb.train(params, dtrain, num_round)
+    
+    # Make predictions
+    preds = model.predict(dtest)
+    
+    # Evaluate
+    mse = mean_squared_error(y_test, preds)
+    
+    # Save the model
+    model.save_model(f"xgboost_models/xgboost_model_int{int-1}.json")
+    print(f"Model saved to xgboost_models/xgboost_model_int{int-1}.json")
+    
+    # End timing
+    end_time = time.time()
+    
+    # Calculate elapsed time
+    elapsed_time = end_time - start_time
+    print(f"\nExecution time: {elapsed_time:.2f} seconds")
+    
+    return X_test, y_test, preds, mse
 ```
 
 ### Run XGBoost workflow
@@ -273,7 +283,7 @@ if(run_flag):
   for t in range(1, T+1):
       X_subset = X.iloc[:, :t]
       y_subset = y.iloc[:, t-1]
-      y_test, preds, mse = xgboost_workflow(X_subset, y_subset)
+      x_test, y_test, preds, mse = xgboost_workflow(X_subset, y_subset, t)
       temp_results = pd.DataFrame({
         'interval': [t-1] * len(y_test),
         'actual': y_test,
@@ -368,6 +378,7 @@ fig.print_grid()
 # Show the figure
 fig.show()
 ```
+
 :::
 
 ## Model explanation
@@ -569,3 +580,94 @@ fig.show()
 ```
 :::
 :::
+
+## Ranking
+
+```{python}
+N = 10
+T =  7
+d = 3
+s = [0.0, 0.27, 0.28, 0.2, 0.15, 0.1]
+indices = np.arange(len(s))
+exp_s = (indices * s).sum()
+q = 0.2
+s_adj = service_time_with_no_shows(s, q)
+indices = np.arange(len(s_adj))
+exp_s_adj = (indices * s_adj).sum()
+print(f'service time distribution with no-shows: {s_adj} with expcted value: {exp_s_adj}')
+omega = 0.5
+
+samples_names = [f'x_{t}' for t in range(T)]
+samples = pd.DataFrame(columns = samples_names)
+labels_names = [f'ew_{t}' for t in range(T)]
+labels = pd.DataFrame(columns = labels_names)
+
+schedules = generate_all_schedules(N, T) # Generates all possible schedules with length T
+print(f'N = {n}, # of schedules = {len(schedules)}')
+for schedule in schedules:
+  x = np.array(schedule, dtype=np.int64)
+  sch = run_schedule(x, d, s, q, omega, False)
+  
+  # Convert the current data dictionary to a DataFrame and append it to the main DataFrame
+  temp_samples = pd.DataFrame([x], columns=samples_names)
+  samples = pd.concat([samples, temp_samples], ignore_index=True)
+  temp_labels = pd.DataFrame([sch.system['ew']], columns=labels_names)
+  labels = pd.concat([labels, temp_labels], ignore_index=True)
+
+samples = samples.astype(np.int64)
+labels = labels.astype(np.float64)
+print(f'samples: {samples.tail()}\nlabels: {labels.tail()}')
+loaded_model = xgb.Booster()
+```
+
+```{python}
+def predict_objective(row):
+    schedule = pd.DataFrame([row], columns=row.index)
+    predictions = pd.DataFrame(index=schedule.index)
+    T = schedule.shape[1]
+    for i in range(T):
+        data = xgb.DMatrix(schedule.iloc[:, :i+1])
+        loaded_model.load_model(f"xgboost_models/xgboost_model_int{i}.json")
+        prediction = loaded_model.predict(data)
+        predictions[f'p_ew_{i}'] = prediction
+    predictions['p_obj'] = predictions.sum(axis=1)
+    return predictions
+
+predictions_list = samples.apply(predict_objective, axis=1)
+predictions_df = pd.concat(predictions_list.values.tolist(), ignore_index=True)
+combined = pd.concat([samples, labels], axis=1)
+combined['obj'] = labels.sum(axis=1)
+full_df = pd.concat([combined, predictions_df], axis=1)
+full_df['obj_rank'] = full_df['obj'].rank().astype(np.float64)
+full_df['p_obj_rank'] = full_df['p_obj'].rank().astype(np.float64)
+full_df.head()
+
+df_obj_top_ranked = full_df[(full_df['obj_rank'].isin([1, 2, 3, 4, 5]))].sort_values(by=['obj_rank'])
+df_p_obj_top_ranked = full_df[(full_df['p_obj_rank'].isin([1, 2, 3, 4, 5]))].sort_values(by=['p_obj_rank'])
+
+# Display the result
+print(df_obj_top_ranked)
+print(df_p_obj_top_ranked)
+```
+
+```{python}
+fig = go.Figure()
+fig.add_trace(go.Scatter(
+  x=full_df['obj_rank'],
+  y=full_df['p_obj_rank'],
+  mode='markers',
+  name='objectives'
+  ))
+fig.add_trace(go.Scatter(
+  x=[0, full_df['obj_rank'].max()],
+  y=[0, full_df['p_obj_rank'].max()],
+  mode='lines',
+  line=dict(color='tomato', width=4),
+  name='norm'
+  ))
+fig.update_layout(title=f'Comparison of rankings of predicted vs true objective values</br></br><sub>T = {T}, N = {N}</sub>',
+                   xaxis_title='True',
+                   yaxis_title='Predited')
+fig.show()
+```
+
