@@ -19,3 +19,197 @@ We hebben vandaag de resultaten bekeken van de ranking (zie note [2024-06-30](ht
 -   Ik test de snelheid van de het huidige XGBoost model t.o.v. de berekende waarde.
 
 -   We maken een mix van berekening van de werkelijke waarde en berekening via het model. Hiervoor moeten we kijken of het model bij de waarde ook een inschatting van de betrouwbaarheid kan geven. Als de betrouwbaarheid laag is, wordt de werkelijke waarde berekend.
+
+-   Mental note: Bekijk [multiprocessing](https://docs.python.org/3/library/multiprocessing.htm) en [joblib](https://joblib.readthedocs.io/en/stable/)
+
+## Learning to rank
+
+```{=html}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7teudGhdnqo?si=ZPmzyAnkdi6d9ZjR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+```
+
+
+A synthetic classification dataset is an artificially generated dataset designed for classification tasks. These datasets are created programmatically rather than being collected from real-world observations. Synthetic datasets are often used for testing and demonstration purposes because they allow for controlled conditions and are readily available without the need for extensive data collection and preprocessing.
+
+### Purpose of Using Synthetic Datasets
+
+1.  **Testing and Benchmarking**: Synthetic datasets are useful for evaluating and comparing the performance of different machine learning algorithms under controlled conditions.
+
+2.  **Algorithm Development**: Researchers and developers can use synthetic data to develop and refine new algorithms without needing access to large real-world datasets.
+
+3.  **Educational Use**: Synthetic datasets are often used in educational settings to teach machine learning concepts and techniques.
+
+### Characteristics of Synthetic Classification Datasets
+
+1.  **Controlled Parameters**: You can specify various parameters such as the number of samples, number of features, number of informative and redundant features, class distribution, and noise level.
+
+2.  **Predictability**: Since the data is generated based on known parameters and distributions, the relationships between features and labels are well-defined. This can be useful for understanding how different algorithms perform under known conditions.
+
+3.  **Reproducibility**: By setting a random seed, synthetic datasets can be reproduced exactly. This is helpful for debugging and for comparing the performance of different models or algorithms under identical conditions.
+
+### Example of Synthetic Classification
+
+In the provided code, the function `make_classification` from the `sklearn.datasets` module is used to generate a synthetic classification dataset:
+
+### Parameters of `make_classification`
+
+The `make_classification` function allows you to specify a wide range of parameters to control the characteristics of the generated dataset. Here are some key parameters:
+
+-   `n_samples`: The number of samples (data points) to generate.
+-   `n_features`: The total number of features in the dataset.
+-   `n_informative`: The number of informative features that are useful for predicting the target labels.
+-   `n_redundant`: The number of redundant features that are linear combinations of the informative features.
+-   `n_classes`: The number of distinct classes (labels).
+-   `flip_y`: The fraction of samples whose class labels are randomly flipped to introduce noise.
+-   `class_sep`: The factor that separates the classes, affecting the difficulty of the classification task.
+-   `random_state`: A seed for the random number generator to ensure reproducibility.
+
+### Workflow
+
+The code generates a synthetic classification dataset and assigns each sample to one of three query groups. It then sorts the dataset based on the query group IDs. The purpose of this sorting is typically for tasks like ranking, where you need to organize the data by groups before applying certain algorithms or evaluations.
+
+1.  **Importing Libraries**:
+
+```{python}
+from sklearn.datasets import make_classification
+import pandas as pd
+import numpy as np
+import xgboost as xgb
+from sklearn.model_selection import StratifiedGroupKFold, cross_val_score
+import matplotlib.pyplot as plt
+```
+
+-   `make_classification` from `sklearn.datasets` is used to generate a synthetic classification dataset.
+-   `numpy` is imported as `np` for numerical operations.
+-   `xgboost` is imported as `xgb`, though it is not used in the given code snippet.
+
+2.  **Dataset Creation**:
+
+    -   `X`: A 2D array where each row represents a sample and each column represents a feature.
+    -   `y`: A 1D array of labels corresponding to each sample in `X`.
+
+```{python}
+seed = 1994
+X, y = make_classification(random_state=seed)
+```
+
+```         
+- `seed` is set to 1994 to ensure reproducibility.
+- `make_classification(random_state=seed)` generates a synthetic classification dataset `X` (features) and `y` (labels).
+```
+
+3.  **Creating Query Groups**:
+
+    -   `rng`: A random number generator seeded with `1994` to ensure the reproducibility of random operations.
+    -   `qid`: A 1D array where each element is an integer (0, 1, or 2) indicating the query group ID for the corresponding sample in `X`.
+
+```{python}
+rng = np.random.default_rng(seed)
+n_query_groups = 3
+qid = rng.integers(0, n_query_groups, size=X.shape[0])
+```
+
+-   `rng` is initialized as a random number generator with the specified `seed`.
+
+-   `n_query_groups` is set to 3, meaning we want to create 3 different query groups.
+
+-   `qid` is generated as an array of integers ranging from 0 to `n_query_groups - 1` (0, 1, 2) with the same length as `X`. Each integer represents the query group ID for the corresponding sample.
+
+4.  **Sorting by Query Index**:
+
+    -   `sorted_idx`: Indices that would sort `qid` in ascending order.
+    -   The arrays `X`, `y`, and `qid` are then reordered using `sorted_idx` so that samples belonging to the same query group are grouped together.
+
+```{python}
+sorted_idx = np.argsort(qid)
+X = X[sorted_idx, :]
+y = y[sorted_idx]
+qid = qid[sorted_idx]
+```
+
+5.  **Check data**:
+
+```{python}
+# Expand X into individual columns
+X_expanded = pd.DataFrame(X, columns=[f'x_{i}' for i in range(X.shape[1])])
+
+# Combine with qid and y
+df = pd.concat([pd.DataFrame({'qid': qid}), X_expanded, pd.DataFrame({'y': y})], axis=1)
+
+df.head()
+```
+
+6.  **Initializing the ranker:**
+
+    -   `ranker = xgb.XGBRanker(...)` initializes an `XGBRanker` object with specific parameters:
+        -   `tree_method="hist"`: Specifies the tree construction algorithm to be used.
+
+        -   `lambdarank_num_pair_per_sample=8`: Sets the number of pairs per sample for LambdaRank.
+
+        -   `objective="rank:ndcg"`: Sets the objective function to optimize Normalized Discounted Cumulative Gain (NDCG), which is common in ranking tasks.
+
+        -   `lambdarank_pair_method="topk"`: Specifies the pair generation method for LambdaRank.
+
+7.  **Fitting the ranker**:
+
+    -   `ranker.fit(df, y)` fits the `XGBRanker` model to the data.
+
+    -   `df` is used as the feature matrix, and `y` is the target labels.
+
+    -   Since `df` includes the `qid` column, the model can use this information to group samples correctly during training.
+
+```{python}
+ranker = xgb.XGBRanker(tree_method="hist", lambdarank_num_pair_per_sample=8, objective="rank:ndcg", lambdarank_pair_method="topk")
+
+## Exclude y from dataframe for the ranker
+df = df.iloc[:, :-1]
+
+# Check the distribution of query groups and labels
+print("Query group distribution:", np.bincount(df['qid']))
+print("Label distribution:", np.bincount(y))
+
+ranker.fit(df, y)
+```
+
+```{python}
+fig, axes = plt.subplots(figsize = (20,20), dpi=500)
+xgb.plot_tree(ranker, fontsize=14, ax=axes)
+plt.show()
+```
+
+
+7.  **Cross-Validation:**
+
+    -   `kfold = StratifiedGroupKFold(shuffle=False)` initializes a `StratifiedGroupKFold` object for cross-validation:
+
+        -   `shuffle=False`: Specifies that the data should not be shuffled before splitting.
+
+        -   `StratifiedGroupKFold` ensures that each fold maintains the same distribution of labels and respects the group structure (i.e., samples with the same `qid` remain in the same fold).
+
+    -   `cross_val_score(ranker, df, y, cv=kfold, groups=df.qid)` performs cross-validation:
+
+        -   `ranker`: The `XGBRanker` model to be evaluated.
+
+        -   `df`: The feature matrix, including the `qid` column.
+
+        -   `y`: The target labels.
+
+        -   `cv=kfold`: The cross-validation strategy.
+
+        -   `groups=df.qid`: Ensures that samples with the same query ID (`qid`) are kept together in the same fold during cross-validation.
+
+    -   The function returns an array of scores from each fold.
+
+```{python}
+# Works with cv in scikit-learn, along with HPO utilities like GridSearchCV
+kfold = StratifiedGroupKFold(shuffle=False)
+cross_val_score(ranker, df, y, cv=kfold, groups=df.qid)
+```
+```{python}
+scores = ranker.predict(X)
+sorted_idx = np.argsort(scores)[::-1]
+# Sort the relevance scores from most relevant to least relevant
+scores = scores[sorted_idx]
+scores
+```
+
