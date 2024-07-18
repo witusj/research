@@ -1,0 +1,385 @@
+---
+title: "2024-07-16"
+author: "Witek ten Hove"
+format: html
+editor: visual
+jupyter: python3
+---
+
+Volgende denkrichtingen:
+
+-   Train een XGBoost model dat een list van twee schedules als input neemt en als output de index van de schedule met de hoogste objective waarde. Zie: <https://xgboost.readthedocs.io/en/latest/tutorials/learning_to_rank.html>
+
+-   Train een model dat in nauwkeurigheid toeneemt naarmate de objective value of ranking beter is. In dat geval zou de rankingplot meer conisch verlopen en de ranking nauwkeuriger zijn bij een betere ranking. Zie: <https://elicit.com/notebook/aa0448de-dc7e-4d8b-8bd8-c1875679265f#17e0ddd35b0962672caf3894fb9da5b4>
+
+    ![](images/ranking_plot.png)
+
+-   Ik test de snelheid van de het huidige XGBoost model t.o.v. de berekende waarde.
+
+-   We maken een mix van berekening van de werkelijke waarde en berekening via het model. Hiervoor moeten we kijken of het model bij de waarde ook een inschatting van de betrouwbaarheid kan geven. Als de betrouwbaarheid laag is, wordt de werkelijke waarde berekend.
+
+-   Mental note: Bekijk [multiprocessing](https://docs.python.org/3/library/multiprocessing.htm) en [joblib](https://joblib.readthedocs.io/en/stable/)
+
+```{python}
+from schedule_class import NewSchedule, generate_schedules, service_time_with_no_shows
+from functions import generate_all_schedules
+import numpy as np
+import pandas as pd
+import xgboost as xgb
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Input, Conv2D, Flatten, Dense
+import plotly.express as px
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+import pickle
+```
+
+
+
+```{python}
+def run_schedule(x, d, s, q, omega, print_system=True):
+    schedule = NewSchedule(x=x, d=d, s=s, q=q, omega=omega)
+    schedule.calculate_system_states(until=len(x))
+    schedule.calculate_wait_times()
+    schedule.calculate_loss()
+    if(print_system): print(schedule)
+    return(schedule)
+```
+
+```{python}
+N = 10
+T =  7
+d = 3
+s = [0.0, 0.27, 0.28, 0.2, 0.15, 0.1]
+indices = np.arange(len(s))
+exp_s = (indices * s).sum()
+q = 0.2
+s_adj = service_time_with_no_shows(s, q)
+indices = np.arange(len(s_adj))
+exp_s_adj = (indices * s_adj).sum()
+print(f'service time distribution with no-shows: {s_adj} with expcted value: {exp_s_adj}')
+omega = 0.5
+
+samples_names = [f'x_{t}' for t in range(T)]
+samples = pd.DataFrame(columns = samples_names)
+labels_names = [f'ew_{t}' for t in range(T)]
+labels = pd.DataFrame(columns = labels_names)
+
+schedules = generate_all_schedules(N, T) # Generates all possible schedules with length T
+print(f'N = {N}, # of schedules = {len(schedules)}')
+for schedule in schedules:
+  x = np.array(schedule, dtype=np.int64)
+  sch = run_schedule(x, d, s, q, omega, False)
+  
+  # Convert the current data dictionary to a DataFrame and append it to the main DataFrame
+  temp_samples = pd.DataFrame([x], columns=samples_names)
+  samples = pd.concat([samples, temp_samples], ignore_index=True)
+  temp_labels = pd.DataFrame([sch.system['ew']], columns=labels_names)
+  labels = pd.concat([labels, temp_labels], ignore_index=True)
+
+samples = samples.astype(np.int64)
+labels = labels.astype(np.float64)
+labels['obj'] = labels.sum(axis=1)
+labels['obj_rank'] = labels['obj'].rank().astype(np.float64)
+samples.tail()
+labels.tail()
+```
+## Using Pickle to save and re-use dataset
+
+```{python}
+class ScheduleData:
+  def __init__(self, N: int, T: int, samples, labels):
+    self.N = N
+    self.T = T
+    self.samples = samples
+    self.labels = labels
+  
+  def describe_data(self):
+    print(f'N = {self.N}', f'T = {self.T}', '\nSamples',self.samples.tail(10), '\nLabels', self.labels.tail(10), sep = "\n")
+```
+
+```{python}
+curr_sch_data: ScheduleData = ScheduleData(N, T, samples, labels)
+curr_sch_data.describe_data()
+```
+
+```{python}
+with open('./experiments/data.pickle', 'wb') as file:
+  pickle.dump(curr_sch_data, file)
+```
+
+```{python}
+with open('./experiments/data.pickle', 'rb') as file:
+  curr_sch_data_test: ScheduleData = pickle.load(file)
+```
+
+```{python}
+curr_sch_data_test.describe_data()
+```
+
+
+From: https://proceedings.mlr.press/v162/mandi22a/mandi22a.pdf
+
+```{python}
+# Function to illustrate the concept of regret
+def illustrate_regret(true_cost, predicted_cost, solutions):
+    # Compute objective values for true and predicted costs
+    true_values = np.dot(solutions, true_cost)
+    predicted_values = np.dot(solutions, predicted_cost)
+    
+    # Identify the optimal solutions
+    optimal_solution = solutions[np.argmin(true_values)]
+    optimal_pred_solution = solutions[np.argmin(predicted_values)]
+    
+    # Calculate regrets
+    true_opt_value = np.min(true_values)
+    predicted_opt_value = np.dot(optimal_pred_solution, true_cost)
+    regret = predicted_opt_value - true_opt_value
+    
+    # Plotting
+    plt.figure(figsize=(10, 6))
+    plt.plot(true_values, label="True Objective Values", marker='o')
+    plt.plot(predicted_values, label="Predicted Objective Values", marker='x')
+    plt.axhline(y=true_opt_value, color='g', linestyle='--', label="True Optimal Value")
+    plt.axhline(y=predicted_opt_value, color='r', linestyle='--', label="Predicted Optimal Value")
+    plt.title(f'Regret Illustration: {regret:.2f}')
+    plt.xlabel('Solution Index')
+    plt.ylabel('Objective Value')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+# Example data
+true_cost = np.array([2, -5])
+predicted_cost = np.array([-1, 1])
+solutions = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+
+illustrate_regret(true_cost, predicted_cost, solutions)
+
+```
+To train a pairwise ranking model using the methods proposed in the article, you can follow these steps:
+
+1. **Prepare the Data**: 
+   - Split the data into features (`x_0` to `x_6`) and labels (`obj`).
+   - Create pairs of samples along with their ranks to compute pairwise losses.
+
+2. **Define the Pairwise Ranking Loss**:
+   - Implement the pairwise ranking loss function to measure the ordering of predicted objective values.
+
+3. **Train the Model**:
+   - Use a simple neural network or any other regression model to predict the objective values.
+   - Optimize the model parameters using the pairwise ranking loss.
+
+### Step-by-Step Implementation in Python
+
+#### Step 1: Prepare the Data
+
+First, let's create a sample dataframe and split it into features and labels.
+
+```{python}
+# Sample data
+data = {
+    'x_0': [8, 8, 8, 9, 9, 9, 9, 9, 9, 10],
+    'x_1': [1, 1, 2, 0, 0, 0, 0, 0, 1, 0],
+    'x_2': [0, 1, 0, 0, 0, 0, 0, 1, 0, 0],
+    'x_3': [1, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+    'x_4': [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    'x_5': [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    'x_6': [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+    'obj': [79.105640, 82.082070, 85.080317, 74.818700, 76.722871, 79.244606, 82.105482, 85.081883, 88.080038, 91.080000],
+    'obj_rank': [7964.5, 7978.0, 7987.5, 7911.0, 7945.5, 7968.0, 7982.5, 7993.0, 7998.5, 8005.0]
+}
+
+df = pd.DataFrame(data)
+
+# Split into features and labels
+features = df[['x_0', 'x_1', 'x_2', 'x_3', 'x_4', 'x_5', 'x_6']]
+labels = df['obj']
+```
+
+#### Step 2: Define the Pairwise Ranking Loss
+
+Implement the pairwise ranking loss function to measure the ordering of predicted objective values.
+
+```{python}
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+class PairwiseRankingLoss(nn.Module):
+    def __init__(self, margin=1.0):
+        super(PairwiseRankingLoss, self).__init__()
+        self.margin = margin
+
+    def forward(self, predicted, true):
+        loss = 0
+        count = 0
+        for i in range(len(predicted)):
+            for j in range(i+1, len(predicted)):
+                if true[i] < true[j]:
+                    loss += torch.max(torch.tensor(0.0), self.margin + predicted[i] - predicted[j])
+                    count += 1
+        return loss / count
+
+# Example usage
+pairwise_loss_fn = PairwiseRankingLoss(margin=1.0)
+```
+
+#### Step 3: Train the Model
+
+Define a simple neural network, use the pairwise ranking loss, and optimize the model parameters.
+
+```{python}
+class SimpleNN(nn.Module):
+    def __init__(self, input_dim):
+        super(SimpleNN, self).__init__()
+        self.fc1 = nn.Linear(input_dim, 10)
+        self.fc2 = nn.Linear(10, 1)
+
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))
+        x = self.fc2(x)
+        return x
+
+# Convert data to tensors
+X = torch.tensor(features.values, dtype=torch.float32)
+y = torch.tensor(labels.values, dtype=torch.float32)
+
+# Initialize the model, loss function, and optimizer
+model = SimpleNN(input_dim=X.shape[1])
+optimizer = optim.Adam(model.parameters(), lr=0.01)
+pairwise_loss_fn = PairwiseRankingLoss(margin=1.0)
+
+# Training loop
+num_epochs = 100
+for epoch in range(num_epochs):
+    model.train()
+    optimizer.zero_grad()
+    
+    # Forward pass
+    outputs = model(X).squeeze()
+    
+    # Compute pairwise ranking loss
+    loss = pairwise_loss_fn(outputs, y)
+    
+    # Backward pass and optimization
+    loss.backward()
+    optimizer.step()
+    
+    if (epoch+1) % 10 == 0:
+        print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
+
+# Example of making predictions
+model.eval()
+with torch.no_grad():
+    predictions = model(X).squeeze()
+    print(predictions)
+```
+
+### Explanation
+
+1. **Data Preparation**:
+   - We create a sample dataframe with features and labels.
+   - We split the data into features (`X`) and labels (`y`).
+
+2. **Pairwise Ranking Loss**:
+   - The `PairwiseRankingLoss` class calculates the loss based on the relative ordering of predicted objective values.
+   - It iterates over all pairs of samples, adding to the loss if the predicted order does not match the true order.
+
+3. **Model Training**:
+   - We define a simple neural network (`SimpleNN`) with one hidden layer.
+   - The model is trained using the pairwise ranking loss.
+   - We use the Adam optimizer for training.
+
+This approach trains the model to predict objective values that maintain the correct relative ordering of the true objective values, minimizing the regret in decision-focused learning.
+
+Evaluating the performance of a model trained using a pairwise ranking loss involves several steps. The key metrics to consider include the **regret** and **rank correlation**. Here’s how you can perform the evaluation:
+
+### 1. Regret Calculation
+Regret measures the difference between the objective value of the true optimal solution and the objective value of the solution chosen based on the predicted costs.
+
+### 2. Rank Correlation
+Rank correlation metrics, such as Kendall's Tau or Spearman's Rank Correlation, assess how well the predicted rankings match the true rankings.
+
+### Steps for Evaluation
+
+1. **Calculate Predicted Ranks**:
+   - Use the trained model to predict objective values.
+   - Rank the solutions based on predicted values.
+
+2. **Compute Regret**:
+   - Identify the solution with the lowest predicted objective value.
+   - Calculate the regret as the difference between the objective value of the true optimal solution and the chosen solution.
+
+3. **Rank Correlation**:
+   - Compare the predicted ranks with the true ranks using Kendall's Tau or Spearman's Rank Correlation.
+
+Here’s a Python implementation of these evaluation steps:
+
+```{python}
+from scipy.stats import kendalltau, spearmanr
+
+# Function to calculate regret
+def calculate_regret(true_values, predicted_values):
+    true_opt_value = np.min(true_values)
+    predicted_opt_value = np.min(predicted_values)
+    regret = predicted_opt_value - true_opt_value
+    return regret
+
+# Function to calculate rank correlation
+def rank_correlation(true_values, predicted_values):
+    true_ranks = np.argsort(true_values)
+    predicted_ranks = np.argsort(predicted_values)
+    tau, _ = kendalltau(true_ranks, predicted_ranks)
+    spearman, _ = spearmanr(true_ranks, predicted_ranks)
+    return tau, spearman
+
+# Evaluate the model
+model.eval()
+with torch.no_grad():
+    predicted_values = model(X).squeeze().numpy()
+    true_values = y.numpy()
+    
+    # Calculate regret
+    regret = calculate_regret(true_values, predicted_values)
+    print(f'Regret: {regret:.4f}')
+    
+    # Calculate rank correlation
+    tau, spearman = rank_correlation(true_values, predicted_values)
+    print(f'Kendall\'s Tau: {tau:.4f}')
+    print(f'Spearman\'s Rank Correlation: {spearman:.4f}')
+
+```
+
+### Explanation
+
+1. **Calculate Regret**:
+   - **True Optimal Value**: The minimum value in the true objective values.
+   - **Predicted Optimal Solution**: The index of the minimum value in the predicted objective values.
+   - **Regret**: The difference between the objective value of the true optimal solution and the objective value of the chosen solution based on predictions.
+
+2. **Rank Correlation**:
+   - **True Ranks**: The ranks of the true objective values.
+   - **Predicted Ranks**: The ranks of the predicted objective values.
+   - **Kendall's Tau** and **Spearman's Rank Correlation**: These metrics measure the similarity between the predicted ranks and the true ranks.
+
+### Additional Metrics
+
+Apart from regret and rank correlation, you can also consider the following:
+
+- **Mean Squared Error (MSE)**: Even though the focus is on ranking, it’s useful to see the overall prediction error.
+- **Precision@K**: Precision at the top K rankings can be insightful for certain applications.
+
+### Example Usage
+
+After training the model, you can call the evaluation functions to get the performance metrics:
+
+```{python}
+# Example of evaluating the model
+evaluate_model(model, X, y, features)
+```
+
+This approach provides a comprehensive evaluation of the pairwise ranking model, focusing on how well it ranks solutions and how it performs in terms of regret, ensuring the model makes effective decisions based on the predicted objective values.

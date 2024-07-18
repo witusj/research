@@ -1,0 +1,16 @@
+---
+title: "2024-07-18"
+author: "Witek ten Hove"
+format: html
+editor: visual
+jupyter: python3
+---
+
+Besproken met Joost:
+
+-   Model bouwen voor pairwise ranking.
+-   Performance vergelijken met cardinal ML model
+-   Computation time vergelijken:
+    -   Lindley recursion \<\> cardinal ML
+    -   Cardinal ML model pairwise ranking vs direct pairwise ranking
+-   Cardinal ML model met large objective punisment in loss function ontwikkelen

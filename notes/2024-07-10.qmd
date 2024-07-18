@@ -27,8 +27,6 @@ We hebben vandaag de resultaten bekeken van de ranking (zie note [2024-06-30](ht
 ```{=html}
 <iframe width="560" height="315" src="https://www.youtube.com/embed/7teudGhdnqo?si=ZPmzyAnkdi6d9ZjR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 ```
-
-
 A synthetic classification dataset is an artificially generated dataset designed for classification tasks. These datasets are created programmatically rather than being collected from real-world observations. Synthetic datasets are often used for testing and demonstration purposes because they allow for controlled conditions and are readily available without the need for extensive data collection and preprocessing.
 
 ### Purpose of Using Synthetic Datasets
@@ -177,7 +175,6 @@ xgb.plot_tree(ranker, fontsize=14, ax=axes)
 plt.show()
 ```
 
-
 7.  **Cross-Validation:**
 
     -   `kfold = StratifiedGroupKFold(shuffle=False)` initializes a `StratifiedGroupKFold` object for cross-validation:
@@ -205,6 +202,7 @@ plt.show()
 kfold = StratifiedGroupKFold(shuffle=False)
 cross_val_score(ranker, df, y, cv=kfold, groups=df.qid)
 ```
+
 ```{python}
 scores = ranker.predict(X)
 sorted_idx = np.argsort(scores)[::-1]
@@ -212,4 +210,3 @@ sorted_idx = np.argsort(scores)[::-1]
 scores = scores[sorted_idx]
 scores
 ```
-
