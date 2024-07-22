@@ -1,0 +1,59 @@
+---
+title: "2024-07-18"
+author: "Witek ten Hove"
+format: html
+editor: visual
+jupyter: python3
+---
+
+Besproken met Joost:
+
+-   Model bouwen voor pairwise ranking.
+-   Performance vergelijken met cardinal ML model
+-   Computation time vergelijken:
+    -   Lindley recursion \<\> cardinal ML
+    -   Cardinal ML model pairwise ranking vs direct pairwise ranking
+-   Cardinal ML model met large objective punisment in loss function ontwikkelen
+
+```{python}
+import pickle
+import random
+
+class ScheduleData:
+  def __init__(self, N: int, T: int, samples, labels):
+    self.N = N
+    self.T = T
+    self.samples = samples
+    self.labels = labels
+  
+  def describe_data(self):
+    print(f'N = {self.N}', f'T = {self.T}', '\nSamples',self.samples.tail(10), '\nLabels', self.labels.tail(10), sep = "\n")
+  
+  def create_pairwise_sets(self, n):
+    S = list(range(len(self.samples)))
+    self.T = random.choices(S, k=n)
+    self.P = []
+    
+    for t in self.T:
+        # Create a list of possible choices excluding t
+        possible_choices = [s for s in S if s != t]
+        
+        # Choose a random element from the possible choices
+        s = random.choice(possible_choices)
+        
+        # Add the chosen element to the result list
+        self.P.append(s)
+    
+    self.samples_s1 = self.samples.iloc[self.T, :].values.tolist()
+    self.samples_s2 = self.samples.iloc[self.P, :].values.tolist()
+    self.lables_s1 = self.labels.loc[self.T, 'obj'].values.tolist()
+    self.lables_s2 = self.labels.loc[self.P, 'obj'].values.tolist()
+    self.lables_rank = [1 * (self.lables_s1[i] > self.lables_s2[i]) for i in range(len(self.lables_s1))]
+    print(self.samples_s1, "\n", self.samples_s2, "\n", self.lables_s1, "\n", self.lables_s2, "\n", self.lables_rank)
+    
+with open('./experiments/data.pickle', 'rb') as file:
+  sch_data: ScheduleData = pickle.load(file)
+  
+sch_data.describe_data()
+sch_data.create_pairwise_sets(10)
+```
