@@ -56,7 +56,7 @@ class ScheduleData:
     
     samples_s1 = self.samples.iloc[self.T, :].values.tolist()
     samples_s2 = self.samples.iloc[self.P, :].values.tolist()
-    self.pair_list = combined_samples = list(zip(samples_s1, samples_s2))
+    self.pair_list = list(zip(samples_s1, samples_s2))
     self.lables_s1 = self.labels.loc[self.T, 'obj'].values.tolist()
     self.lables_s2 = self.labels.loc[self.P, 'obj'].values.tolist()
     self.lables_rank = [1 * (self.lables_s1[i] > self.lables_s2[i]) for i in range(len(self.lables_s1))]
