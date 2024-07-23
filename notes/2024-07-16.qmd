@@ -25,9 +25,6 @@ from schedule_class import NewSchedule, generate_schedules, service_time_with_no
 from functions import generate_all_schedules
 import numpy as np
 import pandas as pd
-import xgboost as xgb
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Input, Conv2D, Flatten, Dense
@@ -35,9 +32,12 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import pickle
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+from sklearn.base import clone
+from sklearn.model_selection import StratifiedKFold, cross_validate
+import xgboost as xgb
 ```
-
-
 
 ```{python}
 def run_schedule(x, d, s, q, omega, print_system=True):
@@ -87,15 +87,26 @@ labels['obj_rank'] = labels['obj'].rank().astype(np.float64)
 samples.tail()
 labels.tail()
 ```
+
 ## Using Pickle to save and re-use dataset
 
 ```{python}
 class ScheduleData:
   def __init__(self, N: int, T: int, samples, labels):
+    self.description = """
+                       This data set contains all the feasible schedules given the number of patients and a the number of intervals.
+                       Input:
+                         N: the number of patients as an integer
+                         T: the number of intervals as an integer
+                       Output:
+                         samples: all feasible schedules as a data frame
+                         labels: a set of objective values as floats
+    """
     self.N = N
     self.T = T
     self.samples = samples
     self.labels = labels
+    
   
   def describe_data(self):
     print(f'N = {self.N}', f'T = {self.T}', '\nSamples',self.samples.tail(10), '\nLabels', self.labels.tail(10), sep = "\n")
@@ -104,6 +115,7 @@ class ScheduleData:
 ```{python}
 curr_sch_data: ScheduleData = ScheduleData(N, T, samples, labels)
 curr_sch_data.describe_data()
+curr_sch_data.description
 ```
 
 ```{python}
@@ -119,7 +131,6 @@ with open('./experiments/data.pickle', 'rb') as file:
 ```{python}
 curr_sch_data_test.describe_data()
 ```
-
 
 From: https://proceedings.mlr.press/v162/mandi22a/mandi22a.pdf
 
@@ -160,18 +171,17 @@ solutions = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
 illustrate_regret(true_cost, predicted_cost, solutions)
 
 ```
+
 To train a pairwise ranking model using the methods proposed in the article, you can follow these steps:
 
-1. **Prepare the Data**: 
-   - Split the data into features (`x_0` to `x_6`) and labels (`obj`).
-   - Create pairs of samples along with their ranks to compute pairwise losses.
-
-2. **Define the Pairwise Ranking Loss**:
-   - Implement the pairwise ranking loss function to measure the ordering of predicted objective values.
-
-3. **Train the Model**:
-   - Use a simple neural network or any other regression model to predict the objective values.
-   - Optimize the model parameters using the pairwise ranking loss.
+1.  **Prepare the Data**:
+    -   Split the data into features (`x_0` to `x_6`) and labels (`obj`).
+    -   Create pairs of samples along with their ranks to compute pairwise losses.
+2.  **Define the Pairwise Ranking Loss**:
+    -   Implement the pairwise ranking loss function to measure the ordering of predicted objective values.
+3.  **Train the Model**:
+    -   Use a simple neural network or any other regression model to predict the objective values.
+    -   Optimize the model parameters using the pairwise ranking loss.
 
 ### Step-by-Step Implementation in Python
 
@@ -281,41 +291,39 @@ with torch.no_grad():
 
 ### Explanation
 
-1. **Data Preparation**:
-   - We create a sample dataframe with features and labels.
-   - We split the data into features (`X`) and labels (`y`).
-
-2. **Pairwise Ranking Loss**:
-   - The `PairwiseRankingLoss` class calculates the loss based on the relative ordering of predicted objective values.
-   - It iterates over all pairs of samples, adding to the loss if the predicted order does not match the true order.
-
-3. **Model Training**:
-   - We define a simple neural network (`SimpleNN`) with one hidden layer.
-   - The model is trained using the pairwise ranking loss.
-   - We use the Adam optimizer for training.
+1.  **Data Preparation**:
+    -   We create a sample dataframe with features and labels.
+    -   We split the data into features (`X`) and labels (`y`).
+2.  **Pairwise Ranking Loss**:
+    -   The `PairwiseRankingLoss` class calculates the loss based on the relative ordering of predicted objective values.
+    -   It iterates over all pairs of samples, adding to the loss if the predicted order does not match the true order.
+3.  **Model Training**:
+    -   We define a simple neural network (`SimpleNN`) with one hidden layer.
+    -   The model is trained using the pairwise ranking loss.
+    -   We use the Adam optimizer for training.
 
 This approach trains the model to predict objective values that maintain the correct relative ordering of the true objective values, minimizing the regret in decision-focused learning.
 
 Evaluating the performance of a model trained using a pairwise ranking loss involves several steps. The key metrics to consider include the **regret** and **rank correlation**. Here’s how you can perform the evaluation:
 
 ### 1. Regret Calculation
+
 Regret measures the difference between the objective value of the true optimal solution and the objective value of the solution chosen based on the predicted costs.
 
 ### 2. Rank Correlation
+
 Rank correlation metrics, such as Kendall's Tau or Spearman's Rank Correlation, assess how well the predicted rankings match the true rankings.
 
 ### Steps for Evaluation
 
-1. **Calculate Predicted Ranks**:
-   - Use the trained model to predict objective values.
-   - Rank the solutions based on predicted values.
-
-2. **Compute Regret**:
-   - Identify the solution with the lowest predicted objective value.
-   - Calculate the regret as the difference between the objective value of the true optimal solution and the chosen solution.
-
-3. **Rank Correlation**:
-   - Compare the predicted ranks with the true ranks using Kendall's Tau or Spearman's Rank Correlation.
+1.  **Calculate Predicted Ranks**:
+    -   Use the trained model to predict objective values.
+    -   Rank the solutions based on predicted values.
+2.  **Compute Regret**:
+    -   Identify the solution with the lowest predicted objective value.
+    -   Calculate the regret as the difference between the objective value of the true optimal solution and the chosen solution.
+3.  **Rank Correlation**:
+    -   Compare the predicted ranks with the true ranks using Kendall's Tau or Spearman's Rank Correlation.
 
 Here’s a Python implementation of these evaluation steps:
 
@@ -356,22 +364,21 @@ with torch.no_grad():
 
 ### Explanation
 
-1. **Calculate Regret**:
-   - **True Optimal Value**: The minimum value in the true objective values.
-   - **Predicted Optimal Solution**: The index of the minimum value in the predicted objective values.
-   - **Regret**: The difference between the objective value of the true optimal solution and the objective value of the chosen solution based on predictions.
-
-2. **Rank Correlation**:
-   - **True Ranks**: The ranks of the true objective values.
-   - **Predicted Ranks**: The ranks of the predicted objective values.
-   - **Kendall's Tau** and **Spearman's Rank Correlation**: These metrics measure the similarity between the predicted ranks and the true ranks.
+1.  **Calculate Regret**:
+    -   **True Optimal Value**: The minimum value in the true objective values.
+    -   **Predicted Optimal Solution**: The index of the minimum value in the predicted objective values.
+    -   **Regret**: The difference between the objective value of the true optimal solution and the objective value of the chosen solution based on predictions.
+2.  **Rank Correlation**:
+    -   **True Ranks**: The ranks of the true objective values.
+    -   **Predicted Ranks**: The ranks of the predicted objective values.
+    -   **Kendall's Tau** and **Spearman's Rank Correlation**: These metrics measure the similarity between the predicted ranks and the true ranks.
 
 ### Additional Metrics
 
 Apart from regret and rank correlation, you can also consider the following:
 
-- **Mean Squared Error (MSE)**: Even though the focus is on ranking, it’s useful to see the overall prediction error.
-- **Precision@K**: Precision at the top K rankings can be insightful for certain applications.
+-   **Mean Squared Error (MSE)**: Even though the focus is on ranking, it’s useful to see the overall prediction error.
+-   **Precision\@K**: Precision at the top K rankings can be insightful for certain applications.
 
 ### Example Usage
 
