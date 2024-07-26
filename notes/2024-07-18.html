@@ -68,6 +68,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="2024-07-18_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="2024-07-18_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="2024-07-18_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="2024-07-18_files/libs/quarto-diagram/mermaid.min.js"></script>
+<script src="2024-07-18_files/libs/quarto-diagram/mermaid-init.js"></script>
+<link href="2024-07-18_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 </head>
@@ -116,17 +119,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <section id="setup-and-load-data" class="level2">
 <h2 class="anchored" data-anchor-id="setup-and-load-data">Setup and load data</h2>
-<div id="2f8a8785" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xgboost <span class="im">as</span> xgb</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split, cross_val_score, StratifiedKFold, GridSearchCV</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error, make_scorer, accuracy_score</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> clone</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> StratifiedKFold, train_test_split, GridSearchCV</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e8d5ef5c" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> schedule_class <span class="im">import</span> NewSchedule, generate_schedules, service_time_with_no_shows</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pickle</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xgboost <span class="im">as</span> xgb</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split, cross_val_score, StratifiedKFold, GridSearchCV</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error, make_scorer, accuracy_score</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> clone</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> StratifiedKFold, train_test_split, GridSearchCV</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> chain, combinations</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f32fd960" class="cell" data-execution_count="2">
+<div id="c295df6b" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ScheduleData:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, N: <span class="bu">int</span>, T: <span class="bu">int</span>, samples, labels):</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.N <span class="op">=</span> N</span>
@@ -137,35 +142,90 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> describe_data(<span class="va">self</span>):</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'N = </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>N<span class="sc">}</span><span class="ss">'</span>, <span class="ss">f'T = </span><span class="sc">{</span><span class="va">self</span><span class="sc">.</span>T<span class="sc">}</span><span class="ss">'</span>, <span class="st">'</span><span class="ch">\n</span><span class="st">Samples'</span>,<span class="va">self</span>.samples.tail(<span class="dv">10</span>), <span class="st">'</span><span class="ch">\n</span><span class="st">Labels'</span>, <span class="va">self</span>.labels.tail(<span class="dv">10</span>), sep <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> create_pair_list(<span class="va">self</span>, n):</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> create_pair_list(<span class="va">self</span>, n): <span class="co"># Create a set of randomly selected pairs of schedules</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    S <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="bu">len</span>(<span class="va">self</span>.samples)))</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.T <span class="op">=</span> random.choices(S, k<span class="op">=</span>n)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.P <span class="op">=</span> []</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    Q <span class="op">=</span> random.choices(S, k<span class="op">=</span>n)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> []</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> t <span class="kw">in</span> <span class="va">self</span>.T:</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> q <span class="kw">in</span> Q:</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create a list of possible choices excluding t</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        possible_choices <span class="op">=</span> [s <span class="cf">for</span> s <span class="kw">in</span> S <span class="cf">if</span> s <span class="op">!=</span> t]</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        possible_choices <span class="op">=</span> [s <span class="cf">for</span> s <span class="kw">in</span> S <span class="cf">if</span> s <span class="op">!=</span> q]</span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Choose a random element from the possible choices</span></span>
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        p <span class="op">=</span> random.choice(possible_choices)</span>
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add the chosen element to the result list</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.P.append(p)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        P.append(p)</span>
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    samples_s1 <span class="op">=</span> <span class="va">self</span>.samples.iloc[<span class="va">self</span>.T, :].values.tolist()</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    samples_s2 <span class="op">=</span> <span class="va">self</span>.samples.iloc[<span class="va">self</span>.P, :].values.tolist()</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    samples_s1 <span class="op">=</span> <span class="va">self</span>.samples.iloc[Q, :].values.tolist()</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    samples_s2 <span class="op">=</span> <span class="va">self</span>.samples.iloc[P, :].values.tolist()</span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.pair_list <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(samples_s1, samples_s2))</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.lables_s1 <span class="op">=</span> <span class="va">self</span>.labels.loc[<span class="va">self</span>.T, <span class="st">'obj'</span>].values.tolist()</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.lables_s2 <span class="op">=</span> <span class="va">self</span>.labels.loc[<span class="va">self</span>.P, <span class="st">'obj'</span>].values.tolist()</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.lables_s1 <span class="op">=</span> <span class="va">self</span>.labels.loc[Q, <span class="st">'obj'</span>].values.tolist()</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.lables_s2 <span class="op">=</span> <span class="va">self</span>.labels.loc[P, <span class="st">'obj'</span>].values.tolist()</span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.lables_rank <span class="op">=</span> [<span class="dv">1</span> <span class="op">*</span> (<span class="va">self</span>.lables_s1[i] <span class="op">&gt;</span> <span class="va">self</span>.lables_s2[i]) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(<span class="va">self</span>.lables_s1))]</span>
 <span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="va">self</span>.pair_list[:<span class="dv">15</span>], <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, <span class="va">self</span>.lables_s1[:<span class="dv">15</span>], <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, <span class="va">self</span>.lables_s2[:<span class="dv">15</span>], <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, <span class="va">self</span>.lables_rank[:<span class="dv">15</span>])</span>
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'./experiments/data.pickle'</span>, <span class="st">'rb'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  sch_data: ScheduleData <span class="op">=</span> pickle.load(<span class="bu">file</span>)</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>sch_data.description</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>sch_data.describe_data()</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>sch_data.create_pair_list(<span class="dv">16000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> create_neighbors_list(<span class="va">self</span>, n): <span class="co"># Create a set of pairs of schedules that are from the same neighborhood</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Build a subset of random schedules with length n</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    S <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="bu">len</span>(<span class="va">self</span>.samples)))</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    Q <span class="op">=</span> random.choices(S, k<span class="op">=</span>n)</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    samples_sub <span class="op">=</span> <span class="va">self</span>.samples.iloc[Q, :].values.tolist()</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    labels_sub <span class="op">=</span> <span class="va">self</span>.labels.iloc[Q, <span class="dv">7</span>]</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.neighbors_list <span class="op">=</span> []</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For each schedule in in the subset choose 2 random intervals i, j and swap 1 patient</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> s <span class="kw">in</span> samples_sub:</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>      i <span class="op">=</span> random.choice(<span class="bu">range</span>(<span class="bu">len</span>(s)))  <span class="co"># Ensure i is a valid index in s</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>      j <span class="op">=</span> [index <span class="cf">for</span> index, element <span class="kw">in</span> <span class="bu">enumerate</span>(s) <span class="cf">if</span> element <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> index <span class="op">!=</span> i]</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> <span class="kw">not</span> j:  <span class="co"># Ensure j is not empty</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>          <span class="cf">continue</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>      j <span class="op">=</span> random.choice(j)  <span class="co"># Choose a random valid index from j</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>      s_pair <span class="op">=</span> s.copy()  <span class="co"># Create a copy of s to modify</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>      s_pair[i] <span class="op">=</span> s[i] <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>      s_pair[j] <span class="op">=</span> s[j] <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>      <span class="va">self</span>.neighbors_list.append((s, s_pair))</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(samples_sub, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, <span class="va">self</span>.neighbors_list, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, labels_sub)</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> calculate_objective(<span class="va">self</span>, schedule, s, d, q):</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> service_time_with_no_shows(s, q) <span class="co"># Adjust service times distribution for no-shows</span></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>    sp <span class="op">=</span> np.array([<span class="dv">1</span>], dtype<span class="op">=</span>np.int64) <span class="co"># Set probability of first spillover time being zero to 1</span></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>    wt_list <span class="op">=</span> [] <span class="co"># Initialize wt_list for saving all waiting times for all patients in the schedule</span></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>    ewt <span class="op">=</span> <span class="dv">0</span> <span class="co"># Initialize sum of expected waiting times</span></span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> x <span class="kw">in</span> schedule: <span class="co"># For each interval -</span></span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(x <span class="op">==</span> <span class="dv">0</span>): <span class="co"># In case there are no patients,</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>        wt_temp <span class="op">=</span> [np.array(sp)] <span class="co"># the spillover from the previous interval is recorded,</span></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>        wt_list.append([]) <span class="co"># but there are no waiting times.</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>        sp <span class="op">=</span> [] <span class="co"># Initialize the spillover time distribution </span></span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>        sp.append(np.<span class="bu">sum</span>(wt_temp[<span class="op">-</span><span class="dv">1</span>][:d<span class="op">+</span><span class="dv">1</span>])) <span class="co"># All the work from the previous interval's spillover that could not be processed will be added to the this interval's spillover.</span></span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>        sp[<span class="dv">1</span>:] <span class="op">=</span> wt_temp[<span class="op">-</span><span class="dv">1</span>][d<span class="op">+</span><span class="dv">1</span>:]</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span>:</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>        wt_temp <span class="op">=</span> [np.array(sp)] <span class="co"># Initialize wt_temp for saving all waiting times for all patients in the interval. The first patient has to wait for the spillover work from the previous period.</span></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>        ewt <span class="op">+=</span> np.dot(<span class="bu">range</span>(<span class="bu">len</span>(sp)), sp) <span class="co"># Add waiting time for first patient in interval</span></span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(x<span class="op">-</span><span class="dv">1</span>): <span class="co"># For each patient</span></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>          wt <span class="op">=</span> np.convolve(wt_temp[i], s) <span class="co"># Calculate the waiting time distribution</span></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>          wt_temp.append(wt)</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>          ewt <span class="op">+=</span> np.dot(<span class="bu">range</span>(<span class="bu">len</span>(wt)), wt)</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>        wt_list.append(wt_temp)</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>        sp <span class="op">=</span> []</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>        sp.append(np.<span class="bu">sum</span>(np.convolve(wt_temp[<span class="op">-</span><span class="dv">1</span>],s)[:d<span class="op">+</span><span class="dv">1</span>])) <span class="co"># Calculate the spillover</span></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>        sp[<span class="dv">1</span>:] <span class="op">=</span> np.convolve(wt_temp[<span class="op">-</span><span class="dv">1</span>],s)[d<span class="op">+</span><span class="dv">1</span>:]</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Schedule: </span><span class="sc">{</span>schedule<span class="sc">}</span><span class="ss">, ewt = </span><span class="sc">{</span>ewt<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'./experiments/data.pickle'</span>, <span class="st">'rb'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>  sch_data: ScheduleData <span class="op">=</span> pickle.load(<span class="bu">file</span>)</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>sch_data.description</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>sch_data.describe_data()</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>sch_data.create_pair_list(<span class="dv">16000</span>)</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>sch_data.create_neighbors_list(<span class="dv">10</span>)</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>test_sch <span class="op">=</span> sch_data.neighbors_list[<span class="dv">1</span>][<span class="dv">0</span>]</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>sch_data.calculate_objective(test_sch, [<span class="fl">0.0</span>, <span class="fl">0.27</span>, <span class="fl">0.28</span>, <span class="fl">0.2</span>, <span class="fl">0.15</span>, <span class="fl">0.1</span>], <span class="dv">3</span>, <span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>N = 10
 T = 7
@@ -207,16 +267,75 @@ Labels
 8005  85.081883    7993.0  
 8006  88.080038    7998.5  
 8007  91.080000    8005.0  
-[([0, 1, 1, 0, 2, 6, 0], [0, 1, 3, 0, 1, 5, 0]), ([0, 3, 2, 4, 0, 0, 1], [0, 0, 1, 0, 1, 2, 6]), ([2, 1, 1, 0, 0, 0, 6], [1, 1, 1, 0, 5, 0, 2]), ([0, 0, 5, 0, 0, 1, 4], [0, 2, 2, 1, 0, 4, 1]), ([0, 0, 1, 0, 3, 4, 2], [0, 4, 0, 3, 0, 0, 3]), ([0, 2, 1, 1, 0, 6, 0], [2, 1, 2, 0, 3, 1, 1]), ([0, 4, 0, 2, 0, 3, 1], [0, 2, 2, 0, 3, 1, 2]), ([4, 2, 0, 2, 1, 0, 1], [1, 1, 4, 1, 0, 3, 0]), ([0, 1, 1, 7, 1, 0, 0], [3, 0, 1, 1, 3, 2, 0]), ([2, 0, 3, 1, 2, 0, 2], [1, 1, 0, 2, 4, 0, 2]), ([3, 0, 3, 0, 3, 0, 1], [3, 2, 0, 0, 1, 3, 1]), ([0, 0, 0, 1, 0, 3, 6], [3, 1, 5, 1, 0, 0, 0]), ([5, 2, 0, 2, 1, 0, 0], [1, 1, 2, 1, 1, 0, 4]), ([0, 6, 2, 0, 0, 0, 2], [0, 4, 1, 0, 0, 5, 0]), ([3, 0, 2, 1, 1, 3, 0], [2, 1, 1, 1, 0, 0, 5])] 
- [41.56745000960004, 47.992340699450395, 35.030056960000024, 41.0399536394509, 49.66412813282054, 36.01994383360003, 34.9175355747242, 40.262857967408685, 57.14226187089351, 25.304008510771755, 29.758683309434083, 55.64828160000005, 55.681602284364025, 57.483237880437635, 25.498224160765343] 
- [33.80386578595842, 43.110476800000036, 31.62594303405578, 30.447887682366883, 35.72394971656588, 23.322027834485322, 28.45374464901042, 32.45786779962879, 26.77886618913677, 30.04792393037175, 27.130997894135543, 51.92567493079359, 19.393354279944212, 40.773631864832026, 25.962063974400014] 
- [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0]</code></pre>
+[([5, 1, 0, 0, 4, 0, 0], [0, 0, 0, 1, 3, 1, 5]), ([1, 1, 1, 5, 0, 1, 1], [0, 0, 0, 4, 2, 0, 4]), ([1, 5, 2, 1, 1, 0, 0], [2, 0, 1, 3, 4, 0, 0]), ([5, 0, 0, 0, 2, 2, 1], [1, 2, 5, 0, 1, 1, 0]), ([1, 3, 2, 2, 0, 0, 2], [1, 0, 3, 0, 3, 1, 2]), ([4, 2, 0, 2, 0, 0, 2], [0, 0, 2, 6, 1, 0, 1]), ([2, 2, 1, 0, 0, 5, 0], [1, 0, 0, 1, 0, 4, 4]), ([0, 2, 5, 0, 0, 2, 1], [0, 7, 0, 2, 0, 1, 0]), ([0, 4, 1, 3, 1, 1, 0], [0, 0, 3, 5, 2, 0, 0]), ([0, 4, 0, 1, 0, 2, 3], [0, 0, 0, 0, 7, 2, 1]), ([1, 0, 3, 0, 0, 6, 0], [1, 4, 0, 0, 1, 1, 3]), ([0, 5, 3, 0, 0, 0, 2], [1, 3, 1, 0, 0, 4, 1]), ([1, 4, 1, 1, 0, 3, 0], [0, 6, 1, 0, 0, 2, 1]), ([1, 0, 0, 4, 0, 5, 0], [0, 3, 4, 0, 0, 1, 2]), ([1, 1, 4, 0, 4, 0, 0], [0, 0, 1, 1, 0, 5, 3])] 
+ [45.83469008087551, 31.925612362191632, 54.48618002021776, 32.93638214007037, 31.903947786090264, 37.57795844587057, 30.66425452134402, 42.27419483282949, 50.09276646866054, 30.186601175812214, 37.626163200000036, 54.50807016895987, 34.52406351149628, 45.021314621440034, 37.594862272023136] 
+ [44.48115841679363, 50.77680848523785, 35.95409687035906, 42.260359046783755, 28.748981569010112, 58.61060969191143, 44.81995776000003, 67.28540959597044, 64.99914126947522, 79.08352442141943, 23.652114129588547, 28.693674219611005, 51.50006045332245, 40.97090533376224, 48.03287604838404] 
+ [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0]
+[[2, 2, 1, 3, 1, 0, 1], [0, 4, 2, 0, 1, 3, 0], [1, 0, 0, 0, 2, 7, 0], [3, 0, 0, 0, 2, 5, 0], [0, 6, 0, 0, 1, 0, 3], [0, 0, 0, 5, 4, 0, 1], [0, 0, 0, 0, 1, 1, 8], [3, 1, 2, 3, 0, 0, 1], [3, 0, 1, 1, 1, 4, 0], [1, 3, 1, 4, 1, 0, 0]] 
+ [([2, 2, 1, 3, 1, 0, 1], [2, 2, 1, 3, 0, 0, 2]), ([0, 4, 2, 0, 1, 3, 0], [0, 5, 1, 0, 1, 3, 0]), ([1, 0, 0, 0, 2, 7, 0], [1, 0, 0, 0, 3, 6, 0]), ([3, 0, 0, 0, 2, 5, 0], [2, 0, 0, 1, 2, 5, 0]), ([0, 6, 0, 0, 1, 0, 3], [1, 6, 0, 0, 0, 0, 3]), ([0, 0, 0, 5, 4, 0, 1], [0, 0, 0, 6, 4, 0, 0]), ([0, 0, 0, 0, 1, 1, 8], [0, 0, 0, 0, 2, 0, 8]), ([3, 1, 2, 3, 0, 0, 1], [3, 1, 2, 2, 0, 0, 2]), ([3, 0, 1, 1, 1, 4, 0], [3, 0, 1, 1, 1, 3, 1]), ([1, 3, 1, 4, 1, 0, 0], [2, 3, 1, 4, 0, 0, 0])] 
+ 5963    29.935620
+2689    42.942470
+3029    54.867392
+6312    35.795831
+2882    43.738361
+248     70.151718
+12      60.141760
+6793    35.779291
+6450    24.214863
+4681    41.492811
+Name: obj, dtype: float64
+Schedule: [0, 4, 2, 0, 1, 3, 0], ewt = 42.94246990549784</code></pre>
+</div>
+</div>
+<section id="flow-chart-of-objective-calculation-method" class="level3">
+<h3 class="anchored" data-anchor-id="flow-chart-of-objective-calculation-method">Flow chart of objective calculation method</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    A[Start] --&gt; B[Adjust service times distribution for no-shows]
+    B --&gt; C[Set probability of first spillover time being zero to 1]
+    C --&gt; D[Initialize wt_list and ewt &lt;/br&gt; for saving waiting times distributions and &lt;/br&gt;accumulated expected waiting time]
+    D --&gt; E[Loop through each interval in schedule]
+    
+    E --&gt; F{Is x == 0?}
+    
+    F --&gt;|Yes| G[Record spillover from previous interval]
+    G --&gt; H[Append empty list to wt_list]
+    H --&gt; I[Initialize spillover time distribution]
+    I --&gt; J[Calculate spillover for next interval]
+    J --&gt; K[Continue to next interval]
+
+    F --&gt;|No| L[Initialize wt_temp for current interval]
+    L --&gt; M[Add spillover from previous interval &lt;/br&gt;as waiting time for first patient in current interval]
+    M --&gt; N[Loop through each patient in interval]
+    
+    N --&gt; O[Calculate waiting time distribution for current patient]
+    O --&gt; P[Append waiting time distribution to wt_temp]
+    P --&gt; Q[Add expected waiting time for current patient to ewt]
+    Q --&gt; R[Append wt_temp to wt_list]
+    
+    R --&gt; S[Initialize spillover time distribution]
+    S --&gt; T[Calculate spillover for next interval]
+    T --&gt; K[Continue to next interval]
+    
+    K --&gt; U[Print wt_list]
+    U --&gt; V[Print schedule and ewt]
+    V --&gt; W[End]
+
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
 </div>
 </div>
 </section>
+</section>
 <section id="prepare-data" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-data">Prepare data</h2>
-<div id="2ec90805" class="cell" data-execution_count="3">
+<div id="c243ff00" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the dataset</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> []</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pair <span class="kw">in</span> sch_data.pair_list:</span>
@@ -231,7 +350,37 @@ Labels
 </section>
 <section id="train-and-evaluate-model" class="level2">
 <h2 class="anchored" data-anchor-id="train-and-evaluate-model">Train and evaluate model</h2>
-<div id="19b5dc5e" class="cell" data-execution_count="4">
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    A[Start] --&gt; B[Initialize StratifiedKFold]
+    B --&gt; C[Initialize XGBClassifier]
+    C --&gt; D[Set results as empty list]
+    D --&gt; E[Loop through each split of cv split]
+    E --&gt; F[Get train and test indices]
+    F --&gt; G[Split X and y into X_train, X_test, y_train, y_test]
+    G --&gt; H[Clone the classifier]
+    H --&gt; I[Call fit_and_score function]
+    I --&gt; J[Fit the estimator]
+    J --&gt; K[Score on training set]
+    J --&gt; L[Score on test set]
+    K --&gt; M[Return estimator, train_score, test_score]
+    L --&gt; M
+    M --&gt; N[Append the results]
+    N --&gt; E
+    E --&gt; O[Loop ends]
+    O --&gt; P[Print results]
+    P --&gt; Q[End]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div id="4323cc51" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit_and_score(estimator, X_train, X_test, y_train, y_test):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Fit the estimator on the train set and score it on both sets"""</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    estimator.fit(X_train, y_train, eval_set<span class="op">=</span>[(X_test, y_test)])</span>
@@ -272,518 +421,518 @@ Labels
 <span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (est, train_score, test_score) <span class="kw">in</span> <span class="bu">enumerate</span>(results):</span>
 <span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Fold </span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss"> - Train Score: </span><span class="sc">{</span>train_score<span class="sc">:.4f}</span><span class="ss">, Test Score: </span><span class="sc">{</span>test_score<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[0] validation_0-logloss:0.66581
-[1] validation_0-logloss:0.64114
-[2] validation_0-logloss:0.61975
-[3] validation_0-logloss:0.60265
-[4] validation_0-logloss:0.58635
-[5] validation_0-logloss:0.56971
-[6] validation_0-logloss:0.55624
-[7] validation_0-logloss:0.54196
-[8] validation_0-logloss:0.53063
-[9] validation_0-logloss:0.52013
-[10]    validation_0-logloss:0.51077
+<pre><code>[0] validation_0-logloss:0.66704
+[1] validation_0-logloss:0.64197
+[2] validation_0-logloss:0.62004
+[3] validation_0-logloss:0.60129
+[4] validation_0-logloss:0.58462
+[5] validation_0-logloss:0.56863
+[6] validation_0-logloss:0.55463
+[7] validation_0-logloss:0.54278
+[8] validation_0-logloss:0.53183
+[9] validation_0-logloss:0.52202
+[10]    validation_0-logloss:0.51265
+[11]    validation_0-logloss:0.50330
+[12]    validation_0-logloss:0.49556
+[13]    validation_0-logloss:0.48886
+[14]    validation_0-logloss:0.48178
+[15]    validation_0-logloss:0.47352
+[16]    validation_0-logloss:0.46686
+[17]    validation_0-logloss:0.45823
+[18]    validation_0-logloss:0.45144
+[19]    validation_0-logloss:0.44638
+[20]    validation_0-logloss:0.44170
+[21]    validation_0-logloss:0.43606
+[22]    validation_0-logloss:0.43121
+[23]    validation_0-logloss:0.42626
+[24]    validation_0-logloss:0.42026
+[25]    validation_0-logloss:0.41398
+[26]    validation_0-logloss:0.40977
+[27]    validation_0-logloss:0.40508
+[28]    validation_0-logloss:0.40069
+[29]    validation_0-logloss:0.39565
+[30]    validation_0-logloss:0.39144
+[31]    validation_0-logloss:0.38700
+[32]    validation_0-logloss:0.38395
+[33]    validation_0-logloss:0.38027
+[34]    validation_0-logloss:0.37639
+[35]    validation_0-logloss:0.37305
+[36]    validation_0-logloss:0.36950
+[37]    validation_0-logloss:0.36542
+[38]    validation_0-logloss:0.36197
+[39]    validation_0-logloss:0.35907
+[40]    validation_0-logloss:0.35659
+[41]    validation_0-logloss:0.35246
+[42]    validation_0-logloss:0.35002
+[43]    validation_0-logloss:0.34677
+[44]    validation_0-logloss:0.34350
+[45]    validation_0-logloss:0.34061
+[46]    validation_0-logloss:0.33761
+[47]    validation_0-logloss:0.33511
+[48]    validation_0-logloss:0.33288
+[49]    validation_0-logloss:0.33082
+[50]    validation_0-logloss:0.32858
+[51]    validation_0-logloss:0.32658
+[52]    validation_0-logloss:0.32332
+[53]    validation_0-logloss:0.32046
+[54]    validation_0-logloss:0.31715
+[55]    validation_0-logloss:0.31561
+[56]    validation_0-logloss:0.31377
+[57]    validation_0-logloss:0.31075
+[58]    validation_0-logloss:0.30913
+[59]    validation_0-logloss:0.30729
+[60]    validation_0-logloss:0.30555
+[61]    validation_0-logloss:0.30361
+[62]    validation_0-logloss:0.30166
+[63]    validation_0-logloss:0.29909
+[64]    validation_0-logloss:0.29692
+[65]    validation_0-logloss:0.29539
+[66]    validation_0-logloss:0.29365
+[67]    validation_0-logloss:0.29163
+[68]    validation_0-logloss:0.28929
+[69]    validation_0-logloss:0.28798
+[70]    validation_0-logloss:0.28646
+[71]    validation_0-logloss:0.28538
+[72]    validation_0-logloss:0.28410
+[73]    validation_0-logloss:0.28237
+[74]    validation_0-logloss:0.28089
+[75]    validation_0-logloss:0.27960
+[76]    validation_0-logloss:0.27821
+[77]    validation_0-logloss:0.27676
+[78]    validation_0-logloss:0.27519
+[79]    validation_0-logloss:0.27396
+[80]    validation_0-logloss:0.27272
+[81]    validation_0-logloss:0.27075
+[82]    validation_0-logloss:0.26935
+[83]    validation_0-logloss:0.26826
+[84]    validation_0-logloss:0.26589
+[85]    validation_0-logloss:0.26479
+[86]    validation_0-logloss:0.26373
+[87]    validation_0-logloss:0.26270
+[88]    validation_0-logloss:0.26089
+[89]    validation_0-logloss:0.25961
+[90]    validation_0-logloss:0.25764
+[91]    validation_0-logloss:0.25653
+[92]    validation_0-logloss:0.25540
+[93]    validation_0-logloss:0.25509
+[94]    validation_0-logloss:0.25369
+[95]    validation_0-logloss:0.25280
+[96]    validation_0-logloss:0.25173
+[97]    validation_0-logloss:0.25119
+[98]    validation_0-logloss:0.24985
+[99]    validation_0-logloss:0.24888
+[0] validation_0-logloss:0.66754
+[1] validation_0-logloss:0.64366
+[2] validation_0-logloss:0.62159
+[3] validation_0-logloss:0.60301
+[4] validation_0-logloss:0.58811
+[5] validation_0-logloss:0.57304
+[6] validation_0-logloss:0.55969
+[7] validation_0-logloss:0.54666
+[8] validation_0-logloss:0.53685
+[9] validation_0-logloss:0.52678
+[10]    validation_0-logloss:0.51696
+[11]    validation_0-logloss:0.50823
+[12]    validation_0-logloss:0.49949
+[13]    validation_0-logloss:0.49091
+[14]    validation_0-logloss:0.48345
+[15]    validation_0-logloss:0.47603
+[16]    validation_0-logloss:0.46972
+[17]    validation_0-logloss:0.46359
+[18]    validation_0-logloss:0.45784
+[19]    validation_0-logloss:0.45178
+[20]    validation_0-logloss:0.44530
+[21]    validation_0-logloss:0.43673
+[22]    validation_0-logloss:0.43163
+[23]    validation_0-logloss:0.42648
+[24]    validation_0-logloss:0.42185
+[25]    validation_0-logloss:0.41540
+[26]    validation_0-logloss:0.41039
+[27]    validation_0-logloss:0.40655
+[28]    validation_0-logloss:0.40221
+[29]    validation_0-logloss:0.39804
+[30]    validation_0-logloss:0.39286
+[31]    validation_0-logloss:0.38754
+[32]    validation_0-logloss:0.38334
+[33]    validation_0-logloss:0.37859
+[34]    validation_0-logloss:0.37467
+[35]    validation_0-logloss:0.37123
+[36]    validation_0-logloss:0.36770
+[37]    validation_0-logloss:0.36266
+[38]    validation_0-logloss:0.35911
+[39]    validation_0-logloss:0.35462
+[40]    validation_0-logloss:0.35186
+[41]    validation_0-logloss:0.34792
+[42]    validation_0-logloss:0.34556
+[43]    validation_0-logloss:0.34182
+[44]    validation_0-logloss:0.33925
+[45]    validation_0-logloss:0.33623
+[46]    validation_0-logloss:0.33320
+[47]    validation_0-logloss:0.32991
+[48]    validation_0-logloss:0.32819
+[49]    validation_0-logloss:0.32630
+[50]    validation_0-logloss:0.32388
+[51]    validation_0-logloss:0.32128
+[52]    validation_0-logloss:0.31842
+[53]    validation_0-logloss:0.31606
+[54]    validation_0-logloss:0.31387
+[55]    validation_0-logloss:0.31268
+[56]    validation_0-logloss:0.30981
+[57]    validation_0-logloss:0.30799
+[58]    validation_0-logloss:0.30569
+[59]    validation_0-logloss:0.30370
+[60]    validation_0-logloss:0.30175
+[61]    validation_0-logloss:0.29983
+[62]    validation_0-logloss:0.29820
+[63]    validation_0-logloss:0.29610
+[64]    validation_0-logloss:0.29431
+[65]    validation_0-logloss:0.29239
+[66]    validation_0-logloss:0.29053
+[67]    validation_0-logloss:0.28896
+[68]    validation_0-logloss:0.28771
+[69]    validation_0-logloss:0.28484
+[70]    validation_0-logloss:0.28368
+[71]    validation_0-logloss:0.28234
+[72]    validation_0-logloss:0.28114
+[73]    validation_0-logloss:0.28019
+[74]    validation_0-logloss:0.27826
+[75]    validation_0-logloss:0.27630
+[76]    validation_0-logloss:0.27476
+[77]    validation_0-logloss:0.27332
+[78]    validation_0-logloss:0.27228
+[79]    validation_0-logloss:0.27049
+[80]    validation_0-logloss:0.26843
+[81]    validation_0-logloss:0.26696
+[82]    validation_0-logloss:0.26552
+[83]    validation_0-logloss:0.26416
+[84]    validation_0-logloss:0.26295
+[85]    validation_0-logloss:0.26173
+[86]    validation_0-logloss:0.26066
+[87]    validation_0-logloss:0.25959
+[88]    validation_0-logloss:0.25843
+[89]    validation_0-logloss:0.25704
+[90]    validation_0-logloss:0.25605
+[91]    validation_0-logloss:0.25484
+[92]    validation_0-logloss:0.25361
+[93]    validation_0-logloss:0.25264
+[94]    validation_0-logloss:0.25173
+[95]    validation_0-logloss:0.25067
+[96]    validation_0-logloss:0.24935
+[97]    validation_0-logloss:0.24842
+[98]    validation_0-logloss:0.24678
+[99]    validation_0-logloss:0.24569
+[0] validation_0-logloss:0.66716
+[1] validation_0-logloss:0.64197
+[2] validation_0-logloss:0.61964
+[3] validation_0-logloss:0.60098
+[4] validation_0-logloss:0.58559
+[5] validation_0-logloss:0.57006
+[6] validation_0-logloss:0.55697
+[7] validation_0-logloss:0.54281
+[8] validation_0-logloss:0.53207
+[9] validation_0-logloss:0.52178
+[10]    validation_0-logloss:0.51093
 [11]    validation_0-logloss:0.50144
-[12]    validation_0-logloss:0.49370
-[13]    validation_0-logloss:0.48694
-[14]    validation_0-logloss:0.47955
-[15]    validation_0-logloss:0.47268
-[16]    validation_0-logloss:0.46469
-[17]    validation_0-logloss:0.45612
-[18]    validation_0-logloss:0.44911
-[19]    validation_0-logloss:0.44198
-[20]    validation_0-logloss:0.43583
-[21]    validation_0-logloss:0.42904
-[22]    validation_0-logloss:0.42298
-[23]    validation_0-logloss:0.41774
-[24]    validation_0-logloss:0.41274
-[25]    validation_0-logloss:0.40697
-[26]    validation_0-logloss:0.40312
-[27]    validation_0-logloss:0.39904
-[28]    validation_0-logloss:0.39474
-[29]    validation_0-logloss:0.38928
-[30]    validation_0-logloss:0.38591
-[31]    validation_0-logloss:0.38155
-[32]    validation_0-logloss:0.37674
-[33]    validation_0-logloss:0.37395
+[12]    validation_0-logloss:0.49250
+[13]    validation_0-logloss:0.48505
+[14]    validation_0-logloss:0.47757
+[15]    validation_0-logloss:0.46979
+[16]    validation_0-logloss:0.46208
+[17]    validation_0-logloss:0.45400
+[18]    validation_0-logloss:0.44816
+[19]    validation_0-logloss:0.44282
+[20]    validation_0-logloss:0.43705
+[21]    validation_0-logloss:0.43032
+[22]    validation_0-logloss:0.42467
+[23]    validation_0-logloss:0.41924
+[24]    validation_0-logloss:0.41367
+[25]    validation_0-logloss:0.40847
+[26]    validation_0-logloss:0.40533
+[27]    validation_0-logloss:0.40131
+[28]    validation_0-logloss:0.39791
+[29]    validation_0-logloss:0.39193
+[30]    validation_0-logloss:0.38833
+[31]    validation_0-logloss:0.38346
+[32]    validation_0-logloss:0.37982
+[33]    validation_0-logloss:0.37538
 [34]    validation_0-logloss:0.37042
-[35]    validation_0-logloss:0.36711
-[36]    validation_0-logloss:0.36380
-[37]    validation_0-logloss:0.35935
-[38]    validation_0-logloss:0.35615
-[39]    validation_0-logloss:0.35251
-[40]    validation_0-logloss:0.34884
-[41]    validation_0-logloss:0.34591
-[42]    validation_0-logloss:0.34361
-[43]    validation_0-logloss:0.34025
-[44]    validation_0-logloss:0.33642
-[45]    validation_0-logloss:0.33399
-[46]    validation_0-logloss:0.33070
-[47]    validation_0-logloss:0.32773
-[48]    validation_0-logloss:0.32428
-[49]    validation_0-logloss:0.32199
-[50]    validation_0-logloss:0.31862
-[51]    validation_0-logloss:0.31584
-[52]    validation_0-logloss:0.31303
-[53]    validation_0-logloss:0.30967
-[54]    validation_0-logloss:0.30756
-[55]    validation_0-logloss:0.30505
-[56]    validation_0-logloss:0.30265
-[57]    validation_0-logloss:0.30051
-[58]    validation_0-logloss:0.29821
-[59]    validation_0-logloss:0.29573
-[60]    validation_0-logloss:0.29317
-[61]    validation_0-logloss:0.29142
-[62]    validation_0-logloss:0.28966
-[63]    validation_0-logloss:0.28728
-[64]    validation_0-logloss:0.28550
-[65]    validation_0-logloss:0.28364
-[66]    validation_0-logloss:0.28230
-[67]    validation_0-logloss:0.28073
-[68]    validation_0-logloss:0.27801
-[69]    validation_0-logloss:0.27608
-[70]    validation_0-logloss:0.27403
-[71]    validation_0-logloss:0.27227
-[72]    validation_0-logloss:0.27022
-[73]    validation_0-logloss:0.26842
-[74]    validation_0-logloss:0.26709
-[75]    validation_0-logloss:0.26565
-[76]    validation_0-logloss:0.26459
-[77]    validation_0-logloss:0.26312
-[78]    validation_0-logloss:0.26221
-[79]    validation_0-logloss:0.26125
-[80]    validation_0-logloss:0.25928
-[81]    validation_0-logloss:0.25763
-[82]    validation_0-logloss:0.25674
-[83]    validation_0-logloss:0.25601
-[84]    validation_0-logloss:0.25469
-[85]    validation_0-logloss:0.25344
-[86]    validation_0-logloss:0.25153
-[87]    validation_0-logloss:0.25031
-[88]    validation_0-logloss:0.24887
-[89]    validation_0-logloss:0.24789
-[90]    validation_0-logloss:0.24718
-[91]    validation_0-logloss:0.24604
-[92]    validation_0-logloss:0.24471
-[93]    validation_0-logloss:0.24335
-[94]    validation_0-logloss:0.24210
-[95]    validation_0-logloss:0.24090
-[96]    validation_0-logloss:0.23924
-[97]    validation_0-logloss:0.23837
-[98]    validation_0-logloss:0.23731
-[99]    validation_0-logloss:0.23615
-[0] validation_0-logloss:0.66616
-[1] validation_0-logloss:0.64102
-[2] validation_0-logloss:0.61883
-[3] validation_0-logloss:0.60132
-[4] validation_0-logloss:0.58590
-[5] validation_0-logloss:0.57090
-[6] validation_0-logloss:0.55806
-[7] validation_0-logloss:0.54432
-[8] validation_0-logloss:0.53414
-[9] validation_0-logloss:0.52375
-[10]    validation_0-logloss:0.51342
-[11]    validation_0-logloss:0.50499
-[12]    validation_0-logloss:0.49654
-[13]    validation_0-logloss:0.49001
-[14]    validation_0-logloss:0.48322
-[15]    validation_0-logloss:0.47537
-[16]    validation_0-logloss:0.46818
-[17]    validation_0-logloss:0.46062
-[18]    validation_0-logloss:0.45561
-[19]    validation_0-logloss:0.44972
-[20]    validation_0-logloss:0.44321
-[21]    validation_0-logloss:0.43826
-[22]    validation_0-logloss:0.43253
-[23]    validation_0-logloss:0.42786
-[24]    validation_0-logloss:0.42085
-[25]    validation_0-logloss:0.41549
-[26]    validation_0-logloss:0.41076
-[27]    validation_0-logloss:0.40702
-[28]    validation_0-logloss:0.40099
-[29]    validation_0-logloss:0.39763
-[30]    validation_0-logloss:0.39287
-[31]    validation_0-logloss:0.38906
-[32]    validation_0-logloss:0.38577
-[33]    validation_0-logloss:0.38246
-[34]    validation_0-logloss:0.37821
-[35]    validation_0-logloss:0.37472
-[36]    validation_0-logloss:0.37071
-[37]    validation_0-logloss:0.36577
-[38]    validation_0-logloss:0.36187
-[39]    validation_0-logloss:0.35916
-[40]    validation_0-logloss:0.35676
-[41]    validation_0-logloss:0.35250
-[42]    validation_0-logloss:0.34966
-[43]    validation_0-logloss:0.34611
-[44]    validation_0-logloss:0.34347
-[45]    validation_0-logloss:0.33970
-[46]    validation_0-logloss:0.33680
-[47]    validation_0-logloss:0.33431
-[48]    validation_0-logloss:0.33107
-[49]    validation_0-logloss:0.32840
-[50]    validation_0-logloss:0.32539
-[51]    validation_0-logloss:0.32292
-[52]    validation_0-logloss:0.32016
-[53]    validation_0-logloss:0.31844
-[54]    validation_0-logloss:0.31630
-[55]    validation_0-logloss:0.31390
-[56]    validation_0-logloss:0.31138
-[57]    validation_0-logloss:0.30939
-[58]    validation_0-logloss:0.30653
-[59]    validation_0-logloss:0.30514
-[60]    validation_0-logloss:0.30300
-[61]    validation_0-logloss:0.30123
-[62]    validation_0-logloss:0.29931
-[63]    validation_0-logloss:0.29680
-[64]    validation_0-logloss:0.29545
-[65]    validation_0-logloss:0.29360
-[66]    validation_0-logloss:0.29160
-[67]    validation_0-logloss:0.28938
-[68]    validation_0-logloss:0.28806
-[69]    validation_0-logloss:0.28621
-[70]    validation_0-logloss:0.28489
-[71]    validation_0-logloss:0.28390
-[72]    validation_0-logloss:0.28215
-[73]    validation_0-logloss:0.27991
-[74]    validation_0-logloss:0.27843
-[75]    validation_0-logloss:0.27628
-[76]    validation_0-logloss:0.27538
-[77]    validation_0-logloss:0.27395
-[78]    validation_0-logloss:0.27324
-[79]    validation_0-logloss:0.27208
-[80]    validation_0-logloss:0.27099
-[81]    validation_0-logloss:0.26939
-[82]    validation_0-logloss:0.26804
-[83]    validation_0-logloss:0.26714
-[84]    validation_0-logloss:0.26536
-[85]    validation_0-logloss:0.26443
-[86]    validation_0-logloss:0.26299
-[87]    validation_0-logloss:0.26171
-[88]    validation_0-logloss:0.26064
-[89]    validation_0-logloss:0.26006
-[90]    validation_0-logloss:0.25895
-[91]    validation_0-logloss:0.25784
-[92]    validation_0-logloss:0.25679
-[93]    validation_0-logloss:0.25544
-[94]    validation_0-logloss:0.25368
-[95]    validation_0-logloss:0.25215
-[96]    validation_0-logloss:0.25071
-[97]    validation_0-logloss:0.24994
-[98]    validation_0-logloss:0.24887
-[99]    validation_0-logloss:0.24817
-[0] validation_0-logloss:0.66749
-[1] validation_0-logloss:0.64286
-[2] validation_0-logloss:0.62105
-[3] validation_0-logloss:0.60379
-[4] validation_0-logloss:0.58817
-[5] validation_0-logloss:0.57172
-[6] validation_0-logloss:0.55850
-[7] validation_0-logloss:0.54524
-[8] validation_0-logloss:0.53404
-[9] validation_0-logloss:0.52362
-[10]    validation_0-logloss:0.51324
-[11]    validation_0-logloss:0.50388
-[12]    validation_0-logloss:0.49622
-[13]    validation_0-logloss:0.48951
-[14]    validation_0-logloss:0.48246
-[15]    validation_0-logloss:0.47540
-[16]    validation_0-logloss:0.46910
-[17]    validation_0-logloss:0.46252
-[18]    validation_0-logloss:0.45666
-[19]    validation_0-logloss:0.45019
-[20]    validation_0-logloss:0.44453
-[21]    validation_0-logloss:0.43830
-[22]    validation_0-logloss:0.43316
-[23]    validation_0-logloss:0.42668
-[24]    validation_0-logloss:0.42221
-[25]    validation_0-logloss:0.41752
-[26]    validation_0-logloss:0.41262
-[27]    validation_0-logloss:0.40839
-[28]    validation_0-logloss:0.40358
-[29]    validation_0-logloss:0.39933
-[30]    validation_0-logloss:0.39497
-[31]    validation_0-logloss:0.39074
-[32]    validation_0-logloss:0.38709
-[33]    validation_0-logloss:0.38353
-[34]    validation_0-logloss:0.37901
-[35]    validation_0-logloss:0.37513
-[36]    validation_0-logloss:0.37294
-[37]    validation_0-logloss:0.36859
-[38]    validation_0-logloss:0.36583
-[39]    validation_0-logloss:0.36309
-[40]    validation_0-logloss:0.35914
-[41]    validation_0-logloss:0.35697
-[42]    validation_0-logloss:0.35490
-[43]    validation_0-logloss:0.35226
-[44]    validation_0-logloss:0.34952
-[45]    validation_0-logloss:0.34711
-[46]    validation_0-logloss:0.34401
-[47]    validation_0-logloss:0.34127
-[48]    validation_0-logloss:0.33879
-[49]    validation_0-logloss:0.33648
-[50]    validation_0-logloss:0.33372
-[51]    validation_0-logloss:0.33133
-[52]    validation_0-logloss:0.32872
-[53]    validation_0-logloss:0.32664
-[54]    validation_0-logloss:0.32462
-[55]    validation_0-logloss:0.32240
-[56]    validation_0-logloss:0.31992
-[57]    validation_0-logloss:0.31734
-[58]    validation_0-logloss:0.31522
-[59]    validation_0-logloss:0.31248
-[60]    validation_0-logloss:0.31052
-[61]    validation_0-logloss:0.30915
-[62]    validation_0-logloss:0.30724
-[63]    validation_0-logloss:0.30472
-[64]    validation_0-logloss:0.30280
-[65]    validation_0-logloss:0.30068
-[66]    validation_0-logloss:0.29997
-[67]    validation_0-logloss:0.29865
-[68]    validation_0-logloss:0.29683
-[69]    validation_0-logloss:0.29485
-[70]    validation_0-logloss:0.29338
-[71]    validation_0-logloss:0.29155
-[72]    validation_0-logloss:0.28971
-[73]    validation_0-logloss:0.28699
-[74]    validation_0-logloss:0.28488
-[75]    validation_0-logloss:0.28345
-[76]    validation_0-logloss:0.28208
-[77]    validation_0-logloss:0.28084
-[78]    validation_0-logloss:0.27940
-[79]    validation_0-logloss:0.27803
-[80]    validation_0-logloss:0.27670
-[81]    validation_0-logloss:0.27495
-[82]    validation_0-logloss:0.27331
-[83]    validation_0-logloss:0.27200
-[84]    validation_0-logloss:0.27092
-[85]    validation_0-logloss:0.26950
-[86]    validation_0-logloss:0.26798
-[87]    validation_0-logloss:0.26708
-[88]    validation_0-logloss:0.26579
-[89]    validation_0-logloss:0.26469
-[90]    validation_0-logloss:0.26342
-[91]    validation_0-logloss:0.26186
-[92]    validation_0-logloss:0.26068
-[93]    validation_0-logloss:0.25955
-[94]    validation_0-logloss:0.25808
-[95]    validation_0-logloss:0.25760
-[96]    validation_0-logloss:0.25645
-[97]    validation_0-logloss:0.25569
-[98]    validation_0-logloss:0.25503
-[99]    validation_0-logloss:0.25403
-[0] validation_0-logloss:0.66772
-[1] validation_0-logloss:0.64299
-[2] validation_0-logloss:0.62096
-[3] validation_0-logloss:0.60370
-[4] validation_0-logloss:0.58533
-[5] validation_0-logloss:0.57128
-[6] validation_0-logloss:0.55720
-[7] validation_0-logloss:0.54433
-[8] validation_0-logloss:0.53366
-[9] validation_0-logloss:0.52265
-[10]    validation_0-logloss:0.51192
-[11]    validation_0-logloss:0.50216
-[12]    validation_0-logloss:0.49400
-[13]    validation_0-logloss:0.48692
-[14]    validation_0-logloss:0.47920
-[15]    validation_0-logloss:0.47172
-[16]    validation_0-logloss:0.46479
-[17]    validation_0-logloss:0.45937
-[18]    validation_0-logloss:0.45381
-[19]    validation_0-logloss:0.44820
-[20]    validation_0-logloss:0.44207
-[21]    validation_0-logloss:0.43392
-[22]    validation_0-logloss:0.42813
-[23]    validation_0-logloss:0.42379
-[24]    validation_0-logloss:0.41679
-[25]    validation_0-logloss:0.41276
-[26]    validation_0-logloss:0.40688
-[27]    validation_0-logloss:0.40222
-[28]    validation_0-logloss:0.39784
-[29]    validation_0-logloss:0.39297
-[30]    validation_0-logloss:0.38862
-[31]    validation_0-logloss:0.38350
-[32]    validation_0-logloss:0.37968
-[33]    validation_0-logloss:0.37529
-[34]    validation_0-logloss:0.37272
-[35]    validation_0-logloss:0.36779
-[36]    validation_0-logloss:0.36478
-[37]    validation_0-logloss:0.36082
-[38]    validation_0-logloss:0.35792
-[39]    validation_0-logloss:0.35445
-[40]    validation_0-logloss:0.35148
-[41]    validation_0-logloss:0.34870
-[42]    validation_0-logloss:0.34596
-[43]    validation_0-logloss:0.34105
-[44]    validation_0-logloss:0.33916
-[45]    validation_0-logloss:0.33638
-[46]    validation_0-logloss:0.33378
-[47]    validation_0-logloss:0.33137
-[48]    validation_0-logloss:0.32902
-[49]    validation_0-logloss:0.32658
-[50]    validation_0-logloss:0.32409
-[51]    validation_0-logloss:0.32114
-[52]    validation_0-logloss:0.31705
-[53]    validation_0-logloss:0.31363
-[54]    validation_0-logloss:0.31185
-[55]    validation_0-logloss:0.30950
-[56]    validation_0-logloss:0.30654
-[57]    validation_0-logloss:0.30430
-[58]    validation_0-logloss:0.30212
-[59]    validation_0-logloss:0.29945
-[60]    validation_0-logloss:0.29709
-[61]    validation_0-logloss:0.29523
-[62]    validation_0-logloss:0.29349
-[63]    validation_0-logloss:0.29149
-[64]    validation_0-logloss:0.28929
-[65]    validation_0-logloss:0.28658
-[66]    validation_0-logloss:0.28509
-[67]    validation_0-logloss:0.28368
-[68]    validation_0-logloss:0.28151
-[69]    validation_0-logloss:0.27975
-[70]    validation_0-logloss:0.27802
-[71]    validation_0-logloss:0.27623
-[72]    validation_0-logloss:0.27443
-[73]    validation_0-logloss:0.27316
-[74]    validation_0-logloss:0.27155
-[75]    validation_0-logloss:0.27041
-[76]    validation_0-logloss:0.26924
-[77]    validation_0-logloss:0.26718
-[78]    validation_0-logloss:0.26527
-[79]    validation_0-logloss:0.26380
-[80]    validation_0-logloss:0.26192
-[81]    validation_0-logloss:0.25990
-[82]    validation_0-logloss:0.25832
-[83]    validation_0-logloss:0.25750
-[84]    validation_0-logloss:0.25555
-[85]    validation_0-logloss:0.25429
-[86]    validation_0-logloss:0.25356
-[87]    validation_0-logloss:0.25209
-[88]    validation_0-logloss:0.25052
-[89]    validation_0-logloss:0.24927
-[90]    validation_0-logloss:0.24850
-[91]    validation_0-logloss:0.24713
-[92]    validation_0-logloss:0.24588
-[93]    validation_0-logloss:0.24475
-[94]    validation_0-logloss:0.24305
-[95]    validation_0-logloss:0.24159
-[96]    validation_0-logloss:0.24005
-[97]    validation_0-logloss:0.23887
-[98]    validation_0-logloss:0.23758
-[99]    validation_0-logloss:0.23658
-[0] validation_0-logloss:0.66589
-[1] validation_0-logloss:0.63970
-[2] validation_0-logloss:0.61644
-[3] validation_0-logloss:0.59795
-[4] validation_0-logloss:0.58143
-[5] validation_0-logloss:0.56407
-[6] validation_0-logloss:0.55013
-[7] validation_0-logloss:0.53588
-[8] validation_0-logloss:0.52493
-[9] validation_0-logloss:0.51506
-[10]    validation_0-logloss:0.50370
-[11]    validation_0-logloss:0.49389
-[12]    validation_0-logloss:0.48588
-[13]    validation_0-logloss:0.47952
-[14]    validation_0-logloss:0.47225
-[15]    validation_0-logloss:0.46515
-[16]    validation_0-logloss:0.45896
-[17]    validation_0-logloss:0.45096
-[18]    validation_0-logloss:0.44295
-[19]    validation_0-logloss:0.43792
-[20]    validation_0-logloss:0.43198
-[21]    validation_0-logloss:0.42620
-[22]    validation_0-logloss:0.42041
-[23]    validation_0-logloss:0.41408
-[24]    validation_0-logloss:0.40815
-[25]    validation_0-logloss:0.40298
-[26]    validation_0-logloss:0.39699
-[27]    validation_0-logloss:0.39221
-[28]    validation_0-logloss:0.38836
-[29]    validation_0-logloss:0.38466
-[30]    validation_0-logloss:0.37992
-[31]    validation_0-logloss:0.37438
-[32]    validation_0-logloss:0.37198
-[33]    validation_0-logloss:0.36690
-[34]    validation_0-logloss:0.36369
-[35]    validation_0-logloss:0.36064
-[36]    validation_0-logloss:0.35751
-[37]    validation_0-logloss:0.35386
-[38]    validation_0-logloss:0.34962
-[39]    validation_0-logloss:0.34501
-[40]    validation_0-logloss:0.34198
-[41]    validation_0-logloss:0.33793
-[42]    validation_0-logloss:0.33511
-[43]    validation_0-logloss:0.33182
-[44]    validation_0-logloss:0.32918
-[45]    validation_0-logloss:0.32550
-[46]    validation_0-logloss:0.32283
-[47]    validation_0-logloss:0.31956
-[48]    validation_0-logloss:0.31723
-[49]    validation_0-logloss:0.31433
-[50]    validation_0-logloss:0.31125
-[51]    validation_0-logloss:0.30898
-[52]    validation_0-logloss:0.30662
-[53]    validation_0-logloss:0.30459
-[54]    validation_0-logloss:0.30271
-[55]    validation_0-logloss:0.30083
-[56]    validation_0-logloss:0.29854
-[57]    validation_0-logloss:0.29655
-[58]    validation_0-logloss:0.29474
-[59]    validation_0-logloss:0.29324
-[60]    validation_0-logloss:0.29138
-[61]    validation_0-logloss:0.28954
-[62]    validation_0-logloss:0.28770
-[63]    validation_0-logloss:0.28457
-[64]    validation_0-logloss:0.28314
-[65]    validation_0-logloss:0.28114
-[66]    validation_0-logloss:0.27927
-[67]    validation_0-logloss:0.27758
-[68]    validation_0-logloss:0.27636
-[69]    validation_0-logloss:0.27467
-[70]    validation_0-logloss:0.27283
-[71]    validation_0-logloss:0.27092
-[72]    validation_0-logloss:0.26943
-[73]    validation_0-logloss:0.26753
-[74]    validation_0-logloss:0.26648
-[75]    validation_0-logloss:0.26533
-[76]    validation_0-logloss:0.26301
-[77]    validation_0-logloss:0.26103
-[78]    validation_0-logloss:0.25915
-[79]    validation_0-logloss:0.25780
-[80]    validation_0-logloss:0.25672
-[81]    validation_0-logloss:0.25539
-[82]    validation_0-logloss:0.25405
-[83]    validation_0-logloss:0.25291
-[84]    validation_0-logloss:0.25163
-[85]    validation_0-logloss:0.25021
-[86]    validation_0-logloss:0.24816
-[87]    validation_0-logloss:0.24718
-[88]    validation_0-logloss:0.24605
-[89]    validation_0-logloss:0.24490
-[90]    validation_0-logloss:0.24389
-[91]    validation_0-logloss:0.24283
-[92]    validation_0-logloss:0.24138
-[93]    validation_0-logloss:0.23991
-[94]    validation_0-logloss:0.23854
-[95]    validation_0-logloss:0.23743
-[96]    validation_0-logloss:0.23623
-[97]    validation_0-logloss:0.23524
-[98]    validation_0-logloss:0.23453
-[99]    validation_0-logloss:0.23383
-Fold 1 - Train Score: 0.9657, Test Score: 0.9234
-Fold 2 - Train Score: 0.9665, Test Score: 0.9147
-Fold 3 - Train Score: 0.9646, Test Score: 0.9091
-Fold 4 - Train Score: 0.9663, Test Score: 0.9237
-Fold 5 - Train Score: 0.9652, Test Score: 0.9263</code></pre>
+[35]    validation_0-logloss:0.36736
+[36]    validation_0-logloss:0.36423
+[37]    validation_0-logloss:0.35971
+[38]    validation_0-logloss:0.35530
+[39]    validation_0-logloss:0.35203
+[40]    validation_0-logloss:0.34851
+[41]    validation_0-logloss:0.34415
+[42]    validation_0-logloss:0.34082
+[43]    validation_0-logloss:0.33693
+[44]    validation_0-logloss:0.33408
+[45]    validation_0-logloss:0.33168
+[46]    validation_0-logloss:0.32832
+[47]    validation_0-logloss:0.32464
+[48]    validation_0-logloss:0.32291
+[49]    validation_0-logloss:0.32065
+[50]    validation_0-logloss:0.31809
+[51]    validation_0-logloss:0.31611
+[52]    validation_0-logloss:0.31384
+[53]    validation_0-logloss:0.31161
+[54]    validation_0-logloss:0.30955
+[55]    validation_0-logloss:0.30677
+[56]    validation_0-logloss:0.30409
+[57]    validation_0-logloss:0.30121
+[58]    validation_0-logloss:0.29908
+[59]    validation_0-logloss:0.29649
+[60]    validation_0-logloss:0.29427
+[61]    validation_0-logloss:0.29233
+[62]    validation_0-logloss:0.29096
+[63]    validation_0-logloss:0.28932
+[64]    validation_0-logloss:0.28800
+[65]    validation_0-logloss:0.28596
+[66]    validation_0-logloss:0.28452
+[67]    validation_0-logloss:0.28181
+[68]    validation_0-logloss:0.28003
+[69]    validation_0-logloss:0.27823
+[70]    validation_0-logloss:0.27653
+[71]    validation_0-logloss:0.27482
+[72]    validation_0-logloss:0.27305
+[73]    validation_0-logloss:0.27103
+[74]    validation_0-logloss:0.26926
+[75]    validation_0-logloss:0.26845
+[76]    validation_0-logloss:0.26723
+[77]    validation_0-logloss:0.26573
+[78]    validation_0-logloss:0.26405
+[79]    validation_0-logloss:0.26299
+[80]    validation_0-logloss:0.26201
+[81]    validation_0-logloss:0.26009
+[82]    validation_0-logloss:0.25872
+[83]    validation_0-logloss:0.25748
+[84]    validation_0-logloss:0.25512
+[85]    validation_0-logloss:0.25418
+[86]    validation_0-logloss:0.25303
+[87]    validation_0-logloss:0.25181
+[88]    validation_0-logloss:0.25062
+[89]    validation_0-logloss:0.24941
+[90]    validation_0-logloss:0.24796
+[91]    validation_0-logloss:0.24648
+[92]    validation_0-logloss:0.24520
+[93]    validation_0-logloss:0.24342
+[94]    validation_0-logloss:0.24220
+[95]    validation_0-logloss:0.24141
+[96]    validation_0-logloss:0.24023
+[97]    validation_0-logloss:0.23914
+[98]    validation_0-logloss:0.23845
+[99]    validation_0-logloss:0.23752
+[0] validation_0-logloss:0.66855
+[1] validation_0-logloss:0.64549
+[2] validation_0-logloss:0.62624
+[3] validation_0-logloss:0.60934
+[4] validation_0-logloss:0.59387
+[5] validation_0-logloss:0.57887
+[6] validation_0-logloss:0.56657
+[7] validation_0-logloss:0.55343
+[8] validation_0-logloss:0.54458
+[9] validation_0-logloss:0.53453
+[10]    validation_0-logloss:0.52476
+[11]    validation_0-logloss:0.51582
+[12]    validation_0-logloss:0.50666
+[13]    validation_0-logloss:0.49987
+[14]    validation_0-logloss:0.49205
+[15]    validation_0-logloss:0.48464
+[16]    validation_0-logloss:0.47812
+[17]    validation_0-logloss:0.46834
+[18]    validation_0-logloss:0.46099
+[19]    validation_0-logloss:0.45513
+[20]    validation_0-logloss:0.45025
+[21]    validation_0-logloss:0.44236
+[22]    validation_0-logloss:0.43700
+[23]    validation_0-logloss:0.43229
+[24]    validation_0-logloss:0.42635
+[25]    validation_0-logloss:0.42189
+[26]    validation_0-logloss:0.41804
+[27]    validation_0-logloss:0.41100
+[28]    validation_0-logloss:0.40673
+[29]    validation_0-logloss:0.40305
+[30]    validation_0-logloss:0.39805
+[31]    validation_0-logloss:0.39435
+[32]    validation_0-logloss:0.39012
+[33]    validation_0-logloss:0.38675
+[34]    validation_0-logloss:0.38231
+[35]    validation_0-logloss:0.37796
+[36]    validation_0-logloss:0.37341
+[37]    validation_0-logloss:0.36886
+[38]    validation_0-logloss:0.36559
+[39]    validation_0-logloss:0.36265
+[40]    validation_0-logloss:0.35960
+[41]    validation_0-logloss:0.35668
+[42]    validation_0-logloss:0.35365
+[43]    validation_0-logloss:0.34970
+[44]    validation_0-logloss:0.34689
+[45]    validation_0-logloss:0.34424
+[46]    validation_0-logloss:0.34120
+[47]    validation_0-logloss:0.33856
+[48]    validation_0-logloss:0.33524
+[49]    validation_0-logloss:0.33194
+[50]    validation_0-logloss:0.32913
+[51]    validation_0-logloss:0.32666
+[52]    validation_0-logloss:0.32481
+[53]    validation_0-logloss:0.32262
+[54]    validation_0-logloss:0.31989
+[55]    validation_0-logloss:0.31722
+[56]    validation_0-logloss:0.31539
+[57]    validation_0-logloss:0.31337
+[58]    validation_0-logloss:0.31084
+[59]    validation_0-logloss:0.30813
+[60]    validation_0-logloss:0.30521
+[61]    validation_0-logloss:0.30331
+[62]    validation_0-logloss:0.30162
+[63]    validation_0-logloss:0.29953
+[64]    validation_0-logloss:0.29724
+[65]    validation_0-logloss:0.29560
+[66]    validation_0-logloss:0.29387
+[67]    validation_0-logloss:0.29233
+[68]    validation_0-logloss:0.28957
+[69]    validation_0-logloss:0.28768
+[70]    validation_0-logloss:0.28600
+[71]    validation_0-logloss:0.28472
+[72]    validation_0-logloss:0.28296
+[73]    validation_0-logloss:0.28075
+[74]    validation_0-logloss:0.27859
+[75]    validation_0-logloss:0.27731
+[76]    validation_0-logloss:0.27532
+[77]    validation_0-logloss:0.27388
+[78]    validation_0-logloss:0.27285
+[79]    validation_0-logloss:0.27144
+[80]    validation_0-logloss:0.27034
+[81]    validation_0-logloss:0.26838
+[82]    validation_0-logloss:0.26693
+[83]    validation_0-logloss:0.26556
+[84]    validation_0-logloss:0.26442
+[85]    validation_0-logloss:0.26327
+[86]    validation_0-logloss:0.26220
+[87]    validation_0-logloss:0.26138
+[88]    validation_0-logloss:0.26030
+[89]    validation_0-logloss:0.25889
+[90]    validation_0-logloss:0.25731
+[91]    validation_0-logloss:0.25634
+[92]    validation_0-logloss:0.25515
+[93]    validation_0-logloss:0.25355
+[94]    validation_0-logloss:0.25144
+[95]    validation_0-logloss:0.25061
+[96]    validation_0-logloss:0.24973
+[97]    validation_0-logloss:0.24850
+[98]    validation_0-logloss:0.24769
+[99]    validation_0-logloss:0.24648
+[0] validation_0-logloss:0.66795
+[1] validation_0-logloss:0.64307
+[2] validation_0-logloss:0.62180
+[3] validation_0-logloss:0.60377
+[4] validation_0-logloss:0.58766
+[5] validation_0-logloss:0.57282
+[6] validation_0-logloss:0.55964
+[7] validation_0-logloss:0.54693
+[8] validation_0-logloss:0.53543
+[9] validation_0-logloss:0.52383
+[10]    validation_0-logloss:0.51443
+[11]    validation_0-logloss:0.50582
+[12]    validation_0-logloss:0.49701
+[13]    validation_0-logloss:0.48842
+[14]    validation_0-logloss:0.48054
+[15]    validation_0-logloss:0.47320
+[16]    validation_0-logloss:0.46709
+[17]    validation_0-logloss:0.46060
+[18]    validation_0-logloss:0.45414
+[19]    validation_0-logloss:0.44762
+[20]    validation_0-logloss:0.44270
+[21]    validation_0-logloss:0.43368
+[22]    validation_0-logloss:0.42713
+[23]    validation_0-logloss:0.42058
+[24]    validation_0-logloss:0.41481
+[25]    validation_0-logloss:0.41125
+[26]    validation_0-logloss:0.40636
+[27]    validation_0-logloss:0.40197
+[28]    validation_0-logloss:0.39744
+[29]    validation_0-logloss:0.39349
+[30]    validation_0-logloss:0.38787
+[31]    validation_0-logloss:0.38425
+[32]    validation_0-logloss:0.37907
+[33]    validation_0-logloss:0.37483
+[34]    validation_0-logloss:0.37053
+[35]    validation_0-logloss:0.36611
+[36]    validation_0-logloss:0.36280
+[37]    validation_0-logloss:0.35829
+[38]    validation_0-logloss:0.35528
+[39]    validation_0-logloss:0.35034
+[40]    validation_0-logloss:0.34683
+[41]    validation_0-logloss:0.34295
+[42]    validation_0-logloss:0.33934
+[43]    validation_0-logloss:0.33620
+[44]    validation_0-logloss:0.33224
+[45]    validation_0-logloss:0.32995
+[46]    validation_0-logloss:0.32745
+[47]    validation_0-logloss:0.32488
+[48]    validation_0-logloss:0.32174
+[49]    validation_0-logloss:0.31918
+[50]    validation_0-logloss:0.31699
+[51]    validation_0-logloss:0.31453
+[52]    validation_0-logloss:0.31189
+[53]    validation_0-logloss:0.30938
+[54]    validation_0-logloss:0.30604
+[55]    validation_0-logloss:0.30330
+[56]    validation_0-logloss:0.30019
+[57]    validation_0-logloss:0.29851
+[58]    validation_0-logloss:0.29711
+[59]    validation_0-logloss:0.29530
+[60]    validation_0-logloss:0.29295
+[61]    validation_0-logloss:0.29074
+[62]    validation_0-logloss:0.28918
+[63]    validation_0-logloss:0.28726
+[64]    validation_0-logloss:0.28528
+[65]    validation_0-logloss:0.28291
+[66]    validation_0-logloss:0.28100
+[67]    validation_0-logloss:0.27956
+[68]    validation_0-logloss:0.27750
+[69]    validation_0-logloss:0.27565
+[70]    validation_0-logloss:0.27258
+[71]    validation_0-logloss:0.27093
+[72]    validation_0-logloss:0.26875
+[73]    validation_0-logloss:0.26720
+[74]    validation_0-logloss:0.26488
+[75]    validation_0-logloss:0.26316
+[76]    validation_0-logloss:0.26194
+[77]    validation_0-logloss:0.26030
+[78]    validation_0-logloss:0.25878
+[79]    validation_0-logloss:0.25753
+[80]    validation_0-logloss:0.25643
+[81]    validation_0-logloss:0.25464
+[82]    validation_0-logloss:0.25307
+[83]    validation_0-logloss:0.25178
+[84]    validation_0-logloss:0.25069
+[85]    validation_0-logloss:0.24891
+[86]    validation_0-logloss:0.24698
+[87]    validation_0-logloss:0.24570
+[88]    validation_0-logloss:0.24463
+[89]    validation_0-logloss:0.24359
+[90]    validation_0-logloss:0.24207
+[91]    validation_0-logloss:0.24063
+[92]    validation_0-logloss:0.23935
+[93]    validation_0-logloss:0.23778
+[94]    validation_0-logloss:0.23666
+[95]    validation_0-logloss:0.23569
+[96]    validation_0-logloss:0.23482
+[97]    validation_0-logloss:0.23359
+[98]    validation_0-logloss:0.23215
+[99]    validation_0-logloss:0.23141
+Fold 1 - Train Score: 0.9662, Test Score: 0.9116
+Fold 2 - Train Score: 0.9666, Test Score: 0.9175
+Fold 3 - Train Score: 0.9677, Test Score: 0.9187
+Fold 4 - Train Score: 0.9670, Test Score: 0.9113
+Fold 5 - Train Score: 0.9663, Test Score: 0.9291</code></pre>
 </div>
 </div>
 </section>
 <section id="test" class="level2">
 <h2 class="anchored" data-anchor-id="test">Test</h2>
 <p>The model seems to be having trouble ranking schedules with close similarity consistently. This could indicate model overfitting. Solutions: create training sets with close pairs or add close pairs to the existing training data set.</p>
-<div id="cc6f70b9" class="cell" data-execution_count="5">
+<div id="6eb008c7" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model on the entire dataset</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the XGBClassifier without early stopping here</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> xgb.XGBClassifier(</span>
@@ -819,14 +968,14 @@ Fold 5 - Train Score: 0.9652, Test Score: 0.9263</code></pre>
 <span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"y_pred = </span><span class="sc">{</span>y_pred<span class="sc">}</span><span class="ss">, </span><span class="ch">\n</span><span class="ss">y_pred_proba = </span><span class="ch">\n</span><span class="sc">{</span>y_pred_proba<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>y_pred = [0 1 1 0 0 1], 
+<pre><code>y_pred = [0 0 1 0 0 1], 
 y_pred_proba = 
-[[0.55570775 0.44429225]
- [0.48388255 0.51611745]
- [0.36376983 0.6362302 ]
- [0.53016996 0.46983   ]
- [0.9978132  0.00218677]
- [0.0015136  0.9984864 ]]</code></pre>
+[[0.76242477 0.23757525]
+ [0.69124234 0.30875763]
+ [0.3242296  0.6757704 ]
+ [0.5743403  0.42565972]
+ [0.99786097 0.00213903]
+ [0.00121516 0.99878484]]</code></pre>
 </div>
 </div>
 </section>

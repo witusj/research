@@ -1,0 +1,29 @@
+---
+title: "Agenda 2022-02-16"
+format: html
+editor: visual
+bibliography: bibliography.bib
+---
+
+### Aanwezig: Witek / Ger / Joost
+
+Huidige experimenten:
+
+-   Model bouwen voor pairwise ranking.
+-   Performance vergelijken met cardinal ML model
+-   Computation time vergelijken:
+    -   Lindley recursion \<\> cardinal ML
+    -   Cardinal ML model pairwise ranking vs direct pairwise ranking
+-   Cardinal ML model met large objective punishment in loss function ontwikkelen
+
+PS:
+
+-   Hora Finita \>\> ECs
+
+NB:
+
+-   Idee: bij implementatie van model meenemen in hoeverre de voorspelling betrouwbaar is. Bij lage betrouwbaarheid objective uitrekenen.
+
+-   Controleren of bij scores rond 50% de daadwerkelijke betrouwbaarheid lager is dan bij hogere scores.
+
+![](images/joost-2024-07-25.jpeg)
