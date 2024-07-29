@@ -24,6 +24,6 @@ NB:
 
 -   Idee: bij implementatie van model meenemen in hoeverre de voorspelling betrouwbaar is. Bij lage betrouwbaarheid objective uitrekenen.
 
--   Controleren of bij scores rond 50% de daadwerkelijke betrouwbaarheid lager is dan bij hogere scores.
+-   Controleren of bij scores rond 50% de daadwerkelijke betrouwbaarheid lager is dan bij hogere scores. \>\> Entropy formula?
 
 ![](images/joost-2024-07-25.jpeg)

@@ -60,7 +60,7 @@ q = 0.2
 s_adj = service_time_with_no_shows(s, q)
 indices = np.arange(len(s_adj))
 exp_s_adj = (indices * s_adj).sum()
-print(f'service time distribution with no-shows: {s_adj} with expcted value: {exp_s_adj}')
+print(f'service time distribution with no-shows: {s_adj} with expected value: {exp_s_adj}')
 omega = 0.5
 
 samples_names = [f'x_{t}' for t in range(T)]
