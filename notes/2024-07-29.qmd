@@ -125,6 +125,7 @@ sch_data.create_neighbors_list(10)
 test_sch = sch_data.neighbors_list[1][0]
 sch_data.calculate_objective(test_sch, [0.0, 0.27, 0.28, 0.2, 0.15, 0.1], 3, 0.2)
 ```
+
 ### Flow chart of objective calculation method
 
 ```{mermaid}
@@ -161,124 +162,20 @@ flowchart TD
 
 ```
 
-## Prepare data
-
-```{python}
-# Prepare the dataset
-X = []
-for pair in sch_data.pair_list:
-    X.append(pair[0] + pair[1])
-
-X = np.array(X)
-y = np.array(sch_data.lables_rank)
-
-# Split the dataset into training and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-```
-
-## Train and evaluate model
+### Flow chart data preparation
 
 ```{mermaid}
-flowchart TD
-    A[Start] --> B[Initialize StratifiedKFold]
-    B --> C[Initialize XGBClassifier]
-    C --> D[Set results as empty list]
-    D --> E[Loop through each split of cv split]
-    E --> F[Get train and test indices]
-    F --> G[Split X and y into X_train, X_test, y_train, y_test]
-    G --> H[Clone the classifier]
-    H --> I[Call fit_and_score function]
-    I --> J[Fit the estimator]
-    J --> K[Score on training set]
-    J --> L[Score on test set]
-    K --> M[Return estimator, train_score, test_score]
-    L --> M
-    M --> N[Append the results]
-    N --> E
-    E --> O[Loop ends]
-    O --> P[Print results]
-    P --> Q[End]
-```
-
-```{python}
-def fit_and_score(estimator, X_train, X_test, y_train, y_test):
-    """Fit the estimator on the train set and score it on both sets"""
-    estimator.fit(X_train, y_train, eval_set=[(X_test, y_test)])
-
-    train_score = estimator.score(X_train, y_train)
-    test_score = estimator.score(X_test, y_test)
-
-    return estimator, train_score, test_score
-
-
-cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=94)
-
-# Initialize the XGBClassifier without early stopping here
-clf = xgb.XGBClassifier(
-    tree_method="hist",
-    max_depth=6,
-    min_child_weight=1,
-    gamma=0.1,
-    subsample=0.8,
-    colsample_bytree=0.8,
-    learning_rate=0.1,
-    n_estimators=100,
-    early_stopping_rounds=10
-)
-
-results = []
-
-for train_idx, test_idx in cv.split(X, y):
-    X_train, X_test = X[train_idx], X[test_idx]
-    y_train, y_test = y[train_idx], y[test_idx]
-    
-    est, train_score, test_score = fit_and_score(
-        clone(clf), X_train, X_test, y_train, y_test
-    )
-    results.append((est, train_score, test_score))
-
-# Print results
-for i, (est, train_score, test_score) in enumerate(results):
-    print(f"Fold {i+1} - Train Score: {train_score:.4f}, Test Score: {test_score:.4f}")
-```
-
-## Test
-
-The model seems to be having trouble ranking schedules with close similarity consistently. This could indicate model overfitting. Solutions: create training sets with close pairs or add close pairs to the existing training data set.
-
-```{python}
-# Fit the model on the entire dataset
-# Initialize the XGBClassifier without early stopping here
-clf = xgb.XGBClassifier(
-    tree_method="hist",
-    max_depth=6,
-    min_child_weight=1,
-    gamma=0.1,
-    subsample=0.8,
-    colsample_bytree=0.8,
-    learning_rate=0.1,
-    n_estimators=100
-)
-
-clf.fit(X, y)
-
-input_X = [
-            ([9, 1, 0, 0, 0, 0, 0], [8, 2, 0, 0, 0, 0, 0]),
-            ([8, 2, 0, 0, 0, 0, 0], [9, 1, 0, 0, 0, 0, 0]),
-            ([3, 1, 1, 1, 0, 1, 2], [2, 1, 1, 1, 0, 1, 3]),
-            ([2, 1, 1, 1, 0, 1, 3], [3, 1, 1, 1, 0, 1, 2]),
-            ([3, 1, 1, 1, 0, 1, 2], [9, 1, 0, 0, 0, 0, 0]),
-            ([8, 2, 0, 0, 0, 0, 0], [3, 1, 1, 1, 0, 1, 2])
-            ]
-X_new = []
-for pair in input_X:
-    X_new.append(pair[0] + pair[1])
-    
-# Predict the target for new data
-y_pred = clf.predict(X_new)
-
-# If you want to get the probability estimates
-y_pred_proba = clf.predict_proba(X_new)
-
-print(f"y_pred = {y_pred}, \ny_pred_proba = \n{y_pred_proba}")
+graph TD
+    A["Create features"] -->|"option 1"| B["from population"]
+    A["Create features"] -->|"option 2"| C["random subset"]
+    B --> D["Create pairs"]
+    C --> D["Create pairs"]
+    D["Create pairs"] -->|"option 1"| E["random"]
+    D["Create pairs"] -->|"option 2"| F["neighbors"]
+    E --> G["Create labels"]
+    F --> G["Create labels"]
+    G["Create labels"] -->|"option 1"| H["objective"]
+    G["Create labels"] -->|"option 2"| I["ranking"]
+    H --> J["Split dataset"]
+    I --> J["Split dataset"]
 ```
