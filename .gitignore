@@ -11,3 +11,4 @@ docs/
 myenv/
 .env
 *.txt
+notes/experiments/n*.pickle

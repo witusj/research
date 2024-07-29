@@ -18,6 +18,7 @@ Besproken met Joost:
 ## Setup and load data
 
 ```{python}
+from functions import generate_all_schedules
 from schedule_class import NewSchedule, generate_schedules, service_time_with_no_shows
 import pickle
 import random
@@ -178,4 +179,169 @@ graph TD
     G["Create labels"] -->|"option 2"| I["ranking"]
     H --> J["Split dataset"]
     I --> J["Split dataset"]
+```
+
+```{python}
+import math
+
+# Parameters
+N = 12
+T = 18
+
+# Calculate number of possible schedules
+num_schedules = math.comb(N + T - 1, N)
+print(f"Number of possible schedules: {num_schedules}")
+
+# Memory per schedule (in bytes)
+memory_per_schedule = 4 * T  # 4 bytes per integer, T integers per schedule
+print(f"Memory per schedule: {memory_per_schedule} bytes")
+
+# Total memory required (in bytes)
+total_memory_bytes = num_schedules * memory_per_schedule
+total_memory_gb = total_memory_bytes / (1024 ** 3)  # Convert bytes to gigabytes
+
+print(f"Total memory required: {total_memory_bytes} bytes")
+print(f"Total memory required: {total_memory_gb:.2f} GB")
+```
+
+```{python}
+N = 8
+T = 12
+population = generate_all_schedules(N, T)
+```
+
+```{python}
+import time
+import math
+from itertools import combinations_with_replacement
+N = 7
+T = 5
+def generate_all_schedules(N, T):
+    from itertools import combinations_with_replacement
+    
+    pop_size = math.comb(N+T-1, N)
+    print(f"Number of possible schedules: {pop_size}")
+    
+    # Generate the combinations
+    schedules = list(combinations_with_replacement(range(T), N))
+    end_time = time.time()
+    
+    # Convert combinations into the desired format
+    result = []
+    timing = 0
+    counter = 0
+    for comb in schedules:
+        counter += 1
+        # Start timing
+        start_time = time.time()
+        schedule = [0] * T
+        for slot in comb:
+            schedule[slot] += 1
+            # End timing
+        result.append(schedule)
+        end_time = time.time()
+        timing += end_time - start_time
+        average_timing = timing / counter
+        remaining = (pop_size - counter) * average_timing
+        print(f"Created {counter} schedules in {timing} secs.\nRemaining {pop_size - counter} schedules in est. {remaining} secs.")
+    
+    return result
+# Example usage
+schedules = generate_all_schedules(N, T)
+```
+```{python}
+import time
+import numpy as np
+from itertools import combinations_with_replacement
+
+def generate_all_schedules(N, T):
+    from itertools import combinations_with_replacement
+    
+    # Start timing
+    start_time = time.time()
+    
+    # Generate the combinations
+    schedules = list(combinations_with_replacement(range(T), N))
+    
+    # Convert combinations into the desired format using np.bincount
+    result = []
+    for comb in schedules:
+        schedule = np.bincount(comb, minlength=T)
+        result.append(schedule.tolist())
+    
+    # End timing
+    end_time = time.time()
+    
+    print(f"Number of possible schedules: {len(result)}")
+    print(f"Time taken: {end_time - start_time} seconds")
+    return result
+
+# Example usage
+N = 12
+T = 18
+schedules = generate_all_schedules(N, T)
+print(schedules[:15])
+```
+
+```{python}
+import numpy as np
+import time
+import pickle
+from itertools import combinations_with_replacement
+import os
+
+def serialize_schedules(N, T):
+    from itertools import combinations_with_replacement
+    file_path=f"experiments/n{N}t{T}.pickle"
+    
+    # Start timing
+    start_time = time.time()
+    
+    # Open a file for writing serialized schedules
+    with open(file_path, 'wb') as f:
+        for comb in combinations_with_replacement(range(T), N):
+            schedule = np.bincount(comb, minlength=T).tolist()
+            pickle.dump(schedule, f)
+    
+    # End timing
+    end_time = time.time()
+    
+    print(f"Number of possible schedules: {math.comb(N+T-1, N)}")
+    print(f"Time taken: {end_time - start_time} seconds")
+    print(f"Schedules are serialized and saved to {file_path}")
+
+def load_schedules(file_path):
+    # Start timing
+    start_time = time.time()
+    
+    schedules = []
+    with open(file_path, 'rb') as f:
+        while True:
+            try:
+                schedules.append(pickle.load(f))
+            except EOFError:
+                break
+        # End timing
+    end_time = time.time()
+    print(f"Loading time: {end_time - start_time} seconds")
+    return schedules
+
+# Example usage
+N = 12
+T = 18
+serialize_schedules(N, T)
+file_path=f"experiments/n{N}t{T}.pickle"
+schedules = load_schedules(file_path)
+print(len(schedules))
+```
+
+
+```{python}
+def generate_random_schedule(N, T):
+  import random
+  slots = random.choices(range(T), k = N)
+  schedule = [0]*T
+  schedule = np.bincount(slots, minlength=T).tolist()
+  return(schedule)
+generate_random_schedule(N, T)
 ```
