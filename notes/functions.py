@@ -103,15 +103,16 @@ def random_combination_with_replacement(T: int, N: int, num_samples: int) -> Lis
     total_combinations = math.comb(N + T - 1, N)
     print(f"Total number of combinations: {total_combinations}")
 
-    samples = []
+    schedules = []
     for _ in range(num_samples):
         # Randomly select an index
         random_index = random.randint(0, total_combinations - 1)
         # Convert index to combination
         sample = index_to_combination(random_index, T, N)
-        samples.append(sample)
+        schedule = np.bincount(sample, minlength=T).tolist()
+        schedules.append(schedule)
 
-    return samples
+    return schedules
     
 if __name__ == "__main__":
   
