@@ -1,0 +1,186 @@
+---
+title: "2024-07-30"
+author: "Witek ten Hove"
+format: html
+editor: visual
+jupyter: python3
+---
+
+Besproken met Joost:
+
+-   Model bouwen voor pairwise ranking.
+-   Performance vergelijken met cardinal ML model
+-   Computation time vergelijken:
+    -   Lindley recursion \<\> cardinal ML
+    -   Cardinal ML model pairwise ranking vs direct pairwise ranking
+-   Cardinal ML model met large objective punisment in loss function ontwikkelen
+
+## Setup and load data
+
+```{python}
+from functions import generate_all_schedules
+from schedule_class import NewSchedule, generate_schedules, service_time_with_no_shows
+import pickle
+import random
+import numpy as np
+import xgboost as xgb
+from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold, GridSearchCV
+from sklearn.metrics import mean_squared_error, make_scorer, accuracy_score
+from sklearn.base import clone
+from sklearn.model_selection import StratifiedKFold, train_test_split, GridSearchCV
+from itertools import chain, combinations
+```
+
+## Random Schedule sampler
+
+### Purpose
+
+The purpose of the `random_combination_with_replacement` function is to generate a specified number of random samples from the set of all possible combinations with replacement of a given size. This is particularly useful when the total number of possible combinations is very large, making it impractical to generate and store all combinations in memory. Instead, this function allows for efficient random sampling directly.
+
+### Detailed Functioning
+
+#### Main Function: `random_combination_with_replacement`
+
+**Parameters**:
+- `T (int)`: The range of elements to choose from, i.e., the maximum value plus one. This represents the number of available time slots.
+- `N (int)`: The number of elements in each combination. This represents the number of patients to be scheduled.
+- `num_samples (int)`: The number of random samples to generate.
+
+**Returns**:
+- A list of lists, where each inner list is a randomly generated combination representing a schedule.
+
+**Steps**:
+1. **Calculate Total Combinations**:
+   - Using the binomial coefficient \( \binom{N+T-1}{N} \), calculate the total number of possible combinations. This is done using `math.comb`.
+   - Print the total number of possible combinations for information.
+
+2. **Inner Function: `index_to_combination`**:
+   - Converts a given lexicographic index to the corresponding combination with replacement. A lexicographic index is a way of ordering combinations (or sequences) based on a lexicographical order, similar to how words are ordered in a dictionary. In the context of combinations, it involves listing all possible combinations in a sequence where each combination is sorted in ascending order.
+   - **Parameters**:
+     - `index (int)`: The lexicographic index of the combination.
+     - `T (int)`: The range of elements to choose from.
+     - `N (int)`: The number of elements in each combination.
+   - **Returns**: A list representing the combination.
+   - **Steps**:
+     - Initialize an empty list for the combination.
+     - Iterate over the positions in the combination, adjusting the index and selecting elements based on the number of remaining combinations.
+
+3. **Random Sampling**:
+   - For each sample to be generated, randomly select an index within the range of total combinations.
+   - Convert the selected index to a combination using the `index_to_combination` function.
+   - Append the resulting combination to the list of samples.
+
+4. **Return the Samples**:
+   - Return the list of generated samples.
+
+```{python}
+import random
+import math
+import numpy as np
+from typing import List
+
+def random_combination_with_replacement(T: int, N: int, num_samples: int) -> List[List[int]]:
+    """
+    Generate random samples from the set of combinations with replacement without generating the entire population.
+
+    Parameters:
+    T (int): The range of elements to choose from, i.e., the maximum value plus one.
+    N (int): The number of elements in each combination.
+    num_samples (int): The number of random samples to generate.
+
+    Returns:
+    List[List[int]]: A list containing the randomly generated combinations.
+    """
+    def index_to_combination(index: int, T: int, N: int) -> List[int]:
+        """
+        Convert a lexicographic index to a combination with replacement.
+
+        Parameters:
+        index (int): The lexicographic index of the combination.
+        T (int): The range of elements to choose from, i.e., the maximum value plus one.
+        N (int): The number of elements in each combination.
+
+        Returns:
+        List[int]: The combination corresponding to the given index.
+        """
+        combination = []
+        current = index
+        for i in range(N):
+            for j in range(T):
+                combs = math.comb(N - i + T - j - 2, T - j - 1)
+                if current < combs:
+                    combination.append(j)
+                    break
+                current -= combs
+        return combination
+
+    # Calculate total number of combinations
+    total_combinations = math.comb(N + T - 1, N)
+    print(f"Total number of combinations: {total_combinations}")
+
+    samples = []
+    for _ in range(num_samples):
+        # Randomly select an index
+        random_index = random.randint(0, total_combinations - 1)
+        # Convert index to combination
+        sample = index_to_combination(random_index, T, N)
+        samples.append(sample)
+
+    return samples
+
+# Example usage
+T = 18
+N = 12
+num_samples = 5
+
+samples = random_combination_with_replacement(T, N, num_samples)
+for sample in samples:
+    schedule = np.bincount(sample, minlength=T).tolist()
+    print(schedule)
+```
+
+### Differences from a Simple Sampler
+
+#### Simple Sampler Function: `generate_random_schedule`
+
+```{python}
+def generate_random_schedule(N: int, T: int) -> List[int]:
+    """
+    A function to generate a random schedule for N patients and T slots.
+    """
+    slots = random.choices(range(T), k=N)
+    schedule = [0] * T
+    for slot in slots:
+        schedule[slot] += 1
+    return schedule
+```
+
+**Functioning**:
+1. **Random Selection**:
+   - `random.choices(range(T), k=N)` generates a list of `N` random choices from `range(T)`, allowing repetition.
+   - This step is straightforward and does not consider the combinatorial structure of the problem.
+
+2. **Count Occurrences**:
+   - Initialize a list `schedule` of length `T` with zeros.
+   - Iterate over the randomly chosen slots and increment the count for each slot in the `schedule`.
+
+3. **Return the Schedule**:
+   - Return the list `schedule` which contains the count of patients in each slot.
+
+#### Key Differences
+
+1. **Population Representation**:
+   - The `random_combination_with_replacement` function accurately reflects the combinatorial nature of the problem, ensuring each sample is a valid combination from the total combinatorial space.
+   - The `generate_random_schedule` function generates random schedules but does not guarantee that the distribution of samples matches the true combinatorial distribution.
+
+2. **Index-Based Sampling**:
+   - `random_combination_with_replacement` uses combinatorial logic to map indices to combinations, which ensures an even sampling across the entire combinatorial space.
+   - `generate_random_schedule` uses random choices without regard to the combinatorial structure, which may lead to biased sampling.
+
+3. **Efficiency**:
+   - `random_combination_with_replacement` is designed to sample efficiently without generating the entire population, making it suitable for large `N` and `T`.
+   - `generate_random_schedule` is simpler and faster for generating individual random schedules but may not be suitable for applications requiring unbiased combinatorial sampling.
+
+### Conclusion
+
+The `random_combination_with_replacement` function provides a sophisticated method to sample combinations with replacement, leveraging combinatorial indexing to ensure unbiased sampling from the entire combinatorial space. In contrast, the `generate_random_schedule` function offers a simpler, direct approach to generate random schedules but lacks the combinatorial rigor and uniformity of the first method.
