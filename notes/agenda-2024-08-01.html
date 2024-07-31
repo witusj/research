@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Agenda 2022-12-15</title>
+<title>Agenda 2022-02-16</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,46 +23,17 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="agenda-2022-12-15_files/libs/clipboard/clipboard.min.js"></script>
-<script src="agenda-2022-12-15_files/libs/quarto-html/quarto.js"></script>
-<script src="agenda-2022-12-15_files/libs/quarto-html/popper.min.js"></script>
-<script src="agenda-2022-12-15_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="agenda-2022-12-15_files/libs/quarto-html/anchor.min.js"></script>
-<link href="agenda-2022-12-15_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="agenda-2022-12-15_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="agenda-2022-12-15_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="agenda-2022-12-15_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="agenda-2022-12-15_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="agenda-2024-08-01_files/libs/clipboard/clipboard.min.js"></script>
+<script src="agenda-2024-08-01_files/libs/quarto-html/quarto.js"></script>
+<script src="agenda-2024-08-01_files/libs/quarto-html/popper.min.js"></script>
+<script src="agenda-2024-08-01_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="agenda-2024-08-01_files/libs/quarto-html/anchor.min.js"></script>
+<link href="agenda-2024-08-01_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="agenda-2024-08-01_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="agenda-2024-08-01_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="agenda-2024-08-01_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="agenda-2024-08-01_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -74,7 +45,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Agenda 2022-12-15</h1>
+<h1 class="title">Agenda 2022-02-16</h1>
 </div>
 
 
@@ -93,15 +64,27 @@ window.Quarto = {
 
 <section id="aanwezig-witek-ger-joost" class="level3">
 <h3 class="anchored" data-anchor-id="aanwezig-witek-ger-joost">Aanwezig: Witek / Ger / Joost</h3>
-<ul class="task-list">
-<li><p><label><input type="checkbox">OAS:</label></p>
-<ul class="task-list">
-<li><p><label><input type="checkbox"><a href="https://witusj.github.io/research/experiments/site/source/search-function.html">Simulatie</a></label></p></li>
-<li><p><label><input type="checkbox">Discussie: <span class="math display">\[ \begin{aligned} C(x) &amp;= \alpha W(x) + \gamma L(x) + \beta I(x)  \\ &amp;= \alpha W(x) + \gamma {\color{red}L(x)} + \beta (Td + {\color{red}L(x)} - N\beta_s - \lambda T \beta_e) \end{aligned}\]</span></label></p>
-<p>Als we bij een gegeven schedule <span class="math inline">\(x\)</span> één extra patient toevoegen op <span class="math inline">\(T+1\)</span> dan is de wachttijd van die extra patient gelijk aan de lateness van de arts aan het einde van de schedule. Zo gezien ben je dus alleen patientwachtijden aan het optimaliseren. Zou je dan niet standaard één interval en één patient aan iedere schedule kunnen toevoegen en proberen hiermee te optimaliseren? <span class="math display">\[ C(x) = W(x^{T+1})\]</span></p></li>
-<li><p><label><input type="checkbox">Peer review</label></p></li>
+<p>Huidige experimenten:</p>
+<ul>
+<li>Model bouwen voor pairwise ranking -&gt; zie [experiment](<a href="https://witusj.github.io/experiments/book/xgboost-pairwise-ranking.html" class="uri">https://witusj.github.io/experiments/book/xgboost-pairwise-ranking.html</a>)</li>
+<li>Performance vergelijken met cardinal ML model</li>
+<li>Computation time vergelijken:
+<ul>
+<li>Lindley recursion &lt;&gt; cardinal ML</li>
+<li>Cardinal ML model pairwise ranking vs direct pairwise ranking</li>
 </ul></li>
+<li>Cardinal ML model met large objective punishment in loss function ontwikkelen</li>
 </ul>
+<p>PS:</p>
+<ul>
+<li>Hora Finita &gt;&gt; ECs</li>
+</ul>
+<p>NB:</p>
+<ul>
+<li><p>Idee: bij implementatie van model meenemen in hoeverre de voorspelling betrouwbaar is. Bij lage betrouwbaarheid objective uitrekenen.</p></li>
+<li><p>Controleren of bij scores rond 50% de daadwerkelijke betrouwbaarheid lager is dan bij hogere scores. &gt;&gt; Entropy formula?</p></li>
+</ul>
+<p><img src="images/joost-2024-07-25.jpeg" class="img-fluid"></p>
 </section>
 
 </main>
