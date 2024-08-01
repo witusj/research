@@ -12,7 +12,7 @@ Huidige experimenten:
 -   Model bouwen voor pairwise ranking -\> zie [experiment](https://witusj.github.io/experiments/book/xgboost-pairwise-ranking.html)
 -   Performance vergelijken met cardinal ML model
 -   Computation time vergelijken:
-    -   Lindley recursion \<\> cardinal ML
+    -   Lindley recursion \<\> cardinal ML zie [experiment](https://witusj.github.io/experiments/book/xgboost-pairwise-ranking.html)
     -   Cardinal ML model pairwise ranking vs direct pairwise ranking
 -   Cardinal ML model met large objective punishment in loss function ontwikkelen
 
