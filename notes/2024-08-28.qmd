@@ -1,0 +1,15 @@
+---
+title: "2024-08-28"
+author: "Witek ten Hove"
+format: html
+editor: visual
+jupyter: python3
+---
+
+Besproken met Joost:
+
+-   Resultaten experiment: https://witusj.github.io/experiments/book/xgboost-pairwise-ranking.html#background
+
+-   Testen accuracy van XGBoost model voor directe berekening objective en vergelijken met ordinaal ML model.
+
+-   Beginnen aan implementatie van ranking ML model in local search.
