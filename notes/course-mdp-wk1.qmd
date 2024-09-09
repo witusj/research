@@ -1,0 +1,332 @@
+# Markov Decision Processes: Finite Horizon Decision Problems
+
+## Introduction
+
+Markov Decision Processes (MDPs) are a mathematical framework for modeling decision-making in situations where outcomes are partly random and partly under the control of a decision-maker. This tutorial covers finite horizon decision problems, which are MDPs with a predetermined, finite number of decision steps.
+
+## Key Concepts
+
+1. States
+2. Actions
+3. Transition Probabilities
+4. Rewards
+5. Policies
+6. Value Functions
+7. Bellman Optimality Principle
+
+## The Model
+
+An MDP consists of:
+
+- A set of states $S$
+- A set of actions $A(s)$ for each state $s$, which may depend on both the state and time
+- Transition probabilities $P(s'|s,a)$ for moving from state $s$ to $s'$ when taking action $a$
+- Rewards $R(s,a,s')$ for taking action $a$ in state $s$ and moving to state $s'$
+- For multi-step, infinite horizon problems, a discount factor $\gamma$ (0 ≤ $\gamma$ ≤ 1) may be introduced. However, for finite horizon problems, the objective is to maximize the total reward without discounting, across a set time horizon $T$.
+
+For finite horizon problems, we also have:
+- A finite time horizon $T$
+
+## Example: Investment Decision
+
+Let's consider a simple investment example to illustrate these concepts.
+
+An investor has $10,000 to invest in either Company A or Company B stocks for 5 years. Each year, they can choose to invest in either company.
+
+- **Company A**: 10% chance of doubling the investment, 90% chance of no change
+- **Company B**: 60% chance of doubling the investment, 40% chance of losing everything
+
+The goal is to maximize the expected total return after 5 years.
+
+Let's model this as an MDP:
+
+```{python}
+import numpy as np
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+
+# States: Amount of money (in thousands of dollars)
+states = list(range(0, 51))  # $0 to $50,000
+
+# Actions: 0 for Company A, 1 for Company B
+actions = [0, 1]
+
+# Transition probabilities
+def transition_prob(s, a, s_next):
+    if a == 0:  # Company A
+        if s_next == s:
+            return 0.9
+        elif s_next == 2 * s:
+            return 0.1
+        else:
+            return 0
+    elif a == 1:  # Company B
+        if s_next == 0:
+            return 0.4
+        elif s_next == 2 * s:
+            return 0.6
+        else:
+            return 0
+
+# Reward function: Simplified as the difference in investment states
+def reward(s, a, s_next):
+    return s_next - s
+
+# Time horizon
+T = 5
+```
+
+## Value Function and Optimal Policy
+
+The value function $V_t(s)$ represents the expected total reward from state $s$ at time $t$, following the optimal policy from $t$ onwards. We can compute this using dynamic programming and the Bellman optimality principle, which simplifies complex decision problems by considering that the solution to the entire problem involves solving smaller sub-problems recursively.
+
+```{python}
+def compute_value_function(T):
+    V = np.zeros((T+1, len(states)))
+    policy = np.zeros((T, len(states)), dtype=int)
+    
+    for t in range(T-1, -1, -1):
+        for s in states:
+            max_value = float('-inf')
+            best_action = None
+            for a in actions:
+                value = sum(transition_prob(s, a, s_next) * 
+                            (reward(s, a, s_next) + V[t+1][s_next])
+                            for s_next in states)
+                if value > max_value:
+                    max_value = value
+                    best_action = a
+            V[t][s] = max_value
+            policy[t][s] = best_action
+    
+    return V, policy
+
+V, policy = compute_value_function(T)
+```
+
+## Visualizing the Results
+
+Let's create interactive visualizations of the optimal policy and value function using Plotly:
+
+```{python}
+# Create subplots
+fig = make_subplots(rows=1, cols=2, subplot_titles=("Optimal Policy", "Value Function"), horizontal_spacing=0.3)
+
+# Optimal Policy heatmap
+heatmap_policy = go.Heatmap(
+    z=policy,
+    colorscale=[[0, 'red'], [1, 'blue']],
+    zmin=0,
+    zmax=1,
+    colorbar=dict(title="Action", tickvals=[0, 1], ticktext=["Company A", "Company B"], x=0.46),
+    hovertemplate="Time Step: %{y}<br>State: $%{x}k<br>Action: %{z}<extra></extra>"
+)
+fig.add_trace(heatmap_policy, row=1, col=1)
+
+# Value Function heatmap
+heatmap_value = go.Heatmap(
+    z=V,
+    colorscale="Viridis",
+    colorbar=dict(title="Expected Return ($k)", x=1),
+    hovertemplate="Time Step: %{y}<br>State: $%{x}k<br>Expected Return: $%{z:.2f}k<extra></extra>"
+)
+fig.add_trace(heatmap_value, row=1, col=2)
+
+# Update layout
+fig.update_layout(
+    title="Markov Decision Process: Investment Strategy",
+    height=500,
+    width=1000,
+)
+
+# Update x and y axes
+for i in [1, 2]:
+    fig.update_xaxes(title_text="State (Amount in thousands of dollars)", row=1, col=i)
+    fig.update_yaxes(title_text="Time Step", row=1, col=i)
+
+fig.show()
+```
+
+## Interpreting the Results
+
+### Optimal Policy Chart
+
+This heatmap shows the optimal investment strategy for each combination of time step and current investment amount. Red cells represent investing in Company A (low risk), while blue cells represent investing in Company B (high risk). Notice how the optimal strategy changes based on the current investment amount and the remaining time steps.
+
+**Explanation for new students**: This chart helps you visualize the best action to take at each point in time and for each possible investment amount. The color of each cell tells you which company to invest in:
+- Red: Invest in Company A (safer option)
+- Blue: Invest in Company B (riskier option)
+
+As you look at the chart, pay attention to how the colors change. This shows that the best decision isn't always the same – it depends on how much money you have and how many years are left to invest.
+
+### Value Function Chart
+
+This heatmap displays the expected return (in thousands of dollars) for each combination of time step and current investment amount, assuming optimal decisions are made from that point forward. Brighter colors indicate higher expected returns.
+
+**Explanation for new students**: This chart shows you how much money you can expect to have at the end, depending on your current situation. Each cell's color represents the expected amount of money:
+- Darker colors: Lower expected returns
+- Brighter colors: Higher expected returns
+
+Notice how the colors generally get brighter as you move up (more time left) and to the right (more money to invest). This shows that having more time to invest and starting with more money typically leads to higher expected returns.
+
+## Key Takeaways
+
+1. The optimal policy is not static; it depends on both the current state (amount of money) and the time remaining.
+2. There's a trade-off between risk and reward, represented by the choice between Company A and Company B.
+3. The value function quantifies the expected return under the optimal policy, given any starting state and time.
+
+## Bellman Optimality Principle
+
+The Bellman optimality principle states that an optimal policy has the property that whatever the initial state and initial decision are, the remaining decisions must constitute an optimal policy with regard to the state resulting from the first decision.
+
+This principle simplifies complex decision problems by considering that the solution to the entire problem involves solving smaller sub-problems recursively. This is what allows us to solve MDPs efficiently using dynamic programming, working backward from the final time step to the initial one.
+
+## Conclusion
+
+Finite horizon Markov Decision Processes provide a powerful framework for modeling sequential decision-making problems. By using dynamic programming and the Bellman optimality principle, we can compute optimal policies and value functions efficiently, even for complex problems with many states and actions.
+
+These visualizations help us understand and interpret the solutions to MDP problems, making it easier to apply these concepts to various decision-making scenarios. Remember, in real-world applications, MDPs can have many more states, actions, and complex transition probabilities, but the core principles remain the same.
+
+In practice, MDPs are used in various fields, including finance, robotics, inventory management, and more. Understanding these concepts provides a strong foundation for tackling real-world decision-making problems under uncertainty.
+
+## Lecture notes
+
+# Markov Decision Process (MDP)
+
+- **Decision Epochs**: $N = \{0, 1, \ldots, T\}$, with $T$ finite.
+- **State Space**: $i \in S$, where $S$ is a discrete set of states.
+- **Action Space**: For each state $i$, the action space is $A(i)$, where $a \in A(i)$.
+- **Action Selection**: Actions are selected according to a probability distribution $g(\cdot) \in P(A(i))$, where an action $a \in A(i)$ is selected with probability $g(a)$.
+- **Immediate Reward**: The immediate reward at decision epoch $n$ for state $i$ and action $a$ is $r_i^n(a)$. The reward $r_i^T$ is the salvage value at the final epoch $T$.
+- **Transition Probabilities**: The probability of transitioning from state $i$ to state $j$ at decision epoch $n$, given action $a$, is $p_{ij}^n(a)$.
+- The MDP is defined by the tuple $\{N, S, A(i), p_{ij}^n(a), r_i^n(a)\}$.
+
+### Objective:
+The goal is to solve the Markov Decision Problem (MDP) with the above components.
+
+# History and Decision Rules in a Markov Decision Process (MDP)
+
+- **History up to time $n$**: The history at decision epoch $n$ is denoted by $h_n = (i_0, a_0, i_1, a_1, \dots, i_{n-1}, a_{n-1}, i_n)$, where $i_t$ is the state at time $t$ and $a_t$ is the action taken at time $t$.
+
+- **Initial History**: At decision epoch 0, the history is defined as $H_0 = S$, meaning the history is simply the initial state space $S$.
+
+- **History at Epoch $n$**: For any $n > 0$, the history at time $n$ is $H_n = H_{n-1} \times A \times S$, where $H_{n-1}$ is the history up to time $n-1$, $A$ is the action space, and $S$ is the state space. The operator $\times$ represents the Cartesian product.
+
+### Decision Rules
+
+#### 1. Deterministic Markovian Decision Rule (MD)
+- A deterministic Markovian decision rule $\sigma^n$ is a mapping from states to actions: 
+  $$
+  \sigma^n: S \to A
+  $$
+- For each state $i \in S$, the action chosen by $\sigma^n$ at time $n$ is $\sigma^n(i) \in A(i)$, where $A(i)$ is the set of actions available in state $i$.
+
+#### 2. Deterministic History-Dependent Decision Rule (HD)
+- A deterministic history-dependent decision rule $\sigma^n$ is a mapping from the history at time $n$ to actions:
+  $$
+  \sigma^n: H_n \to A
+  $$
+- For each history $h_n \in H_n$, the action chosen by $\sigma^n$ is $\sigma^n(h_n) \in A(i_n)$, where $i_n$ is the current state in the history $h_n$.
+
+#### 3. Randomized Markovian Decision Rule (MR)
+- A randomized Markovian decision rule $q^n$ specifies a probability distribution over actions for each state:
+  $$
+  q^n: S \to P(A(i))
+  $$
+- For each state $i \in S$, $q^n(i)$ is a probability distribution over the action set $A(i)$, meaning an action is selected according to $q^n(i)$.
+
+#### 4. Randomized History-Dependent Decision Rule (HR)
+- A randomized history-dependent decision rule $q^n$ specifies a probability distribution over actions for each history:
+  $$
+  q^n: H_n \to P(A(i_n))
+  $$
+- For each history $h_n \in H_n$, $q^n(h_n)$ is a probability distribution over the action set $A(i_n)$, meaning an action is selected according to $q^n(h_n)$.
+
+
+# Policies in a Markov Decision Process (MDP)
+
+### Definition of a Policy
+
+- A **policy** $\sigma = (\sigma^0, \sigma^1, \dots, \sigma^{T-1})$ is a sequence of decision rules, one for each decision epoch $n \in \{0, 1, \dots, T-1\}$, where each decision rule $\sigma^n$ belongs to a set of decision rules $D^K_n$, defined by some class $K$ of decision rules. This means:
+  $$
+  \sigma^n \in D^K_n \quad \forall n \in \{0, 1, \dots, T-1\}
+  $$
+
+- The class $K$ refers to the type of decision rules that the policy can adopt. For example:
+  - If $K$ refers to **deterministic Markovian** rules, then each $\sigma^n$ is a mapping from the state space $S$ to the action space $A(i)$.
+  - If $K$ refers to **randomized history-dependent** rules, then each $\sigma^n$ is a mapping from the history space $H_n$ to a probability distribution over the action space $A(i_n)$.
+
+### Set of Policies
+
+- The **set of all policies** of class $K$, denoted by $\Pi^K$, is the Cartesian product of decision rule sets at each epoch:
+  $$
+  \Pi^K = D^K_0 \times D^K_1 \times \dots \times D^K_{T-1}
+  $$
+- This means that a policy $\sigma \in \Pi^K$ is a sequence of decision rules chosen from the class $K$, with one decision rule for each decision epoch.
+
+### Example Classes of Decision Rules:
+
+1. **Deterministic Markovian (MD)**: If $K$ is the class of deterministic Markovian rules, then $D^K_n = \{ \sigma^n: S \to A(i) \}$, meaning each decision rule selects a deterministic action based solely on the current state.
+
+2. **Randomized Markovian**: If $K$ is the class of randomized Markovian rules, then $D^K_n = \{ q^n: S \to P(A(i)) \}$, meaning each decision rule selects an action according to a probability distribution based on the current state.
+
+3. **Deterministic History-Dependent (HD)**: If $K$ is the class of deterministic history-dependent rules, then $D^K_n = \{ \sigma^n: H_n \to A(i_n) \}$, meaning each decision rule selects an action based on the full history up to time $n$.
+
+4. **Randomized History-Dependent**: If $K$ is the class of randomized history-dependent rules, then $D^K_n = \{ q^n: H_n \to P(A(i_n)) \}$, meaning each decision rule selects an action according to a probability distribution based on the full history up to time $n$.
+
+### Summary:
+- A **policy** is a sequence of decision rules, where each rule belongs to a class $K$ of decision rules.
+- The **set of all policies** of class $K$, denoted $\Pi^K$, is the Cartesian product of decision rule sets at each decision epoch.
+- Different classes of decision rules (e.g., deterministic Markovian, randomized history-dependent) lead to different types of policies.
+
+# Stochastic Process Induced by a Policy in an MDP
+
+Let $X_n$, $Y_n$, and $Z_n$ represent the state, action, and history at time $n$, respectively.
+
+- **$X_n$**: State at time $n$.
+- **$Y_n$**: Action taken at time $n$.
+- **$Z_n$**: History up to time $n$, $Z_n = (i_0, a_0, i_1, a_1, \dots, i_{n-1}, a_{n-1}, i_n)$.
+
+Let $\sigma \in \Pi^{HR}$ denote a **policy** from the set of **history-dependent randomized policies** $\Pi^{HR}$. This means that the policy $\sigma$ selects actions based on the entire history up to time $n$. The policy $\sigma$ and the initial state $i_0$ induce a **stochastic process**:
+
+### Stochastic Process Induced by a Policy
+
+Given the policy $\sigma \in \Pi^{HR}$ and the initial state $i_0 \in S$, the evolution of the MDP is a stochastic process:
+
+1. **Initial State**: The process starts at state $X_0 = i_0$.
+
+2. **Action Selection**: 
+   - At time $n$, the policy $\sigma^n$ selects an action $Y_n$ based on the history $Z_n$. Since $\sigma \in \Pi^{HR}$, it maps the history $Z_n$ to a probability distribution over actions:
+     $$
+     Y_n \sim q^n(Z_n), \quad \text{where} \quad q^n: H_n \to P(A(i_n))
+     $$
+     This means that at each time $n$, the policy $\sigma^n$ selects an action $Y_n$ according to the probability distribution $q^n(Z_n)$, which depends on the entire history $Z_n$.
+
+3. **State Transition**: 
+   - After action $Y_n$ is taken in state $X_n$, the system transitions to a new state $X_{n+1}$ according to the transition probability $p_{ij}^n(Y_n)$, where:
+     $$
+     P(X_{n+1} = j \mid X_n = i, Y_n = a) = p_{ij}^n(a)
+     $$
+   - This stochastic transition depends on the current state $X_n = i$ and the selected action $Y_n = a$.
+
+4. **History Update**: 
+   - The history $Z_{n+1}$ is updated to include the new state and action:
+     $$
+     Z_{n+1} = (Z_n, Y_n, X_{n+1}) = (i_0, a_0, i_1, a_1, \dots, i_n, a_n, i_{n+1})
+     $$
+   - The updated history is then used by the policy $\sigma^{n+1}$ to select the action at the next time step.
+
+### Resulting Stochastic Process
+
+Thus, the tuple $\{X_n, Y_n, Z_n\}_{n=0}^{T-1}$ forms a **stochastic process** where:
+- $X_n$ evolves according to the transition probabilities $p_{ij}^n(a)$,
+- $Y_n$ is chosen based on the policy $\sigma^n$ from the set of history-dependent randomized policies, and
+- $Z_n$ tracks the history of states and actions up to time $n$.
+
+The stochastic process induced by the policy $\sigma \in \Pi^{HR}$ and initial state $i_0$ is governed by the evolution of states, actions, and history over time according to the rules of the MDP.
+
+### Summary:
+
+- A policy $\sigma \in \Pi^{HR}$ induces a stochastic process starting from the initial state $i_0$.
+- The stochastic process evolves through a sequence of states $X_n$, actions $Y_n$, and histories $Z_n$.
+- The actions are selected based on the full history up to time $n$, and the state transitions are governed by the transition probabilities of the MDP.
