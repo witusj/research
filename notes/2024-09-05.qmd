@@ -1,0 +1,11 @@
+---
+title: "2024-09-05"
+author: "Witek ten Hove"
+format: html
+editor: visual
+jupyter: python3
+---
+
+Besproken met Joost:
+
+![](images/notes20240905.jpeg)
