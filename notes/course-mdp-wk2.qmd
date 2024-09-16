@@ -1,0 +1,631 @@
+---
+title: "Markov Decision Processes - Week 2"
+author: "LNMB"
+format: html
+editor: visual
+jupyter: python3
+---
+
+## Code
+```{python}
+import numpy as np
+
+# Global variables
+n = None                # Number of arms
+epsilon = 0.1           # Exploration rate
+Q_star = None           # True action values (n x max_num_tasks)
+Q = None                # Estimated action values (n,)
+n_a = None              # Count of action selections (n,)
+randomness = None       # List of RandomState instances for each task
+max_num_tasks = 2000    # Maximum number of tasks
+num_steps = 1000
+
+def setup():
+    """
+    Initializes the bandit problem by setting up the number of arms,
+    estimated action values, true action values, and randomness for each task.
+    """
+    global n, epsilon, Q_star, Q, n_a, randomness, max_num_tasks
+    n = 10
+    Q = np.zeros(n)                     # Estimated rewards initialized to 0
+    n_a = np.zeros(n, dtype=int)        # Action counts initialized to 0
+    Q_star = np.random.randn(n, max_num_tasks)  # True action values from N(0,1)
+    
+    # Initialize a separate RandomState for each task to ensure reproducibility
+    randomness = [np.random.RandomState(seed=i) for i in range(max_num_tasks)]
+
+def init():
+    """
+    Resets the estimated action values and action counts before each run.
+    """
+    global Q, n_a
+    Q[:] = 0.0
+    n_a[:] = 0
+
+def arg_max_random_tiebreak_rs(array, rs):
+    """
+    Returns the index of the maximum value in the array.
+    If multiple indices have the maximum value, one is selected at random.
+    
+    Parameters:
+    - array (np.ndarray): The array to search.
+    - rs (np.random.RandomState): Random state for reproducibility.
+    
+    Returns:
+    - int: Selected index with the maximum value.
+    """
+    max_val = np.max(array)
+    candidates = np.where(array == max_val)[0]
+    return rs.choice(candidates)
+
+def epsilon_greedy_rs(epsilon_val, rs):
+    """
+    Selects an action using the epsilon-greedy strategy.
+    
+    Parameters:
+    - epsilon_val (float): Probability of choosing a random action.
+    - rs (np.random.RandomState): Random state for reproducibility.
+    
+    Returns:
+    - int: Selected action index.
+    """
+    if rs.rand() < epsilon_val:
+        return rs.randint(n)
+    else:
+        return arg_max_random_tiebreak_rs(Q, rs)
+
+def learn(a, r):
+    """
+    Updates the estimated value of the selected action based on the received reward.
+    
+    Parameters:
+    - a (int): Action index.
+    - r (float): Received reward.
+    """
+    n_a[a] += 1
+    Q[a] += (r - Q[a]) / n_a[a]
+
+def reward(a, task_num, rs):
+    """
+    Generates a reward for the selected action and task.
+    
+    Parameters:
+    - a (int): Action index.
+    - task_num (int): Task index.
+    - rs (np.random.RandomState): Random state for reproducibility.
+    
+    Returns:
+    - float: Generated reward.
+    """
+    return Q_star[a, task_num] + rs.randn()
+
+def runs(num_runs=1000, num_steps=100, epsilon_value=0.1):
+    """
+    Executes multiple runs of the k-armed bandit simulation and computes
+    average rewards and the probability of selecting the optimal action.
+    
+    Parameters:
+    - num_runs (int): Number of independent runs.
+    - num_steps (int): Number of steps per run.
+    - epsilon_value (float): Exploration rate.
+    
+    Returns:
+    - tuple:
+        - average_reward (np.ndarray): Average reward at each step.
+        - prob_a_star (np.ndarray): Probability of selecting the optimal action at each step.
+    """
+    average_reward = np.zeros(num_steps)
+    prob_a_star = np.zeros(num_steps)
+
+    for run_num in range(num_runs):
+        # Identify the optimal action for the current task
+        a_star = np.argmax(Q_star[:, run_num])
+        
+        # Initialize estimated values and action counts
+        init()
+        
+        # Retrieve the RandomState for the current task
+        rs = randomness[run_num]
+        
+        for time_step in range(num_steps):
+            # Select an action using epsilon-greedy strategy
+            a = epsilon_greedy_rs(epsilon_value, rs)
+            
+            # Receive a reward for the selected action
+            r = reward(a, run_num, rs)
+            
+            # Update estimates based on the received reward
+            learn(a, r)
+            
+            # Accumulate rewards for averaging
+            average_reward[time_step] += r
+            
+            # Check if the optimal action was selected
+            if a == a_star:
+                prob_a_star[time_step] += 1
+
+    # Compute averages over all runs
+    average_reward /= num_runs
+    prob_a_star /= num_runs
+
+    return average_reward, prob_a_star
+
+def max_Q_star(num_tasks):
+    """
+    Computes the mean of the maximum true action-values across a specified number of tasks.
+    
+    Parameters:
+    - num_tasks (int): Number of tasks to consider.
+    
+    Returns:
+    - float: Mean of the maximum true action-values.
+    """
+    return np.mean(np.max(Q_star[:, :num_tasks], axis=0))
+```
+
+```{python}
+# Initialize the bandit problem
+setup()
+  
+# Example run: 2000 runs, each with 1000 steps, and epsilon = 0.1
+avg_reward, prob_a_star = runs(num_runs=max_num_tasks, num_steps=num_steps, epsilon_value=epsilon)
+
+# Display the results
+print("Average Reward over 1000 steps:")
+print(avg_reward)
+print("\nProbability of selecting the optimal action over 1000 steps:")
+print(prob_a_star)
+
+# Optionally, compute the maximum possible average reward
+max_possible = max_Q_star(num_tasks=max_num_tasks)
+print(f"\nMaximum possible average reward over 2000 tasks: {max_possible}")
+```
+
+
+## Overview of Initialization and Run Phases
+
+### Initialization Phase
+Before any runs begin, the program undergoes an **initialization phase** consisting of two main functions:
+1. **`setup()`**: Prepares the environment by setting up the number of arms, true action values, and random states.
+2. **`init()`**: Resets the estimated action values and action counts before each run.
+
+### Run Phase
+Once initialized, the program executes **runs** where in each run, the agent interacts with the bandit by selecting actions, receiving rewards, and updating its estimates. We'll focus on the **first two steps** of a **single run** to observe parameter evolutions.
+
+---
+
+## Detailed Initialization Phase
+
+### Global Parameters and Their Starting Values
+
+Let's list and describe the main parameters involved:
+
+| Parameter        | Description                                            | Starting Value After `setup()`              |
+|------------------|--------------------------------------------------------|----------------------------------------------|
+| `n`              | Number of arms (actions)                               | `10`                                         |
+| `epsilon`        | Exploration rate                                       | `0.1`                                        |
+| `max_num_tasks`  | Total number of tasks (runs)                           | `2000`                                       |
+| `Q_star`         | True action-value matrix `(n x max_num_tasks)`         | Initialized with random values from N(0,1)   |
+| `Q`              | Estimated action values `(n,)`                        | `[0.0, 0.0, ..., 0.0]` (length `n`)          |
+| `n_a`            | Action selection counts `(n,)`                        | `[0, 0, ..., 0]` (length `n`)                |
+| `randomness`     | List of `RandomState` instances for reproducibility    | `[RandomState(seed=0), RandomState(seed=1), ..., RandomState(seed=1999)]` |
+
+**Note:** For simplicity, we'll consider a single run (e.g., `run_num = 0`) within the total `max_num_tasks`.
+
+### Function: `setup()`
+
+This function initializes the parameters as follows:
+
+1. **`n`** is set to `10`, indicating there are 10 arms/actions.
+2. **`Q`** is initialized as a NumPy array of zeros with length `10`:
+   $$
+   Q = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+   $$
+3. **`n_a`** is initialized as a NumPy array of zeros (integer type) with length `10`:
+   $$
+   n\_a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+   $$
+4. **`Q_star`** is a `(10 x 2000)` matrix where each element is drawn from a standard normal distribution $\mathcal{N}(0, 1)$. For example:
+   $$
+   Q\_star = \begin{bmatrix}
+   Q^*_{0,0} & Q^*_{0,1} & \dots & Q^*_{0,1999} \\
+   Q^*_{1,0} & Q^*_{1,1} & \dots & Q^*_{1,1999} \\
+   \vdots & \vdots & \ddots & \vdots \\
+   Q^*_{9,0} & Q^*_{9,1} & \dots & Q^*_{9,1999}
+   \end{bmatrix}
+   $$
+5. **`randomness`** is a list of `RandomState` instances, each initialized with a unique seed (e.g., `seed=0` for `task_num=0`, `seed=1` for `task_num=1`, etc.) to ensure reproducibility across runs.
+
+### Function: `init()`
+
+Before each run, `init()` resets the estimated values and action counts:
+
+1. **`Q`** is reset to zeros:
+   $$
+   Q = [0.0, 0.0, ..., 0.0] \quad (\text{length } 10)
+   $$
+2. **`n_a`** is reset to zeros:
+   $$
+   n\_a = [0, 0, ..., 0] \quad (\text{length } 10)
+   $$
+
+---
+
+## Simulation of a Single Run: First Two Steps
+
+Let's walk through the first two steps of a **single run** (`run_num = 0`). We'll assume `num_steps = 2` for simplicity.
+
+### Initial Setup for the Run
+
+1. **Identifying the Optimal Action (`a*`):**
+   - For `run_num = 0`, the program identifies the optimal action `a*` by finding the action with the highest true value in `Q_star` for `task_num = 0`.
+   - Suppose:
+     $$
+     Q^*[:,0] = [0.5, -0.2, 1.0, 0.3, -0.5, 0.8, -1.2, 0.7, 0.4, -0.1]
+     $$
+   - The optimal action is:
+     $$
+     a* = \arg\max_{a} Q^*_{a,0} = 2 \quad (\text{since } Q^*_{2,0} = 1.0 \text{ is the highest})
+     $$
+2. **Resetting Estimates (`init()`):**
+   - **`Q`** and **`n_a`** are reset to zeros as described earlier.
+3. **Setting the Random State:**
+   - The random state for `run_num = 0` is set using:
+     $$
+     rs = randomness[0] \quad (\text{RandomState with } seed=0)
+     $$
+
+### Step 1: Time-Step 0
+
+#### Action Selection: Epsilon-Greedy Strategy
+
+1. **Decision Making:**
+   - With probability `epsilon = 0.1`, select a random action (exploration).
+   - With probability `1 - epsilon = 0.9`, select the action with the highest estimated value (exploitation).
+
+2. **Initial `Q`:**
+   $$
+   Q = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+   $$
+   
+3. **Exploration vs. Exploitation:**
+   - Suppose `rs.rand()` generates `0.05` (< `0.1`), so the agent decides to **explore**.
+   - A random action is selected, say `a = 7`.
+
+#### Receiving Reward
+
+1. **Generating Reward:**
+   - Reward formula:
+     $$
+     r = Q^*_{a,0} + \text{Noise}
+     $$
+   - Suppose:
+     $$
+     Q^*_{7,0} = 0.7 \quad (\text{from } Q^*[:,0])
+     $$
+   - Noise sampled from $\mathcal{N}(0,1)$, say `Noise = -0.3`.
+   - Thus:
+     $$
+     r = 0.7 + (-0.3) = 0.4
+     $$
+
+#### Updating Estimates
+
+1. **Incrementing Action Count:**
+   $$
+   n\_a[7] = 0 + 1 = 1
+   $$
+2. **Updating Estimated Value `Q[a]`:**
+   $$
+   Q[7] = Q[7] + \frac{(r - Q[7])}{n\_a[7]} = 0.0 + \frac{(0.4 - 0.0)}{1} = 0.4
+   $$
+   - Updated `Q`:
+     $$
+     Q = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.0, 0.0]
+     $$
+3. **Accumulating Rewards and Optimal Action Tracking:**
+   - **Average Reward at Step 0:**
+     $$
+     \text{average\_reward}[0] = 0.0 + 0.4 = 0.4
+     $$
+   - **Probability of Selecting Optimal Action:**
+     - Since `a = 7` ≠ `a* = 2`, no increment.
+     $$
+     \text{prob\_a\_star}[0] = 0.0 + 0 = 0.0
+     $$
+
+### Step 2: Time-Step 1
+
+#### Action Selection: Epsilon-Greedy Strategy
+
+1. **Decision Making:**
+   - With probability `epsilon = 0.1`, select a random action.
+   - With probability `1 - epsilon = 0.9`, select the action with the highest estimated value.
+
+2. **Current `Q`:**
+   $$
+   Q = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.0, 0.0]
+   $$
+   
+3. **Exploration vs. Exploitation:**
+   - Suppose `rs.rand()` generates `0.85` (> `0.1`), so the agent decides to **exploit**.
+   - The agent selects the action with the highest `Q` value.
+   - Current `Q`:
+     $$
+     Q[7] = 0.4 \quad \text{(highest)}, \quad \text{others} = 0.0
+     $$
+   - Thus, `a = 7`.
+
+#### Receiving Reward
+
+1. **Generating Reward:**
+   - Reward formula:
+     $$
+     r = Q^*_{7,0} + \text{Noise}
+     $$
+   - Suppose:
+     $$
+     Q^*_{7,0} = 0.7
+     $$
+   - Noise sampled from $\mathcal{N}(0,1)$, say `Noise = 0.2`.
+   - Thus:
+     $$
+     r = 0.7 + 0.2 = 0.9
+     $$
+
+#### Updating Estimates
+
+1. **Incrementing Action Count:**
+   $$
+   n\_a[7] = 1 + 1 = 2
+   $$
+2. **Updating Estimated Value `Q[a]`:**
+   $$
+   Q[7] = 0.4 + \frac{(0.9 - 0.4)}{2} = 0.4 + 0.25 = 0.65
+   $$
+   - Updated `Q`:
+     $$
+     Q = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.65, 0.0, 0.0]
+     $$
+3. **Accumulating Rewards and Optimal Action Tracking:**
+   - **Average Reward at Step 1:**
+     $$
+     \text{average\_reward}[1] = 0.0 + 0.9 = 0.9
+     $$
+   - **Probability of Selecting Optimal Action:**
+     - Since `a = 7` ≠ `a* = 2`, no increment.
+     $$
+     \text{prob\_a\_star}[1] = 0.0 + 0 = 0.0
+     $$
+
+---
+
+## Summary of Parameter Evolutions After Two Steps
+
+Let's summarize the parameter values after the **initialization phase** and after **each of the first two steps**.
+
+### After `setup()` and `init()`
+
+| Parameter    | Value Description                                   |
+|--------------|-----------------------------------------------------|
+| `n`          | `10`                                                |
+| `epsilon`    | `0.1`                                               |
+| `max_num_tasks` | `2000`                                          |
+| `Q_star`     | Random values from $\mathcal{N}(0,1)$ per arm and task |
+| `Q`          | `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]` |
+| `n_a`        | `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]`                   |
+| `randomness` | `[RandomState(seed=0), RandomState(seed=1), ..., RandomState(seed=1999)]` |
+
+### After Step 1 (Time-Step 0)
+
+| Parameter    | Value Description                                   |
+|--------------|-----------------------------------------------------|
+| `Q`          | `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.0, 0.0]` |
+| `n_a`        | `[0, 0, 0, 0, 0, 0, 0, 1, 0, 0]`                   |
+| `average_reward` | `[0.4, 0.0, ..., 0.0]` (only first element updated) |
+| `prob_a_star`    | `[0.0, 0.0, ..., 0.0]` (no increment, since `a ≠ a*`) |
+
+### After Step 2 (Time-Step 1)
+
+| Parameter    | Value Description                                   |
+|--------------|-----------------------------------------------------|
+| `Q`          | `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.65, 0.0, 0.0]` |
+| `n_a`        | `[0, 0, 0, 0, 0, 0, 0, 2, 0, 0]`                   |
+| `average_reward` | `[0.4, 0.9, ..., 0.0]` (first two elements updated) |
+| `prob_a_star`    | `[0.0, 0.0, ..., 0.0]` (no increments) |
+
+---
+
+## Visual Representation of Evolutions
+
+To further clarify, here's a **step-by-step table** capturing the evolution of key parameters through the first two steps:
+
+| Step | Action Selection Strategy | Selected Action (`a`) | Reward (`r`) | Updated `Q[a]` | Updated `n_a[a]` | `average_reward` | `prob_a_star` |
+|------|---------------------------|-----------------------|--------------|----------------|------------------|-------------------|----------------|
+| **Initial** | - | - | - | `[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]` | `[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]` | `[0.0, 0.0, ..., 0.0]` | `[0.0, 0.0, ..., 0.0]` |
+| **1** | Epsilon-Greedy (Exploration) | `7` (Random) | `0.4` | `Q[7] = 0.4` | `n_a[7] = 1` | `average_reward[0] = 0.4` | `prob_a_star[0] = 0.0` |
+| **2** | Epsilon-Greedy (Exploitation) | `7` (Max `Q`) | `0.9` | `Q[7] = 0.65` | `n_a[7] = 2` | `average_reward[1] = 0.9` | `prob_a_star[1] = 0.0` |
+
+**Notes:**
+
+- **Action Selection:**
+  - **Step 1:** Due to exploration (`epsilon = 0.1`), a random action (`7`) was selected.
+  - **Step 2:** With higher confidence in `a = 7` (since `Q[7] = 0.4`), exploitation led to selecting `a = 7` again.
+  
+- **Rewards:**
+  - **Step 1:** Received `0.4` from `a = 7`.
+  - **Step 2:** Received `0.9` from `a = 7`.
+
+- **Updates:**
+  - **`Q` and `n_a`:** Reflect the updated estimates and counts for action `7`.
+  - **`average_reward`:** Accumulates rewards for averaging across runs (not fully relevant in a single run, but essential in multiple runs).
+  - **`prob_a_star`:** Tracks the frequency of selecting the optimal action (`a* = 2`). Since neither step selected `a*`, it remains `0.0`.
+
+---
+
+## Implications of Initial Steps
+
+### **a. Learning Through Action Selection and Reward Reception**
+
+- **Action Selection Strategy:** The epsilon-greedy approach balances exploration and exploitation, allowing the agent to discover potentially better actions over time while exploiting known good actions to maximize rewards.
+
+- **Updating Estimates (`Q`):** Each reward received refines the agent's estimate of an action's value. Even if an action is suboptimal initially, sufficient exploration can lead the agent to recognize and favor better actions.
+
+### **b. Tracking Performance Metrics**
+
+- **`average_reward`:** Over multiple runs, this metric helps in understanding the agent's performance progression, indicating how well it learns to maximize rewards.
+
+- **`prob_a_star`:** Measures the frequency of selecting the optimal action, providing insight into the effectiveness of the exploration-exploitation strategy.
+
+---
+
+## Extending Beyond Two Steps
+
+While our focus is on the **first two steps**, it's essential to recognize how parameters continue to evolve:
+
+- **Subsequent Steps:**
+  - The agent continues selecting actions based on the updated `Q` and `n_a`.
+  - Over time, `Q` values converge towards the true action values (`Q_star`) as the agent gathers more data.
+  - The agent increasingly favors optimal actions, especially if exploration is sufficient to identify them.
+
+- **Long-Term Behavior:**
+  - **Convergence:** The estimated values `Q` approach the true values `Q_star` as the number of steps increases.
+  - **Optimal Action Selection:** The probability of selecting the optimal action (`prob_a_star`) increases, ideally approaching `1.0` as the agent becomes more confident in its estimates.
+
+---
+
+## Conclusion
+
+Understanding the **initialization phase** and observing **parameter evolutions** through the **first few steps** of a run provides valuable insights into the agent's learning process in the k-multiarmed bandit problem. Here's a recap of key takeaways:
+
+- **Initialization:**
+  - **`setup()`** establishes the problem's structure, defining the number of actions, true values, and ensuring reproducible randomness.
+  - **`init()`** prepares the agent for a fresh run by resetting its estimates and counts.
+
+- **First Steps of a Run:**
+  - **Action Selection:** Balances exploration and exploitation through the epsilon-greedy strategy.
+  - **Reward Reception and Learning:** Updates estimates based on received rewards, refining future action selections.
+  - **Performance Metrics:** Tracks average rewards and the frequency of selecting the optimal action to assess learning progress.
+
+By meticulously initializing parameters and methodically updating them through interactions, the agent progressively enhances its performance, exemplifying fundamental reinforcement learning principles.
+
+Based on the lecture slides you've provided, here are the additional details and missing information that can be integrated into your original notes:
+
+---
+
+# Lecture Notes on Markov Decision Processes (MDPs)
+
+## Deterministic Markovian Policies
+
+### Optimality Criteria
+- **Expected Total Reward**: The objective is to choose a policy that maximizes the expected total reward over a finite horizon.
+- **Random Reward Sequence**: 
+    - The policy generates a reward sequence $R = (R_0, \ldots, R_T)$ where:
+      $$
+      R_n = r^n_{X_n}(Y_n) \quad \text{for } n < T \quad \text{and} \quad R_T = r^T_{X_T}
+      $$
+    - $R$: The set of all possible reward sequences generated by the policy.
+    - The goal is to choose a policy such that the corresponding random reward sequence is as "large" as possible.
+- **Comparing Random Sequences**:
+    - Often done using partial ordering and stochastic ordering.
+    - Not all policies are comparable under stochastic ordering.
+- **Evaluation Criterion**: Expected total reward is a suitable criterion for finite-horizon MDPs.
+
+---
+
+### Partial and Stochastic Ordering
+
+- **Partial Ordering**:
+    - Transitive: $u \succ v$ and $v \succ w$ implies $u \succ w$.
+    - Reflexive: $w \succ w$.
+    - Antisymmetric: $u \succ v$ and $v \succ u$ implies $u = v$.
+    - Comparable: $u$ and $v$ are comparable if either $u \succ v$ or $v \succ u$.
+- **Stochastic Partial Ordering**:
+    - Random vector $U$ is stochastically greater than $V$ if:
+      $$
+      E[f(U_1, \dots, U_n)] \geq E[f(V_1, \dots, V_n)]
+      $$
+      for all non-decreasing functions $f$.
+    - Example provided with two policies $\sigma$ and $\nu$ illustrating that policies are not always comparable under stochastic ordering.
+
+---
+
+### Utility and Expected Utility
+
+- **Utility Function**: A real-valued function that represents the decision-maker’s preference for rewards.
+- **Expected Utility**:
+    - Provides a total ordering on equivalence classes of outcomes.
+    - The expected utility for a policy $\sigma$ is given by:
+      $$
+      E_{\sigma}[\Psi(R)] = \sum_{(\rho_0, \dots, \rho_T) \in R} \Psi(\rho_0, \dots, \rho_T) P_{\sigma}(R(\rho_0, \dots, \rho_T))
+      $$
+- **Expected Total Reward**:
+    - If $\Psi(\rho_0, \dots, \rho_T) = \sum_{s=0}^{T} \rho_s$, then the expected total reward is:
+      $$
+      V^\sigma_T(i) = E^\sigma_i\left[\sum_{n=1}^{T-1} r^n_{X_n}(Y_n) + r^T_{X_T}\right]
+      $$
+
+---
+
+### Optimal Policies
+
+- **Optimal Policy**: A policy $\sigma^*$ is optimal if:
+  $$
+  V^{\sigma^*}_T(i) \geq V^\sigma_T(i), \quad \forall \sigma \in \Pi_{HR}
+  $$
+  where $\Pi_{HR}$ is the set of history-dependent policies.
+- **ε-Optimal Policy**: A policy $\sigma^*_\epsilon$ is ε-optimal if:
+  $$
+  V^{\sigma^*_\epsilon}_T(i) + \epsilon > V^\sigma_T(i)
+  $$
+
+---
+
+### Evaluation Algorithms for Fixed Policy
+
+- **Finite-Horizon Policy Evaluation**:
+    - Total expected reward obtained by using a fixed policy $\sigma$ can be recursively computed for each time step $n$, starting from the terminal time $T$.
+
+---
+
+### Backward Induction Algorithm
+
+- **Step-by-Step Algorithm**:
+    1. Set $n = T$ and initialize $u^\sigma_T(h_T) = r^T_{i_T}$.
+    2. If $n = 0$, stop. Otherwise, go to step 3.
+    3. Set $n := n - 1$. Compute:
+       $$
+       u^\sigma_n(h_n) = r^n_{i_n}(\sigma^n_{h_n}) + \sum_{j \in S} P_{i_n j}(\sigma^n_{h_n}) u^\sigma_{n+1}(h_n, \sigma^n_{h_n}, j)
+       $$
+    4. Repeat until all values are computed.
+
+---
+
+### Optimality Equations
+
+- **Bellman Equations**:
+  $$
+  u_n(h_n) = \sup_{a \in A(i_n)} \left[r^n_{i_n}(a) + \sum_{j \in S} P_{i_n j}(a) u_{n+1}(h_n, a, j)\right]
+  $$
+- **Principle of Optimality**:
+    - The optimal policy $\sigma^*$ maximizes the value function by choosing actions that maximize the expected total reward.
+
+---
+
+### Theorems and Propositions
+
+- **Theorem 4.2.1**: Backward induction yields the expected total reward for a fixed policy.
+- **Theorem 4.2.2**: The same for randomized policies.
+- **Theorem 4.3.2**: Solutions to the optimality equations give the optimal returns and the basis for determining optimal policies.
+- **Theorem 4.3.3**: The principle of optimality guarantees that the backward induction algorithm produces an optimal policy.
+- **Theorem 4.4.2**: Deterministic Markov policies are optimal for finite-horizon MDPs.
+- **Proposition 4.4.3**: Under certain conditions (e.g., finite state and action spaces), there exists a deterministic Markov policy that is optimal.
+
+---
+
+### Financial Options as an MDP
+
+- **State Space**: Current price of the underlying asset, time to expiration, and value of the option.
+- **Action Space**: Exercise, hold, or trade the option.
+- **Transition Probabilities**: Derived from stochastic processes (e.g., binomial trees, geometric Brownian motion).
+- **Reward Function**: Payoff from exercising the option or holding it.

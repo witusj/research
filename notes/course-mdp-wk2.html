@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.551">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="LNMB">
+
+<title>Markov Decision Processes - Week 2</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="course-mdp-wk2_files/libs/clipboard/clipboard.min.js"></script>
+<script src="course-mdp-wk2_files/libs/quarto-html/quarto.js"></script>
+<script src="course-mdp-wk2_files/libs/quarto-html/popper.min.js"></script>
+<script src="course-mdp-wk2_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="course-mdp-wk2_files/libs/quarto-html/anchor.min.js"></script>
+<link href="course-mdp-wk2_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="course-mdp-wk2_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="course-mdp-wk2_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="course-mdp-wk2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="course-mdp-wk2_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Markov Decision Processes - Week 2</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>LNMB </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="code" class="level2">
+<h2 class="anchored" data-anchor-id="code">Code</h2>
+<div id="d45f4106" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Global variables</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="va">None</span>                <span class="co"># Number of arms</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>epsilon <span class="op">=</span> <span class="fl">0.1</span>           <span class="co"># Exploration rate</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Q_star <span class="op">=</span> <span class="va">None</span>           <span class="co"># True action values (n x max_num_tasks)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> <span class="va">None</span>                <span class="co"># Estimated action values (n,)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>n_a <span class="op">=</span> <span class="va">None</span>              <span class="co"># Count of action selections (n,)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>randomness <span class="op">=</span> <span class="va">None</span>       <span class="co"># List of RandomState instances for each task</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>max_num_tasks <span class="op">=</span> <span class="dv">2000</span>    <span class="co"># Maximum number of tasks</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> setup():</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">    Initializes the bandit problem by setting up the number of arms,</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">    estimated action values, true action values, and randomness for each task.</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">global</span> n, epsilon, Q_star, Q, n_a, randomness, max_num_tasks</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    Q <span class="op">=</span> np.zeros(n)                     <span class="co"># Estimated rewards initialized to 0</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    n_a <span class="op">=</span> np.zeros(n, dtype<span class="op">=</span><span class="bu">int</span>)        <span class="co"># Action counts initialized to 0</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    Q_star <span class="op">=</span> np.random.randn(n, max_num_tasks)  <span class="co"># True action values from N(0,1)</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize a separate RandomState for each task to ensure reproducibility</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    randomness <span class="op">=</span> [np.random.RandomState(seed<span class="op">=</span>i) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(max_num_tasks)]</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> init():</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">    Resets the estimated action values and action counts before each run.</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">global</span> Q, n_a</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    Q[:] <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    n_a[:] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> arg_max_random_tiebreak_rs(array, rs):</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns the index of the maximum value in the array.</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">    If multiple indices have the maximum value, one is selected at random.</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">    - array (np.ndarray): The array to search.</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">    - rs (np.random.RandomState): Random state for reproducibility.</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">    - int: Selected index with the maximum value.</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    max_val <span class="op">=</span> np.<span class="bu">max</span>(array)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    candidates <span class="op">=</span> np.where(array <span class="op">==</span> max_val)[<span class="dv">0</span>]</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rs.choice(candidates)</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> epsilon_greedy_rs(epsilon_val, rs):</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co">    Selects an action using the epsilon-greedy strategy.</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co">    - epsilon_val (float): Probability of choosing a random action.</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co">    - rs (np.random.RandomState): Random state for reproducibility.</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="co">    - int: Selected action index.</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> rs.rand() <span class="op">&lt;</span> epsilon_val:</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> rs.randint(n)</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> arg_max_random_tiebreak_rs(Q, rs)</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> learn(a, r):</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="co">    Updates the estimated value of the selected action based on the received reward.</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="co">    - a (int): Action index.</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="co">    - r (float): Received reward.</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>    n_a[a] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>    Q[a] <span class="op">+=</span> (r <span class="op">-</span> Q[a]) <span class="op">/</span> n_a[a]</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> reward(a, task_num, rs):</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="co">    Generates a reward for the selected action and task.</span></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="co">    - a (int): Action index.</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="co">    - task_num (int): Task index.</span></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="co">    - rs (np.random.RandomState): Random state for reproducibility.</span></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="co">    - float: Generated reward.</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> Q_star[a, task_num] <span class="op">+</span> rs.randn()</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> runs(num_runs<span class="op">=</span><span class="dv">1000</span>, num_steps<span class="op">=</span><span class="dv">100</span>, epsilon_value<span class="op">=</span><span class="fl">0.1</span>):</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="co">    Executes multiple runs of the k-armed bandit simulation and computes</span></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="co">    average rewards and the probability of selecting the optimal action.</span></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a><span class="co">    - num_runs (int): Number of independent runs.</span></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="co">    - num_steps (int): Number of steps per run.</span></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="co">    - epsilon_value (float): Exploration rate.</span></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="co">    - tuple:</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="co">        - average_reward (np.ndarray): Average reward at each step.</span></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="co">        - prob_a_star (np.ndarray): Probability of selecting the optimal action at each step.</span></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>    average_reward <span class="op">=</span> np.zeros(num_steps)</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>    prob_a_star <span class="op">=</span> np.zeros(num_steps)</span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> run_num <span class="kw">in</span> <span class="bu">range</span>(num_runs):</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Identify the optimal action for the current task</span></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>        a_star <span class="op">=</span> np.argmax(Q_star[:, run_num])</span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize estimated values and action counts</span></span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>        init()</span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Retrieve the RandomState for the current task</span></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>        rs <span class="op">=</span> randomness[run_num]</span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> time_step <span class="kw">in</span> <span class="bu">range</span>(num_steps):</span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Select an action using epsilon-greedy strategy</span></span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>            a <span class="op">=</span> epsilon_greedy_rs(epsilon_value, rs)</span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Receive a reward for the selected action</span></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a>            r <span class="op">=</span> reward(a, run_num, rs)</span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Update estimates based on the received reward</span></span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a>            learn(a, r)</span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Accumulate rewards for averaging</span></span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a>            average_reward[time_step] <span class="op">+=</span> r</span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Check if the optimal action was selected</span></span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> a <span class="op">==</span> a_star:</span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a>                prob_a_star[time_step] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute averages over all runs</span></span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>    average_reward <span class="op">/=</span> num_runs</span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a>    prob_a_star <span class="op">/=</span> num_runs</span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> average_reward, prob_a_star</span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> max_Q_star(num_tasks):</span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a><span class="co">    Computes the mean of the maximum true action-values across a specified number of tasks.</span></span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a><span class="co">    - num_tasks (int): Number of tasks to consider.</span></span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a><span class="co">    - float: Mean of the maximum true action-values.</span></span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.mean(np.<span class="bu">max</span>(Q_star[:, :num_tasks], axis<span class="op">=</span><span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="4a588cf9" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the bandit problem</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>setup()</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Example run: 2000 runs, each with 1000 steps, and epsilon = 0.1</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>avg_reward, prob_a_star <span class="op">=</span> runs(num_runs<span class="op">=</span>max_num_tasks, num_steps<span class="op">=</span>num_steps, epsilon_value<span class="op">=</span>epsilon)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the results</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Average Reward over 1000 steps:"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(avg_reward)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Probability of selecting the optimal action over 1000 steps:"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(prob_a_star)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Optionally, compute the maximum possible average reward</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>max_possible <span class="op">=</span> max_Q_star(num_tasks<span class="op">=</span>max_num_tasks)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Maximum possible average reward over 2000 tasks: </span><span class="sc">{</span>max_possible<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Average Reward over 1000 steps:
+[0.00360051 0.25004303 0.414312   0.490418   0.56170505 0.63582203
+ 0.72114189 0.71159574 0.80644249 0.79990965 0.85585873 0.84523699
+ 0.87088921 0.8753655  0.90707217 0.92349715 0.91342813 0.90062472
+ 0.93641008 0.95297657 0.93457627 0.92655247 0.98645061 1.01226691
+ 1.01238979 0.97739475 0.95884367 0.97481433 0.97459259 0.97817064
+ 0.98397699 1.03105317 1.04957296 1.02990062 1.04259529 1.00121439
+ 1.05873618 1.02839689 1.03090461 1.04860361 1.04058758 1.06698966
+ 1.08517406 0.99759323 1.0013883  1.09807915 1.08115315 1.0852847
+ 1.11379159 1.03030772 1.05859578 1.09128169 1.10604246 1.09308421
+ 1.08327568 1.06010989 1.05275435 1.11036344 1.14828163 1.10864554
+ 1.14262754 1.1010801  1.15734738 1.12246113 1.1514986  1.12013959
+ 1.15690403 1.121794   1.1445731  1.14678883 1.13748142 1.14453687
+ 1.18672309 1.15767112 1.16711463 1.12870219 1.19729897 1.16749105
+ 1.16377495 1.17173956 1.1788574  1.18824154 1.19685901 1.16143992
+ 1.2171656  1.21114834 1.21033    1.23326947 1.15079962 1.21078472
+ 1.21411139 1.17833923 1.18292009 1.21993772 1.17107405 1.19043056
+ 1.19847645 1.15929088 1.19186426 1.18292667 1.20282939 1.15774971
+ 1.24498905 1.19970527 1.22035367 1.22030308 1.23541364 1.20552611
+ 1.21663291 1.18727865 1.19851855 1.19768566 1.22260131 1.23386369
+ 1.21691922 1.2578282  1.2480368  1.20623822 1.2475284  1.24170129
+ 1.18889348 1.26284058 1.22873442 1.20433639 1.25117155 1.21206891
+ 1.24826025 1.24317906 1.22619051 1.20013415 1.19520615 1.23030486
+ 1.23519206 1.26209461 1.21456056 1.25197893 1.25599327 1.25663924
+ 1.25013639 1.28036637 1.23618651 1.27080161 1.29448531 1.24128821
+ 1.28963137 1.21675058 1.22272039 1.2607406  1.26363606 1.24676835
+ 1.29120804 1.24218311 1.2572397  1.28011628 1.28712702 1.24019717
+ 1.32167283 1.28778071 1.2755719  1.30312042 1.23907769 1.28053405
+ 1.2746605  1.26847982 1.25642986 1.31253186 1.28504475 1.28172928
+ 1.27050923 1.3392741  1.28226743 1.28692641 1.31902143 1.25938712
+ 1.30204866 1.28950521 1.26856632 1.32510788 1.26678778 1.27747898
+ 1.30547429 1.30711618 1.30752586 1.27890218 1.29198471 1.33376804
+ 1.27724601 1.31772894 1.27254236 1.28964404 1.28782278 1.32513587
+ 1.27648889 1.31716653 1.29632229 1.31757513 1.28278462 1.32929823
+ 1.28828305 1.27437044 1.29100234 1.30205433 1.28578798 1.26086659
+ 1.28227717 1.26462036 1.28586378 1.27731212 1.3169662  1.29549822
+ 1.33450679 1.30643664 1.29335416 1.30389364 1.31617667 1.29076134
+ 1.31600381 1.23650599 1.30074585 1.30229395 1.35231494 1.36488392
+ 1.28257466 1.28448447 1.33518663 1.27983852 1.30105593 1.3461181
+ 1.29526185 1.32986888 1.33406268 1.32126326 1.33715163 1.30790802
+ 1.25974668 1.30358925 1.33054753 1.31386716 1.30888053 1.32535289
+ 1.32111259 1.33341018 1.29626054 1.28845808 1.28927949 1.32505284
+ 1.29307165 1.33105813 1.32759918 1.30483248 1.30022705 1.29804698
+ 1.32530631 1.34834713 1.30487139 1.33696373 1.32505532 1.3594711
+ 1.32344069 1.3520628  1.29710414 1.26785458 1.31152197 1.29640302
+ 1.32747108 1.2969753  1.35045904 1.37479231 1.30621124 1.34853455
+ 1.32822922 1.30374715 1.28883027 1.39938096 1.2957049  1.32041194
+ 1.32081935 1.3017272  1.29756173 1.30449079 1.33055536 1.34657537
+ 1.33231444 1.32647619 1.31932951 1.32700368 1.2998206  1.35768232
+ 1.29387695 1.3106473  1.28096502 1.32448739 1.31348808 1.34178454
+ 1.32842678 1.28814382 1.3879113  1.37225158 1.34058387 1.2972085
+ 1.3308675  1.29186585 1.33138258 1.39032139 1.32062928 1.30685586
+ 1.3420724  1.31140775 1.30891016 1.34666667 1.32745749 1.34573057
+ 1.30084569 1.36955436 1.30425835 1.38505709 1.36808858 1.3719883
+ 1.33257715 1.34868192 1.310712   1.34387616 1.31507206 1.32863252
+ 1.37171537 1.35888028 1.34549817 1.37711964 1.34220356 1.33041916
+ 1.36570855 1.36618898 1.38059651 1.33299305 1.34580692 1.33537724
+ 1.3198695  1.3801078  1.33046901 1.33067819 1.3180789  1.32324294
+ 1.3270089  1.30886782 1.34438663 1.31245605 1.35571569 1.39905085
+ 1.33642319 1.34572251 1.35258622 1.38042095 1.31776279 1.28062575
+ 1.34623041 1.38279237 1.3138195  1.31936601 1.32654122 1.31429149
+ 1.36490788 1.31446283 1.34675551 1.32234313 1.35419167 1.36716812
+ 1.32585553 1.35408534 1.33144653 1.34097332 1.34297446 1.33333182
+ 1.33576604 1.33138387 1.31635778 1.38487438 1.3388619  1.32311814
+ 1.28679371 1.35415486 1.33669158 1.32762214 1.31369835 1.33506389
+ 1.38248858 1.31184555 1.36152394 1.38897326 1.33785777 1.36850971
+ 1.33307729 1.34428925 1.34795629 1.39057341 1.37737325 1.36482591
+ 1.33852871 1.34876388 1.36365072 1.34260759 1.36144134 1.33353227
+ 1.34749157 1.32971428 1.35020589 1.36679565 1.34202706 1.32502081
+ 1.37536168 1.37728633 1.34871905 1.31888118 1.31444225 1.38287115
+ 1.34031104 1.3671627  1.29705316 1.34558884 1.37234114 1.35483342
+ 1.32289954 1.3278578  1.35552923 1.2955104  1.31610567 1.31390385
+ 1.38280718 1.36976332 1.38582001 1.38861953 1.33149678 1.3554098
+ 1.35016904 1.38832197 1.31957066 1.34045598 1.32327205 1.39545097
+ 1.3911064  1.34862764 1.35132623 1.39625269 1.33555834 1.37811762
+ 1.4044937  1.33706993 1.3362276  1.35827357 1.38125428 1.39146644
+ 1.36257537 1.3467831  1.36465978 1.37846376 1.32488699 1.32359987
+ 1.33399991 1.3351315  1.36137143 1.38938537 1.32323292 1.31601999
+ 1.31075512 1.38278258 1.35551257 1.32690685 1.32430913 1.37359866
+ 1.38642302 1.38105288 1.37297847 1.30647785 1.35815974 1.34571626
+ 1.3371976  1.31253927 1.34383082 1.33131114 1.36634248 1.34271973
+ 1.3486134  1.37753341 1.34977768 1.34032932 1.33548922 1.33025172
+ 1.36252688 1.3265099  1.36917218 1.36423629 1.37566727 1.37022781
+ 1.34964019 1.35073246 1.36129728 1.3018283  1.35136795 1.38129518
+ 1.31455022 1.37157668 1.3547761  1.37377389 1.3198714  1.34906679
+ 1.38370495 1.32962862 1.37563451 1.37700125 1.40047174 1.36843666
+ 1.36864997 1.40545122 1.40427671 1.40755395 1.39480096 1.34970248
+ 1.36481964 1.26493973 1.3149828  1.39384898 1.36367716 1.37418081
+ 1.3665782  1.36623697 1.36415334 1.37304389 1.36485822 1.33200738
+ 1.36546699 1.37216948 1.33499943 1.37022589 1.31110561 1.38830495
+ 1.34133569 1.33743184 1.38060953 1.36906307 1.37880705 1.32740551
+ 1.37194868 1.38866865 1.36550197 1.33246655 1.34089215 1.3619755
+ 1.38791086 1.39911535 1.36524664 1.28055941 1.35296033 1.36658312
+ 1.35238558 1.40156972 1.35141463 1.34605572 1.37577894 1.328853
+ 1.35241233 1.37094897 1.3522306  1.33668403 1.39058793 1.3744985
+ 1.37765878 1.36989049 1.30931691 1.36741679 1.32422882 1.35990335
+ 1.36410073 1.36849534 1.34581147 1.38872813 1.37176599 1.32604134
+ 1.34152751 1.35275747 1.39527499 1.36614277 1.36321854 1.38421305
+ 1.4139241  1.34700648 1.35628513 1.37599125 1.35176985 1.40141748
+ 1.35191632 1.34170936 1.30620925 1.3202249  1.34306933 1.31338235
+ 1.36062795 1.36367131 1.36715599 1.38939679 1.36565856 1.36468089
+ 1.37645841 1.3857694  1.32970593 1.36028917 1.34668715 1.39321755
+ 1.34079546 1.3166619  1.33513454 1.3582169  1.34477295 1.36715936
+ 1.39986462 1.33681865 1.41536877 1.38572816 1.3939804  1.31676391
+ 1.37847963 1.3422927  1.38814404 1.38882368 1.36832733 1.42751918
+ 1.34063001 1.37974204 1.33812287 1.3984126  1.35286031 1.34413243
+ 1.40059765 1.39048812 1.36045014 1.40034999 1.37689972 1.32863944
+ 1.36324567 1.35424983 1.38116903 1.39367944 1.36521926 1.37613466
+ 1.41010578 1.3959291  1.37396501 1.35854787 1.36800765 1.35624774
+ 1.32928513 1.34187507 1.36347331 1.44030184 1.35821062 1.38844511
+ 1.3540908  1.38683818 1.37738354 1.35695312 1.40754422 1.37201053
+ 1.37233586 1.35340599 1.33540407 1.35565668 1.36849672 1.36553493
+ 1.33622164 1.38472869 1.34931764 1.42429063 1.41709958 1.3508644
+ 1.35395918 1.35123852 1.33757981 1.37216686 1.42928427 1.39583563
+ 1.35291687 1.36768693 1.32905995 1.34921609 1.40095736 1.4093024
+ 1.37891273 1.3553781  1.37291595 1.32266499 1.3937125  1.39182974
+ 1.33462225 1.35269156 1.35090795 1.40393566 1.36282472 1.36474715
+ 1.38599743 1.35587736 1.38351186 1.37939204 1.38452656 1.35975871
+ 1.3157723  1.39769896 1.33473543 1.38982431 1.38414774 1.34169013
+ 1.35833367 1.38773578 1.40777421 1.39458825 1.40456488 1.37477112
+ 1.33421465 1.38082033 1.38841162 1.35612595 1.37588762 1.38558831
+ 1.3571788  1.31481646 1.33732261 1.39605145 1.36559028 1.38822947
+ 1.37029643 1.37780374 1.37017604 1.34983534 1.41150064 1.38859962
+ 1.35117057 1.38817705 1.37960537 1.39466019 1.30474703 1.33779676
+ 1.37143478 1.3455221  1.38716079 1.39124457 1.36153753 1.3853027
+ 1.40933503 1.36744224 1.34173809 1.40722213 1.37646376 1.3698532
+ 1.39681618 1.38273744 1.39791111 1.41856764 1.35673904 1.34431735
+ 1.42323286 1.39336552 1.33718491 1.36039443 1.37950461 1.40384408
+ 1.38861285 1.40208201 1.41483501 1.38143925 1.3752406  1.33628149
+ 1.38326141 1.39024163 1.36728398 1.3732051  1.37400613 1.40027428
+ 1.37145036 1.39070051 1.3600592  1.3615882  1.36632242 1.29423011
+ 1.39069044 1.37613137 1.36120234 1.36461648 1.41465953 1.36514893
+ 1.3662567  1.30644258 1.41856745 1.35026859 1.39381592 1.33700718
+ 1.34077826 1.37499203 1.36091892 1.4217911  1.39464769 1.42198239
+ 1.38069619 1.31505041 1.40407736 1.38691841 1.39076818 1.37360238
+ 1.37126256 1.36187819 1.38699457 1.41438962 1.39931855 1.35626053
+ 1.37642382 1.37605769 1.39477602 1.41368884 1.39090819 1.36694984
+ 1.3896904  1.40358275 1.34216029 1.38368503 1.37952454 1.39273475
+ 1.38511615 1.36465964 1.40671893 1.40714368 1.42782528 1.36353299
+ 1.37175085 1.37414383 1.33244945 1.32825303 1.36880401 1.33043132
+ 1.35626297 1.40983821 1.35431437 1.38014383 1.33484135 1.4070182
+ 1.39088403 1.36982773 1.38887281 1.35603162 1.3478464  1.34326173
+ 1.34627663 1.4320516  1.36637718 1.32622686 1.34804588 1.38275779
+ 1.39033174 1.38042899 1.39341685 1.37722322 1.37356727 1.34496056
+ 1.40305829 1.38282673 1.3504022  1.35416224 1.36535108 1.34593813
+ 1.36513985 1.3465412  1.42694142 1.36369042 1.36715357 1.38263196
+ 1.38170119 1.37503085 1.39127751 1.42422723 1.36321583 1.376493
+ 1.33839351 1.36925473 1.36781083 1.39495417 1.38109413 1.39690088
+ 1.37309628 1.35225095 1.34047066 1.37161606 1.35375003 1.43680945
+ 1.37864716 1.36278458 1.36149977 1.38256815 1.35702355 1.40813846
+ 1.37176863 1.37599352 1.39207666 1.38013232 1.36917497 1.38511609
+ 1.43796519 1.3691922  1.38254584 1.38300937 1.36141111 1.36528347
+ 1.37806223 1.37158174 1.35751475 1.38777593 1.39987471 1.38364074
+ 1.27742985 1.37417257 1.38466347 1.41288584 1.38496176 1.37100594
+ 1.30700867 1.34404725 1.40678334 1.37756374 1.3797688  1.37148005
+ 1.361485   1.38037264 1.32059684 1.39613124 1.40339243 1.420118
+ 1.36971296 1.4040455  1.35073109 1.39992955 1.3863207  1.32058037
+ 1.34715226 1.3763424  1.37612877 1.38100126 1.37352685 1.37817439
+ 1.41005864 1.37334528 1.38475863 1.38431249 1.36970986 1.3623079
+ 1.3629694  1.38503032 1.37857002 1.36993703 1.36976733 1.37468354
+ 1.32032729 1.33950653 1.35418262 1.34146068 1.39230058 1.40151692
+ 1.41152    1.40011601 1.41386877 1.37897489 1.36897591 1.38185088
+ 1.39805229 1.36741618 1.37499528 1.3986226  1.36805794 1.3356022
+ 1.35369536 1.38123761 1.36009802 1.37668545 1.37694609 1.40052985
+ 1.43331015 1.42209137 1.41653413 1.4002249  1.39723601 1.3980124
+ 1.36948906 1.37732914 1.32284187 1.41393587 1.32913182 1.43087562
+ 1.3806536  1.40145273 1.33629309 1.35612697 1.38109602 1.39012645
+ 1.3842503  1.34232507 1.36319786 1.39326813]
+
+Probability of selecting the optimal action over 1000 steps:
+[0.085  0.136  0.1665 0.192  0.2115 0.2355 0.2495 0.2715 0.279  0.285
+ 0.306  0.3105 0.3215 0.3185 0.3135 0.3295 0.3355 0.3525 0.3445 0.349
+ 0.3665 0.3565 0.3625 0.3655 0.3665 0.3705 0.364  0.372  0.3815 0.381
+ 0.383  0.387  0.386  0.3985 0.397  0.3985 0.4075 0.4045 0.4125 0.415
+ 0.415  0.416  0.42   0.4145 0.4255 0.4335 0.437  0.44   0.4495 0.4445
+ 0.4475 0.451  0.455  0.455  0.457  0.463  0.4545 0.4655 0.4715 0.4805
+ 0.473  0.4725 0.484  0.4865 0.485  0.4915 0.4885 0.482  0.4935 0.494
+ 0.497  0.4985 0.498  0.504  0.509  0.508  0.5205 0.512  0.5165 0.5155
+ 0.519  0.516  0.5275 0.518  0.533  0.525  0.541  0.535  0.5305 0.5305
+ 0.5385 0.5295 0.537  0.5455 0.541  0.547  0.535  0.539  0.54   0.5455
+ 0.5535 0.543  0.5545 0.5555 0.554  0.558  0.5575 0.5575 0.564  0.5545
+ 0.561  0.5695 0.5655 0.5785 0.5635 0.5635 0.5695 0.5685 0.5845 0.58
+ 0.574  0.5885 0.5735 0.581  0.593  0.5785 0.5915 0.5915 0.588  0.5935
+ 0.587  0.593  0.6005 0.609  0.596  0.604  0.601  0.605  0.605  0.6025
+ 0.593  0.61   0.618  0.6055 0.6115 0.6075 0.606  0.6195 0.6155 0.613
+ 0.616  0.61   0.6175 0.6045 0.6135 0.6115 0.6175 0.6195 0.612  0.629
+ 0.61   0.6115 0.621  0.621  0.626  0.637  0.6295 0.631  0.6405 0.642
+ 0.635  0.6285 0.633  0.64   0.634  0.6405 0.6335 0.65   0.636  0.6285
+ 0.647  0.638  0.6385 0.645  0.635  0.645  0.643  0.6395 0.6405 0.651
+ 0.6535 0.652  0.644  0.644  0.6375 0.654  0.6505 0.662  0.6575 0.653
+ 0.6585 0.6575 0.657  0.6495 0.654  0.657  0.6585 0.659  0.6685 0.665
+ 0.664  0.665  0.6695 0.6675 0.6785 0.6615 0.6675 0.6635 0.6755 0.665
+ 0.674  0.676  0.6615 0.667  0.6675 0.673  0.676  0.6715 0.675  0.672
+ 0.682  0.678  0.678  0.6715 0.6695 0.6715 0.6745 0.673  0.683  0.677
+ 0.671  0.6805 0.673  0.676  0.676  0.6855 0.6805 0.678  0.6715 0.6835
+ 0.684  0.678  0.681  0.677  0.684  0.6835 0.6825 0.6865 0.675  0.685
+ 0.682  0.6765 0.688  0.686  0.686  0.6795 0.6975 0.7005 0.685  0.7005
+ 0.691  0.688  0.6885 0.7035 0.687  0.6895 0.6975 0.6805 0.6945 0.696
+ 0.696  0.6965 0.699  0.6945 0.6815 0.6975 0.6915 0.704  0.6905 0.6965
+ 0.7015 0.693  0.7005 0.71   0.698  0.69   0.707  0.7085 0.694  0.701
+ 0.6945 0.694  0.6985 0.7125 0.7015 0.7025 0.698  0.7075 0.7035 0.715
+ 0.7085 0.713  0.7035 0.7175 0.713  0.711  0.7015 0.713  0.7155 0.707
+ 0.7115 0.7065 0.7155 0.7075 0.7215 0.7195 0.723  0.7225 0.719  0.718
+ 0.7205 0.713  0.715  0.707  0.7205 0.708  0.7105 0.7155 0.7075 0.71
+ 0.715  0.7105 0.7085 0.718  0.7165 0.715  0.7145 0.7215 0.711  0.709
+ 0.7145 0.7175 0.713  0.7075 0.7225 0.7215 0.715  0.7185 0.7155 0.7095
+ 0.719  0.7155 0.7185 0.7095 0.719  0.715  0.7295 0.7275 0.724  0.7225
+ 0.731  0.7285 0.729  0.716  0.725  0.741  0.7315 0.7175 0.711  0.728
+ 0.7225 0.7285 0.7285 0.726  0.7295 0.725  0.7215 0.729  0.73   0.737
+ 0.7215 0.722  0.7225 0.741  0.7405 0.7345 0.7185 0.7335 0.7345 0.736
+ 0.733  0.729  0.7265 0.733  0.735  0.7375 0.7265 0.732  0.741  0.7455
+ 0.7305 0.7245 0.733  0.7445 0.7315 0.7395 0.7365 0.737  0.729  0.7355
+ 0.746  0.7315 0.7335 0.735  0.733  0.736  0.7495 0.739  0.7365 0.752
+ 0.7405 0.746  0.735  0.7345 0.7395 0.727  0.744  0.743  0.7395 0.7415
+ 0.739  0.7435 0.735  0.7425 0.737  0.7365 0.743  0.7415 0.745  0.7395
+ 0.735  0.7375 0.745  0.737  0.739  0.739  0.7305 0.736  0.7405 0.7385
+ 0.7495 0.748  0.739  0.7565 0.74   0.7355 0.7355 0.736  0.747  0.754
+ 0.7535 0.737  0.7495 0.7425 0.742  0.7405 0.7465 0.756  0.7485 0.7535
+ 0.74   0.749  0.746  0.7515 0.7505 0.7395 0.76   0.731  0.738  0.748
+ 0.755  0.7495 0.739  0.7445 0.746  0.7385 0.747  0.753  0.744  0.755
+ 0.75   0.7485 0.739  0.7535 0.743  0.752  0.743  0.742  0.758  0.751
+ 0.76   0.7535 0.7565 0.757  0.7515 0.7325 0.748  0.7385 0.7385 0.7445
+ 0.7395 0.7395 0.761  0.7485 0.7505 0.7585 0.75   0.7475 0.743  0.7445
+ 0.7475 0.752  0.74   0.7555 0.7425 0.7465 0.7455 0.739  0.75   0.7435
+ 0.7485 0.759  0.746  0.749  0.746  0.739  0.762  0.761  0.7555 0.7475
+ 0.7485 0.753  0.754  0.766  0.7615 0.744  0.744  0.756  0.7555 0.7475
+ 0.746  0.746  0.7685 0.7575 0.7525 0.753  0.7555 0.756  0.753  0.7505
+ 0.7605 0.743  0.761  0.7605 0.7575 0.758  0.7615 0.7585 0.761  0.7635
+ 0.7535 0.7545 0.759  0.75   0.755  0.764  0.7595 0.7605 0.758  0.76
+ 0.757  0.748  0.7545 0.738  0.7555 0.759  0.7505 0.7695 0.7615 0.769
+ 0.7575 0.7675 0.76   0.7565 0.764  0.764  0.741  0.753  0.7555 0.7555
+ 0.7675 0.763  0.7635 0.7635 0.7675 0.769  0.7725 0.762  0.7595 0.7645
+ 0.767  0.7765 0.7675 0.767  0.765  0.771  0.7545 0.758  0.765  0.762
+ 0.7685 0.7655 0.762  0.7715 0.768  0.764  0.7735 0.763  0.7705 0.7755
+ 0.776  0.7595 0.7765 0.7685 0.7725 0.7835 0.7635 0.7735 0.7645 0.7655
+ 0.772  0.768  0.7655 0.768  0.779  0.7815 0.771  0.7645 0.7725 0.7685
+ 0.7645 0.7675 0.761  0.7755 0.7685 0.7705 0.766  0.776  0.7695 0.7815
+ 0.7795 0.77   0.7715 0.77   0.762  0.7805 0.7785 0.7775 0.764  0.7685
+ 0.7675 0.774  0.7785 0.774  0.772  0.7725 0.7795 0.765  0.7705 0.7785
+ 0.772  0.7745 0.7715 0.785  0.763  0.7735 0.782  0.765  0.769  0.7675
+ 0.7675 0.7695 0.7665 0.778  0.77   0.781  0.7725 0.7685 0.782  0.7775
+ 0.7845 0.7915 0.7855 0.772  0.768  0.7755 0.776  0.7805 0.772  0.7775
+ 0.7655 0.7705 0.768  0.779  0.77   0.777  0.773  0.78   0.782  0.776
+ 0.7725 0.7745 0.7795 0.781  0.7815 0.7835 0.7695 0.77   0.7755 0.7725
+ 0.774  0.784  0.7785 0.7745 0.778  0.7715 0.767  0.79   0.7605 0.781
+ 0.774  0.78   0.7865 0.787  0.7765 0.785  0.786  0.7805 0.773  0.7775
+ 0.7775 0.785  0.7825 0.7805 0.7835 0.775  0.7765 0.784  0.772  0.776
+ 0.7825 0.7875 0.7845 0.7805 0.7595 0.784  0.781  0.7755 0.774  0.7695
+ 0.775  0.7735 0.787  0.7765 0.7925 0.7785 0.79   0.773  0.7905 0.7765
+ 0.7785 0.7725 0.7705 0.773  0.7725 0.788  0.782  0.791  0.7735 0.775
+ 0.7795 0.79   0.7995 0.779  0.7895 0.7775 0.7865 0.79   0.788  0.786
+ 0.78   0.775  0.7955 0.7985 0.787  0.781  0.79   0.79   0.7775 0.7835
+ 0.7825 0.7905 0.791  0.788  0.785  0.785  0.782  0.777  0.778  0.7825
+ 0.7765 0.784  0.781  0.7835 0.786  0.7735 0.792  0.784  0.7805 0.78
+ 0.7805 0.7805 0.78   0.7865 0.7845 0.781  0.779  0.7895 0.79   0.781
+ 0.7885 0.7845 0.789  0.783  0.7855 0.7825 0.7905 0.7915 0.7885 0.7945
+ 0.789  0.784  0.791  0.7825 0.787  0.7785 0.785  0.778  0.783  0.7815
+ 0.786  0.79   0.795  0.7885 0.792  0.78   0.784  0.79   0.789  0.7955
+ 0.7815 0.7915 0.791  0.786  0.7865 0.796  0.786  0.8025 0.788  0.781
+ 0.781  0.7905 0.787  0.793  0.7935 0.785  0.789  0.7925 0.7815 0.7865
+ 0.7985 0.79   0.7955 0.792  0.7955 0.791  0.795  0.7935 0.7875 0.795
+ 0.807  0.8005 0.7735 0.7975 0.783  0.8015 0.7895 0.797  0.787  0.7955
+ 0.797  0.789  0.7835 0.7865 0.7985 0.793  0.7855 0.7915 0.7995 0.7955
+ 0.789  0.798  0.788  0.799  0.7865 0.781  0.7905 0.797  0.793  0.795
+ 0.7925 0.787  0.788  0.7905 0.783  0.7855 0.786  0.793  0.7875 0.8065
+ 0.795  0.782  0.7895 0.7935 0.793  0.788  0.7885 0.7985 0.7945 0.7865
+ 0.797  0.789  0.797  0.7945 0.799  0.799  0.8055 0.7945 0.7905 0.7865
+ 0.797  0.784  0.7955 0.793  0.794  0.7975 0.7835 0.8025 0.797  0.793
+ 0.791  0.789  0.794  0.784  0.791  0.787  0.7875 0.793  0.7945 0.8045
+ 0.804  0.7905 0.7795 0.8025 0.784  0.7995 0.802  0.79   0.7905 0.788 ]
+
+Maximum possible average reward over 2000 tasks: 1.549827877837986</code></pre>
+</div>
+</div>
+</section>
+<section id="overview-of-initialization-and-run-phases" class="level2">
+<h2 class="anchored" data-anchor-id="overview-of-initialization-and-run-phases">Overview of Initialization and Run Phases</h2>
+<section id="initialization-phase" class="level3">
+<h3 class="anchored" data-anchor-id="initialization-phase">Initialization Phase</h3>
+<p>Before any runs begin, the program undergoes an <strong>initialization phase</strong> consisting of two main functions: 1. <strong><code>setup()</code></strong>: Prepares the environment by setting up the number of arms, true action values, and random states. 2. <strong><code>init()</code></strong>: Resets the estimated action values and action counts before each run.</p>
+</section>
+<section id="run-phase" class="level3">
+<h3 class="anchored" data-anchor-id="run-phase">Run Phase</h3>
+<p>Once initialized, the program executes <strong>runs</strong> where in each run, the agent interacts with the bandit by selecting actions, receiving rewards, and updating its estimates. We’ll focus on the <strong>first two steps</strong> of a <strong>single run</strong> to observe parameter evolutions.</p>
+<hr>
+</section>
+</section>
+<section id="detailed-initialization-phase" class="level2">
+<h2 class="anchored" data-anchor-id="detailed-initialization-phase">Detailed Initialization Phase</h2>
+<section id="global-parameters-and-their-starting-values" class="level3">
+<h3 class="anchored" data-anchor-id="global-parameters-and-their-starting-values">Global Parameters and Their Starting Values</h3>
+<p>Let’s list and describe the main parameters involved:</p>
+<table class="table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 46%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Description</th>
+<th>Starting Value After <code>setup()</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>n</code></td>
+<td>Number of arms (actions)</td>
+<td><code>10</code></td>
+</tr>
+<tr class="even">
+<td><code>epsilon</code></td>
+<td>Exploration rate</td>
+<td><code>0.1</code></td>
+</tr>
+<tr class="odd">
+<td><code>max_num_tasks</code></td>
+<td>Total number of tasks (runs)</td>
+<td><code>2000</code></td>
+</tr>
+<tr class="even">
+<td><code>Q_star</code></td>
+<td>True action-value matrix <code>(n x max_num_tasks)</code></td>
+<td>Initialized with random values from N(0,1)</td>
+</tr>
+<tr class="odd">
+<td><code>Q</code></td>
+<td>Estimated action values <code>(n,)</code></td>
+<td><code>[0.0, 0.0, ..., 0.0]</code> (length <code>n</code>)</td>
+</tr>
+<tr class="even">
+<td><code>n_a</code></td>
+<td>Action selection counts <code>(n,)</code></td>
+<td><code>[0, 0, ..., 0]</code> (length <code>n</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>randomness</code></td>
+<td>List of <code>RandomState</code> instances for reproducibility</td>
+<td><code>[RandomState(seed=0), RandomState(seed=1), ..., RandomState(seed=1999)]</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> For simplicity, we’ll consider a single run (e.g., <code>run_num = 0</code>) within the total <code>max_num_tasks</code>.</p>
+</section>
+<section id="function-setup" class="level3">
+<h3 class="anchored" data-anchor-id="function-setup">Function: <code>setup()</code></h3>
+<p>This function initializes the parameters as follows:</p>
+<ol type="1">
+<li><strong><code>n</code></strong> is set to <code>10</code>, indicating there are 10 arms/actions.</li>
+<li><strong><code>Q</code></strong> is initialized as a NumPy array of zeros with length <code>10</code>: <span class="math display">\[
+Q = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+\]</span></li>
+<li><strong><code>n_a</code></strong> is initialized as a NumPy array of zeros (integer type) with length <code>10</code>: <span class="math display">\[
+n\_a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+\]</span></li>
+<li><strong><code>Q_star</code></strong> is a <code>(10 x 2000)</code> matrix where each element is drawn from a standard normal distribution <span class="math inline">\(\mathcal{N}(0, 1)\)</span>. For example: <span class="math display">\[
+Q\_star = \begin{bmatrix}
+Q^*_{0,0} &amp; Q^*_{0,1} &amp; \dots &amp; Q^*_{0,1999} \\
+Q^*_{1,0} &amp; Q^*_{1,1} &amp; \dots &amp; Q^*_{1,1999} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+Q^*_{9,0} &amp; Q^*_{9,1} &amp; \dots &amp; Q^*_{9,1999}
+\end{bmatrix}
+\]</span></li>
+<li><strong><code>randomness</code></strong> is a list of <code>RandomState</code> instances, each initialized with a unique seed (e.g., <code>seed=0</code> for <code>task_num=0</code>, <code>seed=1</code> for <code>task_num=1</code>, etc.) to ensure reproducibility across runs.</li>
+</ol>
+</section>
+<section id="function-init" class="level3">
+<h3 class="anchored" data-anchor-id="function-init">Function: <code>init()</code></h3>
+<p>Before each run, <code>init()</code> resets the estimated values and action counts:</p>
+<ol type="1">
+<li><strong><code>Q</code></strong> is reset to zeros: <span class="math display">\[
+Q = [0.0, 0.0, ..., 0.0] \quad (\text{length } 10)
+\]</span></li>
+<li><strong><code>n_a</code></strong> is reset to zeros: <span class="math display">\[
+n\_a = [0, 0, ..., 0] \quad (\text{length } 10)
+\]</span></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="simulation-of-a-single-run-first-two-steps" class="level2">
+<h2 class="anchored" data-anchor-id="simulation-of-a-single-run-first-two-steps">Simulation of a Single Run: First Two Steps</h2>
+<p>Let’s walk through the first two steps of a <strong>single run</strong> (<code>run_num = 0</code>). We’ll assume <code>num_steps = 2</code> for simplicity.</p>
+<section id="initial-setup-for-the-run" class="level3">
+<h3 class="anchored" data-anchor-id="initial-setup-for-the-run">Initial Setup for the Run</h3>
+<ol type="1">
+<li><strong>Identifying the Optimal Action (<code>a*</code>):</strong>
+<ul>
+<li>For <code>run_num = 0</code>, the program identifies the optimal action <code>a*</code> by finding the action with the highest true value in <code>Q_star</code> for <code>task_num = 0</code>.</li>
+<li>Suppose: <span class="math display">\[
+Q^*[:,0] = [0.5, -0.2, 1.0, 0.3, -0.5, 0.8, -1.2, 0.7, 0.4, -0.1]
+\]</span></li>
+<li>The optimal action is: <span class="math display">\[
+a* = \arg\max_{a} Q^*_{a,0} = 2 \quad (\text{since } Q^*_{2,0} = 1.0 \text{ is the highest})
+\]</span></li>
+</ul></li>
+<li><strong>Resetting Estimates (<code>init()</code>):</strong>
+<ul>
+<li><strong><code>Q</code></strong> and <strong><code>n_a</code></strong> are reset to zeros as described earlier.</li>
+</ul></li>
+<li><strong>Setting the Random State:</strong>
+<ul>
+<li>The random state for <code>run_num = 0</code> is set using: <span class="math display">\[
+rs = randomness[0] \quad (\text{RandomState with } seed=0)
+\]</span></li>
+</ul></li>
+</ol>
+</section>
+<section id="step-1-time-step-0" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-time-step-0">Step 1: Time-Step 0</h3>
+<section id="action-selection-epsilon-greedy-strategy" class="level4">
+<h4 class="anchored" data-anchor-id="action-selection-epsilon-greedy-strategy">Action Selection: Epsilon-Greedy Strategy</h4>
+<ol type="1">
+<li><p><strong>Decision Making:</strong></p>
+<ul>
+<li>With probability <code>epsilon = 0.1</code>, select a random action (exploration).</li>
+<li>With probability <code>1 - epsilon = 0.9</code>, select the action with the highest estimated value (exploitation).</li>
+</ul></li>
+<li><p><strong>Initial <code>Q</code>:</strong> <span class="math display">\[
+Q = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+\]</span></p></li>
+<li><p><strong>Exploration vs.&nbsp;Exploitation:</strong></p>
+<ul>
+<li>Suppose <code>rs.rand()</code> generates <code>0.05</code> (&lt; <code>0.1</code>), so the agent decides to <strong>explore</strong>.</li>
+<li>A random action is selected, say <code>a = 7</code>.</li>
+</ul></li>
+</ol>
+</section>
+<section id="receiving-reward" class="level4">
+<h4 class="anchored" data-anchor-id="receiving-reward">Receiving Reward</h4>
+<ol type="1">
+<li><strong>Generating Reward:</strong>
+<ul>
+<li>Reward formula: <span class="math display">\[
+r = Q^*_{a,0} + \text{Noise}
+\]</span></li>
+<li>Suppose: <span class="math display">\[
+Q^*_{7,0} = 0.7 \quad (\text{from } Q^*[:,0])
+\]</span></li>
+<li>Noise sampled from <span class="math inline">\(\mathcal{N}(0,1)\)</span>, say <code>Noise = -0.3</code>.</li>
+<li>Thus: <span class="math display">\[
+r = 0.7 + (-0.3) = 0.4
+\]</span></li>
+</ul></li>
+</ol>
+</section>
+<section id="updating-estimates" class="level4">
+<h4 class="anchored" data-anchor-id="updating-estimates">Updating Estimates</h4>
+<ol type="1">
+<li><strong>Incrementing Action Count:</strong> <span class="math display">\[
+n\_a[7] = 0 + 1 = 1
+\]</span></li>
+<li><strong>Updating Estimated Value <code>Q[a]</code>:</strong> <span class="math display">\[
+Q[7] = Q[7] + \frac{(r - Q[7])}{n\_a[7]} = 0.0 + \frac{(0.4 - 0.0)}{1} = 0.4
+\]</span>
+<ul>
+<li>Updated <code>Q</code>: <span class="math display">\[
+Q = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.0, 0.0]
+\]</span></li>
+</ul></li>
+<li><strong>Accumulating Rewards and Optimal Action Tracking:</strong>
+<ul>
+<li><strong>Average Reward at Step 0:</strong> <span class="math display">\[
+\text{average\_reward}[0] = 0.0 + 0.4 = 0.4
+\]</span></li>
+<li><strong>Probability of Selecting Optimal Action:</strong>
+<ul>
+<li>Since <code>a = 7</code> ≠ <code>a* = 2</code>, no increment. <span class="math display">\[
+\text{prob\_a\_star}[0] = 0.0 + 0 = 0.0
+\]</span></li>
+</ul></li>
+</ul></li>
+</ol>
+</section>
+</section>
+<section id="step-2-time-step-1" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-time-step-1">Step 2: Time-Step 1</h3>
+<section id="action-selection-epsilon-greedy-strategy-1" class="level4">
+<h4 class="anchored" data-anchor-id="action-selection-epsilon-greedy-strategy-1">Action Selection: Epsilon-Greedy Strategy</h4>
+<ol type="1">
+<li><p><strong>Decision Making:</strong></p>
+<ul>
+<li>With probability <code>epsilon = 0.1</code>, select a random action.</li>
+<li>With probability <code>1 - epsilon = 0.9</code>, select the action with the highest estimated value.</li>
+</ul></li>
+<li><p><strong>Current <code>Q</code>:</strong> <span class="math display">\[
+Q = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.0, 0.0]
+\]</span></p></li>
+<li><p><strong>Exploration vs.&nbsp;Exploitation:</strong></p>
+<ul>
+<li>Suppose <code>rs.rand()</code> generates <code>0.85</code> (&gt; <code>0.1</code>), so the agent decides to <strong>exploit</strong>.</li>
+<li>The agent selects the action with the highest <code>Q</code> value.</li>
+<li>Current <code>Q</code>: <span class="math display">\[
+Q[7] = 0.4 \quad \text{(highest)}, \quad \text{others} = 0.0
+\]</span></li>
+<li>Thus, <code>a = 7</code>.</li>
+</ul></li>
+</ol>
+</section>
+<section id="receiving-reward-1" class="level4">
+<h4 class="anchored" data-anchor-id="receiving-reward-1">Receiving Reward</h4>
+<ol type="1">
+<li><strong>Generating Reward:</strong>
+<ul>
+<li>Reward formula: <span class="math display">\[
+r = Q^*_{7,0} + \text{Noise}
+\]</span></li>
+<li>Suppose: <span class="math display">\[
+Q^*_{7,0} = 0.7
+\]</span></li>
+<li>Noise sampled from <span class="math inline">\(\mathcal{N}(0,1)\)</span>, say <code>Noise = 0.2</code>.</li>
+<li>Thus: <span class="math display">\[
+r = 0.7 + 0.2 = 0.9
+\]</span></li>
+</ul></li>
+</ol>
+</section>
+<section id="updating-estimates-1" class="level4">
+<h4 class="anchored" data-anchor-id="updating-estimates-1">Updating Estimates</h4>
+<ol type="1">
+<li><strong>Incrementing Action Count:</strong> <span class="math display">\[
+n\_a[7] = 1 + 1 = 2
+\]</span></li>
+<li><strong>Updating Estimated Value <code>Q[a]</code>:</strong> <span class="math display">\[
+Q[7] = 0.4 + \frac{(0.9 - 0.4)}{2} = 0.4 + 0.25 = 0.65
+\]</span>
+<ul>
+<li>Updated <code>Q</code>: <span class="math display">\[
+Q = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.65, 0.0, 0.0]
+\]</span></li>
+</ul></li>
+<li><strong>Accumulating Rewards and Optimal Action Tracking:</strong>
+<ul>
+<li><strong>Average Reward at Step 1:</strong> <span class="math display">\[
+\text{average\_reward}[1] = 0.0 + 0.9 = 0.9
+\]</span></li>
+<li><strong>Probability of Selecting Optimal Action:</strong>
+<ul>
+<li>Since <code>a = 7</code> ≠ <code>a* = 2</code>, no increment. <span class="math display">\[
+\text{prob\_a\_star}[1] = 0.0 + 0 = 0.0
+\]</span></li>
+</ul></li>
+</ul></li>
+</ol>
+<hr>
+</section>
+</section>
+</section>
+<section id="summary-of-parameter-evolutions-after-two-steps" class="level2">
+<h2 class="anchored" data-anchor-id="summary-of-parameter-evolutions-after-two-steps">Summary of Parameter Evolutions After Two Steps</h2>
+<p>Let’s summarize the parameter values after the <strong>initialization phase</strong> and after <strong>each of the first two steps</strong>.</p>
+<section id="after-setup-and-init" class="level3">
+<h3 class="anchored" data-anchor-id="after-setup-and-init">After <code>setup()</code> and <code>init()</code></h3>
+<table class="table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 79%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>n</code></td>
+<td><code>10</code></td>
+</tr>
+<tr class="even">
+<td><code>epsilon</code></td>
+<td><code>0.1</code></td>
+</tr>
+<tr class="odd">
+<td><code>max_num_tasks</code></td>
+<td><code>2000</code></td>
+</tr>
+<tr class="even">
+<td><code>Q_star</code></td>
+<td>Random values from <span class="math inline">\(\mathcal{N}(0,1)\)</span> per arm and task</td>
+</tr>
+<tr class="odd">
+<td><code>Q</code></td>
+<td><code>[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]</code></td>
+</tr>
+<tr class="even">
+<td><code>n_a</code></td>
+<td><code>[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]</code></td>
+</tr>
+<tr class="odd">
+<td><code>randomness</code></td>
+<td><code>[RandomState(seed=0), RandomState(seed=1), ..., RandomState(seed=1999)]</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="after-step-1-time-step-0" class="level3">
+<h3 class="anchored" data-anchor-id="after-step-1-time-step-0">After Step 1 (Time-Step 0)</h3>
+<table class="table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 79%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Q</code></td>
+<td><code>[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.0, 0.0]</code></td>
+</tr>
+<tr class="even">
+<td><code>n_a</code></td>
+<td><code>[0, 0, 0, 0, 0, 0, 0, 1, 0, 0]</code></td>
+</tr>
+<tr class="odd">
+<td><code>average_reward</code></td>
+<td><code>[0.4, 0.0, ..., 0.0]</code> (only first element updated)</td>
+</tr>
+<tr class="even">
+<td><code>prob_a_star</code></td>
+<td><code>[0.0, 0.0, ..., 0.0]</code> (no increment, since <code>a ≠ a*</code>)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="after-step-2-time-step-1" class="level3">
+<h3 class="anchored" data-anchor-id="after-step-2-time-step-1">After Step 2 (Time-Step 1)</h3>
+<table class="table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 79%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Value Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Q</code></td>
+<td><code>[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.65, 0.0, 0.0]</code></td>
+</tr>
+<tr class="even">
+<td><code>n_a</code></td>
+<td><code>[0, 0, 0, 0, 0, 0, 0, 2, 0, 0]</code></td>
+</tr>
+<tr class="odd">
+<td><code>average_reward</code></td>
+<td><code>[0.4, 0.9, ..., 0.0]</code> (first two elements updated)</td>
+</tr>
+<tr class="even">
+<td><code>prob_a_star</code></td>
+<td><code>[0.0, 0.0, ..., 0.0]</code> (no increments)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="visual-representation-of-evolutions" class="level2">
+<h2 class="anchored" data-anchor-id="visual-representation-of-evolutions">Visual Representation of Evolutions</h2>
+<p>To further clarify, here’s a <strong>step-by-step table</strong> capturing the evolution of key parameters through the first two steps:</p>
+<table class="table">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 19%">
+<col style="width: 16%">
+<col style="width: 10%">
+<col style="width: 11%">
+<col style="width: 12%">
+<col style="width: 13%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>Action Selection Strategy</th>
+<th>Selected Action (<code>a</code>)</th>
+<th>Reward (<code>r</code>)</th>
+<th>Updated <code>Q[a]</code></th>
+<th>Updated <code>n_a[a]</code></th>
+<th><code>average_reward</code></th>
+<th><code>prob_a_star</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Initial</strong></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td><code>[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]</code></td>
+<td><code>[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]</code></td>
+<td><code>[0.0, 0.0, ..., 0.0]</code></td>
+<td><code>[0.0, 0.0, ..., 0.0]</code></td>
+</tr>
+<tr class="even">
+<td><strong>1</strong></td>
+<td>Epsilon-Greedy (Exploration)</td>
+<td><code>7</code> (Random)</td>
+<td><code>0.4</code></td>
+<td><code>Q[7] = 0.4</code></td>
+<td><code>n_a[7] = 1</code></td>
+<td><code>average_reward[0] = 0.4</code></td>
+<td><code>prob_a_star[0] = 0.0</code></td>
+</tr>
+<tr class="odd">
+<td><strong>2</strong></td>
+<td>Epsilon-Greedy (Exploitation)</td>
+<td><code>7</code> (Max <code>Q</code>)</td>
+<td><code>0.9</code></td>
+<td><code>Q[7] = 0.65</code></td>
+<td><code>n_a[7] = 2</code></td>
+<td><code>average_reward[1] = 0.9</code></td>
+<td><code>prob_a_star[1] = 0.0</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong></p>
+<ul>
+<li><strong>Action Selection:</strong>
+<ul>
+<li><strong>Step 1:</strong> Due to exploration (<code>epsilon = 0.1</code>), a random action (<code>7</code>) was selected.</li>
+<li><strong>Step 2:</strong> With higher confidence in <code>a = 7</code> (since <code>Q[7] = 0.4</code>), exploitation led to selecting <code>a = 7</code> again.</li>
+</ul></li>
+<li><strong>Rewards:</strong>
+<ul>
+<li><strong>Step 1:</strong> Received <code>0.4</code> from <code>a = 7</code>.</li>
+<li><strong>Step 2:</strong> Received <code>0.9</code> from <code>a = 7</code>.</li>
+</ul></li>
+<li><strong>Updates:</strong>
+<ul>
+<li><strong><code>Q</code> and <code>n_a</code>:</strong> Reflect the updated estimates and counts for action <code>7</code>.</li>
+<li><strong><code>average_reward</code>:</strong> Accumulates rewards for averaging across runs (not fully relevant in a single run, but essential in multiple runs).</li>
+<li><strong><code>prob_a_star</code>:</strong> Tracks the frequency of selecting the optimal action (<code>a* = 2</code>). Since neither step selected <code>a*</code>, it remains <code>0.0</code>.</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="implications-of-initial-steps" class="level2">
+<h2 class="anchored" data-anchor-id="implications-of-initial-steps">Implications of Initial Steps</h2>
+<section id="a.-learning-through-action-selection-and-reward-reception" class="level3">
+<h3 class="anchored" data-anchor-id="a.-learning-through-action-selection-and-reward-reception"><strong>a. Learning Through Action Selection and Reward Reception</strong></h3>
+<ul>
+<li><p><strong>Action Selection Strategy:</strong> The epsilon-greedy approach balances exploration and exploitation, allowing the agent to discover potentially better actions over time while exploiting known good actions to maximize rewards.</p></li>
+<li><p><strong>Updating Estimates (<code>Q</code>):</strong> Each reward received refines the agent’s estimate of an action’s value. Even if an action is suboptimal initially, sufficient exploration can lead the agent to recognize and favor better actions.</p></li>
+</ul>
+</section>
+<section id="b.-tracking-performance-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="b.-tracking-performance-metrics"><strong>b. Tracking Performance Metrics</strong></h3>
+<ul>
+<li><p><strong><code>average_reward</code>:</strong> Over multiple runs, this metric helps in understanding the agent’s performance progression, indicating how well it learns to maximize rewards.</p></li>
+<li><p><strong><code>prob_a_star</code>:</strong> Measures the frequency of selecting the optimal action, providing insight into the effectiveness of the exploration-exploitation strategy.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="extending-beyond-two-steps" class="level2">
+<h2 class="anchored" data-anchor-id="extending-beyond-two-steps">Extending Beyond Two Steps</h2>
+<p>While our focus is on the <strong>first two steps</strong>, it’s essential to recognize how parameters continue to evolve:</p>
+<ul>
+<li><strong>Subsequent Steps:</strong>
+<ul>
+<li>The agent continues selecting actions based on the updated <code>Q</code> and <code>n_a</code>.</li>
+<li>Over time, <code>Q</code> values converge towards the true action values (<code>Q_star</code>) as the agent gathers more data.</li>
+<li>The agent increasingly favors optimal actions, especially if exploration is sufficient to identify them.</li>
+</ul></li>
+<li><strong>Long-Term Behavior:</strong>
+<ul>
+<li><strong>Convergence:</strong> The estimated values <code>Q</code> approach the true values <code>Q_star</code> as the number of steps increases.</li>
+<li><strong>Optimal Action Selection:</strong> The probability of selecting the optimal action (<code>prob_a_star</code>) increases, ideally approaching <code>1.0</code> as the agent becomes more confident in its estimates.</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Understanding the <strong>initialization phase</strong> and observing <strong>parameter evolutions</strong> through the <strong>first few steps</strong> of a run provides valuable insights into the agent’s learning process in the k-multiarmed bandit problem. Here’s a recap of key takeaways:</p>
+<ul>
+<li><strong>Initialization:</strong>
+<ul>
+<li><strong><code>setup()</code></strong> establishes the problem’s structure, defining the number of actions, true values, and ensuring reproducible randomness.</li>
+<li><strong><code>init()</code></strong> prepares the agent for a fresh run by resetting its estimates and counts.</li>
+</ul></li>
+<li><strong>First Steps of a Run:</strong>
+<ul>
+<li><strong>Action Selection:</strong> Balances exploration and exploitation through the epsilon-greedy strategy.</li>
+<li><strong>Reward Reception and Learning:</strong> Updates estimates based on received rewards, refining future action selections.</li>
+<li><strong>Performance Metrics:</strong> Tracks average rewards and the frequency of selecting the optimal action to assess learning progress.</li>
+</ul></li>
+</ul>
+<p>By meticulously initializing parameters and methodically updating them through interactions, the agent progressively enhances its performance, exemplifying fundamental reinforcement learning principles.</p>
+<p>Based on the lecture slides you’ve provided, here are the additional details and missing information that can be integrated into your original notes:</p>
+<hr>
+</section>
+<section id="complete-notes-on-markov-decision-processes-mdps" class="level1">
+<h1>Complete Notes on Markov Decision Processes (MDPs)</h1>
+<section id="deterministic-markovian-policies" class="level2">
+<h2 class="anchored" data-anchor-id="deterministic-markovian-policies">Deterministic Markovian Policies</h2>
+<section id="optimality-criteria" class="level3">
+<h3 class="anchored" data-anchor-id="optimality-criteria">Optimality Criteria</h3>
+<ul>
+<li><strong>Expected Total Reward</strong>: The objective is to choose a policy that maximizes the expected total reward over a finite horizon.</li>
+<li><strong>Random Reward Sequence</strong>:
+<ul>
+<li>The policy generates a reward sequence <span class="math inline">\(R = (R_0, \ldots, R_T)\)</span> where: <span class="math display">\[
+R_n = r^n_{X_n}(Y_n) \quad \text{for } n &lt; T \quad \text{and} \quad R_T = r^T_{X_T}
+\]</span></li>
+<li><span class="math inline">\(R\)</span>: The set of all possible reward sequences generated by the policy.</li>
+<li>The goal is to choose a policy such that the corresponding random reward sequence is as “large” as possible.</li>
+</ul></li>
+<li><strong>Comparing Random Sequences</strong>:
+<ul>
+<li>Often done using partial ordering and stochastic ordering.</li>
+<li>Not all policies are comparable under stochastic ordering.</li>
+</ul></li>
+<li><strong>Evaluation Criterion</strong>: Expected total reward is a suitable criterion for finite-horizon MDPs.</li>
+</ul>
+<hr>
+</section>
+<section id="partial-and-stochastic-ordering" class="level3">
+<h3 class="anchored" data-anchor-id="partial-and-stochastic-ordering">Partial and Stochastic Ordering</h3>
+<ul>
+<li><strong>Partial Ordering</strong>:
+<ul>
+<li>Transitive: <span class="math inline">\(u \succ v\)</span> and <span class="math inline">\(v \succ w\)</span> implies <span class="math inline">\(u \succ w\)</span>.</li>
+<li>Reflexive: <span class="math inline">\(w \succ w\)</span>.</li>
+<li>Antisymmetric: <span class="math inline">\(u \succ v\)</span> and <span class="math inline">\(v \succ u\)</span> implies <span class="math inline">\(u = v\)</span>.</li>
+<li>Comparable: <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> are comparable if either <span class="math inline">\(u \succ v\)</span> or <span class="math inline">\(v \succ u\)</span>.</li>
+</ul></li>
+<li><strong>Stochastic Partial Ordering</strong>:
+<ul>
+<li>Random vector <span class="math inline">\(U\)</span> is stochastically greater than <span class="math inline">\(V\)</span> if: <span class="math display">\[
+E[f(U_1, \dots, U_n)] \geq E[f(V_1, \dots, V_n)]
+\]</span> for all non-decreasing functions <span class="math inline">\(f\)</span>.</li>
+<li>Example provided with two policies <span class="math inline">\(\sigma\)</span> and <span class="math inline">\(\nu\)</span> illustrating that policies are not always comparable under stochastic ordering.</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="utility-and-expected-utility" class="level3">
+<h3 class="anchored" data-anchor-id="utility-and-expected-utility">Utility and Expected Utility</h3>
+<ul>
+<li><strong>Utility Function</strong>: A real-valued function that represents the decision-maker’s preference for rewards.</li>
+<li><strong>Expected Utility</strong>:
+<ul>
+<li>Provides a total ordering on equivalence classes of outcomes.</li>
+<li>The expected utility for a policy <span class="math inline">\(\sigma\)</span> is given by: <span class="math display">\[
+E_{\sigma}[\Psi(R)] = \sum_{(\rho_0, \dots, \rho_T) \in R} \Psi(\rho_0, \dots, \rho_T) P_{\sigma}(R(\rho_0, \dots, \rho_T))
+\]</span></li>
+</ul></li>
+<li><strong>Expected Total Reward</strong>:
+<ul>
+<li>If <span class="math inline">\(\Psi(\rho_0, \dots, \rho_T) = \sum_{s=0}^{T} \rho_s\)</span>, then the expected total reward is: <span class="math display">\[
+V^\sigma_T(i) = E^\sigma_i\left[\sum_{n=1}^{T-1} r^n_{X_n}(Y_n) + r^T_{X_T}\right]
+\]</span></li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="optimal-policies" class="level3">
+<h3 class="anchored" data-anchor-id="optimal-policies">Optimal Policies</h3>
+<ul>
+<li><strong>Optimal Policy</strong>: A policy <span class="math inline">\(\sigma^*\)</span> is optimal if: <span class="math display">\[
+V^{\sigma^*}_T(i) \geq V^\sigma_T(i), \quad \forall \sigma \in \Pi_{HR}
+\]</span> where <span class="math inline">\(\Pi_{HR}\)</span> is the set of history-dependent policies.</li>
+<li><strong>ε-Optimal Policy</strong>: A policy <span class="math inline">\(\sigma^*_\epsilon\)</span> is ε-optimal if: <span class="math display">\[
+V^{\sigma^*_\epsilon}_T(i) + \epsilon &gt; V^\sigma_T(i)
+\]</span></li>
+</ul>
+<hr>
+</section>
+<section id="evaluation-algorithms-for-fixed-policy" class="level3">
+<h3 class="anchored" data-anchor-id="evaluation-algorithms-for-fixed-policy">Evaluation Algorithms for Fixed Policy</h3>
+<ul>
+<li><strong>Finite-Horizon Policy Evaluation</strong>:
+<ul>
+<li>Total expected reward obtained by using a fixed policy <span class="math inline">\(\sigma\)</span> can be recursively computed for each time step <span class="math inline">\(n\)</span>, starting from the terminal time <span class="math inline">\(T\)</span>.</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="backward-induction-algorithm" class="level3">
+<h3 class="anchored" data-anchor-id="backward-induction-algorithm">Backward Induction Algorithm</h3>
+<ul>
+<li><strong>Step-by-Step Algorithm</strong>:
+<ol type="1">
+<li>Set <span class="math inline">\(n = T\)</span> and initialize <span class="math inline">\(u^\sigma_T(h_T) = r^T_{i_T}\)</span>.</li>
+<li>If <span class="math inline">\(n = 0\)</span>, stop. Otherwise, go to step 3.</li>
+<li>Set <span class="math inline">\(n := n - 1\)</span>. Compute: <span class="math display">\[
+u^\sigma_n(h_n) = r^n_{i_n}(\sigma^n_{h_n}) + \sum_{j \in S} P_{i_n j}(\sigma^n_{h_n}) u^\sigma_{n+1}(h_n, \sigma^n_{h_n}, j)
+\]</span></li>
+<li>Repeat until all values are computed.</li>
+</ol></li>
+</ul>
+<hr>
+</section>
+<section id="optimality-equations" class="level3">
+<h3 class="anchored" data-anchor-id="optimality-equations">Optimality Equations</h3>
+<ul>
+<li><strong>Bellman Equations</strong>: <span class="math display">\[
+u_n(h_n) = \sup_{a \in A(i_n)} \left[r^n_{i_n}(a) + \sum_{j \in S} P_{i_n j}(a) u_{n+1}(h_n, a, j)\right]
+\]</span></li>
+<li><strong>Principle of Optimality</strong>:
+<ul>
+<li>The optimal policy <span class="math inline">\(\sigma^*\)</span> maximizes the value function by choosing actions that maximize the expected total reward.</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="theorems-and-propositions" class="level3">
+<h3 class="anchored" data-anchor-id="theorems-and-propositions">Theorems and Propositions</h3>
+<ul>
+<li><strong>Theorem 4.2.1</strong>: Backward induction yields the expected total reward for a fixed policy.</li>
+<li><strong>Theorem 4.2.2</strong>: The same for randomized policies.</li>
+<li><strong>Theorem 4.3.2</strong>: Solutions to the optimality equations give the optimal returns and the basis for determining optimal policies.</li>
+<li><strong>Theorem 4.3.3</strong>: The principle of optimality guarantees that the backward induction algorithm produces an optimal policy.</li>
+<li><strong>Theorem 4.4.2</strong>: Deterministic Markov policies are optimal for finite-horizon MDPs.</li>
+<li><strong>Proposition 4.4.3</strong>: Under certain conditions (e.g., finite state and action spaces), there exists a deterministic Markov policy that is optimal.</li>
+</ul>
+<hr>
+</section>
+<section id="financial-options-as-an-mdp" class="level3">
+<h3 class="anchored" data-anchor-id="financial-options-as-an-mdp">Financial Options as an MDP</h3>
+<ul>
+<li><strong>State Space</strong>: Current price of the underlying asset, time to expiration, and value of the option.</li>
+<li><strong>Action Space</strong>: Exercise, hold, or trade the option.</li>
+<li><strong>Transition Probabilities</strong>: Derived from stochastic processes (e.g., binomial trees, geometric Brownian motion).</li>
+<li><strong>Reward Function</strong>: Payoff from exercising the option or holding it.</li>
+</ul>
+</section>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
