@@ -1,0 +1,15 @@
+---
+title: "Surrogate Modeling"
+author: "Witek ten Hove"
+format: revealjs
+---
+
+## Modeling
+
+![](https://xplane.com/wp-content/uploads/2020/04/Screen-Shot-2015-04-14-at-12.48.54-PM.png)
+
+## Modeling and complexity
+::: {.incremental}
+1.  Complexity that we do not fully understand --\> the stock market
+2.  Complexity that we do fully understand --\> a machine
+:::
