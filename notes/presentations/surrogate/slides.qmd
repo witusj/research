@@ -16,3 +16,11 @@ format: revealjs
 2.  Complexity we fully understand --\> [a workflow]{style="color: tomato"}
 ![](https://www.tagnos.com/wp-content/uploads/2021/04/diagram-workflow-automation.jpg)
 :::
+
+## Surrogate model
+
+## Scheduling problem
+
+## XGBoost modeling
+
+
