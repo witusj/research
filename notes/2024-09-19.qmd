@@ -1,0 +1,13 @@
+---
+title: "2024-09-19"
+author: "Witek ten Hove"
+format: html
+editor: visual
+jupyter: python3
+---
+
+Besproken met Joost en Ger:
+
+-   Regressor model trainen met iets grotere instantie en grotere spreiding van service times (10 - 30 min).
+
+-   Starten met local search experimenten en computation time vergelijken.

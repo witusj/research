@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Price Ticker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    #ticker-container {
+      width: 100%;
+      background-color: #333;
+      color: #fff;
+      padding: 10px 0;
+      position: fixed;
+      bottom: 0;
+    }
+
+    #ticker {
+      display: flex;
+      white-space: nowrap;
+      animation: scroll 10s linear infinite;
+    }
+
+    .stock {
+      margin-right: 50px;
+      font-size: 30px;
+    }
+
+    .stock span.price {
+      font-weight: bold;
+    }
+
+    .change {
+      margin-left: 10px;
+    }
+
+    .change.positive {
+      color: limegreen;
+    }
+
+    .change.negative {
+      color: red;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="ticker-container">
+  <div id="ticker">
+    <!-- Sample Stock Data -->
+    <div class="stock">AAPL: <span class="price">$216.79</span> <span class="change negative">-0.50</span></div>
+    <div class="stock">GOOGL: <span class="price">$160.28</span> <span class="change positive">+0.42</span></div>
+    <div class="stock">AMZN: <span class="price">$186.88</span> <span class="change positive">+0.15</span></div>
+    <div class="stock">NVDA: <span class="price">$115.59</span> <span class="change negative">-0.03</span></div>
+    <div class="stock">MSFT: <span class="price">$435.15</span> <span class="change">+0.00</span></div>
+  </div>
+</div>
+
+<script>
+  // Simulate stock price fluctuation
+  function randomizePrices() {
+    const stocks = document.querySelectorAll('.stock');
+    stocks.forEach(stock => {
+      const priceElement = stock.querySelector('.price');
+      const changeElement = stock.querySelector('.change');
+
+      let currentPrice = parseFloat(priceElement.textContent.substring(1));
+      let change = (Math.random() * 2 - 1).toFixed(2); // Random change between -1 and +1
+      let newPrice = (currentPrice + parseFloat(change)).toFixed(2);
+      priceElement.textContent = `$${newPrice}`;
+
+      // Update the change and color
+      changeElement.textContent = change >= 0 ? `+${change}` : change;
+      changeElement.className = `change ${change >= 0 ? 'positive' : 'negative'}`;
+    });
+  }
+
+  // Update prices every 5 seconds
+  setInterval(randomizePrices, 5000);
+</script>
+
+</body>
+</html>

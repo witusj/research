@@ -1,0 +1,18 @@
+---
+title: "Surrogate Modeling"
+author: "Witek ten Hove"
+format: revealjs
+---
+
+## Modeling
+
+![](https://xplane.com/wp-content/uploads/2020/04/Screen-Shot-2015-04-14-at-12.48.54-PM.png)
+
+## Modeling and complexity {background-iframe="ticker.html"}
+
+1.  Complexity we **not** fully understand --\> [the stock market]{style="color: tomato"}
+
+::: incremental
+2.  Complexity we fully understand --\> [a workflow]{style="color: tomato"}
+![](https://www.tagnos.com/wp-content/uploads/2021/04/diagram-workflow-automation.jpg)
+:::
