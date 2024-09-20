@@ -8,9 +8,13 @@ format: revealjs
 
 ![](https://xplane.com/wp-content/uploads/2020/04/Screen-Shot-2015-04-14-at-12.48.54-PM.png)
 
-## Modeling and complexity {background-iframe="ticker.html"}
+## Complexity and modeling
 
-1.  Complexity we **not** fully understand --\> [the stock market]{style="color: tomato"}
+![](https://www.theoptimizationexpert.com/wp-content/uploads/2017/01/analytics-evolution-1920x1200.jpg)
+
+## Complex systems {background-iframe="ticker.html"}
+
+1.  Complexity we do **not** fully understand --\> [the stock market]{style="color: tomato"}
 
 ::: incremental
 2.  Complexity we fully understand --\> [a workflow]{style="color: tomato"}
@@ -19,7 +23,17 @@ format: revealjs
 
 ## Surrogate model
 
+![](https://www.researchgate.net/publication/360665374/figure/fig1/AS:11431281095590254@1667960146000/The-principle-of-surrogate-modelling.jpg)
+
 ## Scheduling problem
+
+![](timeline.png)
+
+## Objective function
+
+## Solution path
+
+![](landscape-with-arrows.png)
 
 ## XGBoost modeling
 

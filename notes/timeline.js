@@ -12,6 +12,20 @@ function setup() {
 
   
   let interArrivalTimes = [0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 1.0];  // Inter-arrival times
+  function makeSchedule(iat) {
+    let sum = iat.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    let x = new Array(sum + 1).fill(0);
+    let t = 0.0;
+    
+    for (let i = 0; i < iat.length; i++) {
+        t += iat[i];
+        x[Math.floor(t)] += 1;
+    }
+
+    return x;
+  }
+  
+  let numberPatients = makeSchedule(interArrivalTimes);
   let serviceTimes = [0.6, 0.7, 0.5, 0.4, 0.0, 0.9, 0.7, 1.2];   // Service times for each process
   let waitingTimes = [0.0];  // Vector with waiting times
   let waitingIntervals = [[0, 0]]
@@ -40,15 +54,15 @@ function setup() {
   
   // Draw timeline
   stroke(0);
-  line(startTime, 150, end, 150);
+  line(startTime, 160, end, 160);
   
   for (let i = 0; i <= totalTime; i++) {
     let x = map(i, 0, totalTime, startTime, end);
-    line(x, 145, x, 155);
+    line(x, 155, x, 165);
     if(i == totalTime) {
-      text('T = ' + i, x, 170);
+      text('T = ' + i, x, 180);
     } else {
-      text('' + i, x, 170);
+      text('' + i, x, 180);
     }
     
   }
@@ -100,12 +114,21 @@ function setup() {
     }
   }
   
+  // Draw scheduled patients
+  fill(0);
+  noStroke();
+  for (let i = 0; i <= totalTime; i++) {
+    let x = map(i, 0, totalTime, startTime, end);
+      text('' + numberPatients[i], x + intervalWidth * 0.5, 140);
+  }
+  
   // Draw labels
   fill(0);
   noStroke();
   text('Waiting times', 60, 62.5);
   text('Service times', 60, 87.5);
   text('Idle times', 75, 112.5);
+  text('Scheduled', 70, 140);
 
 }
 
