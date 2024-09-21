@@ -31,10 +31,20 @@ format: revealjs
 
 ## Objective function
 
-## Solution path
+## Solution path {.scrollable}
 
-![](landscape-with-arrows.png)
+```{python}
+from functions import path_example
+path_example()
+```
 
-## XGBoost modeling
+## Gradient Boosting {.scrollable}
+
+```{python}
+from functions import gradient_boosting_example
+
+gradient_boosting_example()
+```
+
 
 

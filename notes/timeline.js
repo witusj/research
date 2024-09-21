@@ -117,7 +117,7 @@ function setup() {
   // Draw scheduled patients
   fill(0);
   noStroke();
-  for (let i = 0; i <= totalTime; i++) {
+  for (let i = 0; i < totalTime; i++) {
     let x = map(i, 0, totalTime, startTime, end);
       text('' + numberPatients[i], x + intervalWidth * 0.5, 140);
   }
@@ -128,7 +128,7 @@ function setup() {
   text('Waiting times', 60, 62.5);
   text('Service times', 60, 87.5);
   text('Idle times', 75, 112.5);
-  text('Scheduled', 70, 140);
+  text('Schedule', 70, 140);
 
 }
 
