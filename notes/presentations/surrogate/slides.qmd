@@ -1,7 +1,14 @@
 ---
 title: "Surrogate Modeling"
 author: "Witek ten Hove"
-format: revealjs
+format:
+   revealjs:
+     slideNumber: true
+     transition: 'fade'
+     controls: true
+     progress: true
+     history: true
+     previewLinks: true
 ---
 
 ## Modeling
@@ -17,19 +24,18 @@ format: revealjs
 1.  Complexity we do **not** fully understand --\> [the stock market]{style="color: tomato"}
 
 ::: incremental
-2.  Complexity we fully understand --\> [a workflow]{style="color: tomato"}
-![](https://www.tagnos.com/wp-content/uploads/2021/04/diagram-workflow-automation.jpg)
+2.  Complexity we fully understand --\> [a workflow]{style="color: tomato"} ![](https://www.tagnos.com/wp-content/uploads/2021/04/diagram-workflow-automation.jpg)
 :::
 
-## Surrogate model
+## Scheduling problem {.smaller}
 
-![](https://www.researchgate.net/publication/360665374/figure/fig1/AS:11431281095590254@1667960146000/The-principle-of-surrogate-modelling.jpg)
+![](timeline.png){.my2 width="1000"}
 
-## Scheduling problem
+::: incremental
+-   $\text{Let } x_t \in \{0, 1, \dots, N\} \text{ be the number of patient scheduled at the start of interval } t. \\ \text{A complete schedule is described by a vector } x = (x_1, x_2, \dots, x_T) \text{ with } \sum_{t=1}^{T} x_t = N. \\$
 
-![](timeline.png)
-
-## Objective function
+-   $\text{With some cost function } C(x) \text{ the problem can then be stated as:} \\ \color{tomato} {x^* = \arg \min_{x \in \mathbb{N}_0^T} C(x) \\} \text{subject to:} \\ \quad \sum_{t=1}^{T} x_t = N, \\ \quad x_t \in \mathbb{N}_0 \ \text{for} \ t = 1, 2, \dots, T$
+:::
 
 ## Solution path {.scrollable}
 
@@ -38,6 +44,17 @@ from functions import path_example
 path_example()
 ```
 
+##
+
+```{python}
+from functions import plot_solutions
+plot_solutions()
+```
+
+## Surrogate model
+
+![](https://www.researchgate.net/publication/360665374/figure/fig1/AS:11431281095590254@1667960146000/The-principle-of-surrogate-modelling.jpg)
+
 ## Gradient Boosting {.scrollable}
 
 ```{python}
@@ -45,6 +62,3 @@ from functions import gradient_boosting_example
 
 gradient_boosting_example()
 ```
-
-
-

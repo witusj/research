@@ -43,12 +43,48 @@ def path_example():
         scene=dict(
             xaxis_title='x0',
             yaxis_title='x1',
-            zaxis_title='loss',
+            zaxis_title='obj',
         ),
-        width=800,
-        height=800,
+        width=600,
+        height=600,
         showlegend=False
     )
+    fig.show()
+    
+def plot_solutions():
+    import plotly.graph_objects as go
+    import numpy as np
+    from scipy.special import comb
+    
+    # Define the function that calculates S
+    def calculate_S(N, T):
+        return comb(N + T - 1, N)
+    
+    # Generate values for N and T
+    N_values = np.arange(1, 25)
+    T_values = np.arange(10, 33)
+    
+    # Create a meshgrid for N and T
+    N, T = np.meshgrid(N_values, T_values)
+    
+    # Calculate S for each pair of N and T
+    S = calculate_S(N, T)
+    
+    # Create a 3D surface plot with Plotly
+    fig = go.Figure(data=[go.Surface(z=S, x=N, y=T)])
+    
+    # Automatically adjust the ranges for x and y axes based on the data
+    fig.update_layout(
+        scene=dict(
+            zaxis=dict(title='S'),
+            xaxis=dict(title='N', range=[N_values.max(), N_values.min()]),  # Set range dynamically for N
+            yaxis=dict(title='T', range=[T_values.max(), T_values.min()]),   # Set range dynamically for T
+        ),
+        title="Number of possible schedules for N patients and T slots",
+        autosize=True
+    )
+    
+    # Show the plot
     fig.show()
 
 def gradient_boosting_example():
@@ -86,7 +122,7 @@ def gradient_boosting_example():
             plt.legend(loc="upper center")
         plt.axis(axes)
     
-    plt.figure(figsize=(11, 11))
+    plt.figure(figsize=(8, 8))
     
     plt.subplot(3, 2, 1)
     plot_predictions([tree_reg1], X, y, axes=[-0.5, 0.5, -0.2, 0.8], style="g-",
