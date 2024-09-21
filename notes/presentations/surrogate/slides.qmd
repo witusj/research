@@ -9,6 +9,8 @@ format:
      progress: true
      history: true
      previewLinks: true
+     revealjs-plugins:
+       - chalkboard
 ---
 
 ## Modeling
