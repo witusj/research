@@ -1,0 +1,15 @@
+---
+title: "2024-10-03"
+author: "Witek ten Hove"
+format: html
+editor: visual
+jupyter: python3
+---
+
+## Meeting Ger x Joost
+
+-   Service times uitbreiden
+
+-   grotere N en T kiezen
+
+-   Bereken MAPE van out-of sample predictions

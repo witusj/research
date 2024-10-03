@@ -1,0 +1,185 @@
+---
+title: "Markov Decision Processes - Week 3"
+author: "LNMB"
+format: html
+editor: visual
+jupyter: python3
+---
+
+```{python}
+import networkx as nx
+import matplotlib.pyplot as plt
+
+# Define states and transitions
+states = ["0", "10,000", "20,000", "30,000", "40,000", "50,000"]
+actions = ["A", "B"]  # A: Company A, B: Company B
+
+# Define transitions as (from_state, action, to_state, probability, reward)
+transitions = [
+    ("10,000", "A", "10,000", 0.90, 0),   # No profit in A
+    ("10,000", "A", "20,000", 0.10, 10000),  # Double profit in A
+    ("10,000", "B", "0", 0.40, -10000),   # Loss in B
+    ("10,000", "B", "20,000", 0.60, 10000),  # Double profit in B
+    ("20,000", "A", "20,000", 0.90, 0),
+    ("20,000", "A", "30,000", 0.10, 10000),
+    ("20,000", "B", "10,000", 0.40, -10000),
+    ("20,000", "B", "30,000", 0.60, 10000),
+    ("30,000", "A", "30,000", 0.90, 0),
+    ("30,000", "A", "40,000", 0.10, 10000),
+    ("30,000", "B", "20,000", 0.40, -10000),
+    ("30,000", "B", "40,000", 0.60, 10000),
+    ("40,000", "A", "40,000", 0.90, 0),
+    ("40,000", "A", "50,000", 0.10, 10000),
+    ("40,000", "B", "30,000", 0.40, -10000),
+    ("40,000", "B", "50,000", 0.60, 10000),
+]
+
+# Create a directed graph
+G = nx.DiGraph()
+
+# Add nodes (states)
+for state in states:
+    G.add_node(state)
+
+# Add edges (actions and transitions)
+for (from_state, action, to_state, prob, reward) in transitions:
+    label = f"{action} (P={prob}, R={reward})"
+    G.add_edge(from_state, to_state, label=label)
+
+# Draw the graph
+pos = nx.spring_layout(G, seed=42)  # For better positioning
+plt.figure(figsize=(12, 8))
+nx.draw_networkx_nodes(G, pos, node_size=2000, node_color="lightgreen")
+nx.draw_networkx_labels(G, pos, font_size=10)
+
+# Draw edges with labels (actions, probabilities, and rewards)
+edge_labels = nx.get_edge_attributes(G, 'label')
+nx.draw_networkx_edges(G, pos, arrowstyle='->', arrowsize=20)
+nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=8)
+
+plt.title("Investment MDP Visualization")
+plt.axis("off")
+plt.show()
+
+```
+
+
+### 1. From Finite to Infinite Horizon
+
+In finite-horizon MDPs, the goal is to maximize (or minimize) the expected sum of immediate rewards over a fixed time horizon. However, for **infinite horizon MDPs**, the sum of rewards could become infinite. Therefore, alternative criteria are needed:
+- **Discounted rewards**: Apply a discount factor $\alpha$ to future rewards, ensuring the sum remains finite.
+  
+  $$
+  \max E \left( \sum_{n=0}^{\infty} \alpha^n r(X_n, a_n) \right), 0 \leq \alpha < 1
+  $$
+
+- **Average rewards**: Focus on the long-run average reward per time unit.
+
+  $$
+  \max E \left( \lim \sup_{T \to \infty} \frac{1}{T} \sum_{n=0}^{T-1} r(X_n, a_n) \right)
+  $$
+
+#### Python Code for Discounted Rewards:
+```{python}
+import numpy as np
+
+# Define the rewards and discount factor
+rewards = [10, 20, 30, 40]  # Example rewards
+alpha = 0.9  # Discount factor
+
+# Calculate the discounted sum of rewards
+discounted_rewards = sum([alpha**n * rewards[n] for n in range(len(rewards))])
+print(f"Discounted Reward: {discounted_rewards}")
+```
+
+### 2. Value Functions
+
+For **stationary policies**, the value function $V^\sigma(i)$ and the average cost $g^\sigma(i)$ can be defined as:
+- **Discounted Value Function**:
+  
+  $$
+  V^\sigma(i) = E^\sigma \left[ \sum_{n=0}^{\infty} \alpha^n r(X_n, Y_n) | X_0 = i \right]
+  $$
+  
+- **Average Reward**:
+  
+  $$
+  g^\sigma(i) = \lim_{T \to \infty} \frac{1}{T} \sum_{n=0}^{T-1} E^\sigma [r(X_n, Y_n)]
+  $$
+
+A policy $\sigma$ is said to be **average-cost optimal** if it maximizes the average reward across all policies.
+
+#### Python Code for Value Functions:
+```{python}
+# Example rewards and states
+states = [0, 1, 2]
+transitions = {0: 0.5, 1: 0.3, 2: 0.2}
+rewards = {0: 5, 1: 10, 2: 15}
+
+# Function to calculate discounted value for a policy
+def discounted_value(states, rewards, transitions, alpha):
+    value_function = {s: 0 for s in states}
+    for s in states:
+        value_function[s] = sum([alpha * transitions[s] * rewards[s] for s in states])
+    return value_function
+
+value_function = discounted_value(states, rewards, transitions, alpha=0.9)
+print(f"Discounted Value Function: {value_function}")
+```
+
+### 3. The Average Cost of a Stationary Policy
+
+Given a stationary policy, we can compute the **equilibrium distribution** $\pi^\sigma$ and the **long-run average cost**:
+
+$$
+g^\sigma = \sum_{j \in S} c_j(f(j)) \pi^\sigma_j
+$$
+
+Where $\pi^\sigma_j$ is the equilibrium probability for state $j$, and $c_j(f(j))$ is the cost incurred in state $j$ under policy $f$.
+
+### 4. Value-Determination Equations
+
+The **value-determination equations** help compute the average cost $g_f$ of a policy $f$:
+
+$$
+d(i) = c_i(f(i)) - g_f + \sum_{j \in S} p_{ij}(f(i)) d(j)
+$$
+
+This system can be solved to find the **relative-value function** $d(i)$, which is used to evaluate and improve policies.
+
+#### Python Code for Solving Value Equations:
+```{python}
+import numpy as np
+from scipy.linalg import solve
+
+# Example costs and transition probabilities
+costs = np.array([1, 2, 3])
+transitions_matrix = np.array([[0.9, 0.1, 0], [0, 0.8, 0.2], [0, 0, 1]])
+
+# Setup the value-determination equations with regularization
+def solve_value_equations(costs, transitions_matrix, reg_factor=1e-6):
+    num_states = len(costs)
+    I = np.eye(num_states)
+    A = I - transitions_matrix
+    
+    # Regularization to avoid singularity
+    A += np.eye(num_states) * reg_factor
+    
+    values = solve(A, costs)
+    return values
+
+relative_values = solve_value_equations(costs, transitions_matrix)
+print(f"Relative Value Function: {relative_values}")
+```
+
+### 5. Policy Improvement
+
+The **policy improvement step** checks if changing actions in a state would improve the policy. The new policy is generated by choosing actions that minimize:
+
+$$
+c_i(a) + \sum_{j \in S} p_{ij}(a) d_f(j) - g_f
+$$
+
+### Conclusion
+
+This tutorial covers the basic concepts of moving from finite to infinite horizon MDPs, the average cost criterion, and the policy improvement process. The accompanying Python code provides a way to calculate discounted rewards, value functions, and solve the value-determination equations.
