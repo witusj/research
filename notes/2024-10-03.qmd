@@ -13,3 +13,5 @@ jupyter: python3
 -   grotere N en T kiezen
 
 -   Bereken MAPE van out-of sample predictions
+
+-   Maak een grafiek van de ontwikkeling van de predicted en real objectives

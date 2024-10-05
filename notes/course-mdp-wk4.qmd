@@ -2,9 +2,92 @@
 title: "Markov Decision Processes - Week 4"
 author: "LNMB"
 format: html
-editor: visual
 jupyter: python3
 ---
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/lfHX2hHRMVQ?si=wIqHrL0GfRNcgU-0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+
 </iframe>
+
+## Homework Assigmment 1.6 p.11 Lecture notes
+
+# Exercise 1.6 (Airline Overbooking)
+
+An airline seeks a reservation policy for a flight with $S$ seats that maximizes its expected profit from the flight. Reservation requests arrive hourly according to a Bernoulli process with $p$ being the probability of a reservation request per hour (at most one reservation request will arrive per hour). A passenger with a booked reservation pays the fare $f > 0$ at flight time. If $b \geq 0$ passengers with booked reservations are denied boarding at flight time, they do not pay the fare, and the airline pays them a penalty $c(b)$ (divided among them) where $b \mapsto c(b)$ is increasing with $c(0) = 0$.
+
+Consider the $n$-th hour before flight time $T$. At the beginning of the hour, the airline reviews the number of booked reservations on hand, $r$ say, and decides whether to book (accept) or decline a reservation request arriving during the next hour. Each of the $r$ booked reservations may cancel during the hour, independently of each other, with probability $q$.
+
+For this reason, the airline is considering the possibility of overbooking the flight to compensate for cancellations. Let $V^*_n(r)$ be the maximum expected future profit when there are $r$ booked reservations at the beginning of the hour, before the accept/decline decision has been taken, and reservation requests and cancellations during the hour have occurred. Let $W^*_n(r)$ be the maximum expected future profit when there are $r$ booked reservations after booking or declining a reservation request, but before cancellations. The aim is to determine an optimal reservation policy for any value of the number of booked reservations at the beginning of each hour till the flight time $T$.
+
+### a) Markov Decision Model
+
+Formulate the problem as a Markov decision model, by determining the state space, action spaces, rewards, terminal rewards, and the transition probabilities. Formulate the optimality equation from which an optimal reservation policy can be determined.
+
+### b) Optimality of Booking-Limit Policies
+
+Assume, as can be shown, that if $g$ is a quasiconcave function on the integers, then $r \mapsto \mathbb{E}(g(B_r))$ is quasiconcave, where $B_r$ is a sum of independent identically distributed Bernoulli random variables. We recall that $g$ is quasiconcave on the (positive) integers when there exists a number $a$ such that $g$ is increasing on $[0, a]$ and decreasing on $[a, \infty]$.
+
+Use this result to show the following facts. First, show that $r \mapsto W^*_n(r)$ is quasiconcave.
+
+Let $b_n = \arg\max_r W^*_n(r)$. Call $b_n$ the booking limit. Then show that $r \mapsto V^*_n(r)$ is quasiconcave with maximum $b_n$. Finally, show that it is optimal to accept a reservation if and only if $r < b_n$, with $r$ the number of booked reservations on hand at the beginning of the hour (before a decision has been taken).
+
+### c) Solving the Problem
+
+Solve the problem when the parameters are as follows:
+
+-   $T = 30$
+-   $c(b) = f \cdot b$
+-   $S = 10$
+-   $f = D300$
+-   $p = 0.2$ and $0.3$
+-   $q = 0.05$ and $0.10$
+-   $r \leq 20$ (so there is an upper bound on the total number of reservations).
+
+Make graphs of the different combinations. In each case, estimate the booking limit ten hours before flight time from your graphs. Discuss whether your graphs confirm the claim in (b) that $r \mapsto V^*_n(r)$ is quasiconcave.
+
+What conjectures do the graphs suggest about the optimal reservation policy and/or maximum expected reward and their variation with the various data elements? You will lose points on your conjectures only if your graphs are inconsistent with or do not support your conjectures, or if you don’t make enough interesting conjectures. The idea here is to brainstorm intelligently.
+
+## Solutions
+
+### a) Markov Decision Model
+
+The state space is the number of booked reservations $r \in \{0, 1,2, \dots,S,Z\}$ with $Z = S+b$ at the beginning of each hour.
+
+The transition probability $T$ from state $r$ to state $r'$ is the probability that $r'$ booked reservations remain after the hour, given that there are $r$ booked reservations at the beginning of the hour. It can be divided up in two separate transition probabilities $Q$ and $P$ with:
+
+$$
+Q =\begin{array}{c|ccccc}
+    & 0 & 1 & 2 & 3 & 4 & \dots & S & \dots & Z-1\\
+    \hline
+    0 & 1 &  &  &  & \\
+    1 & q & 1-q &  &  \\
+    2 & q^2 &2q(1-q) & (1-q)^2 & &  \\
+    3 & q^3 & 3q^2(1-q) & 3q(1-q)^2 & (1-q)^3 &  \\
+    \vdots \\
+    S & q^S & Sq^{S-1}(1-q) & Sq^{S-2}(1-q)^2 & Sq^{S-3}(1-q)^3 & \dots & \dots & (1-q)^S \\
+    \vdots \\
+    Z-1 & q^{Z-1} & {(Z-1)}q^{Z-2}(1-q) & {(Z-1)}q^{Z-3}(1-q)^2 & {(Z-1)}q^{Z-4}(1-q)^3 & \dots & \dots  & {(Z-1)}q^{Z-1 - S}(1-q)^S & \dots &  {(Z-1)}(1-q)^{Z-1} \\
+\end{array}
+$$
+,
+
+$$
+P =\begin{array}{c|ccccc}
+    & 0 & 1 & 2 & 3 & 4 & \dots & S & S+1 & \dots & Z-1 & Z\\
+    \hline
+    0 & 1-p & p  \\
+    1 & & 1-p & p  \\
+    2 & & & 1-p & p  \\
+    3 & & & & 1-p & p  \\
+    \vdots \\
+    S & & & & & & & 1-p & p\\
+    \vdots \\
+    Z-1 & & & & & & & & & & 1-p & p\\
+\end{array}
+$$
+
+, and
+
+$$
+T = Q \circ P.
+$$
