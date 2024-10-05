@@ -114,7 +114,7 @@ $$
 The terminal reward is the expected profit or loss from the combined bookings and cancellations at time $T$.
 
 $$
-R_T = \begin{cases}
+R^T = \begin{cases}
   fr & \text{if } r \leq S \\
   fS - c(b) & \text{if } r > S.
 \end{cases}
