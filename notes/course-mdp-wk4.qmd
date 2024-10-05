@@ -53,10 +53,10 @@ What conjectures do the graphs suggest about the optimal reservation policy and/
 
 The state space is the number of booked reservations $r \in \{0, 1,2, \dots,S,Z\}$ with $Z = S+b$ at the beginning of each hour.
 
-The transition probability $T$ from state $r$ to state $r'$ is the probability that $r'$ booked reservations remain after the hour, given that there are $r$ booked reservations at the beginning of the hour. It can be divided up in two separate transition probabilities $Q$ and $P$ with:
+The transition probability $T$ from state $r$ to state $r'$ is the probability that $r'$ booked reservations remain after the hour, given that there are $r$ booked reservations at the beginning of the hour. It can be divided up in two separate transition probabilities $C$ (cancellation) and $O$ (order) with:
 
 $$
-Q =\begin{array}{c|ccccc}
+C =\begin{array}{c|ccccc}
     & 0 & 1 & 2 & 3 & 4 & \dots & S & \dots & Z-1\\
     \hline
     0 & 1 &  &  &  & \\
@@ -68,11 +68,10 @@ Q =\begin{array}{c|ccccc}
     \vdots \\
     Z-1 & q^{Z-1} & {(Z-1)}q^{Z-2}(1-q) & {(Z-1)}q^{Z-3}(1-q)^2 & {(Z-1)}q^{Z-4}(1-q)^3 & \dots & \dots  & {(Z-1)}q^{Z-1 - S}(1-q)^S & \dots &  {(Z-1)}(1-q)^{Z-1} \\
 \end{array}
-$$
-,
+$$ ,
 
 $$
-P =\begin{array}{c|ccccc}
+O =\begin{array}{c|ccccc}
     & 0 & 1 & 2 & 3 & 4 & \dots & S & S+1 & \dots & Z-1 & Z\\
     \hline
     0 & 1-p & p  \\
@@ -89,5 +88,34 @@ $$
 , and
 
 $$
-T = Q \circ P.
+T = C \circ O.
+$$
+
+The action set is the decision to decline ($0$) or accept ($1$) a reservation request.
+
+$$
+A = \{0,1\},
+$$
+
+and the reward function is the expected profit or loss from the combined bookings and cancellations depending on the action taken at time $n$. The reward function is given by:
+
+$$
+R_r(accept) = \begin{cases}
+    f((1-p)0 + p1) = fp & \text{if } r = 0 \\
+    \sum_{j \in Z} ft_{ij}(j-i) & \text{if } r \neq 0 \\
+\end{cases}
+$$
+
+and
+
+$$
+R_r(decline) = \sum_{j \in Z} fc_{ij}(j-i).
+$$
+The terminal reward is the expected profit or loss from the combined bookings and cancellations at time $T$.
+
+$$
+R_T = \begin{cases}
+  fr & \text{if } r \leq S \\
+  fS - c(b) & \text{if } r > S.
+\end{cases}
 $$

@@ -138,9 +138,9 @@ window.Quarto = {
 <section id="a-markov-decision-model-1" class="level3">
 <h3 class="anchored" data-anchor-id="a-markov-decision-model-1">a) Markov Decision Model</h3>
 <p>The state space is the number of booked reservations <span class="math inline">\(r \in \{0, 1,2, \dots,S,Z\}\)</span> with <span class="math inline">\(Z = S+b\)</span> at the beginning of each hour.</p>
-<p>The transition probability <span class="math inline">\(T\)</span> from state <span class="math inline">\(r\)</span> to state <span class="math inline">\(r'\)</span> is the probability that <span class="math inline">\(r'\)</span> booked reservations remain after the hour, given that there are <span class="math inline">\(r\)</span> booked reservations at the beginning of the hour. It can be divided up in two separate transition probabilities <span class="math inline">\(Q\)</span> and <span class="math inline">\(P\)</span> with:</p>
+<p>The transition probability <span class="math inline">\(T\)</span> from state <span class="math inline">\(r\)</span> to state <span class="math inline">\(r'\)</span> is the probability that <span class="math inline">\(r'\)</span> booked reservations remain after the hour, given that there are <span class="math inline">\(r\)</span> booked reservations at the beginning of the hour. It can be divided up in two separate transition probabilities <span class="math inline">\(C\)</span> (cancellation) and <span class="math inline">\(O\)</span> (order) with:</p>
 <p><span class="math display">\[
-Q =\begin{array}{c|ccccc}
+C =\begin{array}{c|ccccc}
     &amp; 0 &amp; 1 &amp; 2 &amp; 3 &amp; 4 &amp; \dots &amp; S &amp; \dots &amp; Z-1\\
     \hline
     0 &amp; 1 &amp;  &amp;  &amp;  &amp; \\
@@ -154,7 +154,7 @@ Q =\begin{array}{c|ccccc}
 \end{array}
 \]</span> ,</p>
 <p><span class="math display">\[
-P =\begin{array}{c|ccccc}
+O =\begin{array}{c|ccccc}
     &amp; 0 &amp; 1 &amp; 2 &amp; 3 &amp; 4 &amp; \dots &amp; S &amp; S+1 &amp; \dots &amp; Z-1 &amp; Z\\
     \hline
     0 &amp; 1-p &amp; p  \\
@@ -169,7 +169,28 @@ P =\begin{array}{c|ccccc}
 \]</span></p>
 <p>, and</p>
 <p><span class="math display">\[
-T = Q \circ P.
+T = C \circ O.
+\]</span></p>
+<p>The action set is the decision to decline (<span class="math inline">\(0\)</span>) or accept (<span class="math inline">\(1\)</span>) a reservation request.</p>
+<p><span class="math display">\[
+A = \{0,1\},
+\]</span></p>
+<p>and the reward function is the expected profit or loss from the combined bookings and cancellations depending on the action taken at time <span class="math inline">\(n\)</span>. The reward function is given by:</p>
+<p><span class="math display">\[
+R_r(accept) = \begin{cases}
+    f((1-p)0 + p1) = fp &amp; \text{if } r = 0 \\
+    \sum_{j \in Z} ft_{ij}(j-i) &amp; \text{if } r \neq 0 \\
+\end{cases}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+R_r(decline) = \sum_{j \in Z} fc_{ij}(j-i).
+\]</span> The terminal reward is the expected profit or loss from the combined bookings and cancellations at time <span class="math inline">\(T\)</span>.</p>
+<p><span class="math display">\[
+R_T = \begin{cases}
+  fr &amp; \text{if } r \leq S \\
+  fS - c(b) &amp; \text{if } r &gt; S.
+\end{cases}
 \]</span></p>
 </section>
 </section>
