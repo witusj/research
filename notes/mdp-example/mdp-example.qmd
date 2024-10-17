@@ -1,0 +1,242 @@
+---
+title: "MDP Notes"
+format: html
+editor: visual
+jupyter: python3
+---
+
+```{python}
+from mdp import *
+from inspect import getsource
+from IPython.display import HTML, display
+```
+
+## SIMPLE MDP
+
+To begin with let us look at the implementation of MDP class defined in mdp.py The docstring tells us what all is required to define a MDP namely - set of states, actions, initial state, transition model, and a reward function. Each of these are implemented as methods. Do not close the popup so that you can follow along the description of code below.
+
+```{python}
+class MDP:
+
+    """A Markov Decision Process, defined by an initial state, transition model,
+    and reward function. We also keep track of a gamma value, for use by
+    algorithms. The transition model is represented somewhat differently from
+    the text. Instead of P(s' | s, a) being a probability number for each
+    state/state/action triplet, we instead have T(s, a) return a
+    list of (p, s') pairs. We also keep track of the possible states,
+    terminal states, and actions for each state. [page 646]"""
+
+    def __init__(self, init, actlist, terminals, transitions = {}, reward = None, states=None, gamma=.9):
+        if not (0 < gamma <= 1):
+            raise ValueError("An MDP must have 0 < gamma <= 1")
+
+        if states:
+            self.states = states
+        else:
+            ## collect states from transitions table
+            self.states = self.get_states_from_transitions(transitions)
+            
+        
+        self.init = init
+        
+        if isinstance(actlist, list):
+            ## if actlist is a list, all states have the same actions
+            self.actlist = actlist
+        elif isinstance(actlist, dict):
+            ## if actlist is a dict, different actions for each state
+            self.actlist = actlist
+        
+        self.terminals = terminals
+        self.transitions = transitions
+        if self.transitions == {}:
+            print("Warning: Transition table is empty.")
+        self.gamma = gamma
+        if reward:
+            self.reward = reward
+        else:
+            self.reward = {s : 0 for s in self.states}
+        #self.check_consistency()
+
+    def R(self, state):
+        """Return a numeric reward for this state."""
+        return self.reward[state]
+
+    # def T(self, state, action):
+    #     """Transition model. From a state and an action, return a list
+    #     of (probability, result-state) pairs."""
+    #     if(self.transitions == {}):
+    #         raise ValueError("Transition model is missing")
+    #     else:
+    #         return self.transitions[state][action]
+
+    def actions(self, state):
+        """Set of actions that can be performed in this state. By default, a
+        fixed list of actions, except for terminal states. Override this
+        method if you need to specialize by state."""
+        if state in self.terminals:
+            return [None]
+        else:
+            return self.actlist
+
+    def get_states_from_transitions(self, transitions):
+        if isinstance(transitions, dict):
+            s1 = set(transitions.keys())
+            s2 = set([tr[1] for actions in transitions.values() 
+                              for effects in actions.values() for tr in effects])
+            return s1.union(s2)
+        else:
+            print('Could not retrieve states from transitions')
+            return None
+
+    def check_consistency(self):
+        # check that all states in transitions are valid
+        assert set(self.states) == self.get_states_from_transitions(self.transitions)
+        # check that init is a valid state
+        assert self.init in self.states
+        # check reward for each state
+        #assert set(self.reward.keys()) == set(self.states)
+        assert set(self.reward.keys()) == set(self.states)
+        # check that all terminals are valid states
+        assert all([t in self.states for t in self.terminals])
+        # check that probability distributions for all actions sum to 1
+        for s1, actions in self.transitions.items():
+            for a in actions.keys():
+                s = 0
+                for o in actions[a]:
+                    s += o[0]
+                assert abs(s - 1) < 0.001
+```
+
+
+The `__init__` method takes in the following parameters:
+
+-   **init**: the initial state.
+
+-   **actlist**: List of actions possible in each state.
+
+-   **terminals**: List of terminal states where only possible action is exit.
+
+-   **gamma**: Discounting factor. This makes sure that delayed rewards have less value compared to immediate ones.
+
+**R** method returns the reward for each state by using the self.reward dict.
+
+**T** method is not implemented and is somewhat different from the text. Here we return (probability, s') pairs where s' belongs to list of possible state by taking action a in state s.
+
+**actions** method returns list of actions possible in each state. By default it returns all actions for states other than terminal states.
+
+Now let us implement the simple MDP in the image below. States A, B have actions X, Y available in them. Their probabilities are shown just above the arrows. We start with using MDP as base class for our CustomMDP. Obviously we need to make a few changes to suit our case. We make use of a transition matrix as our transitions are not very simple.
+
+![](mdp-a.png)
+
+```{python}
+# Transition Matrix as nested dict. State -> Actions in state -> List of (Probability, State) tuples
+t = {
+    "A": {
+            "X": [(0.3, "A"), (0.7, "B")],
+            "Y": [(1.0, "A")]
+         },
+    "B": {
+            "X": {(0.8, "End"), (0.2, "B")},
+            "Y": {(1.0, "A")}
+         },
+    "End": {}
+}
+
+init = "A"
+
+terminals = ["End"]
+
+rewards = {
+    "A": 5,
+    "B": -10,
+    "End": 100
+}
+```
+
+
+```{python}
+class CustomMDP(MDP):
+    def __init__(self, init, terminals, transition_matrix, reward = None, gamma=.9):
+        # All possible actions.
+        actlist = []
+        for state in transition_matrix.keys():
+            actlist.extend(transition_matrix[state])
+        actlist = list(set(actlist))
+        MDP.__init__(self, init, actlist, terminals, transition_matrix, reward, gamma=gamma)
+
+    def T(self, state, action):
+        if self.transitions[state] == {}:
+            return [(1.0, state)]
+        if action is None:
+            return [(0.0, state)]
+        else: 
+            return self.transitions[state][action]
+```
+
+Finally we instantize the class with the parameters for our MDP in the picture.
+
+```{python}
+our_mdp = CustomMDP(init, terminals, t, rewards, gamma=.9)
+print(our_mdp.transitions, "\n")
+for s in our_mdp.states:
+    print(s, our_mdp.actions(s))
+```
+
+With this we have successfully represented our MDP. Later we will look at ways to solve this MDP.
+
+## VALUE ITERATION
+
+Now that we have looked at how to represent MDPs, let's aim at solving them. Our ultimate goal is to obtain an optimal policy. We start with looking at Value Iteration and a visualisation that should help us understand it better.
+
+We start by calculating the Value/Utility for each of the states. The Value of each state is the expected sum of discounted future rewards given we start in that state and follow a particular policy. The value or the utility of a state is given by
+
+$$
+V(s) = \max_a \sum_{s'} P(s' | s, a) \left[ R(s, a, s') + \gamma V(s') \right]
+$$
+
+This is called the Bellman equation. The algorithm Value Iteration (Fig. 17.4 in the book) relies on finding solutions to this equation. The intuition behind Value Iteration is that values propagate through the state space by means of local updates. This point will be more clear after we encounter the visualisation. For more information, you can refer to Section 17.2 of the book.
+
+
+```{python}
+def value_iteration(mdp, epsilon=0.001):
+    """Solving an MDP by value iteration. [Figure 17.4]"""
+    U1 = {s: 0 for s in mdp.states}
+    R, gamma = mdp.R, mdp.gamma
+    while True:
+        U = U1.copy()
+        delta = 0
+        for s in mdp.states:
+            print(s, "\n", mdp.actions(s), "\n", [mdp.T(s, a) for a in mdp.actions(s)], "\n", U, "\n", delta / epsilon * (1 - gamma) / gamma)
+            U1[s] = R(s) + gamma * max([sum([p * U[s1] for (p, s1) in mdp.T(s, a)])
+                                        for a in mdp.actions(s)])
+            delta = max(delta, abs(U1[s] - U[s])) # Delta will be the maximum change in utility of any state
+        if delta < epsilon * (1 - gamma) / gamma:
+            return U
+```
+
+It takes as inputs two parameters, an MDP to solve and $\epsilon$, the maximum error allowed in the utility of any state. It returns a dictionary containing utilities where the keys are the states and values represent utilities.
+Value Iteration starts with arbitrary initial values for the utilities, calculates the right side of the Bellman equation and plugs it into the left-hand side, thereby updating the utility of each state from the utilities of its neighbors. This is repeated until equilibrium is reached. It works on the principle of Dynamic Programming — using precomputed information to simplify the subsequent computation. If 
+$U_i(s)$ is the utility value for state $s$ at the $i^{th}$ iteration, the iteration step, called the Bellman update, looks like this:
+
+$$
+U_{i+1}(s) = \max_a \sum_{s'} P(s' | s, a) \left[ R(s, a, s') + \gamma U_i(s') \right]
+$$
+
+As you might have noticed, `value_iteration` has an infinite loop. How do we decide when to stop iterating? The concept of contraction successfully explains the convergence of value iteration. Refer to Section 17.2.3 of the book for a detailed explanation. In the algorithm, we calculate a value $\delta$ that measures the difference in the utilities of the current time step and the previous time step.
+
+$$
+\delta = \max_s \left| U_{i+1}(s) - U_i(s) \right|
+$$
+
+This value of $\delta$ decreases as the values of $U(s)$ converge. We terminate the algorithm if the $\delta$ value is less than a threshold value determined by the hyperparameter $\epsilon$.
+
+$$
+\delta < \epsilon
+$$
+
+To summarize, the Bellman update is a contraction by a factor of $\gamma$ on the space of utility vectors. Hence, from the properties of contractions in general, it follows that `value_iteration` always converges to a unique solution of the Bellman equations whenever $\gamma$ is less than 1. We then terminate the algorithm when a reasonable approximation is achieved. In practice, it often occurs that the policy $\pi$ becomes optimal long before the utility function converges. For the given 4 x 3 environment with $\gamma = 0.9$, the policy $\pi$ is optimal when $\pi_4$ (at the 4th iteration), even though the maximum error in the utility function is still 0.46. This can be clarified from figure 17.6 in the book. Hence, to increase computational efficiency, we often use another method to solve MDPs called Policy Iteration, which we will see in the later part of this notebook.
+For now, let us solve the `sequential_decision_environment` `GridMDP` using `value_iteration`.
+
+```{python}
+value_iteration(our_mdp)
+```

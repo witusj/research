@@ -1,0 +1,27 @@
+---
+title: "2024-10-17"
+author: "Witek ten Hove"
+format: html
+editor: visual
+jupyter: python3
+---
+
+## Meeting Joost
+
+-   Besproken nieuw project Eerste-lijns verpleging (ELV)
+
+    -   Vragen Joost
+
+        -   Rollen voor Joost en Ger?
+
+        -   Academische body?
+
+-   Besproken Appointment Scheduling
+
+    -   Nieuwe uitwerking grotere instantie uitgelegd en besproken.
+
+    -   Problemen met sampling.
+
+    -   Joost kan kijken naar code voor objective berekening en local search.
+
+    ![](images/notes20241017.jpeg)

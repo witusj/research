@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="LNMB">
+<meta name="author" content="Witek ten Hove">
 
-<title>Markov Decision Processes - Week 4</title>
+<title>2024-10-17</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,46 +24,17 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="course-mdp-wk4_files/libs/clipboard/clipboard.min.js"></script>
-<script src="course-mdp-wk4_files/libs/quarto-html/quarto.js"></script>
-<script src="course-mdp-wk4_files/libs/quarto-html/popper.min.js"></script>
-<script src="course-mdp-wk4_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="course-mdp-wk4_files/libs/quarto-html/anchor.min.js"></script>
-<link href="course-mdp-wk4_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="course-mdp-wk4_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="course-mdp-wk4_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="course-mdp-wk4_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="course-mdp-wk4_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="2024-10-17_files/libs/clipboard/clipboard.min.js"></script>
+<script src="2024-10-17_files/libs/quarto-html/quarto.js"></script>
+<script src="2024-10-17_files/libs/quarto-html/popper.min.js"></script>
+<script src="2024-10-17_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="2024-10-17_files/libs/quarto-html/anchor.min.js"></script>
+<link href="2024-10-17_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="2024-10-17_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="2024-10-17_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="2024-10-17_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="2024-10-17_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -75,7 +46,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Markov Decision Processes - Week 4</h1>
+<h1 class="title">2024-10-17</h1>
 </div>
 
 
@@ -85,7 +56,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>LNMB </p>
+             <p>Witek ten Hove </p>
           </div>
   </div>
     
@@ -98,125 +69,25 @@ window.Quarto = {
 </header>
 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/lfHX2hHRMVQ?si=wIqHrL0GfRNcgU-0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen="">
-</iframe>
-<section id="homework-assigmment-1.6-p.11-lecture-notes" class="level2">
-<h2 class="anchored" data-anchor-id="homework-assigmment-1.6-p.11-lecture-notes">Homework Assigmment 1.6 p.11 Lecture notes</h2>
-</section>
-<section id="exercise-1.6-airline-overbooking" class="level1">
-<h1>Exercise 1.6 (Airline Overbooking)</h1>
-<p>An airline seeks a reservation policy for a flight with <span class="math inline">\(S\)</span> seats that maximizes its expected profit from the flight. Reservation requests arrive hourly according to a Bernoulli process with <span class="math inline">\(p\)</span> being the probability of a reservation request per hour (at most one reservation request will arrive per hour). A passenger with a booked reservation pays the fare <span class="math inline">\(f &gt; 0\)</span> at flight time. If <span class="math inline">\(b \geq 0\)</span> passengers with booked reservations are denied boarding at flight time, they do not pay the fare, and the airline pays them a penalty <span class="math inline">\(c(b)\)</span> (divided among them) where <span class="math inline">\(b \mapsto c(b)\)</span> is increasing with <span class="math inline">\(c(0) = 0\)</span>.</p>
-<p>Consider the <span class="math inline">\(n\)</span>-th hour before flight time <span class="math inline">\(T\)</span>. At the beginning of the hour, the airline reviews the number of booked reservations on hand, <span class="math inline">\(r\)</span> say, and decides whether to book (accept) or decline a reservation request arriving during the next hour. Each of the <span class="math inline">\(r\)</span> booked reservations may cancel during the hour, independently of each other, with probability <span class="math inline">\(q\)</span>.</p>
-<p>For this reason, the airline is considering the possibility of overbooking the flight to compensate for cancellations. Let <span class="math inline">\(V^*_n(r)\)</span> be the maximum expected future profit when there are <span class="math inline">\(r\)</span> booked reservations at the beginning of the hour, before the accept/decline decision has been taken, and reservation requests and cancellations during the hour have occurred. Let <span class="math inline">\(W^*_n(r)\)</span> be the maximum expected future profit when there are <span class="math inline">\(r\)</span> booked reservations after booking or declining a reservation request, but before cancellations. The aim is to determine an optimal reservation policy for any value of the number of booked reservations at the beginning of each hour till the flight time <span class="math inline">\(T\)</span>.</p>
-<section id="a-markov-decision-model" class="level3">
-<h3 class="anchored" data-anchor-id="a-markov-decision-model">a) Markov Decision Model</h3>
-<p>Formulate the problem as a Markov decision model, by determining the state space, action spaces, rewards, terminal rewards, and the transition probabilities. Formulate the optimality equation from which an optimal reservation policy can be determined.</p>
-</section>
-<section id="b-optimality-of-booking-limit-policies" class="level3">
-<h3 class="anchored" data-anchor-id="b-optimality-of-booking-limit-policies">b) Optimality of Booking-Limit Policies</h3>
-<p>Assume, as can be shown, that if <span class="math inline">\(g\)</span> is a quasiconcave function on the integers, then <span class="math inline">\(r \mapsto \mathbb{E}(g(B_r))\)</span> is quasiconcave, where <span class="math inline">\(B_r\)</span> is a sum of independent identically distributed Bernoulli random variables. We recall that <span class="math inline">\(g\)</span> is quasiconcave on the (positive) integers when there exists a number <span class="math inline">\(a\)</span> such that <span class="math inline">\(g\)</span> is increasing on <span class="math inline">\([0, a]\)</span> and decreasing on <span class="math inline">\([a, \infty]\)</span>.</p>
-<p>Use this result to show the following facts. First, show that <span class="math inline">\(r \mapsto W^*_n(r)\)</span> is quasiconcave.</p>
-<p>Let <span class="math inline">\(b_n = \arg\max_r W^*_n(r)\)</span>. Call <span class="math inline">\(b_n\)</span> the booking limit. Then show that <span class="math inline">\(r \mapsto V^*_n(r)\)</span> is quasiconcave with maximum <span class="math inline">\(b_n\)</span>. Finally, show that it is optimal to accept a reservation if and only if <span class="math inline">\(r &lt; b_n\)</span>, with <span class="math inline">\(r\)</span> the number of booked reservations on hand at the beginning of the hour (before a decision has been taken).</p>
-</section>
-<section id="proof-that-r-mapsto-w_nr-is-quasiconcave-for-all-n-leq-t" class="level3">
-<h3 class="anchored" data-anchor-id="proof-that-r-mapsto-w_nr-is-quasiconcave-for-all-n-leq-t">PROOF that <span class="math inline">\(r \mapsto W^*_n(r)\)</span> is quasiconcave for all <span class="math inline">\(n \leq T\)</span></h3>
-<p>We will use proof by complete induction and first proof that (1) that <span class="math inline">\(W_T^*(r)\)</span> is quasi-concave. Then we will proof that (2) if <span class="math inline">\(W_n^*(r)\)</span> is quasi concave, the same holds for <span class="math inline">\(W_{n-1}^*(r)\)</span></p>
-<section id="step-1" class="level4">
-<h4 class="anchored" data-anchor-id="step-1">Step 1</h4>
-<p>First define the function <span class="math inline">\(g(\tilde{r} )\)</span> as the profit function at the last epoch in which all reservations and cancellations have already occurred and there are <span class="math inline">\(\tilde{r}\)</span> customers left in the system. Clearly <span class="math inline">\(g(\tilde{r} )\)</span> is concave because for each excess customer, there is a penalty incurred. Therefore the optimal amount of customers is exactly the amount of seats available. The maximum profit is equal to the fare times the amount of seats: <span class="math inline">\(f \cdot S\)</span>. Hence there is a point (in this case <span class="math inline">\(S\)</span>) where <span class="math inline">\(g(\tilde{r} )\)</span> is increasing on <span class="math inline">\([0,S]\)</span> and decreasing on <span class="math inline">\([S, \inf]\)</span> and therefore is quasi-concave.</p>
-<p>Now we consider <span class="math inline">\(W_T^*(r)\)</span> which is the maximum expected profit in the last epoch, just before the last cancellations arrive. Clearly:</p>
-<p><span class="math inline">\(W_T^*(r) = E (g (r))\)</span> where <span class="math inline">\(r\)</span> is a sum of i.i.d. binomial variables. Hence <span class="math inline">\(W_T^*(r)\)</span> is quasi concave.</p>
-<p>Under optimal policy, we know from the Bellman equation that:</p>
-<p><span class="math display">\[
-W^*_{n-1}(r) = \max \{ p \cdot E[W^*_{n}(r+1)] + (1-p) E[W^*_{n}(r)] , E[W^*_{n}(r)] \}
-\]</span></p>
-<p>Since we assumed that <span class="math inline">\(W^*_{n}(r)\)</span> is quasi concave, we can conclude that <span class="math inline">\(E[W^*_{n}(r)]\)</span> is also quasi concave since taking the expectation preserves quasi concavity.</p>
-<p>Define <span class="math inline">\(h(r)\)</span>, the first term in the max function:</p>
-<p><span class="math display">\[
-h(r) = p \cdot E[W^*_{n}(r+1)] + (1-p) E[W^*_{n}(r)]
-\]</span></p>
-<p>Now we have to show that <span class="math inline">\(\max \{ h(r), W^*_{n}(r) \}\)</span> is quasi-concave (we drop the expectations since they do not influence quasi-concavity).</p>
-<p>Because <span class="math inline">\(W^*_{n}(r)\)</span> is assumed to be quasi concave it reaches a maximum when <span class="math inline">\(r = a\)</span>. Then we have the following:</p>
-<p>So <span class="math inline">\(\max \{ h(a), W^*_n(a) \}\)</span> reaches it maximum when <span class="math inline">\(r = a\)</span> and we have shown that <span class="math inline">\(\max \{h(r), W^*_{n}(r) \}\)</span> is increasing on <span class="math inline">\([0,a]\)</span> and decreasing on <span class="math inline">\([a,\inf]\)</span>, hence <span class="math inline">\(W^*_{n-1}(r)\)</span> is quasi concave. Because we have already proven that <span class="math inline">\(W_T^*(r)\)</span> is quasi concave via complete induction we can now conclude that <span class="math inline">\(W^*_{n}(r)\)</span> is quasi concave for <span class="math inline">\(n \leq T\)</span>.</p>
-</section>
-</section>
-<section id="c-solving-the-problem" class="level3">
-<h3 class="anchored" data-anchor-id="c-solving-the-problem">c) Solving the Problem</h3>
-<p>Solve the problem when the parameters are as follows:</p>
+<section id="meeting-joost" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-joost">Meeting Joost</h2>
 <ul>
-<li><span class="math inline">\(T = 30\)</span></li>
-<li><span class="math inline">\(c(b) = f \cdot b\)</span></li>
-<li><span class="math inline">\(S = 10\)</span></li>
-<li><span class="math inline">\(f = \euro{300}\)</span></li>
-<li><span class="math inline">\(p = 0.2\)</span> and <span class="math inline">\(0.3\)</span></li>
-<li><span class="math inline">\(q = 0.05\)</span> and <span class="math inline">\(0.10\)</span></li>
-<li><span class="math inline">\(r \leq 20\)</span> (so there is an upper bound on the total number of reservations).</li>
+<li><p>Besproken nieuw project Eerste-lijns verpleging (ELV)</p>
+<ul>
+<li><p>Vragen Joost</p>
+<ul>
+<li><p>Rollen voor Joost en Ger?</p></li>
+<li><p>Academische body?</p></li>
+</ul></li>
+</ul></li>
+<li><p>Besproken Appointment Scheduling</p>
+<ul>
+<li><p>Nieuwe uitwerking grotere instantie uitgelegd en besproken.</p></li>
+<li><p>Problemen met sampling.</p></li>
+<li><p>Joost kan kijken naar code voor objective berekening en local search.</p></li>
 </ul>
-<p>Make graphs of the different combinations. In each case, estimate the booking limit ten hours before flight time from your graphs. Discuss whether your graphs confirm the claim in (b) that <span class="math inline">\(r \mapsto V^*_n(r)\)</span> is quasiconcave.</p>
-<p>What conjectures do the graphs suggest about the optimal reservation policy and/or maximum expected reward and their variation with the various data elements? You will lose points on your conjectures only if your graphs are inconsistent with or do not support your conjectures, or if you don’t make enough interesting conjectures. The idea here is to brainstorm intelligently.</p>
-</section>
-<section id="solutions" class="level2">
-<h2 class="anchored" data-anchor-id="solutions">Solutions</h2>
-<section id="a-markov-decision-model-1" class="level3">
-<h3 class="anchored" data-anchor-id="a-markov-decision-model-1">a) Markov Decision Model</h3>
-<p>The state space is the number of booked reservations <span class="math inline">\(r \in \{0, 1,2, \dots,S,Z\}\)</span> with <span class="math inline">\(Z = S+b\)</span> at the beginning of each hour.</p>
-<p>The transition probability <span class="math inline">\(T\)</span> from state <span class="math inline">\(r\)</span> to state <span class="math inline">\(r'\)</span> is the probability that <span class="math inline">\(r'\)</span> booked reservations remain after the hour, given that there are <span class="math inline">\(r\)</span> booked reservations at the beginning of the hour. It can be divided up in two separate transition probabilities <span class="math inline">\(C\)</span> (cancellation) and <span class="math inline">\(O\)</span> (order) with:</p>
-<p><span class="math display">\[
-C =\begin{array}{c|ccccc}
-    &amp; 0 &amp; 1 &amp; 2 &amp; 3 &amp; 4 &amp; \dots &amp; S &amp; \dots &amp; Z-1\\
-    \hline
-    0 &amp; 1 &amp;  &amp;  &amp;  &amp; \\
-    1 &amp; q &amp; 1-q &amp;  &amp;  \\
-    2 &amp; q^2 &amp;2q(1-q) &amp; (1-q)^2 &amp; &amp;  \\
-    3 &amp; q^3 &amp; 3q^2(1-q) &amp; 3q(1-q)^2 &amp; (1-q)^3 &amp;  \\
-    \vdots \\
-    S &amp; q^S &amp; Sq^{S-1}(1-q) &amp; \binom{S}{2}q^{S-2}(1-q)^2 &amp; \binom{S}{3}q^{S-3}(1-q)^3 &amp; \dots &amp; \dots &amp; (1-q)^S \\
-    \vdots \\
-    Z-1 &amp; q^{Z-1} &amp; {(Z-1)}q^{Z-2}(1-q) &amp; \binom{Z-1}{2}q^{Z-3}(1-q)^2 &amp; \binom{Z-1}{3}q^{Z-4}(1-q)^3 &amp; \dots &amp; \dots  &amp; {(Z-1)}q^{Z-1 - S}(1-q)^S &amp; \dots &amp;  {(Z-1)}(1-q)^{Z-1} \\
-\end{array}
-\]</span> ,</p>
-<p><span class="math display">\[
-O =\begin{array}{c|ccccc}
-    &amp; 0 &amp; 1 &amp; 2 &amp; 3 &amp; 4 &amp; \dots &amp; S &amp; S+1 &amp; \dots &amp; Z-1 &amp; Z\\
-    \hline
-    0 &amp; 1-p &amp; p  \\
-    1 &amp; &amp; 1-p &amp; p  \\
-    2 &amp; &amp; &amp; 1-p &amp; p  \\
-    3 &amp; &amp; &amp; &amp; 1-p &amp; p  \\
-    \vdots \\
-    S &amp; &amp; &amp; &amp; &amp; &amp; &amp; 1-p &amp; p\\
-    \vdots \\
-    Z-1 &amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; 1-p &amp; p\\
-\end{array}
-\]</span></p>
-<p>, and</p>
-<p><span class="math display">\[
-T = C \circ O.
-\]</span></p>
-<p>The action set is the decision to decline or accept a reservation request.</p>
-<p><span class="math display">\[
-A = \{decline,accept\},
-\]</span></p>
-<p>and the reward function is the expected profit or loss from the combined bookings and cancellations depending on the action taken at time <span class="math inline">\(n\)</span>. The reward function is given by:</p>
-<p><span class="math display">\[
-R_n(r,a) = \begin{cases}
-    0 &amp; \text{if } n &lt; T \\
-    fr &amp; \text{if } n=T, r \leq S \\
-    fS - c(r - S) &amp; \text{if } n=T, r &gt; S \\
-\end{cases}
-\]</span></p>
-</section>
-<section id="b-optimality-of-booking-limit-policies-1" class="level3">
-<h3 class="anchored" data-anchor-id="b-optimality-of-booking-limit-policies-1">b) Optimality of Booking-Limit Policies</h3>
-<p><span class="math display">\[
-rW_n^* = \begin{cases}
-f\mathbb{E}(r) &amp; \forall \ r \leq S \\
-fS - c(\mathbb{E}(r) - S) &amp; \forall \ r &gt; S \\
-\end{cases}
-\]</span></p>
-<p>In any state <span class="math inline">\(r\)</span> is either a set of</p>
-</section>
-</section>
+<p><img src="images/notes20241017.jpeg" class="img-fluid"></p></li>
+</ul>
 </section>
 
 </main>

@@ -1,0 +1,253 @@
+---
+title: "Markov Decision Processes - Week 5"
+author: "LNMB"
+format: html
+jupyter: python3
+---
+
+# Total Reward Markov Decision Processes (MDPs)
+
+## Characteristics and Basic Assumptions
+
+We consider a Markov Decision Process (MDP) with the following features:
+
+- **State Space ($S$)**: A discrete, countable set of states.
+  
+- **Actions ($A(i)$)**: For each state $i \in S$, there is a finite set of available actions.
+  
+- **Transition Probabilities and Rewards**:
+  - **Transition Probabilities ($P_{ij}(a)$)**: The probability of moving from state $i$ to state $j$ when action $a$ is taken.
+  - **Rewards ($r_i(a)$)**: The immediate reward received when action $a$ is taken in state $i$.
+  - These functions are **stationary**, meaning they do not change over time.
+  - They satisfy **Puterman's Condition 2.6.10**, ensuring certain regularity conditions (refer to Puterman's textbook on MDPs for details).
+  
+- **Sink State ($0$)**:
+  - There exists a special state $0 \in S$ known as the sink or absorbing state.
+  - **Actions**: The only available action in state $0$ is $0$, i.e., $A(0) = \{0\}$.
+  - **Transition**: The process remains in state $0$ once it reaches it, $P_{00}(0) = 1$.
+  - **Reward**: The reward in state $0$ is zero, $r_0(0) = 0$.
+
+- **Boundedness Condition**:
+  - There exists a function $M: S \rightarrow \mathbb{R}^+$ with $M(0) = 1$ such that for all $i \in S \setminus \{0\}$ and $a \in A(i)$:
+    $$
+    \sum_{j \in S} P_{ij}(a) M(j) \leq \beta M(i),
+    $$
+    where $\beta = \sup_{a \in A(i)} \| P(a) \|$ and $\| P(a) \|$ is the matrix norm defined as:
+    $$
+    \| P(a) \| = \sup_{\| g \| \leq 1} \| P(a) g \|,
+    $$
+    with $\| g \| = \sup_{i \in S} |g(i)|$ for $g: S \rightarrow \mathbb{R}$.
+
+## Algorithms for Solving MDPs
+
+1. **Policy Iteration**:
+   - Iteratively improve policies until an optimal policy is found.
+   - Focus of the current discussion.
+
+2. **Value Iteration (Successive Approximation)**:
+   - Iteratively update value functions until convergence.
+   - To be discussed separately.
+
+# Linear Programming Formulation of Finite MDPs
+
+For finite MDPs, the problem can be formulated as a linear program (LP). This approach is useful for understanding the structure of optimal policies and for computational purposes.
+
+## Superharmonic Functions
+
+A function $v: S \rightarrow \mathbb{R}$ is called **superharmonic** if it satisfies:
+$$
+v(i) \leq r_i(a) + \sum_{j \in S} P_{ij}(a) v(j), \quad \forall a \in A(i), \quad \forall i \in S \setminus \{0\}.
+$$
+The goal is to find the smallest superharmonic function $v$, which corresponds to the optimal value function $v^*$.
+
+## Primal Linear Program (LP)
+
+The primal LP aims to minimize a weighted sum of the value function over the states:
+- **Objective**:
+  $$
+  \text{Minimize} \quad \sum_{i \in S \setminus \{0\}} \beta_i v(i),
+  $$
+  where $\beta_i > 0$ are given weights.
+
+- **Constraints**:
+  $$
+  v(i) \leq r_i(a) + \sum_{j \in S} P_{ij}(a) v(j), \quad \forall a \in A(i), \quad \forall i \in S \setminus \{0\}.
+  $$
+
+## Dual Linear Program (DLP)
+
+The dual LP corresponds to maximizing the expected total reward, with variables representing the expected number of times each action is taken in each state:
+
+- **Variables**:
+  $X_i(a) \geq 0$, representing occupation measures.
+
+- **Objective**:
+  $$
+  \text{Maximize} \quad \sum_{(i,a)} r_i(a) X_i(a).
+  $$
+
+- **Constraints**:
+  $$
+  \sum_{(i,a)} (\delta_{ij} - P_{ij}(a)) X_i(a) = \beta_j, \quad \forall j \in S \setminus \{0\},
+  $$
+  where $\delta_{ij}$ is the Kronecker delta ($\delta_{ij} = 1$ if $i = j$, $0$ otherwise).
+
+## Interpretation of Dual Variables
+
+- **Occupation Measures ($X_i(a)$)**:
+  - Represent the expected total number of times action $a$ is taken in state $i$ before reaching the sink state.
+  - Can be interpreted in terms of the stationary distribution under a policy.
+
+## Relationship Between Primal and Dual LPs
+
+**Theorem**:
+
+1. **Optimal Solutions Correspond**:
+   - The optimal value of the primal LP equals that of the dual LP.
+   - The optimal $v^*$ from the primal LP and $X^*$ from the dual LP satisfy the complementary slackness conditions.
+
+2. **Policy Interpretation**:
+   - The optimal $X^*$ corresponds to a policy $f^*$ in the set of deterministic Markov policies $D_{MD}$.
+
+3. **Structure of Solutions**:
+   - The number of constraints in the dual LP is $|S \setminus \{0\}|$.
+   - At optimality, there are fewer than $|S \setminus \{0\}|$ positive $X_i(a)$, corresponding to deterministic policies.
+
+# Example: Discounted MDP
+
+Consider a discounted MDP with the following parameters:
+
+- **States**: $S = \{1, 2, 3, 0\}$, where $0$ is the sink state.
+
+- **Actions**: $A_i = \{1, 2, 3\}$ for $i \in \{1, 2, 3\}$.
+
+- **Rewards**:
+  - $r(1) = 9$.
+  - $r(2) = 6$.
+  - $r(3) = 3$.
+
+- **Discount Factor**: $\beta = \frac{1}{4}$.
+
+- **Transition Probabilities**: Defined according to the problem (not specified in the given notes).
+
+We can set up the dual LP for this MDP and solve for the occupation measures $X_i(a)$ to find the optimal policy.
+
+# Optimal Stopping Problems
+
+An optimal stopping problem is a special case of an MDP where at each state, the decision is whether to continue or to stop. The goal is to maximize the expected reward by choosing the optimal stopping time.
+
+## General Setup
+
+- **States**: Finite set $S$.
+
+- **Actions**:
+  - **Continue (C)**: Pay a cost $c$, and move to a new state according to transition probabilities $P_{ij}$.
+  - **Stop (S)**: Receive an immediate reward $r_i$, and move to the sink state $0$.
+
+- **Sink State**:
+  - Once in state $0$, the process remains there with zero reward.
+
+## MDP Formulation
+
+- **Transition Probabilities**:
+  - $P_{ij}(C) = P_{ij}$ for all $i, j \in S$.
+  - $P_{i0}(S) = 1$ for all $i \in S$.
+  - $P_{00}(0) = 1$.
+
+- **Rewards**:
+  - $r_i(C) = -c$ (cost of continuing).
+  - $r_i(S) = r_i$ (reward for stopping).
+
+## Control-Limit Policy
+
+Under certain conditions, the optimal policy is of **control-limit type**:
+
+- There exists a threshold $t$ such that:
+  - **Stop** when the state $i$ satisfies $i \geq t$.
+  - **Continue** when $i < t$.
+
+## Example: House Selling Problem
+
+- **Scenario**:
+  - A seller receives daily offers for a house.
+  - Each day, the seller can accept (stop) or reject (continue) the current offer.
+  - Continuing incurs a daily cost $c$.
+
+- **MDP Formulation**:
+  - **States**: Possible offer amounts.
+  - **Actions**:
+    - **Accept (S)**: Sell the house at the current offer.
+    - **Reject (C)**: Pay cost $c$, and receive a new offer the next day.
+  - **Transition Probabilities**: Determined by the distribution of offers.
+
+- **Optimal Policy**:
+  - A control-limit policy where the seller accepts any offer above a certain threshold.
+
+# Example: Ted's Game with Soldiers
+
+**Scenario**:
+
+- Ted and 50 soldiers each write down a unique real number.
+- Ted draws the numbers one by one.
+- He can claim that the most recent number is the highest so far.
+- If he is correct, he wins \$2 from each soldier.
+- If he is wrong, he pays \$0.75 to each soldier.
+- The game is repeated many times, and Ted wants to maximize his expected gain.
+
+## Formulating as an Optimal Stopping Problem
+
+- **States**:
+  - $S = \{0, 1, 2, \dots, N, N+1\}$, where $N = 50$.
+  - State $i$ indicates that $i$ numbers have been drawn, and the last number is the highest so far.
+  - State $N+1$ indicates that all numbers have been drawn without finding the highest number.
+
+- **Actions**:
+  - **Stop**: Claim the current number is the highest.
+  - **Continue**: Draw the next number.
+
+- **Transition Probabilities**:
+  - The probability that the $i$-th number is the highest so far is $\frac{1}{i}$.
+  - The probability of moving from state $i$ to $i+1$ without stopping is $1 - \frac{1}{i}$.
+
+- **Rewards**:
+  - **Correct Stop**: Gain $G = 50 \times \$2 = \$100$.
+  - **Incorrect Stop**: Lose $L = 50 \times \$0.75 = \$37.50$.
+  - **Continue**: No immediate gain or loss.
+
+## Optimal Policy
+
+Ted's optimal strategy resembles the solution to the **secretary problem**:
+
+- **Skip a certain number of initial draws** (do not stop during these).
+- **After the initial skips**, stop at the first number that is higher than all previously observed numbers.
+- The optimal number of initial skips $k$ can be found by maximizing the probability of success.
+
+## Calculations
+
+- **Probability of Winning**:
+  - The probability that the highest number is among the last $N - k$ numbers and that it is the first maximum after $k$ draws.
+  - This probability is approximately $\frac{1}{e}$ when $k = \frac{N}{e}$.
+
+- **Expected Gain**:
+  - **Expected Gain** $=$ (Probability of Winning $\times G$) $-$ (Probability of Losing $\times L$).
+  - Ted needs to compute this expected gain and choose $k$ to maximize it.
+
+# Conclusion
+
+The MDP framework allows us to model and solve complex decision-making problems involving uncertainty and time. By formulating the problem appropriately, we can use tools like linear programming, policy iteration, and value iteration to find optimal strategies.
+
+Key takeaways:
+
+- **Superharmonic Functions**: Essential in formulating the LP for MDPs.
+  
+- **Duality**: The dual LP provides valuable insights into the structure of optimal policies.
+  
+- **Control-Limit Policies**: Common in optimal stopping problems; policies are determined by thresholds.
+  
+- **Optimal Stopping**: Problems like Ted's game illustrate the application of MDPs in real-world scenarios.
+
+Understanding these concepts equips us with the tools to tackle a wide range of decision-making problems in operations research, economics, and beyond.
+
+---
+
+**Note**: This summary is based on advanced topics in Markov Decision Processes. For detailed explanations and proofs, refer to textbooks such as "Markov Decision Processes: Discrete Stochastic Dynamic Programming" by Martin L. Puterman.

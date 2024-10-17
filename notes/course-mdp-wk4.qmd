@@ -31,6 +31,44 @@ Use this result to show the following facts. First, show that $r \mapsto W^*_n(r
 
 Let $b_n = \arg\max_r W^*_n(r)$. Call $b_n$ the booking limit. Then show that $r \mapsto V^*_n(r)$ is quasiconcave with maximum $b_n$. Finally, show that it is optimal to accept a reservation if and only if $r < b_n$, with $r$ the number of booked reservations on hand at the beginning of the hour (before a decision has been taken).
 
+### PROOF that $r \mapsto W^*_n(r)$ is quasiconcave for all $n \leq T$
+
+We will use proof by complete induction and first proof that (1) that $W_T^*(r)$ is quasi-concave. Then we will proof that (2) if $W_n^*(r)$ is quasi concave, the same holds for $W_{n-1}^*(r)$
+
+#### Step 1
+First define the function $g(\tilde{r} )$ as the profit function at the last epoch in which all reservations and cancellations have already occurred and there are $\tilde{r}$ customers left in the system. Clearly $g(\tilde{r} )$ is concave because for each excess customer, there is a penalty incurred. Therefore the optimal amount of customers is exactly the amount of seats available. The maximum profit is equal to the fare times the amount of seats: $f \cdot S$. Hence there is a point (in this case $S$) where $g(\tilde{r} )$ is increasing on $[0,S]$ and decreasing on $[S, \inf]$ and therefore is quasi-concave.
+
+Now we consider $W_T^*(r)$ which is the maximum expected profit in the last epoch, just before the last cancellations arrive. Clearly:
+
+$W_T^*(r) = E (g (r))$ where $r$ is a sum of i.i.d. binomial variables. Hence $W_T^*(r)$ is quasi concave.
+
+Under optimal policy, we know from the Bellman equation that:
+
+$$
+W^*_{n-1}(r) = \max \{ p \cdot E[W^*_{n}(r+1)] + (1-p) E[W^*_{n}(r)] , E[W^*_{n}(r)] \}
+$$
+
+Since we assumed that $W^*_{n}(r)$ is quasi concave, we can conclude that $E[W^*_{n}(r)]$ is also quasi concave since taking the expectation preserves quasi concavity.
+
+Define $h(r)$, the first term in the max function:
+
+$$
+h(r) = p \cdot E[W^*_{n}(r+1)] + (1-p) E[W^*_{n}(r)]
+$$
+
+Now we have to show that $\max \{ h(r), W^*_{n}(r) \}$ is quasi-concave (we drop the expectations since they do not influence quasi-concavity).
+
+Because $W^*_{n}(r)$ is assumed to be quasi concave it reaches a maximum when $r = a$. Then we have the following:
+
+\begin{itemize}
+    \item $r < a - 1$: Both $h(r)$ and $W^*_{n}(r)$ are increasing hence the maximum is as well. On this interval $W^*_{n}(r + 1) > W^*_{n}(r)$ and hence, $h(r) > W^*_{n}(r)$.Hence the max function will follow $h(r)$ which is increasing. 
+    \item $r = a - 1$: $h(r)$ will be at its maximum and $W^*_{n}(r)$ is still increasing. The max function will still follow $h(r)$ since $W^*_{n}(r + 1) > W^*_{n}(r)$ still holds.  
+    \item $r = a$: Now $W^*_{n}(r)$ reaches its maximum. But since $h(r)$ now contains the fraction $p$ of one optimal term $W^*_{n}(r)$, and the fraction $1-p$ of one term $W^*_{n}(r + 1)$ which is not at its optimum, the max function will return the second term $W^*_{n}(r)$.
+    \item $r > a$: both functions are decreasing and hence the maximum is decreasing as well. 
+\end{itemize}
+
+So $\max \{ h(a), W^*_n(a) \}$ reaches it maximum when $r = a$ and we have shown that $\max \{h(r), W^*_{n}(r) \}$ is increasing on $[0,a]$ and decreasing on $[a,\inf]$, hence $W^*_{n-1}(r)$ is quasi concave. Because we have already proven that $W_T^*(r)$ is quasi concave via complete induction we can now conclude that $W^*_{n}(r)$ is quasi concave for $n \leq T$.
+
 ### c) Solving the Problem
 
 Solve the problem when the parameters are as follows:
@@ -38,7 +76,7 @@ Solve the problem when the parameters are as follows:
 -   $T = 30$
 -   $c(b) = f \cdot b$
 -   $S = 10$
--   $f = D300$
+-   $f = {300}$
 -   $p = 0.2$ and $0.3$
 -   $q = 0.05$ and $0.10$
 -   $r \leq 20$ (so there is an upper bound on the total number of reservations).
@@ -64,9 +102,9 @@ C =\begin{array}{c|ccccc}
     2 & q^2 &2q(1-q) & (1-q)^2 & &  \\
     3 & q^3 & 3q^2(1-q) & 3q(1-q)^2 & (1-q)^3 &  \\
     \vdots \\
-    S & q^S & Sq^{S-1}(1-q) & Sq^{S-2}(1-q)^2 & Sq^{S-3}(1-q)^3 & \dots & \dots & (1-q)^S \\
+    S & q^S & Sq^{S-1}(1-q) & \binom{S}{2}q^{S-2}(1-q)^2 & \binom{S}{3}q^{S-3}(1-q)^3 & \dots & \dots & (1-q)^S \\
     \vdots \\
-    Z-1 & q^{Z-1} & {(Z-1)}q^{Z-2}(1-q) & {(Z-1)}q^{Z-3}(1-q)^2 & {(Z-1)}q^{Z-4}(1-q)^3 & \dots & \dots  & {(Z-1)}q^{Z-1 - S}(1-q)^S & \dots &  {(Z-1)}(1-q)^{Z-1} \\
+    Z-1 & q^{Z-1} & {(Z-1)}q^{Z-2}(1-q) & \binom{Z-1}{2}q^{Z-3}(1-q)^2 & \binom{Z-1}{3}q^{Z-4}(1-q)^3 & \dots & \dots  & {(Z-1)}q^{Z-1 - S}(1-q)^S & \dots &  {(Z-1)}(1-q)^{Z-1} \\
 \end{array}
 $$ ,
 
@@ -91,31 +129,29 @@ $$
 T = C \circ O.
 $$
 
-The action set is the decision to decline ($0$) or accept ($1$) a reservation request.
+The action set is the decision to decline or accept a reservation request.
 
 $$
-A = \{0,1\},
+A = \{decline,accept\},
 $$
 
 and the reward function is the expected profit or loss from the combined bookings and cancellations depending on the action taken at time $n$. The reward function is given by:
 
 $$
-R_r(accept) = \begin{cases}
-    f((1-p)0 + p1) = fp & \text{if } r = 0 \\
-    \sum_{j \in Z} ft_{ij}(j-i) & \text{if } r \neq 0 \\
+R_n(r,a) = \begin{cases}
+    0 & \text{if } n < T \\
+    fr & \text{if } n=T, r \leq S \\
+    fS - c(r - S) & \text{if } n=T, r > S \\
 \end{cases}
 $$
 
-and
+### b) Optimality of Booking-Limit Policies
 
 $$
-R_r(decline) = \sum_{j \in Z} fc_{ij}(j-i).
-$$
-The terminal reward is the expected profit or loss from the combined bookings and cancellations at time $T$.
-
-$$
-R^T = \begin{cases}
-  fr & \text{if } r \leq S \\
-  fS - c(b) & \text{if } r > S.
+rW_n^* = \begin{cases}
+f\mathbb{E}(r) & \forall \ r \leq S \\
+fS - c(\mathbb{E}(r) - S) & \forall \ r > S \\
 \end{cases}
 $$
+
+In any state $r$ is either a set of

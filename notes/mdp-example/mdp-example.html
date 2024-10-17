@@ -1,0 +1,2740 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.551">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>MDP Notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="mdp-example_files/libs/clipboard/clipboard.min.js"></script>
+<script src="mdp-example_files/libs/quarto-html/quarto.js"></script>
+<script src="mdp-example_files/libs/quarto-html/popper.min.js"></script>
+<script src="mdp-example_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="mdp-example_files/libs/quarto-html/anchor.min.js"></script>
+<link href="mdp-example_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="mdp-example_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="mdp-example_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="mdp-example_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="mdp-example_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">MDP Notes</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="5fcfd519" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mdp <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> inspect <span class="im">import</span> getsource</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> HTML, display</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="simple-mdp" class="level2">
+<h2 class="anchored" data-anchor-id="simple-mdp">SIMPLE MDP</h2>
+<p>To begin with let us look at the implementation of MDP class defined in mdp.py The docstring tells us what all is required to define a MDP namely - set of states, actions, initial state, transition model, and a reward function. Each of these are implemented as methods. Do not close the popup so that you can follow along the description of code below.</p>
+<div id="e71c4174" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MDP:</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""A Markov Decision Process, defined by an initial state, transition model,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">    and reward function. We also keep track of a gamma value, for use by</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">    algorithms. The transition model is represented somewhat differently from</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">    the text. Instead of P(s' | s, a) being a probability number for each</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">    state/state/action triplet, we instead have T(s, a) return a</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">    list of (p, s') pairs. We also keep track of the possible states,</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">    terminal states, and actions for each state. [page 646]"""</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, init, actlist, terminals, transitions <span class="op">=</span> {}, reward <span class="op">=</span> <span class="va">None</span>, states<span class="op">=</span><span class="va">None</span>, gamma<span class="op">=</span><span class="fl">.9</span>):</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> (<span class="dv">0</span> <span class="op">&lt;</span> gamma <span class="op">&lt;=</span> <span class="dv">1</span>):</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"An MDP must have 0 &lt; gamma &lt;= 1"</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> states:</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.states <span class="op">=</span> states</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>            <span class="co">## collect states from transitions table</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.states <span class="op">=</span> <span class="va">self</span>.get_states_from_transitions(transitions)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.init <span class="op">=</span> init</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">isinstance</span>(actlist, <span class="bu">list</span>):</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>            <span class="co">## if actlist is a list, all states have the same actions</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.actlist <span class="op">=</span> actlist</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> <span class="bu">isinstance</span>(actlist, <span class="bu">dict</span>):</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>            <span class="co">## if actlist is a dict, different actions for each state</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.actlist <span class="op">=</span> actlist</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.terminals <span class="op">=</span> terminals</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.transitions <span class="op">=</span> transitions</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.transitions <span class="op">==</span> {}:</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"Warning: Transition table is empty."</span>)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.gamma <span class="op">=</span> gamma</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> reward:</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.reward <span class="op">=</span> reward</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.reward <span class="op">=</span> {s : <span class="dv">0</span> <span class="cf">for</span> s <span class="kw">in</span> <span class="va">self</span>.states}</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        <span class="co">#self.check_consistency()</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> R(<span class="va">self</span>, state):</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Return a numeric reward for this state."""</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.reward[state]</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># def T(self, state, action):</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     """Transition model. From a state and an action, return a list</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     of (probability, result-state) pairs."""</span></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     if(self.transitions == {}):</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         raise ValueError("Transition model is missing")</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    <span class="co">#     else:</span></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>    <span class="co">#         return self.transitions[state][action]</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> actions(<span class="va">self</span>, state):</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Set of actions that can be performed in this state. By default, a</span></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="co">        fixed list of actions, except for terminal states. Override this</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="co">        method if you need to specialize by state."""</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> state <span class="kw">in</span> <span class="va">self</span>.terminals:</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> [<span class="va">None</span>]</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.actlist</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_states_from_transitions(<span class="va">self</span>, transitions):</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">isinstance</span>(transitions, <span class="bu">dict</span>):</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>            s1 <span class="op">=</span> <span class="bu">set</span>(transitions.keys())</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>            s2 <span class="op">=</span> <span class="bu">set</span>([tr[<span class="dv">1</span>] <span class="cf">for</span> actions <span class="kw">in</span> transitions.values() </span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>                              <span class="cf">for</span> effects <span class="kw">in</span> actions.values() <span class="cf">for</span> tr <span class="kw">in</span> effects])</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> s1.union(s2)</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">'Could not retrieve states from transitions'</span>)</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> check_consistency(<span class="va">self</span>):</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>        <span class="co"># check that all states in transitions are valid</span></span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> <span class="bu">set</span>(<span class="va">self</span>.states) <span class="op">==</span> <span class="va">self</span>.get_states_from_transitions(<span class="va">self</span>.transitions)</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>        <span class="co"># check that init is a valid state</span></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> <span class="va">self</span>.init <span class="kw">in</span> <span class="va">self</span>.states</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>        <span class="co"># check reward for each state</span></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>        <span class="co">#assert set(self.reward.keys()) == set(self.states)</span></span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> <span class="bu">set</span>(<span class="va">self</span>.reward.keys()) <span class="op">==</span> <span class="bu">set</span>(<span class="va">self</span>.states)</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>        <span class="co"># check that all terminals are valid states</span></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> <span class="bu">all</span>([t <span class="kw">in</span> <span class="va">self</span>.states <span class="cf">for</span> t <span class="kw">in</span> <span class="va">self</span>.terminals])</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>        <span class="co"># check that probability distributions for all actions sum to 1</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> s1, actions <span class="kw">in</span> <span class="va">self</span>.transitions.items():</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> a <span class="kw">in</span> actions.keys():</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>                s <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> o <span class="kw">in</span> actions[a]:</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>                    s <span class="op">+=</span> o[<span class="dv">0</span>]</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>                <span class="cf">assert</span> <span class="bu">abs</span>(s <span class="op">-</span> <span class="dv">1</span>) <span class="op">&lt;</span> <span class="fl">0.001</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <code>__init__</code> method takes in the following parameters:</p>
+<ul>
+<li><p><strong>init</strong>: the initial state.</p></li>
+<li><p><strong>actlist</strong>: List of actions possible in each state.</p></li>
+<li><p><strong>terminals</strong>: List of terminal states where only possible action is exit.</p></li>
+<li><p><strong>gamma</strong>: Discounting factor. This makes sure that delayed rewards have less value compared to immediate ones.</p></li>
+</ul>
+<p><strong>R</strong> method returns the reward for each state by using the self.reward dict.</p>
+<p><strong>T</strong> method is not implemented and is somewhat different from the text. Here we return (probability, s’) pairs where s’ belongs to list of possible state by taking action a in state s.</p>
+<p><strong>actions</strong> method returns list of actions possible in each state. By default it returns all actions for states other than terminal states.</p>
+<p>Now let us implement the simple MDP in the image below. States A, B have actions X, Y available in them. Their probabilities are shown just above the arrows. We start with using MDP as base class for our CustomMDP. Obviously we need to make a few changes to suit our case. We make use of a transition matrix as our transitions are not very simple.</p>
+<p><img src="mdp-a.png" class="img-fluid"></p>
+<div id="03dfd46f" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transition Matrix as nested dict. State -&gt; Actions in state -&gt; List of (Probability, State) tuples</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A"</span>: {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">"X"</span>: [(<span class="fl">0.3</span>, <span class="st">"A"</span>), (<span class="fl">0.7</span>, <span class="st">"B"</span>)],</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Y"</span>: [(<span class="fl">1.0</span>, <span class="st">"A"</span>)]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>         },</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B"</span>: {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>            <span class="st">"X"</span>: {(<span class="fl">0.8</span>, <span class="st">"End"</span>), (<span class="fl">0.2</span>, <span class="st">"B"</span>)},</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Y"</span>: {(<span class="fl">1.0</span>, <span class="st">"A"</span>)}</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>         },</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"End"</span>: {}</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>init <span class="op">=</span> <span class="st">"A"</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>terminals <span class="op">=</span> [<span class="st">"End"</span>]</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>rewards <span class="op">=</span> {</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"A"</span>: <span class="dv">5</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"B"</span>: <span class="op">-</span><span class="dv">10</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">"End"</span>: <span class="dv">100</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="6d76b502" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CustomMDP(MDP):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, init, terminals, transition_matrix, reward <span class="op">=</span> <span class="va">None</span>, gamma<span class="op">=</span><span class="fl">.9</span>):</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># All possible actions.</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        actlist <span class="op">=</span> []</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> state <span class="kw">in</span> transition_matrix.keys():</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>            actlist.extend(transition_matrix[state])</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        actlist <span class="op">=</span> <span class="bu">list</span>(<span class="bu">set</span>(actlist))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        MDP.<span class="fu">__init__</span>(<span class="va">self</span>, init, actlist, terminals, transition_matrix, reward, gamma<span class="op">=</span>gamma)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> T(<span class="va">self</span>, state, action):</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.transitions[state] <span class="op">==</span> {}:</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> [(<span class="fl">1.0</span>, state)]</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> action <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> [(<span class="fl">0.0</span>, state)]</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>: </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">self</span>.transitions[state][action]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Finally we instantize the class with the parameters for our MDP in the picture.</p>
+<div id="c374bf30" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>our_mdp <span class="op">=</span> CustomMDP(init, terminals, t, rewards, gamma<span class="op">=</span><span class="fl">.9</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(our_mdp.transitions, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> s <span class="kw">in</span> our_mdp.states:</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(s, our_mdp.actions(s))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'A': {'X': [(0.3, 'A'), (0.7, 'B')], 'Y': [(1.0, 'A')]}, 'B': {'X': {(0.2, 'B'), (0.8, 'End')}, 'Y': {(1.0, 'A')}}, 'End': {}} 
+
+A ['X', 'Y']
+End [None]
+B ['X', 'Y']</code></pre>
+</div>
+</div>
+<p>With this we have successfully represented our MDP. Later we will look at ways to solve this MDP.</p>
+</section>
+<section id="value-iteration" class="level2">
+<h2 class="anchored" data-anchor-id="value-iteration">VALUE ITERATION</h2>
+<p>Now that we have looked at how to represent MDPs, let’s aim at solving them. Our ultimate goal is to obtain an optimal policy. We start with looking at Value Iteration and a visualisation that should help us understand it better.</p>
+<p>We start by calculating the Value/Utility for each of the states. The Value of each state is the expected sum of discounted future rewards given we start in that state and follow a particular policy. The value or the utility of a state is given by</p>
+<p><span class="math display">\[
+V(s) = \max_a \sum_{s'} P(s' | s, a) \left[ R(s, a, s') + \gamma V(s') \right]
+\]</span></p>
+<p>This is called the Bellman equation. The algorithm Value Iteration (Fig. 17.4 in the book) relies on finding solutions to this equation. The intuition behind Value Iteration is that values propagate through the state space by means of local updates. This point will be more clear after we encounter the visualisation. For more information, you can refer to Section 17.2 of the book.</p>
+<div id="e2ed9add" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> value_iteration(mdp, epsilon<span class="op">=</span><span class="fl">0.001</span>):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Solving an MDP by value iteration. [Figure 17.4]"""</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    U1 <span class="op">=</span> {s: <span class="dv">0</span> <span class="cf">for</span> s <span class="kw">in</span> mdp.states}</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    R, gamma <span class="op">=</span> mdp.R, mdp.gamma</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        U <span class="op">=</span> U1.copy()</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        delta <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> s <span class="kw">in</span> mdp.states:</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(s, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, mdp.actions(s), <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, [mdp.T(s, a) <span class="cf">for</span> a <span class="kw">in</span> mdp.actions(s)], <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, U, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, delta <span class="op">/</span> epsilon <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> gamma) <span class="op">/</span> gamma)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>            U1[s] <span class="op">=</span> R(s) <span class="op">+</span> gamma <span class="op">*</span> <span class="bu">max</span>([<span class="bu">sum</span>([p <span class="op">*</span> U[s1] <span class="cf">for</span> (p, s1) <span class="kw">in</span> mdp.T(s, a)])</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                                        <span class="cf">for</span> a <span class="kw">in</span> mdp.actions(s)])</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>            delta <span class="op">=</span> <span class="bu">max</span>(delta, <span class="bu">abs</span>(U1[s] <span class="op">-</span> U[s])) <span class="co"># Delta will be the maximum change in utility of any state</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> delta <span class="op">&lt;</span> epsilon <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> gamma) <span class="op">/</span> gamma:</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> U</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>It takes as inputs two parameters, an MDP to solve and <span class="math inline">\(\epsilon\)</span>, the maximum error allowed in the utility of any state. It returns a dictionary containing utilities where the keys are the states and values represent utilities. Value Iteration starts with arbitrary initial values for the utilities, calculates the right side of the Bellman equation and plugs it into the left-hand side, thereby updating the utility of each state from the utilities of its neighbors. This is repeated until equilibrium is reached. It works on the principle of Dynamic Programming — using precomputed information to simplify the subsequent computation. If <span class="math inline">\(U_i(s)\)</span> is the utility value for state <span class="math inline">\(s\)</span> at the <span class="math inline">\(i^{th}\)</span> iteration, the iteration step, called the Bellman update, looks like this:</p>
+<p><span class="math display">\[
+U_{i+1}(s) = \max_a \sum_{s'} P(s' | s, a) \left[ R(s, a, s') + \gamma U_i(s') \right]
+\]</span></p>
+<p>As you might have noticed, <code>value_iteration</code> has an infinite loop. How do we decide when to stop iterating? The concept of contraction successfully explains the convergence of value iteration. Refer to Section 17.2.3 of the book for a detailed explanation. In the algorithm, we calculate a value <span class="math inline">\(\delta\)</span> that measures the difference in the utilities of the current time step and the previous time step.</p>
+<p><span class="math display">\[
+\delta = \max_s \left| U_{i+1}(s) - U_i(s) \right|
+\]</span></p>
+<p>This value of <span class="math inline">\(\delta\)</span> decreases as the values of <span class="math inline">\(U(s)\)</span> converge. We terminate the algorithm if the <span class="math inline">\(\delta\)</span> value is less than a threshold value determined by the hyperparameter <span class="math inline">\(\epsilon\)</span>.</p>
+<p><span class="math display">\[
+\delta &lt; \epsilon
+\]</span></p>
+<p>To summarize, the Bellman update is a contraction by a factor of <span class="math inline">\(\gamma\)</span> on the space of utility vectors. Hence, from the properties of contractions in general, it follows that <code>value_iteration</code> always converges to a unique solution of the Bellman equations whenever <span class="math inline">\(\gamma\)</span> is less than 1. We then terminate the algorithm when a reasonable approximation is achieved. In practice, it often occurs that the policy <span class="math inline">\(\pi\)</span> becomes optimal long before the utility function converges. For the given 4 x 3 environment with <span class="math inline">\(\gamma = 0.9\)</span>, the policy <span class="math inline">\(\pi\)</span> is optimal when <span class="math inline">\(\pi_4\)</span> (at the 4th iteration), even though the maximum error in the utility function is still 0.46. This can be clarified from figure 17.6 in the book. Hence, to increase computational efficiency, we often use another method to solve MDPs called Policy Iteration, which we will see in the later part of this notebook. For now, let us solve the <code>sequential_decision_environment</code> <code>GridMDP</code> using <code>value_iteration</code>.</p>
+<div id="63301845" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>value_iteration(our_mdp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 0, 'End': 0, 'B': 0} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 0, 'End': 0, 'B': 0} 
+ 555.5555555555554
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 0, 'End': 0, 'B': 0} 
+ 11111.11111111111
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 5.0, 'End': 100.0, 'B': -10.0} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 5.0, 'End': 100.0, 'B': -10.0} 
+ 499.9999999999999
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 5.0, 'End': 100.0, 'B': -10.0} 
+ 9999.999999999998
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 9.5, 'End': 190.0, 'B': 60.2} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 9.5, 'End': 190.0, 'B': 60.2} 
+ 3998.9999999999986
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 9.5, 'End': 190.0, 'B': 60.2} 
+ 8999.999999999998
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 45.491, 'End': 271.0, 'B': 137.636} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 45.491, 'End': 271.0, 'B': 137.636} 
+ 6500.249999999997
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 45.491, 'End': 271.0, 'B': 137.636} 
+ 8099.9999999999945
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 103.99324999999999, 'End': 343.9, 'B': 209.89448000000002} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 103.99324999999999, 'End': 343.9, 'B': 209.89448000000002} 
+ 6813.1611
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 103.99324999999999, 'End': 343.9, 'B': 209.89448000000002} 
+ 7290.0
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 165.3116999, 'End': 409.51, 'B': 275.3890064} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 165.3116999, 'End': 409.51, 'B': 275.3890064} 
+ 6424.170345000001
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 165.3116999, 'End': 409.51, 'B': 275.3890064} 
+ 6561.000000000003
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 223.12923300500003, 'End': 468.559, 'B': 334.417221152} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 223.12923300500003, 'End': 468.559, 'B': 334.417221152} 
+ 5866.501025789997
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 223.12923300500003, 'End': 468.559, 'B': 334.417221152} 
+ 5904.8999999999905
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 275.92774223711, 'End': 521.7031, 'B': 387.55757980736007} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 275.92774223711, 'End': 521.7031, 'B': 387.55757980736007} 
+ 5303.780382838503
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 275.92774223711, 'End': 521.7031, 'B': 387.55757980736007} 
+ 5314.410000000001
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 323.66176568265655, 'End': 569.53279, 'B': 435.3865963653248} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 323.66176568265655, 'End': 569.53279, 'B': 435.3865963653248} 
+ 4780.051862423931
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 323.66176568265655, 'End': 569.53279, 'B': 435.3865963653248} 
+ 4782.969000000005
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 366.68223244447194, 'End': 612.579511, 'B': 478.4331961457585} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 366.68223244447194, 'End': 612.579511, 'B': 478.4331961457585} 
+ 4303.875987484811
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 366.68223244447194, 'End': 612.579511, 'B': 478.4331961457585} 
+ 4304.672099999997
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 405.41711633183525, 'End': 651.3215599, 'B': 517.1752232262365} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 405.41711633183525, 'End': 651.3215599, 'B': 517.1752232262365} 
+ 3873.9884122543654
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 405.41711633183525, 'End': 651.3215599, 'B': 517.1752232262365} 
+ 3874.204889999999
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 440.28301204212454, 'End': 686.18940391, 'B': 552.0430633087226} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 440.28301204212454, 'End': 686.18940391, 'B': 552.0430633087226} 
+ 3486.7256770826934
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 440.28301204212454, 'End': 686.18940391, 'B': 552.0430633087226} 
+ 3486.7844009999963
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 471.6635431358688, 'End': 717.570463519, 'B': 583.4241222107702} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 471.6635431358688, 'End': 717.570463519, 'B': 583.4241222107702} 
+ 3138.090055955665
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 471.6635431358688, 'End': 717.570463519, 'B': 583.4241222107702} 
+ 3138.1059609000067
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 499.9063536394698, 'End': 745.8134171671, 'B': 611.6670757316188} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 499.9063536394698, 'End': 745.8134171671, 'B': 611.6670757316188} 
+ 2824.291061567426
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 499.9063536394698, 'End': 745.8134171671, 'B': 611.6670757316188} 
+ 2824.2953648100024
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 525.3249731935766, 'End': 771.2320754503901, 'B': 637.0857339920035} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 525.3249731935766, 'End': 771.2320754503901, 'B': 637.0857339920035} 
+ 2541.8646648501453
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 525.3249731935766, 'End': 771.2320754503901, 'B': 637.0857339920035} 
+ 2541.8658283289983
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 548.2017551772279, 'End': 794.1088679053511, 'B': 659.9625264428415} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 548.2017551772279, 'End': 794.1088679053511, 'B': 659.9625264428415} 
+ 2287.678931068196
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 548.2017551772279, 'End': 794.1088679053511, 'B': 659.9625264428415} 
+ 2287.6792454961023
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 568.7908655568417, 'End': 814.697981114816, 'B': 680.5516396515643} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 568.7908655568417, 'End': 814.697981114816, 'B': 680.5516396515643} 
+ 2058.9112359990113
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 568.7908655568417, 'End': 814.697981114816, 'B': 680.5516396515643} 
+ 2058.9113209464854
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 587.3210666808328, 'End': 833.2281830033344, 'B': 699.0818415399492} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 587.3210666808328, 'End': 833.2281830033344, 'B': 699.0818415399492} 
+ 1853.020165906678
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 587.3210666808328, 'End': 833.2281830033344, 'B': 699.0818415399492} 
+ 1853.0201888518397
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 603.9982481739929, 'End': 849.9053647030009, 'B': 715.7590232395916} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 603.9982481739929, 'End': 849.9053647030009, 'B': 715.7590232395916} 
+ 1667.7181637697654
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 603.9982481739929, 'End': 849.9053647030009, 'B': 715.7590232395916} 
+ 1667.7181699666583
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 619.0077116479208, 'End': 864.9148282327009, 'B': 730.7684867692872} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 619.0077116479208, 'End': 864.9148282327009, 'B': 730.7684867692872} 
+ 1500.9463512965208
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 619.0077116479208, 'End': 864.9148282327009, 'B': 730.7684867692872} 
+ 1500.946352969991
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 632.5162288095895, 'End': 878.4233454094308, 'B': 744.2770039460163} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 632.5162288095895, 'End': 878.4233454094308, 'B': 744.2770039460163} 
+ 1350.8517172211132
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 632.5162288095895, 'End': 878.4233454094308, 'B': 744.2770039460163} 
+ 1350.8517176729933
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 644.6738942645795, 'End': 890.5810108684877, 'B': 756.4346694050731} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 644.6738942645795, 'End': 890.5810108684877, 'B': 756.4346694050731} 
+ 1215.7665457836702
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 644.6738942645795, 'End': 890.5810108684877, 'B': 756.4346694050731} 
+ 1215.766545905694
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 655.6157931766326, 'End': 901.522909781639, 'B': 767.3765683182244} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 655.6157931766326, 'End': 901.522909781639, 'B': 767.3765683182244} 
+ 1094.1898912821744
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 655.6157931766326, 'End': 901.522909781639, 'B': 767.3765683182244} 
+ 1094.189891315118
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 665.4635021981721, 'End': 911.370618803475, 'B': 777.2242773400606} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 665.4635021981721, 'End': 911.370618803475, 'B': 777.2242773400606} 
+ 984.7709021747223
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 665.4635021981721, 'End': 911.370618803475, 'B': 777.2242773400606} 
+ 984.7709021836151
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 674.3264403177446, 'End': 920.2335569231276, 'B': 786.087215459713} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 674.3264403177446, 'End': 920.2335569231276, 'B': 786.087215459713} 
+ 886.2938119628373
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 674.3264403177446, 'End': 920.2335569231276, 'B': 786.087215459713} 
+ 886.2938119652499
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 682.3030846254102, 'End': 928.2102012308148, 'B': 794.0638597674002} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 682.3030846254102, 'End': 928.2102012308148, 'B': 794.0638597674002} 
+ 797.6644307680846
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 682.3030846254102, 'End': 928.2102012308148, 'B': 794.0638597674002} 
+ 797.6644307687288
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 689.4820645023229, 'End': 935.3891811077334, 'B': 801.2428396443188} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 689.4820645023229, 'End': 935.3891811077334, 'B': 801.2428396443188} 
+ 717.8979876916854
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 689.4820645023229, 'End': 935.3891811077334, 'B': 801.2428396443188} 
+ 717.8979876918496
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 695.9431463915481, 'End': 941.85026299696, 'B': 807.7039215335456} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 695.9431463915481, 'End': 941.85026299696, 'B': 807.7039215335456} 
+ 646.1081889226153
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 695.9431463915481, 'End': 941.85026299696, 'B': 807.7039215335456} 
+ 646.1081889226659
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 701.7581200918517, 'End': 947.665236697264, 'B': 813.5188952338495} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 701.7581200918517, 'End': 947.665236697264, 'B': 813.5188952338495} 
+ 581.4973700303829
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 701.7581200918517, 'End': 947.665236697264, 'B': 813.5188952338495} 
+ 581.4973700303955
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 706.9915964221251, 'End': 952.8987130275376, 'B': 818.7523715641231} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 706.9915964221251, 'End': 952.8987130275376, 'B': 818.7523715641231} 
+ 523.347633027356
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 706.9915964221251, 'End': 952.8987130275376, 'B': 818.7523715641231} 
+ 523.347633027356
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 711.7017251193713, 'End': 957.6088417247838, 'B': 823.4625002613693} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 711.7017251193713, 'End': 957.6088417247838, 'B': 823.4625002613693} 
+ 471.01286972460645
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 711.7017251193713, 'End': 957.6088417247838, 'B': 823.4625002613693} 
+ 471.01286972463174
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 715.9408409468928, 'End': 961.8479575523055, 'B': 827.7016160888909} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 715.9408409468928, 'End': 961.8479575523055, 'B': 827.7016160888909} 
+ 423.9115827521623
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 715.9408409468928, 'End': 961.8479575523055, 'B': 827.7016160888909} 
+ 423.9115827521623
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 719.7560451916622, 'End': 965.663161797075, 'B': 831.5168203336603} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 719.7560451916622, 'End': 965.663161797075, 'B': 831.5168203336603} 
+ 381.52042447695237
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 719.7560451916622, 'End': 965.663161797075, 'B': 831.5168203336603} 
+ 381.52042447695237
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 723.1897290119548, 'End': 969.0968456173675, 'B': 834.9505041539529} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 723.1897290119548, 'End': 969.0968456173675, 'B': 834.9505041539529} 
+ 343.3683820292622
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 723.1897290119548, 'End': 969.0968456173675, 'B': 834.9505041539529} 
+ 343.3683820292622
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 726.2800444502182, 'End': 972.1871610556308, 'B': 838.0408195922163} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 726.2800444502182, 'End': 972.1871610556308, 'B': 838.0408195922163} 
+ 309.03154382633596
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 726.2800444502182, 'End': 972.1871610556308, 'B': 838.0408195922163} 
+ 309.03154382633596
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 729.0613283446552, 'End': 974.9684449500677, 'B': 840.8221034866533} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 729.0613283446552, 'End': 974.9684449500677, 'B': 840.8221034866533} 
+ 278.12838944368593
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 729.0613283446552, 'End': 974.9684449500677, 'B': 840.8221034866533} 
+ 278.12838944369855
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 731.5644838496484, 'End': 977.471600455061, 'B': 843.3252589916464} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 731.5644838496484, 'End': 977.471600455061, 'B': 843.3252589916464} 
+ 250.31555049931984
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 731.5644838496484, 'End': 977.471600455061, 'B': 843.3252589916464} 
+ 250.31555049931984
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 733.8173238041422, 'End': 979.7244404095549, 'B': 845.5780989461404} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 733.8173238041422, 'End': 979.7244404095549, 'B': 845.5780989461404} 
+ 225.28399544939418
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 733.8173238041422, 'End': 979.7244404095549, 'B': 845.5780989461404} 
+ 225.28399544939418
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 735.8448797631868, 'End': 981.7519963685994, 'B': 847.6056549051848} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 735.8448797631868, 'End': 981.7519963685994, 'B': 847.6056549051848} 
+ 202.75559590445226
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 735.8448797631868, 'End': 981.7519963685994, 'B': 847.6056549051848} 
+ 202.75559590445226
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 737.6696801263269, 'End': 983.5767967317395, 'B': 849.4304552683249} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 737.6696801263269, 'End': 983.5767967317395, 'B': 849.4304552683249} 
+ 182.48003631400576
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 737.6696801263269, 'End': 983.5767967317395, 'B': 849.4304552683249} 
+ 182.48003631400576
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 739.3120004531529, 'End': 985.2191170585655, 'B': 851.072775595151} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 739.3120004531529, 'End': 985.2191170585655, 'B': 851.072775595151} 
+ 164.2320326826115
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 739.3120004531529, 'End': 985.2191170585655, 'B': 851.072775595151} 
+ 164.2320326826115
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 740.7900887472964, 'End': 986.697205352709, 'B': 852.5508638892944} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 740.7900887472964, 'End': 986.697205352709, 'B': 852.5508638892944} 
+ 147.80882941434152
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 740.7900887472964, 'End': 986.697205352709, 'B': 852.5508638892944} 
+ 147.80882941434152
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 742.1203682120255, 'End': 988.0274848174381, 'B': 853.8811433540236} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 742.1203682120255, 'End': 988.0274848174381, 'B': 853.8811433540236} 
+ 133.02794647291998
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 742.1203682120255, 'End': 988.0274848174381, 'B': 853.8811433540236} 
+ 133.02794647291998
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 743.3176197302818, 'End': 989.2247363356943, 'B': 855.0783948722798} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 743.3176197302818, 'End': 989.2247363356943, 'B': 855.0783948722798} 
+ 119.72515182561787
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 743.3176197302818, 'End': 989.2247363356943, 'B': 855.0783948722798} 
+ 119.72515182561787
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 744.3951460967123, 'End': 990.3022627021248, 'B': 856.1559212387104} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 744.3951460967123, 'End': 990.3022627021248, 'B': 856.1559212387104} 
+ 107.7526366430624
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 744.3951460967123, 'End': 990.3022627021248, 'B': 856.1559212387104} 
+ 107.7526366430624
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 745.3649198264999, 'End': 991.2720364319124, 'B': 857.1256949684979} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 745.3649198264999, 'End': 991.2720364319124, 'B': 857.1256949684979} 
+ 96.97737297874986
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 745.3649198264999, 'End': 991.2720364319124, 'B': 857.1256949684979} 
+ 96.97737297874986
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 746.2377161833086, 'End': 992.1448327887211, 'B': 857.9984913253068} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 746.2377161833086, 'End': 992.1448327887211, 'B': 857.9984913253068} 
+ 87.27963568089255
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 746.2377161833086, 'End': 992.1448327887211, 'B': 857.9984913253068} 
+ 87.27963568089255
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 747.0232329044367, 'End': 992.9303495098491, 'B': 858.7840080464346} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 747.0232329044367, 'End': 992.9303495098491, 'B': 858.7840080464346} 
+ 78.55167211278057
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 747.0232329044367, 'End': 992.9303495098491, 'B': 858.7840080464346} 
+ 78.5516721127932
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 747.7301979534517, 'End': 993.6373145588642, 'B': 859.4909730954496} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 747.7301979534517, 'End': 993.6373145588642, 'B': 859.4909730954496} 
+ 70.69650490149745
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 747.7301979534517, 'End': 993.6373145588642, 'B': 859.4909730954496} 
+ 70.69650490151008
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 748.3664664975652, 'End': 994.2735831029778, 'B': 860.1272416395632} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 748.3664664975652, 'End': 994.2735831029778, 'B': 860.1272416395632} 
+ 63.62685441135655
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 748.3664664975652, 'End': 994.2735831029778, 'B': 860.1272416395632} 
+ 63.62685441135655
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 748.9391081872674, 'End': 994.84622479268, 'B': 860.6998833292655} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 748.9391081872674, 'End': 994.84622479268, 'B': 860.6998833292655} 
+ 57.26416897023984
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 748.9391081872674, 'End': 994.84622479268, 'B': 860.6998833292655} 
+ 57.26416897023984
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 749.4544857079995, 'End': 995.361602313412, 'B': 861.2152608499974} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 749.4544857079995, 'End': 995.361602313412, 'B': 861.2152608499974} 
+ 51.53775207318428
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 749.4544857079995, 'End': 995.361602313412, 'B': 861.2152608499974} 
+ 51.53775207319691
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 749.9183254766582, 'End': 995.8254420820708, 'B': 861.6791006186563} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 749.9183254766582, 'End': 995.8254420820708, 'B': 861.6791006186563} 
+ 46.383976865879745
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 749.9183254766582, 'End': 995.8254420820708, 'B': 861.6791006186563} 
+ 46.383976865879745
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 750.3357812684511, 'End': 996.2428978738637, 'B': 862.0965564104492} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 750.3357812684511, 'End': 996.2428978738637, 'B': 862.0965564104492} 
+ 41.745579179291774
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 750.3357812684511, 'End': 996.2428978738637, 'B': 862.0965564104492} 
+ 41.745579179291774
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 750.7114914810647, 'End': 996.6186080864774, 'B': 862.4722666230629} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 750.7114914810647, 'End': 996.6186080864774, 'B': 862.4722666230629} 
+ 37.57102126136638
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 750.7114914810647, 'End': 996.6186080864774, 'B': 862.4722666230629} 
+ 37.57102126136638
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 751.049630672417, 'End': 996.9567472778297, 'B': 862.810405814415} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 751.049630672417, 'End': 996.9567472778297, 'B': 862.810405814415} 
+ 33.81391913522848
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 751.049630672417, 'End': 996.9567472778297, 'B': 862.810405814415} 
+ 33.81391913522848
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 751.3539559446341, 'End': 997.2610725500467, 'B': 863.1147310866321} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 751.3539559446341, 'End': 997.2610725500467, 'B': 863.1147310866321} 
+ 30.432527221705634
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 751.3539559446341, 'End': 997.2610725500467, 'B': 863.1147310866321} 
+ 30.432527221705634
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 751.6278486896294, 'End': 997.5349652950421, 'B': 863.3886238316275} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 751.6278486896294, 'End': 997.5349652950421, 'B': 863.3886238316275} 
+ 27.38927449953128
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 751.6278486896294, 'End': 997.5349652950421, 'B': 863.3886238316275} 
+ 27.38927449953128
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 751.8743521601252, 'End': 997.7814687655379, 'B': 863.6351273021234} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 751.8743521601252, 'End': 997.7814687655379, 'B': 863.6351273021234} 
+ 24.65034704957563
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 751.8743521601252, 'End': 997.7814687655379, 'B': 863.6351273021234} 
+ 24.65034704957563
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 752.0962052835714, 'End': 998.003321888984, 'B': 863.8569804255695} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 752.0962052835714, 'End': 998.003321888984, 'B': 863.8569804255695} 
+ 22.185312344618065
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 752.0962052835714, 'End': 998.003321888984, 'B': 863.8569804255695} 
+ 22.185312344618065
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 752.295873094673, 'End': 998.2029897000856, 'B': 864.0566482366711} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 752.295873094673, 'End': 998.2029897000856, 'B': 864.0566482366711} 
+ 19.96678111015626
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 752.295873094673, 'End': 998.2029897000856, 'B': 864.0566482366711} 
+ 19.96678111015626
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 752.4755741246644, 'End': 998.382690730077, 'B': 864.2363492666625} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 752.4755741246644, 'End': 998.382690730077, 'B': 864.2363492666625} 
+ 17.970102999154527
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 752.4755741246644, 'End': 998.382690730077, 'B': 864.2363492666625} 
+ 17.970102999154527
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 752.6373050516568, 'End': 998.5444216570693, 'B': 864.3980801936548} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 752.6373050516568, 'End': 998.5444216570693, 'B': 864.3980801936548} 
+ 16.17309269923023
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 752.6373050516568, 'End': 998.5444216570693, 'B': 864.3980801936548} 
+ 16.17309269923023
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 752.7828628859498, 'End': 998.6899794913624, 'B': 864.5436380279478} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 752.7828628859498, 'End': 998.6899794913624, 'B': 864.5436380279478} 
+ 14.555783429298366
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 752.7828628859498, 'End': 998.6899794913624, 'B': 864.5436380279478} 
+ 14.555783429310997
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 752.9138649368135, 'End': 998.8209815422261, 'B': 864.6746400788115} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 752.9138649368135, 'End': 998.8209815422261, 'B': 864.6746400788115} 
+ 13.100205086377372
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 752.9138649368135, 'End': 998.8209815422261, 'B': 864.6746400788115} 
+ 13.100205086377372
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.0317667825909, 'End': 998.9388833880035, 'B': 864.7925419245889} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.0317667825909, 'End': 998.9388833880035, 'B': 864.7925419245889} 
+ 11.79018457773711
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.0317667825909, 'End': 998.9388833880035, 'B': 864.7925419245889} 
+ 11.79018457773711
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.1378784437906, 'End': 999.0449950492032, 'B': 864.8986535857887} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.1378784437906, 'End': 999.0449950492032, 'B': 864.8986535857887} 
+ 10.611166119979819
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.1378784437906, 'End': 999.0449950492032, 'B': 864.8986535857887} 
+ 10.611166119979819
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.2333789388704, 'End': 999.1404955442829, 'B': 864.9941540808683} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.2333789388704, 'End': 999.1404955442829, 'B': 864.9941540808683} 
+ 9.550049507967943
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.2333789388704, 'End': 999.1404955442829, 'B': 864.9941540808683} 
+ 9.550049507967943
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.3193293844421, 'End': 999.2264459898546, 'B': 865.0801045264401} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.3193293844421, 'End': 999.2264459898546, 'B': 865.0801045264401} 
+ 8.595044557169885
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.3193293844421, 'End': 999.2264459898546, 'B': 865.0801045264401} 
+ 8.595044557169885
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.3966847854566, 'End': 999.3038013908691, 'B': 865.1574599274547} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.3966847854566, 'End': 999.3038013908691, 'B': 865.1574599274547} 
+ 7.735540101470581
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.3966847854566, 'End': 999.3038013908691, 'B': 865.1574599274547} 
+ 7.735540101470581
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.4663046463698, 'End': 999.3734212517822, 'B': 865.2270797883677} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.4663046463698, 'End': 999.3734212517822, 'B': 865.2270797883677} 
+ 6.9619860912932054
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.4663046463698, 'End': 999.3734212517822, 'B': 865.2270797883677} 
+ 6.961986091305837
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.5289625211915, 'End': 999.436079126604, 'B': 865.2897376631895} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.5289625211915, 'End': 999.436079126604, 'B': 865.2897376631895} 
+ 6.265787482182834
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.5289625211915, 'End': 999.436079126604, 'B': 865.2897376631895} 
+ 6.265787482182834
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.5853546085311, 'End': 999.4924712139436, 'B': 865.346129750529} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.5853546085311, 'End': 999.4924712139436, 'B': 865.346129750529} 
+ 5.639208733959498
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.5853546085311, 'End': 999.4924712139436, 'B': 865.346129750529} 
+ 5.639208733959498
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.6361074871368, 'End': 999.5432240925493, 'B': 865.3968826291348} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.6361074871368, 'End': 999.5432240925493, 'B': 865.3968826291348} 
+ 5.075287860563548
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.6361074871368, 'End': 999.5432240925493, 'B': 865.3968826291348} 
+ 5.075287860563548
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.6817850778818, 'End': 999.5889016832944, 'B': 865.4425602198799} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.6817850778818, 'End': 999.5889016832944, 'B': 865.4425602198799} 
+ 4.567759074512246
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.6817850778818, 'End': 999.5889016832944, 'B': 865.4425602198799} 
+ 4.567759074512246
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.7228949095525, 'End': 999.630011514965, 'B': 865.4836700515503} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.7228949095525, 'End': 999.630011514965, 'B': 865.4836700515503} 
+ 4.110983167038284
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.7228949095525, 'End': 999.630011514965, 'B': 865.4836700515503} 
+ 4.110983167063547
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.7598937580558, 'End': 999.6670103634685, 'B': 865.5206689000539} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.7598937580558, 'End': 999.6670103634685, 'B': 865.5206689000539} 
+ 3.699884850347087
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.7598937580558, 'End': 999.6670103634685, 'B': 865.5206689000539} 
+ 3.699884850347087
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.7931927217089, 'End': 999.7003093271217, 'B': 865.5539678637072} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.7931927217089, 'End': 999.7003093271217, 'B': 865.5539678637072} 
+ 3.3298963653325897
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.7931927217089, 'End': 999.7003093271217, 'B': 865.5539678637072} 
+ 3.3298963653325897
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.8231617889969, 'End': 999.7302783944095, 'B': 865.5839369309949} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.8231617889969, 'End': 999.7302783944095, 'B': 865.5839369309949} 
+ 2.9969067287664877
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.8231617889969, 'End': 999.7302783944095, 'B': 865.5839369309949} 
+ 2.99690672877912
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.8501339495558, 'End': 999.7572505549686, 'B': 865.610909091554} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.8501339495558, 'End': 999.7572505549686, 'B': 865.610909091554} 
+ 2.6972160559226817
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.8501339495558, 'End': 999.7572505549686, 'B': 865.610909091554} 
+ 2.6972160559226817
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.8744088940591, 'End': 999.7815254994717, 'B': 865.6351840360571} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.8744088940591, 'End': 999.7815254994717, 'B': 865.6351840360571} 
+ 2.4274944503177815
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.8744088940591, 'End': 999.7815254994717, 'B': 865.6351840360571} 
+ 2.4274944503177815
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.896256344112, 'End': 999.8033729495246, 'B': 865.65703148611} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.896256344112, 'End': 999.8033729495246, 'B': 865.65703148611} 
+ 2.1847450052771613
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.896256344112, 'End': 999.8033729495246, 'B': 865.65703148611} 
+ 2.184745005289793
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.9159190491595, 'End': 999.8230356545722, 'B': 865.6766941911576} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.9159190491595, 'End': 999.8230356545722, 'B': 865.6766941911576} 
+ 1.966270504769656
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.9159190491595, 'End': 999.8230356545722, 'B': 865.6766941911576} 
+ 1.966270504769656
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.9336154837024, 'End': 999.840732089115, 'B': 865.6943906257004} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.9336154837024, 'End': 999.840732089115, 'B': 865.6943906257004} 
+ 1.7696434542813217
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.9336154837024, 'End': 999.840732089115, 'B': 865.6943906257004} 
+ 1.7696434542813217
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.9495422747909, 'End': 999.8566588802036, 'B': 865.7103174167889} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.9495422747909, 'End': 999.8566588802036, 'B': 865.7103174167889} 
+ 1.5926791088531898
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.9495422747909, 'End': 999.8566588802036, 'B': 865.7103174167889} 
+ 1.5926791088531898
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.9638763867706, 'End': 999.8709929921832, 'B': 865.7246515287686} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.9638763867706, 'End': 999.8709929921832, 'B': 865.7246515287686} 
+ 1.4334111979476598
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.9638763867706, 'End': 999.8709929921832, 'B': 865.7246515287686} 
+ 1.4334111979602915
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.9767770875521, 'End': 999.8838936929649, 'B': 865.7375522295504} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.9767770875521, 'End': 999.8838936929649, 'B': 865.7375522295504} 
+ 1.2900700781857366
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.9767770875521, 'End': 999.8838936929649, 'B': 865.7375522295504} 
+ 1.2900700781857366
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.9883877182558, 'End': 999.8955043236684, 'B': 865.7491628602538} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.9883877182558, 'End': 999.8955043236684, 'B': 865.7491628602538} 
+ 1.1610630703494782
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.9883877182558, 'End': 999.8955043236684, 'B': 865.7491628602538} 
+ 1.1610630703494782
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 753.998837285889, 'End': 999.9059538913016, 'B': 865.7596124278871} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 753.998837285889, 'End': 999.9059538913016, 'B': 865.7596124278871} 
+ 1.0449567633309518
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 753.998837285889, 'End': 999.9059538913016, 'B': 865.7596124278871} 
+ 1.0449567633309518
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0082418967589, 'End': 999.9153585021714, 'B': 865.7690170387568} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0082418967589, 'End': 999.9153585021714, 'B': 865.7690170387568} 
+ 0.9404610869725929
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0082418967589, 'End': 999.9153585021714, 'B': 865.7690170387568} 
+ 0.9404610869852248
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0167060465417, 'End': 999.9238226519543, 'B': 865.7774811885397} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0167060465417, 'End': 999.9238226519543, 'B': 865.7774811885397} 
+ 0.846414978291755
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0167060465417, 'End': 999.9238226519543, 'B': 865.7774811885397} 
+ 0.846414978291755
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0243237813463, 'End': 999.9314403867589, 'B': 865.7850989233442} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0243237813463, 'End': 999.9314403867589, 'B': 865.7850989233442} 
+ 0.7617734804499477
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0243237813463, 'End': 999.9314403867589, 'B': 865.7850989233442} 
+ 0.7617734804625796
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0311797426704, 'End': 999.9382963480831, 'B': 865.7919548846684} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0311797426704, 'End': 999.9382963480831, 'B': 865.7919548846684} 
+ 0.6855961324087425
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0311797426704, 'End': 999.9382963480831, 'B': 865.7919548846684} 
+ 0.6855961324087425
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.037350107862, 'End': 999.9444667132748, 'B': 865.7981252498603} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.037350107862, 'End': 999.9444667132748, 'B': 865.7981252498603} 
+ 0.6170365191767105
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.037350107862, 'End': 999.9444667132748, 'B': 865.7981252498603} 
+ 0.6170365191767105
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0429034365346, 'End': 999.9500200419474, 'B': 865.8036785785328} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0429034365346, 'End': 999.9500200419474, 'B': 865.8036785785328} 
+ 0.5553328672678818
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0429034365346, 'End': 999.9500200419474, 'B': 865.8036785785328} 
+ 0.5553328672678818
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.04790143234, 'End': 999.9550180377527, 'B': 865.808676574338} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.04790143234, 'End': 999.9550180377527, 'B': 865.808676574338} 
+ 0.49979958052719853
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.04790143234, 'End': 999.9550180377527, 'B': 865.808676574338} 
+ 0.49979958052719853
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0523996285648, 'End': 999.9595162339774, 'B': 865.8131747705628} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0523996285648, 'End': 999.9595162339774, 'B': 865.8131747705628} 
+ 0.44981962246816276
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0523996285648, 'End': 999.9595162339774, 'B': 865.8131747705628} 
+ 0.4498196224807946
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.056448005167, 'End': 999.9635646105797, 'B': 865.8172231471651} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.056448005167, 'End': 999.9635646105797, 'B': 865.8172231471651} 
+ 0.40483766023650475
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.056448005167, 'End': 999.9635646105797, 'B': 865.8172231471651} 
+ 0.40483766023650475
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0600915441091, 'End': 999.9672081495218, 'B': 865.8208666861073} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0600915441091, 'End': 999.9672081495218, 'B': 865.8208666861073} 
+ 0.36435389420653835
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0600915441091, 'End': 999.9672081495218, 'B': 865.8208666861073} 
+ 0.36435389420653835
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.063370729157, 'End': 999.9704873345696, 'B': 865.824145871155} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.063370729157, 'End': 999.9704873345696, 'B': 865.824145871155} 
+ 0.32791850478335816
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.063370729157, 'End': 999.9704873345696, 'B': 865.824145871155} 
+ 0.32791850478335816
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0663219957, 'End': 999.9734386011127, 'B': 865.827097137698} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0663219957, 'End': 999.9734386011127, 'B': 865.827097137698} 
+ 0.2951266542873377
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0663219957, 'End': 999.9734386011127, 'B': 865.827097137698} 
+ 0.2951266542999696
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0689781355886, 'End': 999.9760947410014, 'B': 865.8297532775869} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0689781355886, 'End': 999.9760947410014, 'B': 865.8297532775869} 
+ 0.26561398888386767
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0689781355886, 'End': 999.9760947410014, 'B': 865.8297532775869} 
+ 0.26561398888386767
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0713686614886, 'End': 999.9784852669012, 'B': 865.8321438034867} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0713686614886, 'End': 999.9784852669012, 'B': 865.8321438034867} 
+ 0.2390525899929545
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0713686614886, 'End': 999.9784852669012, 'B': 865.8321438034867} 
+ 0.2390525899929545
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0735201347985, 'End': 999.9806367402111, 'B': 865.8342952767965} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0735201347985, 'End': 999.9806367402111, 'B': 865.8342952767965} 
+ 0.215147330979764
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0735201347985, 'End': 999.9806367402111, 'B': 865.8342952767965} 
+ 0.21514733099239586
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0754564607773, 'End': 999.9825730661901, 'B': 865.8362316027755} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0754564607773, 'End': 999.9825730661901, 'B': 865.8362316027755} 
+ 0.19363259789568268
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0754564607773, 'End': 999.9825730661901, 'B': 865.8362316027755} 
+ 0.19363259789568268
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0771991541584, 'End': 999.9843157595711, 'B': 865.8379742961565} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0771991541584, 'End': 999.9843157595711, 'B': 865.8379742961565} 
+ 0.1742693381174831
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0771991541584, 'End': 999.9843157595711, 'B': 865.8379742961565} 
+ 0.1742693381174831
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0787675782015, 'End': 999.9858841836141, 'B': 865.8395427201993} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0787675782015, 'End': 999.9858841836141, 'B': 865.8395427201993} 
+ 0.15684240428173424
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0787675782015, 'End': 999.9858841836141, 'B': 865.8395427201993} 
+ 0.1568424042943661
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.08017915984, 'End': 999.9872957652527, 'B': 865.840954301838} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.08017915984, 'End': 999.9872957652527, 'B': 865.840954301838} 
+ 0.141158163854824
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.08017915984, 'End': 999.9872957652527, 'B': 865.840954301838} 
+ 0.141158163854824
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0814495833147, 'End': 999.9885661887274, 'B': 865.8422247253129} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0814495833147, 'End': 999.9885661887274, 'B': 865.8422247253129} 
+ 0.12704234748323665
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0814495833147, 'End': 999.9885661887274, 'B': 865.8422247253129} 
+ 0.12704234748323665
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.082592964442, 'End': 999.9897095698547, 'B': 865.8433681064402} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.082592964442, 'End': 999.9897095698547, 'B': 865.8433681064402} 
+ 0.11433811272986023
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.082592964442, 'End': 999.9897095698547, 'B': 865.8433681064402} 
+ 0.11433811272986023
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0836220074566, 'End': 999.9907386128692, 'B': 865.8443971494546} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0836220074566, 'End': 999.9907386128692, 'B': 865.8443971494546} 
+ 0.10290430145687422
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0836220074566, 'End': 999.9907386128692, 'B': 865.8443971494546} 
+ 0.10290430145687422
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0845481461697, 'End': 999.9916647515823, 'B': 865.8453232881677} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0845481461697, 'End': 999.9916647515823, 'B': 865.8453232881677} 
+ 0.09261387131371317
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0845481461697, 'End': 999.9916647515823, 'B': 865.8453232881677} 
+ 0.09261387131371317
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0853816710115, 'End': 999.9924982764242, 'B': 865.8461568130094} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0853816710115, 'End': 999.9924982764242, 'B': 865.8461568130094} 
+ 0.08335248416339404
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0853816710115, 'End': 999.9924982764242, 'B': 865.8461568130094} 
+ 0.08335248417602592
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.086131843369, 'End': 999.9932484487817, 'B': 865.8469069853671} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.086131843369, 'End': 999.9932484487817, 'B': 865.8469069853671} 
+ 0.0750172357710552
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.086131843369, 'End': 999.9932484487817, 'B': 865.8469069853671} 
+ 0.0750172357710552
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0868069984909, 'End': 999.9939236039036, 'B': 865.8475821404891} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0868069984909, 'End': 999.9939236039036, 'B': 865.8475821404891} 
+ 0.06751551217752824
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0868069984909, 'End': 999.9939236039036, 'B': 865.8475821404891} 
+ 0.06751551219016011
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0874146381005, 'End': 999.9945312435133, 'B': 865.8481897800987} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0874146381005, 'End': 999.9945312435133, 'B': 865.8481897800987} 
+ 0.06076396095977542
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0874146381005, 'End': 999.9945312435133, 'B': 865.8481897800987} 
+ 0.06076396095977542
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0879615137492, 'End': 999.9950781191619, 'B': 865.8487366557474} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0879615137492, 'End': 999.9950781191619, 'B': 865.8487366557474} 
+ 0.05468756488527205
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0879615137492, 'End': 999.9950781191619, 'B': 865.8487366557474} 
+ 0.05468756488527205
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0884537018331, 'End': 999.9955703072458, 'B': 865.8492288438312} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0884537018331, 'End': 999.9955703072458, 'B': 865.8492288438312} 
+ 0.0492188083727443
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0884537018331, 'End': 999.9955703072458, 'B': 865.8492288438312} 
+ 0.04921880838537617
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0888966711085, 'End': 999.9960132765212, 'B': 865.8496718131066} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0888966711085, 'End': 999.9960132765212, 'B': 865.8496718131066} 
+ 0.044296927537996245
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0888966711085, 'End': 999.9960132765212, 'B': 865.8496718131066} 
+ 0.044296927537996245
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0892953434563, 'End': 999.9964119488691, 'B': 865.8500704854546} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0892953434563, 'End': 999.9964119488691, 'B': 865.8500704854546} 
+ 0.039867234805670795
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0892953434563, 'End': 999.9964119488691, 'B': 865.8500704854546} 
+ 0.039867234805670795
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0896541485696, 'End': 999.9967707539822, 'B': 865.8504292905676} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0896541485696, 'End': 999.9967707539822, 'B': 865.8504292905676} 
+ 0.035880511303629535
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0896541485696, 'End': 999.9967707539822, 'B': 865.8504292905676} 
+ 0.03588051131626141
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0899770731713, 'End': 999.9970936785841, 'B': 865.8507522151695} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0899770731713, 'End': 999.9970936785841, 'B': 865.8507522151695} 
+ 0.032292460193477576
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0899770731713, 'End': 999.9970936785841, 'B': 865.8507522151695} 
+ 0.032292460193477576
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0902677053131, 'End': 999.9973843107257, 'B': 865.8510428473111} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0902677053131, 'End': 999.9973843107257, 'B': 865.8510428473111} 
+ 0.029063214153918823
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0902677053131, 'End': 999.9973843107257, 'B': 865.8510428473111} 
+ 0.029063214166550694
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0905292742405, 'End': 999.9976458796532, 'B': 865.8513044162386} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0905292742405, 'End': 999.9976458796532, 'B': 865.8513044162386} 
+ 0.02615689274736925
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0905292742405, 'End': 999.9976458796532, 'B': 865.8513044162386} 
+ 0.02615689274736925
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0907646862752, 'End': 999.9978812916879, 'B': 865.8515398282733} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0907646862752, 'End': 999.9978812916879, 'B': 865.8515398282733} 
+ 0.02354120348021145
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0907646862752, 'End': 999.9978812916879, 'B': 865.8515398282733} 
+ 0.02354120348021145
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0909765571065, 'End': 999.9980931625191, 'B': 865.8517516991046} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0909765571065, 'End': 999.9980931625191, 'B': 865.8517516991046} 
+ 0.021187083120821622
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0909765571065, 'End': 999.9980931625191, 'B': 865.8517516991046} 
+ 0.021187083120821622
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0911672408546, 'End': 999.9982838462672, 'B': 865.8519423828527} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0911672408546, 'End': 999.9982838462672, 'B': 865.8519423828527} 
+ 0.01906837480368671
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0911672408546, 'End': 999.9982838462672, 'B': 865.8519423828527} 
+ 0.01906837481631858
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0913388562278, 'End': 999.9984554616406, 'B': 865.852113998226} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0913388562278, 'End': 999.9984554616406, 'B': 865.852113998226} 
+ 0.01716153733216035
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0913388562278, 'End': 999.9984554616406, 'B': 865.852113998226} 
+ 0.01716153733216035
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0914933100638, 'End': 999.9986099154765, 'B': 865.8522684520619} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0914933100638, 'End': 999.9986099154765, 'B': 865.8522684520619} 
+ 0.015445383610312998
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0914933100638, 'End': 999.9986099154765, 'B': 865.8522684520619} 
+ 0.015445383610312998
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0916323185163, 'End': 999.9987489239289, 'B': 865.8524074605143} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0916323185163, 'End': 999.9987489239289, 'B': 865.8524074605143} 
+ 0.01390084523538664
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0916323185163, 'End': 999.9987489239289, 'B': 865.8524074605143} 
+ 0.01390084523538664
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0917574261234, 'End': 999.998874031536, 'B': 865.8525325681214} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0917574261234, 'End': 999.998874031536, 'B': 865.8525325681214} 
+ 0.012510760711847977
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0917574261234, 'End': 999.998874031536, 'B': 865.8525325681214} 
+ 0.012510760711847977
+A 
+ ['X', 'Y'] 
+ [[(0.3, 'A'), (0.7, 'B')], [(1.0, 'A')]] 
+ {'A': 754.0918700229698, 'End': 999.9989866283825, 'B': 865.8526451649678} 
+ 0.0
+End 
+ [None] 
+ [[(1.0, 'End')]] 
+ {'A': 754.0918700229698, 'End': 999.9989866283825, 'B': 865.8526451649678} 
+ 0.011259684634347244
+B 
+ ['X', 'Y'] 
+ [{(0.2, 'B'), (0.8, 'End')}, {(1.0, 'A')}] 
+ {'A': 754.0918700229698, 'End': 999.9989866283825, 'B': 865.8526451649678} 
+ 0.011259684646979115</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>{'A': 754.0918700229698, 'End': 999.9989866283825, 'B': 865.8526451649678}</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
