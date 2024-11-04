@@ -64,3 +64,15 @@ from functions import gradient_boosting_example
 
 gradient_boosting_example()
 ```
+
+## Surrogate model schedule evaluation {.scrollable}
+
+<iframe src="images/objective-results.html" width=720px, height=540px></iframe>
+
+## Surrogate model speed evaluation {.scrollable}
+
+<iframe src="images/objectives-speed.html" width=720px, height=540px></iframe>
+
+## Surrogate model local search performance {.scrollable}
+
+<iframe src="images/objectives-large-comparison.html" width=720px, height=540px></iframe>

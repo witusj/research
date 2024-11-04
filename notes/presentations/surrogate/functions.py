@@ -71,14 +71,19 @@ def plot_solutions():
     S = calculate_S(N, T)
     
     # Create a 3D surface plot with Plotly
-    fig = go.Figure(data=[go.Surface(z=S, x=N, y=T)])
+    fig = go.Figure(data=[go.Surface(
+        z=S,
+        x=N,
+        y=T,
+        hovertemplate='N: %{x}<br>T: %{y}<br>S: %{z}<extra></extra>'
+    )])
     
     # Automatically adjust the ranges for x and y axes based on the data
     fig.update_layout(
         scene=dict(
             zaxis=dict(title='S'),
             xaxis=dict(title='N', range=[N_values.max(), N_values.min()]),  # Set range dynamically for N
-            yaxis=dict(title='T', range=[T_values.max(), T_values.min()]),   # Set range dynamically for T
+            yaxis=dict(title='T', range=[T_values.max(), T_values.min()]),  # Set range dynamically for T
         ),
         title="Number of possible schedules for N patients and T slots",
         autosize=True
