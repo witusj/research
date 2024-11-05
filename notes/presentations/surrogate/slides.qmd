@@ -9,13 +9,14 @@ format:
      progress: true
      history: true
      previewLinks: true
+     margin: 0.05
      revealjs-plugins:
        - chalkboard
 ---
 
 ## Modeling
 
-![](https://xplane.com/wp-content/uploads/2020/04/Screen-Shot-2015-04-14-at-12.48.54-PM.png)
+![](images/einstein.png)
 
 ## Complexity and modeling
 
@@ -46,7 +47,7 @@ from functions import path_example
 path_example()
 ```
 
-##
+## 
 
 ```{python}
 from functions import plot_solutions
@@ -55,7 +56,7 @@ plot_solutions()
 
 ## Surrogate model
 
-![](https://www.researchgate.net/publication/360665374/figure/fig1/AS:11431281095590254@1667960146000/The-principle-of-surrogate-modelling.jpg)
+![](images/surrogate.png)
 
 ## Gradient Boosting {.scrollable}
 
@@ -67,12 +68,18 @@ gradient_boosting_example()
 
 ## Surrogate model schedule evaluation {.scrollable}
 
-<iframe src="images/objective-results.html" width=720px, height=540px></iframe>
+<iframe src="images/objective-results.html" width="720px," height="540px">
+
+</iframe>
 
 ## Surrogate model speed evaluation {.scrollable}
 
-<iframe src="images/objectives-speed.html" width=720px, height=540px></iframe>
+<iframe src="images/objectives-speed.html" width="720px," height="540px">
+
+</iframe>
 
 ## Surrogate model local search performance {.scrollable}
 
-<iframe src="images/objectives-large-comparison.html" width=720px, height=540px></iframe>
+<iframe src="images/objectives-large-comparison.html" width="720px," height="540px">
+
+</iframe>
