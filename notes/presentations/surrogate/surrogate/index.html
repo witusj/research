@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Detailed and Surrogate Models Comparison</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+      .container {
+        display: flex;
+        align-items: center;
+        width: 90%;
+        max-width: 1400px;
+        padding: 20px;
+        background-color: white;
+      }
+      .box {
+        border: 2px solid #333;
+        padding: 20px;
+        margin: 20px;
+        flex: 1;
+        min-width: 300px;
+        position: relative;
+        text-align: center;
+      }
+      .arrow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 20px;
+        font-size: 1.5em;
+        color: #4caf50;
+      }
+      .box h3 {
+        margin-top: 0;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+      }
+      .label {
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-weight: bold;
+        color: #0088cc;
+      }
+      .label-surrogate {
+        color: #e91e63;
+      }
+      .canvas-container {
+        margin: 20px 0;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/p5.min.js"></script>
+    <script>
+      // Function for first canvas (Detailed Model)
+      function sketch1(p) {
+        p.setup = function () {
+          p.createCanvas(400, 200);
+          p.background(240);
+          p.noFill();
+          p.stroke(0);
+
+          // Draw maze walls
+          p.strokeWeight(2);
+          p.line(0, 0, 400, 0);
+          p.line(400, 0, 400, 200);
+          p.line(400, 200, 0, 200);
+          p.line(0, 200, 0, 0);
+          p.line(75, 0, 75, 150);
+          p.line(150, 50, 150, 200);
+          p.line(225, 0, 225, 150);
+          p.line(300, 50, 300, 200);
+          p.line(375, 0, 375, 150);
+
+          // Draw path from entrance to exit around obstacles
+          p.stroke(255, 0, 0);
+          p.strokeWeight(3);
+          p.beginShape();
+          p.vertex(10, 10);
+          p.vertex(65, 10);
+          p.vertex(65, 170);
+          p.vertex(140, 170);
+          p.vertex(140, 40);
+          p.vertex(215, 40);
+          p.vertex(215, 170);
+          p.vertex(290, 170);
+          p.vertex(290, 40);
+          p.vertex(365, 40);
+          p.vertex(365, 170);
+          p.vertex(390, 170);
+          p.endShape();
+
+          // Draw arrowhead at the end of the path
+          p.fill(255, 0, 0);
+          p.noStroke();
+          p.triangle(385, 160, 395, 170, 385, 180);
+
+          // Add exit text
+          p.fill(0);
+          p.textSize(12);
+          p.text("Start", 5, 30);
+          p.text("Exit", 360, 190);
+        };
+      }
+
+      // Run first p5 instance for Detailed Model
+      new p5(sketch1, "mazeCanvas");
+
+      // Function for second canvas (Surrogate Model)
+      function sketch2(p) {
+        p.setup = function () {
+          p.createCanvas(400, 200);
+          p.background(240);
+          p.noFill();
+          p.stroke(0);
+
+          // Draw maze walls
+          p.strokeWeight(2);
+          p.line(0, 0, 400, 0);
+          p.line(400, 0, 400, 200);
+          p.line(400, 200, 0, 200);
+          p.line(0, 200, 0, 0);
+          p.line(75, 0, 75, 150);
+          p.line(150, 50, 150, 200);
+          p.line(225, 0, 225, 150);
+          p.line(300, 50, 300, 200);
+          p.line(375, 0, 375, 150);
+
+          // Draw straight path from entrance to exit
+          p.stroke(255, 0, 0);
+          p.strokeWeight(3);
+          p.line(10, 10, 390, 180);
+
+          // Draw arrowhead at the end of the path
+          p.fill(255, 0, 0);
+          p.noStroke();
+          p.triangle(385, 170, 395, 180, 385, 190);
+
+          // Add exit text
+          p.fill(0);
+          p.textSize(12);
+          p.text("Start", 5, 30);
+          p.text("Exit", 360, 180);
+        };
+      }
+
+      // Run second p5 instance for Surrogate Model
+      new p5(sketch2, "surrogateCanvas");
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Detailed Model -->
+      <div class="box">
+        <div
+          id="mazeCanvas"
+          class="canvas-container"
+        ></div>
+        <div class="label">Detailed Model</div>
+      </div>
+
+      <!-- Arrow indicating transition -->
+      <div class="arrow">&#x279E; Train &#x279E;</div>
+
+      <!-- Surrogate Model -->
+      <div class="box">
+        <div
+          id="surrogateCanvas"
+          class="canvas-container"
+        ></div>
+        <div class="label label-surrogate">Surrogate Model</div>
+      </div>
+    </div>
+  </body>
+</html>

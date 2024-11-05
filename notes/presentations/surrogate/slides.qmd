@@ -45,6 +45,7 @@ format:
 ```{python}
 from functions import path_example
 path_example()
+
 ```
 
 ## 
