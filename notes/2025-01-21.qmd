@@ -1,0 +1,13 @@
+---
+title: "2025-01-21"
+author: "Witek ten Hove"
+format: html
+editor: visual
+jupyter: python3
+---
+
+## Meeting Joost x Ger x Ismail
+
+-   Volgende stappen die nodig zijn voor een artikel.
+
+    ![](images/notes250121.jpeg)
