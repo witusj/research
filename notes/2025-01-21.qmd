@@ -1,13 +1,87 @@
 ---
 title: "2025-01-21"
 author: "Witek ten Hove"
-format: html
+format:
+    html:
+        include-in-header:
+          - text: |
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
 editor: visual
 jupyter: python3
 ---
 
-## Meeting Joost x Ger x Ismail
+## Meeting Joost
 
--   Volgende stappen die nodig zijn voor een artikel.
+1.  Volgende stappen die nodig zijn voor een artikel.
 
     ![](images/notes250121.jpeg)
+
+    Joost:
+    -   Piek en kromming parameters
+
+    -   Bepaal $piek:\ M \in \{0, 1, 2, ... , N\}$
+
+    -   Resterende patroon bekend = $Q$
+
+    -   Kromming $a$
+
+    -   $N = Q + M$
+
+        -   Varieer met gewichten
+        -   Submodulariteit voor $f(M, a)$?
+        -   Let there be a function $f(M,a) \rightarrow Objective\ value$
+
+```{=html}
+    <script>
+        function setup() {
+            createCanvas(600, 400);
+            background(245);
+        }
+
+        function draw() {
+            background(245);
+            
+            // Set drawing styles
+            stroke(0, 0, 255);
+            strokeWeight(2);
+            noFill();
+            
+            // Draw the timeline
+            let baseY = height/2;
+            line(50, baseY, 550, baseY);
+            
+            // Draw left rectangle (a) - now twice as high
+            rect(50, baseY-80, 40, 80);
+            
+            // Draw middle horizontal rectangle - now twice as high
+            rect(90, baseY-40, 380, 40);
+            
+            // Draw middle vertical rectangle - now twice as high
+            rect(470, baseY-80, 40, 80);
+            
+            // Draw right rectangle (M) - now twice as high
+            rect(510, baseY-160, 40, 160);
+            
+            // Add text - moved up to accommodate taller blocks
+            textSize(16);
+            fill(0, 0, 255);
+            noStroke();
+            
+            // Labels - adjusted positions
+            text("a", 65, baseY-90);
+            text("t = 1", 55, baseY+25);
+            text("t = T", 515, baseY+25);
+            text("M", 525, baseY-180);
+            text("Q - 2a", 270, baseY-50);
+            text("N = Q + M", 250, baseY-180);
+            
+            // No animation needed - static drawing
+            noLoop();
+        }
+    </script>
+```
+
+       
+2.  Benut informatie over shape voor local search
+
+3.  Ger kijk naar 2^e^ afgeleide.

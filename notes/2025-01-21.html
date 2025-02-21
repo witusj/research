@@ -34,7 +34,37 @@ ul.task-list li input[type="checkbox"] {
 <script src="2025-01-21_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="2025-01-21_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="2025-01-21_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -69,12 +99,76 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="meeting-joost-x-ger-x-ismail" class="level2">
-<h2 class="anchored" data-anchor-id="meeting-joost-x-ger-x-ismail">Meeting Joost x Ger x Ismail</h2>
-<ul>
+<section id="meeting-joost" class="level2">
+<h2 class="anchored" data-anchor-id="meeting-joost">Meeting Joost</h2>
+<ol type="1">
 <li><p>Volgende stappen die nodig zijn voor een artikel.</p>
-<p><img src="images/notes250121.jpeg" class="img-fluid"></p></li>
-</ul>
+<p><img src="images/notes250121.jpeg" class="img-fluid"></p>
+<p>Joost:</p>
+<ul>
+<li><p>Piek en kromming parameters</p></li>
+<li><p>Bepaal <span class="math inline">\(piek:\ M \in \{0, 1, 2, ... , N\}\)</span></p></li>
+<li><p>Resterende patroon bekend = <span class="math inline">\(Q\)</span></p></li>
+<li><p>Kromming <span class="math inline">\(a\)</span></p></li>
+<li><p><span class="math inline">\(N = Q + M\)</span></p>
+<ul>
+<li>Varieer met gewichten</li>
+<li>Submodulariteit voor <span class="math inline">\(f(M, a)\)</span>?</li>
+<li>Let there be a function <span class="math inline">\(f(M,a) \rightarrow Objective\ value\)</span></li>
+</ul></li>
+</ul></li>
+</ol>
+    <script>
+        function setup() {
+            createCanvas(600, 400);
+            background(245);
+        }
+
+        function draw() {
+            background(245);
+            
+            // Set drawing styles
+            stroke(0, 0, 255);
+            strokeWeight(2);
+            noFill();
+            
+            // Draw the timeline
+            let baseY = height/2;
+            line(50, baseY, 550, baseY);
+            
+            // Draw left rectangle (a) - now twice as high
+            rect(50, baseY-80, 40, 80);
+            
+            // Draw middle horizontal rectangle - now twice as high
+            rect(90, baseY-40, 380, 40);
+            
+            // Draw middle vertical rectangle - now twice as high
+            rect(470, baseY-80, 40, 80);
+            
+            // Draw right rectangle (M) - now twice as high
+            rect(510, baseY-160, 40, 160);
+            
+            // Add text - moved up to accommodate taller blocks
+            textSize(16);
+            fill(0, 0, 255);
+            noStroke();
+            
+            // Labels - adjusted positions
+            text("a", 65, baseY-90);
+            text("t = 1", 55, baseY+25);
+            text("t = T", 515, baseY+25);
+            text("M", 525, baseY-180);
+            text("Q - 2a", 270, baseY-50);
+            text("N = Q + M", 250, baseY-180);
+            
+            // No animation needed - static drawing
+            noLoop();
+        }
+    </script>
+<ol start="2" type="1">
+<li><p>Benut informatie over shape voor local search</p></li>
+<li><p>Ger kijk naar 2<sup>e</sup> afgeleide.</p></li>
+</ol>
 </section>
 
 </main>
