@@ -103,20 +103,87 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="meeting-joost">Meeting Joost</h2>
 <ol type="1">
 <li><p>Volgende stappen die nodig zijn voor een artikel.</p>
-<p><img src="images/notes250121.jpeg" class="img-fluid"></p>
-<p>Joost:</p>
+<p><img src="images/notes250121.jpeg" class="img-fluid"></p></li>
+</ol>
+<section id="planning" class="level3">
+<h3 class="anchored" data-anchor-id="planning">Planning</h3>
+<table class="table">
+<colgroup>
+<col style="width: 3%">
+<col style="width: 42%">
+<col style="width: 49%">
+<col style="width: 3%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task #</th>
+<th>Description</th>
+<th>Action Items</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Optimize functions</td>
+<td><ul>
+<li>Compare the speed aspects of the calculation objective value after programming remarks.</li>
+</ul></td>
+<td>Witek</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Numerieke experimenten</td>
+<td><ul>
+<li><p>XGBoost:</p>
 <ul>
-<li><p>Piek en kromming parameters</p></li>
-<li><p>Bepaal <span class="math inline">\(piek:\ M \in \{0, 1, 2, ... , N\}\)</span></p></li>
-<li><p>Resterende patroon bekend = <span class="math inline">\(Q\)</span></p></li>
-<li><p>Kromming <span class="math inline">\(a\)</span></p></li>
-<li><p><span class="math inline">\(N = Q + M\)</span></p>
+<li><p>Ordinal:</p></li>
+<li><p>Cardinal:</p>
 <ul>
-<li>Varieer met gewichten</li>
-<li>Submodulariteit voor <span class="math inline">\(f(M, a)\)</span>?</li>
-<li>Let there be a function <span class="math inline">\(f(M,a) \rightarrow Objective\ value\)</span></li>
+<li><p>Not working.</p></li>
+<li><p>Sampling strategy?</p></li>
+<li><p>Feature engineering?</p></li>
 </ul></li>
 </ul></li>
+</ul></td>
+<td>Witek</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Impact initial solution on local search</td>
+<td><ul>
+<li><p>Experiment with various parameter values.</p></li>
+<li><p>Evaluate whether the previously found “dome shape” with peak is also valid under other settings.</p></li>
+<li><p>Erlang distribution</p></li>
+</ul></td>
+<td><p>Witek</p>
+<p>Joost</p></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Onderzoek een functionele vorm die de structuur omvat en de mogelijkheid tot een bewijs van submodulariteit.</td>
+<td><ul>
+<li><p>Find a functional form that describes the structure.</p></li>
+<li><p>Analyze whether Ger’s papers on submodularity are applicable in this context.</p></li>
+<li><p>Document any proofs or insights.</p></li>
+</ul></td>
+<td>Witek</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Model <span class="math display">\[\underset{M, a}{\operatorname{arg\,max}}f(M,a) \rightarrow Objective\ value\]</span></td>
+<td><ul>
+<li><p>Train an XGBoost model for <span class="math inline">\(f(M, a\)</span>).</p></li>
+<li><p>Focus on a simpler XGBoost model that targets the typical optimal structure (provided that 1a demonstrates this structure).</p></li>
+<li><p>Conduct accuracy tests for the XGBoost model that predicts <span class="math inline">\(f(M, a)\)</span>.</p></li>
+<li><p>Analyze and document the performance on the new dataset.</p></li>
+</ul></td>
+<td>Witek</td>
+</tr>
+</tbody>
+</table>
+<ol start="2" type="1">
+<li>Benut informatie over shape voor local search</li>
 </ol>
     <script>
         function setup() {
@@ -165,10 +232,10 @@ window.Quarto = {
             noLoop();
         }
     </script>
-<ol start="2" type="1">
-<li><p>Benut informatie over shape voor local search</p></li>
-<li><p>Ger kijk naar 2<sup>e</sup> afgeleide.</p></li>
+<ol start="3" type="1">
+<li>Ger: kijk naar 2<sup>e</sup> afgeleide.</li>
 </ol>
+</section>
 </section>
 
 </main>

@@ -16,20 +16,47 @@ jupyter: python3
 
     ![](images/notes250121.jpeg)
 
-    Joost:
-    -   Piek en kromming parameters
+### Planning
 
-    -   Bepaal $piek:\ M \in \{0, 1, 2, ... , N\}$
++---------+--------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------+---------+
+| Task \# | Description                                                                                                  | Action Items                                                                                                                    | Owner   |
++=========+==============================================================================================================+=================================================================================================================================+=========+
+| 1       | Optimize functions                                                                                           | -   Compare the speed aspects of the calculation objective value after programming remarks.                                     | Witek   |
++---------+--------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------+---------+
+| 2       | Numerieke experimenten                                                                                       | -   XGBoost:                                                                                                                    | Witek   |
+|         |                                                                                                              |                                                                                                                                 |         |
+|         |                                                                                                              |     -   Ordinal:                                                                                                                |         |
+|         |                                                                                                              |                                                                                                                                 |         |
+|         |                                                                                                              |     -   Cardinal:                                                                                                               |         |
+|         |                                                                                                              |                                                                                                                                 |         |
+|         |                                                                                                              |         -   Not working.                                                                                                        |         |
+|         |                                                                                                              |                                                                                                                                 |         |
+|         |                                                                                                              |         -   Sampling strategy?                                                                                                  |         |
+|         |                                                                                                              |                                                                                                                                 |         |
+|         |                                                                                                              |         -   Feature engineering?                                                                                                |         |
++---------+--------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------+---------+
+| 3       | Impact initial solution on local search                                                                      | -   Experiment with various parameter values.                                                                                   | Witek   |
+|         |                                                                                                              |                                                                                                                                 |         |
+|         |                                                                                                              | -   Evaluate whether the previously found "dome shape" with peak is also valid under other settings.                            | Joost   |
+|         |                                                                                                              |                                                                                                                                 |         |
+|         |                                                                                                              | -   Erlang distribution                                                                                                         |         |
++---------+--------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------+---------+
+| 4       | Onderzoek een functionele vorm die de structuur omvat en de mogelijkheid tot een bewijs van submodulariteit. | -   Find a functional form that describes the structure.                                                                        | Witek   |
+|         |                                                                                                              |                                                                                                                                 |         |
+|         |                                                                                                              | -   Analyze whether Ger's papers on submodularity are applicable in this context.                                               |         |
+|         |                                                                                                              |                                                                                                                                 |         |
+|         |                                                                                                              | -   Document any proofs or insights.                                                                                            |         |
++---------+--------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------+---------+
+| 5       | Model $$\underset{M, a}{\operatorname{arg\,max}}f(M,a) \rightarrow Objective\ value$$                        | -   Train an XGBoost model for $f(M, a$).                                                                                       | Witek   |
+|         |                                                                                                              |                                                                                                                                 |         |
+|         |                                                                                                              | -   Focus on a simpler XGBoost model that targets the typical optimal structure (provided that 1a demonstrates this structure). |         |
+|         |                                                                                                              |                                                                                                                                 |         |
+|         |                                                                                                              | -   Conduct accuracy tests for the XGBoost model that predicts $f(M, a)$.                                                       |         |
+|         |                                                                                                              |                                                                                                                                 |         |
+|         |                                                                                                              | -   Analyze and document the performance on the new dataset.                                                                    |         |
++---------+--------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------+---------+
 
-    -   Resterende patroon bekend = $Q$
-
-    -   Kromming $a$
-
-    -   $N = Q + M$
-
-        -   Varieer met gewichten
-        -   Submodulariteit voor $f(M, a)$?
-        -   Let there be a function $f(M,a) \rightarrow Objective\ value$
+2.  Benut informatie over shape voor local search
 
 ```{=html}
     <script>
@@ -81,7 +108,4 @@ jupyter: python3
     </script>
 ```
 
-       
-2.  Benut informatie over shape voor local search
-
-3.  Ger kijk naar 2^e^ afgeleide.
+3.  Ger: kijk naar 2^e^ afgeleide.
