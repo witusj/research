@@ -1,0 +1,17 @@
+---
+title: "2025-04-17"
+author: "Witek ten Hove"
+format:
+    html:
+        include-in-header:
+          - text: |
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+editor: visual
+jupyter: python3
+---
+
+## Meeting Joost x Ger
+
+![](images/notes20250417.jpeg)
+
+Nanne Dieleman 2023: <https://www.sciencedirect.com/science/article/pii/S0305054822003549?via%3Dihub>
