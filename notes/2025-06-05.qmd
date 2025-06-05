@@ -1,0 +1,39 @@
+---
+title: "2025-06-05"
+author: "Witek ten Hove"
+format:
+    html:
+        include-in-header:
+          - text: |
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+editor: visual
+jupyter: python3
+---
+
+## Meeting Joost x Ger
+
+![](images/2025-06-05-cleaned.png){width="478"}
+
+![Filtered solution space](images/charts-filtered-solution-space.png){width="680"}
+
+Compare speed local search strategies (with stopping time 1 minute):
+
+-   Strategy 1: Filtered solution space, starting at S = T = 0 (or lowest possible values) and iteratively adding 1 to each side. Then standard local search.
+
+    ```{python}
+    #| code-fold: true
+
+    total = 0
+    stop = 3
+    while total <= stop:
+      for s in range(total + 1):
+        t = total - s
+        print(f"Start = {s}, Tail = {t}")
+      total += 1
+    ```
+
+-   Strategy 2: Standard local search, with same starting point as in strategy 1.
+
+Q: When we limit $S + T = C$ to what extend does the multimodularity feature hold?
+
+![](images/2025-06-05%20projection.png)
