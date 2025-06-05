@@ -144,8 +144,9 @@ window.Quarto = {
 </div>
 <p>Compare speed local search strategies (with stopping time 1 minute):</p>
 <ul>
-<li><p>Strategy 1: Filtered solution space, starting at S = T = 0 (or lowest possible values) and iteratively adding 1 to each side. Then standard local search.</p>
-<div id="df209488" class="cell" data-execution_count="1">
+<li>Strategy 1: Filtered solution space, starting at S = T = 0 (or lowest possible values) and iteratively adding 1 to each side. Then standard local search.</li>
+</ul>
+<div id="eb72a668" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> <span class="dv">0</span></span>
@@ -168,10 +169,43 @@ Start = 1, Tail = 2
 Start = 2, Tail = 1
 Start = 3, Tail = 0</code></pre>
 </div>
-</div></li>
-<li><p>Strategy 2: Standard local search, with same starting point as in strategy 1.</p></li>
+</div>
+<ul>
+<li>Strategy 2: Standard local search, with same starting point as in strategy 1.</li>
 </ul>
 <p>Q: When we limit <span class="math inline">\(S + T = C\)</span> to what extend does the multimodularity feature hold?</p>
+<hr>
+</section>
+<section id="suggested-plan-of-approach-based-on-joosts-input" class="level2">
+<h2 class="anchored" data-anchor-id="suggested-plan-of-approach-based-on-joosts-input">Suggested Plan of Approach (based on Joost’s input)</h2>
+<p>To address the question of whether the multimodularity (or convexity) feature holds when <span class="math inline">\(S+T=C\)</span>:</p>
+<ol type="1">
+<li><strong>Experimental Investigation of Convexity:</strong>
+<ul>
+<li><strong>Action:</strong> Conduct a series of experiments to empirically test for convexity.</li>
+<li><strong>Parameters:</strong> Vary the value of C and other instance parameters.</li>
+<li><strong>Objective:</strong> Observe if the convex relationship (like the light blue line in the current visualizations) persists across different settings.
+<ul>
+<li>Consistent observation of convexity across varied parameters strengthens the hypothesis.</li>
+<li>Finding even a single counterexample would disprove general convexity under these conditions.</li>
+</ul></li>
+<li><strong>Note:</strong> Remember that for a given C, you are effectively dealing with a single variable problem (e.g., varying S determines T). This simplifies the experimental setup and analysis.</li>
+</ul></li>
+<li><strong>Formal Proof Attempts (if experimental evidence is supportive):</strong>
+<ul>
+<li>If experiments suggest convexity holds, attempt a formal proof. Two potential avenues:
+<ul>
+<li><strong>Avenue 1 (Direct Proof):</strong> Attempt to prove convexity directly from its mathematical definition, following the approach sketched by Ger.</li>
+<li><strong>Avenue 2 (Adapt Existing Proofs):</strong> Investigate whether the proof arguments from Ger’s existing article can be adapted or still apply within this specific “filtered solution space” context (where <span class="math inline">\(S+T=C\)</span>).</li>
+</ul></li>
+<li><strong>Key Insight:</strong> The reduction to a single variable for a fixed C should simplify the proof structure.</li>
+</ul></li>
+<li><strong>Longer-Term Consideration (For future refinement):</strong>
+<ul>
+<li><strong>Explore Generalization:</strong> Consider a more generalized model by introducing a “curve between the extremes” for patient distribution, rather than just a linear division.</li>
+<li><strong>New Parameter:</strong> The degree or nature of this curve could become a third parameter, refining the S and T parameters. This is for inspiration and potential future enhancements, not an immediate priority.</li>
+</ul></li>
+</ol>
 <p><img src="images/2025-06-05%20projection.png" class="img-fluid"></p>
 </section>
 
