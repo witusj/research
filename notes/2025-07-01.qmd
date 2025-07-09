@@ -32,4 +32,6 @@ To do:
 
 -   [ ] Benchmarks zoeken / selecteren
 
+-   [ ] Doornemen: Kuiper, A. (2016). *Appointment scheduling in healthcare*. s.n.\], Universiteit van Amsterdam \[Host\].
+
 Artikel zal beschrijven hoe je met een filtered solution space sneller tot een acceptabele oplossing kunt komen.
